@@ -71,3 +71,43 @@
    - 소스 코드의 공개는 오픈소스 소프트웨어의 가장 큰 미덕으로 누구나 쉽게 다운로드, 리뷰, 빌드 후 패치하여 프로젝트 관리자에게 보낼 수 있어야 함
 
 4. **커뮤니티 기반 개발**
+
+----
+
+## 2022-10-12
+
+## GITHUB 기반 온라인 코드 리뷰 방법
+
+![Untitled](C:\Users\kiwio\AppData\Roaming\Typora\typora-user-images\image-20221012225930965.png)
+
+1. 브랜치 생성 요청
+
+2. fork
+
+3. clone -b A 브랜치 —single-branch 주소
+
+4. checkout -b 작업용 브랜치
+
+5. local의 작업용 브랜치에서 add/commit
+
+6. push로 remote branch에서 반영
+
+7. pull request로 작업용 브랜치에서 A 브랜치로 코드 리뷰 요청
+
+   피드백받으면 해당 브랜치에서 다시 작업
+
+8. 리뷰 후 merge
+
+9. checkout A 브랜치
+
+10. remote add upstream 주소 (원격 저장소 추가)
+
+    git remote -v로 원격 브랜치 확인
+
+    - 원격 브랜치와 로컬 브랜치 확실히 구분
+
+11. fetch upstream A 브랜치 → remote 브랜치에서 local 브랜치로 가져옴
+
+12. rebase upstream A 브랜치 → remote 브랜치 코드 가져옴 (동기화)
+
+13. checkout -b 작업용 브랜치 2
