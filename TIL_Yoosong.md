@@ -113,3 +113,38 @@
   - index의 특정 파일의 해쉬값이 수정한 파일의 해쉬값과 같다면 해당 파일이 commit 대기 상태임을 알 수 있음
   - index의 내용과 최신(마지막) 커밋의 tree가 가리키는 특정 파일의 내용이 다르다면(해쉬값이 다르다면) 현재 해당 파일은 index에 add되어 commit 대기 상태임을 알 수 있음
 - git commit 하면 저장소와 index와 우리의 프로젝트 폴더가 정확하게 일치하면 `git status`할 경우 `nothing to commit, working directory clean` 더 이상 커밋할 것이 없음
+
+## 221018
+
+---
+
+### branch
+
+- `git init`을 하면 생성되는 HEAD에 적혀있는 `refs/heades/master` 는 첫 번째 커밋을 한 시점부터 생성됨
+- `refs/heades/master`파일의 내용은 가장 최근에 커밋한 [commit]의 object id값을 가짐
+- `git log` HEAD파일 - HEAD 파일의 master 파일 - master 파일의 커밋 object id값을 통해 현재 가장 최신의 commit이 무엇인지 파악 가능 이전 커밋은 parent를 통해 탐색 가능
+- git의 branch는 refs/heads 밑의 파일을 의미
+- `git branch` 생성 시
+  - `refs/heads/<branch>` 생성
+    - master branch와 같이 최신 커밋을 가리킴
+- `git checkout <branch>`
+  - HEAD 파일 변경 `refs/heads/<branch>`
+  - git checkout 했을 때 어떠한 파일과 디렉토리를 가지고 있어야 하는가는 tree에 적혀 있음
+- HEAD는 현재 checkout된 가장 최신 commit이 무엇인가를 알려주는 역할
+
+### reset checkout
+
+- 과거로 돌아가는 기능
+- `git reset` checkout하는 브랜치가 가리키는 최신 commit을 바꾸는 행위
+- reset을 취소하고 싶다면
+  - `ORIG_HEAD` 확인 삭제한 파일 정보를 가지고 있음
+    - 정보를 잃어버릴 가능성이 있는 위험한 명령을 하기 전 ORIG_HEAD에 현재 브랜치의 head가 가리키고 있는 commit을 기록
+      - 이를 통해 명령 취소 가능 `git reset —hard ORIG_HEAD`
+  - `logs/refs/heads/master` master브랜치에 있는 사건을 기록하는 log
+    - `git reflog` 행위 각각의 commit이 기록되어있음
+      - `HEAD@{n}`
+- `git checkout <commit id>`
+  - commit id를 브랜치로 가리키게 됨
+  - HEAD가 직접 commit id를 가리키게 됨
+    - 특정 브랜치에 속해있는 것이 아니라 특정 commit을 직접 가리키는 detached된 상태
+  - 다시 돌아가려면 `git checkout master`
