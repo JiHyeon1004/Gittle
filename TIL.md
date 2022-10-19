@@ -1482,3 +1482,189 @@ $ git push origin 브랜치 이름
 ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/4b5bf6b5-b4c0-4b5a-8181-d0e9bcad3864/Untitled.png)
 
 ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/83ce243d-45a8-4568-9fc6-b9796f70b630/Untitled.png)
+
+---
+
+## 2022-10-19
+
+# 기능 분류하기
+
+- **이야기 나온 기능들**
+
+  - 브랜치 구조를 보기 좋게 나타내 줬으면 좋겠다
+    - IDE 보면 폴더 구조를 쉽게 보기 가능
+    - 가시성 있게 나타내기
+    - 만들고, 병합
+    - branch를 merge 하고 나눠진 log를 가시적으로
+  - revert 버튼 하나로 간단하게 할 수 있게 하기
+    - 해당 commit만 취소하는 건지
+    - 해당 commit의 앞의 모든 commit을 취소하는 건지
+    - 해당 commit을 삭제하지 않고 변경만
+    - 사용자가 직관적으로 알 수 있게 간단하게
+    - commit 해시를 쉽게 확인할 수 있도록 (git log 쓰지 않아도)
+  - stage별로 나누어서 취소 중인 것 알려 주기
+    - 워킹 디렉토리, 스테이지, 레파지토리 등
+    - 내가 작업 중인 게 어디쯤 있는지 알려 주었으면 좋겠다
+  - add, commit, push, stash, pull, fetch
+  - .gitignore 폴더로 올리지 않을 파일 넣기 → 드래그 앤 드랍
+  - commit 내역에서 commit 메시지 바로 수정 가능하게끔 하기
+  - 해당 branch에서 누가 작업하고 있는지
+    - 마지막으로 commit한 사람?
+  - merge 시 충돌된 부분에 대해 프로그램 자체에서 수정할 수 있게
+  - pull 할 사항이 있으면 알려 주기
+  - commit, push 할 사항 알려 주기
+  - 명령어(영어), 기능별로 설명(한국어) on/off → 학습 용도로 확장
+  - commit 검색
+
+- **소스트리**
+
+  - 파일 한 줄 한 줄 관리
+    - 변경 사항 중 몇 줄만 관리 가능
+
+- **레퍼런스들**
+
+  - 데스크탑
+
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/58565c60-7881-4ff9-afe7-8eaefc932da8/Untitled.png)
+
+    - 크라켄
+
+      ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6ea3b470-c451-413a-951b-1efeb8b93052/Untitled.png)
+
+    - 소스트리
+
+      ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/85abe09c-5a0c-4f11-a3e1-b6870c37f820/Untitled.png)
+
+      ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c6bafe6a-1d98-46f8-98d8-3303eb471895/Untitled.png)
+
+- **필수 기능**
+
+  - GIT 기본 기능
+    - GIT DESKTOP에 있는 모든 기능들
+      - add, commit, push, pull, merge, branch 생성-병합-삭제, local 및 remote 저장소 생성, fetch, push undo, history 탭에서 작업 내용 확인
+      - cherry-pick, clone, revert, fork, pull request ⇒ 서비스 자체에서 다 할 수 있도록
+      - commit, push 할 사안 있으면 알려 주기
+    - branch 구조 시각화 ⇒ directory 구조처럼
+      - 그래프에서 바로 branch 관련 정보 찾아볼 수 있게
+    - 기능에 대한 설명 + 명령어 도움말
+    - commit 규칙 컨벤션
+      - 팀에서 템플릿 입력하면 JIRA 라벨 사용하듯 제공
+    - 마우스 클릭으로 pull request, branch 이동
+    - 기억에 남는 이름과 확실한 앱 콘셉트와 디자인
+    - terminal 기능
+
+- **추가 기능**
+
+  - GIT 심화 기능
+    - git-flow, rebase, stash
+  - merge 한 경우 branch history를 보기 좋게 시각화
+  - 기본 프로필 제공
+  - github 외 연동할 수 있는 사이트들 알려 주기
+  - clone을 프로그램 자체에서 할 수 있게 하기 (링크 복사할 필요 X)
+  - cmd + -로 프로그램 확대/축소
+  - squash (여러 개 commit을 하나의 commit으로 묶기)
+  - stage별로 commit 내용 나누어서 보여 주기
+  - 파일구조를 인텔리제이 형태의 폴더 구조로(vsCode 식으로 바꾸는것도 괜찮을듯)
+  - commit 메시지 프로그램 내에서 바로 수정
+  - merge 시 발생한 충돌 프로그램 자체에서 바로 수정
+  - commit convention 설정 + 라벨처럼 클릭하여 사용
+  - commit 내용 (변경 사항) 확인
+  - 브랜치를 폴더 형식으로
+  - 도움말, 한국어 설명
+  - 브랜치 작업자 표기
+  - 폰트 설정 등을 여기서 넣어줄수도?
+  - 디렉토리에서 바로 접근
+  - log 출력
+  - 캐릭터 같은 사용자 친화적인 기능 (귀여울듯ㅎㅎ + 그래프 볼 때 편할듯 + 이름도 아예 그 컨셉으로 잡아도 좋을듯 깃크라켄처럼)
+  - 튜토리얼 모드 → 깃허브 데스크탑처럼 사용법을 자연스럽게 알려줄 수 있는 기능 있으면 좋을듯
+
+- **기능 위치**
+
+  **[1페이지]**
+
+  - 메인 페이지
+
+    - Git clone / 도움말
+
+      - 기존에 있는 저장소 / 새로운 저장소
+
+        ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c39049bb-3a0b-4549-945b-446f741683c7/Untitled.png)
+
+        ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ea69fa14-e7b2-4040-9cf1-08f3703aa5b4/Untitled.png)
+
+      ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/11c66297-194b-439e-bb4e-b8b1a8fbb2fa/Untitled.png)
+
+  **[2페이지]**
+
+  - 위쪽 (nav-bar)
+
+    - 도움말 버튼(페이지 전체에 대해on/off 가능하게)
+
+      → on 한 경우 잘 보일 수 있게 배치
+
+      - 자유롭게 펼쳤다 닫았다 할 수 있게
+
+      ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/25909cfe-6193-4ac0-9a22-83482c129e4e/Untitled.png)
+
+    - Staging 여부 화면에 표시
+
+      - 두꺼운 header로 commit 규칙 컨벤션 표시
+      - commit으로 향하는 화살표 클릭 시 팝업창처럼 노출
+
+      ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/2ec3f199-c1ca-4742-b628-f47642a390f7/Untitled.png)
+
+      ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/015b5b1b-dd81-4fc1-b308-bedd7cafa4ae/Untitled.png)
+
+      - 마지막 동그라미에는 comm it 리스트(버전 관리)가 있어도 좋을 것 같다
+        - revert, reset
+      - work tree, stage, repository
+
+      ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/919cc046-6979-42e8-8924-6cb587dc2271/Untitled.png)
+
+      ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a6389c48-531e-4bb5-ae48-ade9f0a74d1d/Untitled.png)
+
+    - pull, push, fetch, merge, branch
+
+      - branch 클릭 시 drop down으로 branch 변경 가능하게 하기
+
+      ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/9b2be9f4-ab8f-47a6-9da9-14a1ecebd3db/Untitled.png)
+
+    - 멀티탭으로 원격/로컬 branch 따로 표시
+
+      - branch 헷갈리지 않게 하기 위함, 정확한 위치 다시 정하기
+
+  - 왼쪽 (drawer)
+
+    - 하위 디렉터리 구조 보여 주듯 branch 구조도 보여 주기
+
+      ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/84b2c43a-4717-48a0-ad70-2861298e1477/Untitled.png)
+
+      ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/19e359e4-e1a3-40c2-bc67-621948199ab5/Untitled.png)
+
+      - 왼쪽 아래에 브랜치 디렉토리 요약을 보여주기
+      - 기존 브랜치 구조에 드래그 앤 드랍으로 pull request나 branch 이동
+        - 버튼을 하나 두고, 버튼을 누르면 브랜치 상새보기 페이지로 이동
+        - 상세보기 페이지
+          - 왼쪽에 브랜치 디렉토리 풀버전
+          - 가운데에 브랜치를 마인드맵으로 보여주기
+
+  - 중앙
+
+    - local에 변화가 있는데 commit 할 거냐고 친절하게 알려 주기
+
+      ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0960122f-1f04-47fb-96b2-2a0eb5f7b567/Untitled.png)
+
+    - 전체적인 branch 흐름도
+
+    - branch 내부를 자세히 보여 줬으면 좋겠다
+
+  - 아래
+
+    - 버튼 클릭 시 한두 줄 정도로 어떤 명령인지 보여 주기
+
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/988730c5-384e-4de3-a958-40f95cbf1038/Untitled.png)
+
+    - drop-down 형식이나 버튼을 화면 크기 형태로 길게 (서랍 형식)
+    - GIT BASH 버튼 클릭 시 터미널 노출 → 설명 한국어
+
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a75524e6-e0c9-432a-8e87-4a8c134d6315/Untitled.png)
