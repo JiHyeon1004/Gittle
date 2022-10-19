@@ -148,3 +148,30 @@
   - HEAD가 직접 commit id를 가리키게 됨
     - 특정 브랜치에 속해있는 것이 아니라 특정 commit을 직접 가리키는 detached된 상태
   - 다시 돌아가려면 `git checkout master`
+
+## 221019
+
+---
+
+### git gui tools
+
+### source tree
+
+- branch 시각적으로 잘 보여줌
+- 기본 기능(pull, push 등) 버튼이 크게 있어서 직관적임
+- 커밋된 파일의 변경 사항을 각각의 줄 혹은 전체로 관리해 staging area에 올릴 수 있다
+- 처음에 해당 숫자의 의미를 몰라 당황함 누르면 설명이 뜨면 좋을 듯
+  ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/05aa0946-df00-4443-95b6-73d030e1f8b7/Untitled.png)
+
+### github desktop
+
+- 바로 vscode로 접근 가능
+- github과 비슷해 친숙한 느낌
+- branch, merge 시각화가 제공되지 않는 듯
+
+### git extensions
+
+- commit 정보 직관적으로 확인 가능
+  ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0119088a-7cb1-42c8-bdaf-208a58b36578/Untitled.png)
+- 마우스 우클릭으로 바로 접근 가능(git bash와 같이)
+- gui 사용을 위해선 메뉴에서 한 번 더 클릭해서 접근해야 함
