@@ -175,3 +175,11 @@
   ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0119088a-7cb1-42c8-bdaf-208a58b36578/Untitled.png)
 - 마우스 우클릭으로 바로 접근 가능(git bash와 같이)
 - gui 사용을 위해선 메뉴에서 한 번 더 클릭해서 접근해야 함
+
+## 221020
+
+---
+
+- 기능명세서 작성
+  - git을 처음 사용한다는 컨셉에 맞는 ui 고민
+- 와이어 프레임 제작
