@@ -2,4 +2,4 @@
 
 ## 와이어프레임 제작
 
-![](C:\Users\SSAFY\Desktop\PJT\자율프로젝트\S07P31A503\TIL_JungHyun_221021.aasets\와이어프레임.PNG)
+![](./image/%EC%99%80%EC%9D%B4%EC%96%B4%ED%94%84%EB%A0%88%EC%9E%84.PNG)
