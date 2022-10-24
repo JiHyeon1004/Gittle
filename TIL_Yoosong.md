@@ -189,3 +189,13 @@
 ---
 
 - 기능명세서, 와이어 프레임 수정
+
+## 221024
+
+---
+
+- Electron에서 react router를 사용할 땐 BrowserRouter를 사용하면 오류가 발생한다. HashRouter나 MemoryRouter를 사용해야 한다.
+- HashRouter
+  - URL의 hash를 활용한 라우터로 주소에 #가 붙는다. 정적인 페이지에 적합하다.
+- MemoryRouter
+  - 실제로 주소는 존재하지는 않는 라우터. 리액트 네이티브나, 임베디드 웹앱에서 사용하면 유용하다.
