@@ -1778,3 +1778,430 @@ $ git push origin 브랜치 이름
 6. 주말 동안 해 올 일 생각하기
 
 ----
+
+## 2022-10-24 ~ 25
+
+## 소개
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b90cca7e-43c2-4cbb-af4a-7be55927c49f/Untitled.png)
+
+- Node.js로 아예 JAVA를 대체 가능하다
+  - JS로 웹서버, 웹브라우저 전부를 제어하는 것이 추세
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ad03a487-f618-4c4f-bf29-6384a9387e71/Untitled.png)
+
+```jsx
+Math.pow(3, 2); // 3듸 2승 : 9
+Math.round(10.6); // 10.6 반올림 11
+Math.ceil(10.2); // 10.2 올림 11
+Math.floor(10.6); //10.6 내림 10
+Math.sqrt(9); // 9의 제곱근 3
+Math.random(); // 0과 1.0 사이의 랜덤한 실수
+
+console.log("Hello world'");
+alert('hel\\'lo world');
+```
+
+- 큰따옴표 안에 있는 작은따옴표는 그냥 문자로 인식
+- 하지만 따옴표를 세 개 이상 쓸 거면 앞에 역슬래시
+  - 역슬래시 뒤 바로 문자 하나는 그냥 정보로 해석
+  - `escape`
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7c2f8e48-2634-488e-a8f8-82bfb5eaab98/Untitled.png)
+
+- typeof로 형태 알아보기
+
+```jsx
+// 줄 바꾸기
+console.log("hello\\nworld)"; 
+
+// 문자열 붙이기
+console.log("hello" + " " + "world");
+
+// 문자열 길이 출력
+"code".length; // 4
+
+// index 출력
+"code".indexOf("o"); // `
+```
+
+## 변수
+
+- JS에서 변수는 `var`로 선언
+- 처음에 선언할 때만 var 붙여 주고 그 이후에는 안 붙여도 된다
+- 한 줄에 여러 개 쓰기 가능
+
+```jsx
+var a = 1;
+var b = 2;
+console.log(a+b); // 3
+
+var c = "hi";
+console.log(c+" world"); //hi world
+c = "hello";
+alert(c+" world"); //hello world
+
+var d = "one", e = "two", f = "three";
+```
+
+- 변수는 코드의 재활용성을 높여 준다
+
+## 연산자
+
+```jsx
+// 대입 연산자: 값을 넣어 줌
+a = 1 ;
+
+// 비교 연산자: 값 비교 => boolean
+// 동등 연산자(equal operator)
+a == 1; // true or false
+alert("one" == "one"); // true
+
+//일치 연산자(strict equal operator) : 정보와 데이터의 형식까지 비교
+// 데이터 타입이 다른 것은 다른 데이터~ 일치 연산자를 쓰자
+1 === "1" // false
+
+// 동등 연산자는 정보 값만 같으면 된다
+1 == "1" // true
+```
+
+- null
+
+```jsx
+alert(null == undefined);       //true
+alert(null === undefined);      //false
+alert(true == 1);               //true
+alert(true === 1);              //false
+alert(true == '1');             //true
+alert(true === '1');            //false
+ 
+alert(0 === -0);                //true
+alert(NaN === NaN);             //false
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1fcea66e-2e55-4cd6-a1fc-37778e65cc16/Untitled.png)
+
+- `!==` 정확히 같지 않다
+
+## 조건문
+
+```jsx
+if(false) {
+	alert('result: true');
+}
+if (false) {
+	alert(1);
+}
+// 안에 있는 게 실행 안 된다
+// true일 경우에는 무조건 실행
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a7a2a8fd-8d88-49b9-9d5c-b085b2ee0127/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/65397f57-ca5c-481d-9eab-4940c5ebd04b/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a8052196-a53f-4264-b0cf-082cbf2724bb/Untitled.png)
+
+- 새로운 코드: 
+
+  ```
+  prompt
+  ```
+
+  - 입력창 안에 어떤 값을 받아 올 수 있다
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/3babdd33-2711-4842-82ca-1cfd0b89e949/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d8ba567c-a099-4a98-8d15-6a7683c5daec/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f0f9a62c-fa90-4d95-bd0c-063882be13ad/Untitled.png)
+
+- 입력한 값에 3이 곱해져서 나온다
+
+```jsx
+<script>
+      var id = prompt("ID를 입력해 주세요.");
+      if (id == "SsoHhyun") {
+        var password = prompt("password를 입력해 주세요.");
+        if (password == "123456") {
+          alert("로그인하였습니다.\\n환영합니다. " + id + "님!");
+        } else {
+          alert("비밀번호를 다시 확인해 주시기 바랍니다.");
+        }
+      } else {
+        alert("아이디가 다릅니다.");
+      }
+    </script>
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/4e102285-a7aa-41b2-ba0c-32e9d4566d0d/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5663f95e-695b-41ed-b9c1-05598ff272af/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/dab1ef5e-7f44-4940-94a4-6256e1573f78/Untitled.png)
+
+- 아이디와 비밀번호를 판별하여 로그인 여부 확인하는 기능
+
+### 논리 연산자
+
+```jsx
+true && false = false;
+true || false = true;
+!false = true;
+!true = false;
+
+// 위의 코드 단순화 가능
+// 비밀번호 틀린 걸 따로 안내를 안 해 주니 엄밀히 말해 같은 코드라고는 볼 수 없음
+<script>
+      var id = prompt("ID를 입력해 주세요.");
+      var password = prompt("password를 입력해 주세요.");
+			if (id == "SsoHhyun" && password == "123456") {  
+          alert("로그인하였습니다.\\n환영합니다. " + id + "님!");
+      } else {
+	        alert("아이디가 다릅니다.");
+      }
+</script>
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1f8d0a83-14ec-4d73-b102-9f5a0cfb3f26/Untitled.png)
+
+### boolean의 대체재
+
+```jsx
+if(1)= if(true)로 간주 // 쓰지는 말 것
+if('') = false; // 빈 문자열 false로 간주
+if(undefined) = false; // undefined false로 간주
+그 외 NaN, null도 false로 간주... 
+```
+
+## 반복문
+
+### while
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c297579a-8ffe-49ac-97b0-61b42e960901/Untitled.png)
+
+- 조건 true가 false가 될 때까지 실행
+- 그냥 true라고 쓰면 무한 루프에 빠질 수 있다
+
+```jsx
+<script>
+	document.write("안녕하세요.");
+</script>
+```
+
+- `document.write`: html에 쓴 것처럼 화면에 출력
+
+### for
+
+```jsx
+// 초기회: for문이 실행될 때 처음 한 번만 실행
+
+for(초기화; 반복 조건; 반복될 때마다 실행되는 코드) {
+	반복해서 실행할 코드
+}
+
+// alert가 실행된 이후에 i가 1 증가
+alert(i++);
+
+// i가 1 증가한 이후에 alert 실행
+alert(++i);
+```
+
+### break
+
+```jsx
+<script>
+	for(var i = 0; i < 10; i++) {
+		if(i === 5) {
+			break;
+		}
+		document.write(i +"안녕하세요."+"</br>")
+</script>
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/202dd2c1-dc05-46f8-b02a-25f0117b85c9/Untitled.png)
+
+- 아예 반복문 종료
+
+### continue
+
+```jsx
+<script>
+	for(var i = 0 ; i < 10; i++) {
+		if(i === 5) {
+			continue;
+		}
+		document.write(i + "안녕하세요.</br>");
+</script>
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a2d824d0-d29d-4afe-a50c-8f236f2d6aba/Untitled.png)
+
+- 해당 인덱스(5)에서만 실행되지 않음
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/88e4ea10-f595-476c-b777-c5803573cdd5/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b8326e9b-783a-41da-8c93-d8a7ac186499/Untitled.png)
+
+- 숫자 + 문자 ⇒ 문자
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8c83e81c-a9ef-4188-b198-28003a360e01/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c008f1d8-35ba-40b9-b859-1b1edf1d761e/Untitled.png)
+
+- 디버거 기능
+
+## 함수
+
+- 하나의 로직을 재실행할 수 있게 함 → 코드의 `재사용성` 높여 준다
+- `유지보수`가 용이하다
+- `가독성`이 높아진다
+- 
+
+```jsx
+function 함수명( [인자...[,인자]] ){
+   코드 내용
+   return 반환값
+}
+
+예)
+function numbering() {
+       document.write(1);
+}
+      // 함수 호출
+      numbering();
+
+<script>
+      function nnumbering() {
+        i = 0;
+        while (i < 10) {
+          document.write(i);
+          i++;
+        }
+      }
+      nnumbering();
+    </script>
+
+// 결과: 0123456789
+```
+
+### return
+
+- 역할
+  - 함수를 종료
+  - 뒤에 있는 값을 출력
+
+```jsx
+function get_member1() {
+		return 'SsoHhyun';
+}
+alert(get_member1());
+
+// SsoHhyun 알림창에 출력
+```
+
+### 인자
+
+- 함수 안에 들어가는 값
+  - `매개변수`: parameter
+- 출력 값
+  - `인자`: argument
+
+```jsx
+function get_argument(arg) { // 매개변수
+		return arg*1000;
+}
+
+alert(get_argument(1)); // arg = 1, 인자
+// 1000 출력
+alert(get_argument(2)); // arg = 2
+// 2000 출력
+```
+
+- 여러 개의 입력 값을 받을 수 있지만 `출력 값은 하나`만 받을 수 있다
+
+### 정의법
+
+```jsx
+numbering = function () {
+		i = 0;
+		while(i < 10) {
+			document.write(i);
+			i++;
+	}
+}
+numbering();
+```
+
+- 함수를 `변수로 정의`하여 변수로도 호출 가능
+
+### 익명함수
+
+- 정의와 호출을 동시에 하기
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/016a551a-b682-4a8f-a96a-1c991d177b56/Untitled.png)
+
+- 함수 앞뒤로 `괄호()`로 묶고, 함수 식 뒤에 `()`을 붙이기
+
+## 배열
+
+- 배열(array): 연관된 데이터를 모아 통으로 관리하기 위하여 사용하는 데이터 타입
+- 원소(element): 배열에 들어 있는 각각의 데이터
+
+```jsx
+var member = ['wonyoung', 'yujin', 'rei']
+alert(member[0]); // wonyoung
+alert(member[2]); // rei
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d8cdb765-da17-4030-b844-362e982fa911/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7aca8b2d-ba94-43f4-979d-40b724aa223b/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ef2576c1-ac00-4a1a-87de-5860b0359632/Untitled.png)
+
+### 배열의 제어
+
+- 배열 끝에 하나 추가: 배열.`push`(’값’);
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/2ceadb04-d9c2-438e-b23f-eaad475c8368/Untitled.png)
+
+- 배열 합치기: 배열.`concat`(’값1’, ‘값2’, …, ‘값n’);
+
+```jsx
+var arr1 = ['a', 'b', 'c'];
+var arr2 = ['d', 'e', 'f'];
+var arr3 = arr1.concat(arr2);
+
+document.write(arr3);
+// a, b, c, d, e, f
+```
+
+- 배열 시작에 하나 추가: 배열.`unshift`(’값’);
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/16d0b0e4-2f61-4307-b52e-4043ca69b590/Untitled.png)
+
+- 배열 중간에 추가: 배열.
+
+  ```
+  splice
+  ```
+
+  (index, howmany, element1, element2, …);
+
+  - howmany: index부터 제거될 원소의 수
+    - 0이면 원소가 삭제되지 않음
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0ada40b0-a14c-4c05-9130-438b95c28c6e/Untitled.png)
+
+- 1이어서 원소 하나 삭제
+  - 삭제된 원소 return
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/79a62bcd-cefd-4a34-8359-e6250f0725cb/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0e7d4054-4306-4ab0-bd01-998c32273245/Untitled.png)
+
+- 첫 번째 원소 삭제: 배열.`shift`();
+- 마지막 원소 삭제: 배열.`pop`();
+- 정렬: 배열.`sort`();
+- 역정렬: 배열.`reverse`();
