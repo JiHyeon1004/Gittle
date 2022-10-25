@@ -199,3 +199,61 @@
   - URL의 hash를 활용한 라우터로 주소에 #가 붙는다. 정적인 페이지에 적합하다.
 - MemoryRouter
   - 실제로 주소는 존재하지는 않는 라우터. 리액트 네이티브나, 임베디드 웹앱에서 사용하면 유용하다.
+
+## 221025
+
+---
+
+- electron 개발에서 react router를 사용할 경우 HashRouter를 사용해야 함
+
+  ```jsx
+  // **src/index.js**
+
+  import React from "react";
+  import ReactDOM from "react-dom/client";
+  import "./index.css";
+  import App from "./App";
+  import reportWebVitals from "./reportWebVitals";
+  import { **HashRouter** } from "react-router-dom";
+
+  const root = ReactDOM.createRoot(document.getElementById("root"));
+  root.render(
+    <React.StrictMode>
+      **<HashRouter>**
+        <App />
+      **</HashRouter>**
+    </React.StrictMode>
+  );
+
+  // If you want to start measuring performance in your app, pass a function
+  // to log results (for example: reportWebVitals(console.log))
+  // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+  reportWebVitals();
+  ```
+
+  ```jsx
+  // **src/App.js**
+
+  import { Route, Routes, Link } from "react-router-dom";
+
+  import First from "./Pages/First";
+  import Second from "./Pages/Second";
+
+  function App() {
+    return (
+      <>
+        <div>
+          <Link to="/first">first</Link> | <Link to="/second">second</Link>
+        </div>
+        <Routes>
+          <Route path="/first" element={<First />} />
+          <Route path="/second" element={<Second />} />
+        </Routes>
+      </>
+    );
+  }
+
+  export default App;
+  ```
+
+  - Route에서 path를 설정 → Link의 to로 설정된 path로 옮겨감
