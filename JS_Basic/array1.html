@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 사용자 정의 함수
+      function get_members() {
+        return ["wy", "yj", "rei"];
+      }
+      members = get_members();
+      // length: 배열 안의 원소 개수를 알려 주는 내장 함수
+      document.write(members.length + "</br>");
+      for (var i = 0; i < members.length; i++) {
+        // members[i].toUpperCase()는 members[i]에 담긴 문자를 대문자로 변환해준다.
+        document.write(members[i].toUpperCase());
+        document.write("<br />");
+      }
+    </script>
+  </body>
+</html>

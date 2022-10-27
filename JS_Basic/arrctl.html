@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var arr = ["wy", "yj", "rei", "liz", "ls"];
+      // 끝에 추가
+      arr.push("gaeul");
+      document.write(arr + "</br>");
+
+      var arr1 = ["a", "b", "c"];
+      var arr2 = ["d", "e", "f"];
+      //배열 간 합치기
+      var arr3 = arr1.concat(arr2);
+      document.write(arr3 + "</br>");
+
+      var arr4 = ["cw", "sk", "kz"];
+      // 시작에 추가
+      arr4.unshift("yj");
+      document.write(arr4 + "</br>");
+
+      var array = ["딸기", "사과", "배", "수박", "감", "귤"];
+      // 중간에 추가 + 삭제 (1일 경우 수박만 삭제)
+      array.splice(3, 1, "오렌지", "천혜향", "만다린");
+      document.write(array);
+    </script>
+  </body>
+</html>
