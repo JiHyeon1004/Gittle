@@ -189,3 +189,185 @@
 ---
 
 - 기능명세서, 와이어 프레임 수정
+
+## 221024
+
+---
+
+- Electron에서 react router를 사용할 땐 BrowserRouter를 사용하면 오류가 발생한다. HashRouter나 MemoryRouter를 사용해야 한다.
+- HashRouter
+  - URL의 hash를 활용한 라우터로 주소에 #가 붙는다. 정적인 페이지에 적합하다.
+- MemoryRouter
+  - 실제로 주소는 존재하지는 않는 라우터. 리액트 네이티브나, 임베디드 웹앱에서 사용하면 유용하다.
+
+## 221025
+
+---
+
+- electron 개발에서 react router를 사용할 경우 HashRouter를 사용해야 함
+
+  ```jsx
+  // **src/index.js**
+
+  import React from "react";
+  import ReactDOM from "react-dom/client";
+  import "./index.css";
+  import App from "./App";
+  import reportWebVitals from "./reportWebVitals";
+  import { **HashRouter** } from "react-router-dom";
+
+  const root = ReactDOM.createRoot(document.getElementById("root"));
+  root.render(
+    <React.StrictMode>
+      **<HashRouter>**
+        <App />
+      **</HashRouter>**
+    </React.StrictMode>
+  );
+
+  // If you want to start measuring performance in your app, pass a function
+  // to log results (for example: reportWebVitals(console.log))
+  // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+  reportWebVitals();
+  ```
+
+  ```jsx
+  // **src/App.js**
+
+  import { Route, Routes, Link } from "react-router-dom";
+
+  import First from "./Pages/First";
+  import Second from "./Pages/Second";
+
+  function App() {
+    return (
+      <>
+        <div>
+          <Link to="/first">first</Link> | <Link to="/second">second</Link>
+        </div>
+        <Routes>
+          <Route path="/first" element={<First />} />
+          <Route path="/second" element={<Second />} />
+        </Routes>
+      </>
+    );
+  }
+
+  export default App;
+  ```
+
+  - Route에서 path를 설정 → Link의 to로 설정된 path로 옮겨감
+
+## 221027
+
+---
+
+- react-transition-group 화면 전환(transition)
+
+  - 목표: add, commit, push 완료 시 페이지가 자연스럽게 전환되어야 함
+
+    - TransitionGroup
+    - CSSTransition
+      ```css
+      // mount 시작할 때
+      .item-enter {
+        opacity: 0;
+      }
+      // mount 되고 나서
+      .item-enter-active {
+        opacity: 1;
+        transition: opacity 500ms ease-in;
+      }
+      // unmount 시작할 때
+      .item-exit {
+        opacity: 1;
+      }
+      // unmount 되고 나서
+      .item-exit-active {
+        opacity: 0;
+        transition: opacity 500ms ease-in;
+      }
+      ```
+    - 특정 페이지에만 transition 줄 경우
+
+      - Transition
+        - 기본적으로 Transition components는 렌더링하는 components의 동작을 변경하지 않으며 components의 “enter”과 “exit” 상태만을 추적한다.
+        - component가 들어오거나 나갈 때 component에 스타일을 추가할 수 있다.
+
+      ```jsx
+      import { Transition } from "react-transition-group";
+      import "./First.css";
+
+      function First() {
+        return (
+          <Transition **in**={true} timeout={200} **appear**>
+            {(status) => (
+              <div className={`pageSlider pageSlider-${status}`}>
+                <p>First</p>
+                <div className="box">hi</div>
+              </div>
+            )}
+          </Transition>
+        );
+      }
+
+      export default First;
+      ```
+
+      - `in`: components를 표시 시작 또는 종료 상태를 트리거함
+        - type: `boolean` (default: `false`)
+      - `appear`: 처음 mount할 때는 `in`의 값에 상관없이 transition을 수행하지 않음 이를 원한다면 `in`과 `appear`를 동시에 설정해야 함
+        - type: `boolean` (default: `false`)
+
+      ```css
+      .box {
+        width: 50%;
+        background-color: plum;
+      }
+
+      .pageSlider-**entering** {
+        opacity: 0;
+        /* transform: scale(1.1); */
+        transform: translate3d(100%, 0, 0);
+        background: pink;
+        animation-name: slidein 4s 1s;
+      }
+
+      .pageSlider-**entered** {
+        opacity: 1;
+        /* transform: scale(1);
+          transition: opacity 300ms, transform 300ms; */
+        transform: translate3d(0, 0, 0);
+        transition: all 500ms;
+        /* background: black; */
+        animation-name: slidein 4s 1s;
+      }
+
+      .pageSlider-**exiting** {
+        opacity: 1;
+        /* transform: scale(1); */
+        transform: translate3d(0, 0, 0);
+        background: blue;
+      }
+
+      .pageSlider-**exited** {
+        opacity: 0;
+        /* transform: scale(0.9);
+          transition: opacity 300ms, transform 300ms;
+          transform: translate3d(-100%, 0,0); */
+        transition: all 700ms;
+        background: purple;
+      }
+      ```
+
+      - `entering`
+      - `entered`
+      - `exiting`
+      - `exited`
+
+## 221028
+
+---
+
+- react-beautiful-dnd 적용
+  - index.js(index.ts)에서 `<React.StrictMode>` 반드시 해제해야 한다.
