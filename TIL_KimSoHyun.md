@@ -1778,3 +1778,1543 @@ $ git push origin 브랜치 이름
 6. 주말 동안 해 올 일 생각하기
 
 ----
+
+## 2022-10-24 ~ 25
+
+## 소개
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b90cca7e-43c2-4cbb-af4a-7be55927c49f/Untitled.png)
+
+- Node.js로 아예 JAVA를 대체 가능하다
+  - JS로 웹서버, 웹브라우저 전부를 제어하는 것이 추세
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ad03a487-f618-4c4f-bf29-6384a9387e71/Untitled.png)
+
+```jsx
+Math.pow(3, 2); // 3듸 2승 : 9
+Math.round(10.6); // 10.6 반올림 11
+Math.ceil(10.2); // 10.2 올림 11
+Math.floor(10.6); //10.6 내림 10
+Math.sqrt(9); // 9의 제곱근 3
+Math.random(); // 0과 1.0 사이의 랜덤한 실수
+
+console.log("Hello world'");
+alert('hel\\'lo world');
+```
+
+- 큰따옴표 안에 있는 작은따옴표는 그냥 문자로 인식
+- 하지만 따옴표를 세 개 이상 쓸 거면 앞에 역슬래시
+  - 역슬래시 뒤 바로 문자 하나는 그냥 정보로 해석
+  - `escape`
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7c2f8e48-2634-488e-a8f8-82bfb5eaab98/Untitled.png)
+
+- typeof로 형태 알아보기
+
+```jsx
+// 줄 바꾸기
+console.log("hello\\nworld)"; 
+
+// 문자열 붙이기
+console.log("hello" + " " + "world");
+
+// 문자열 길이 출력
+"code".length; // 4
+
+// index 출력
+"code".indexOf("o"); // `
+```
+
+## 변수
+
+- JS에서 변수는 `var`로 선언
+- 처음에 선언할 때만 var 붙여 주고 그 이후에는 안 붙여도 된다
+- 한 줄에 여러 개 쓰기 가능
+
+```jsx
+var a = 1;
+var b = 2;
+console.log(a+b); // 3
+
+var c = "hi";
+console.log(c+" world"); //hi world
+c = "hello";
+alert(c+" world"); //hello world
+
+var d = "one", e = "two", f = "three";
+```
+
+- 변수는 코드의 재활용성을 높여 준다
+
+## 연산자
+
+```jsx
+// 대입 연산자: 값을 넣어 줌
+a = 1 ;
+
+// 비교 연산자: 값 비교 => boolean
+// 동등 연산자(equal operator)
+a == 1; // true or false
+alert("one" == "one"); // true
+
+//일치 연산자(strict equal operator) : 정보와 데이터의 형식까지 비교
+// 데이터 타입이 다른 것은 다른 데이터~ 일치 연산자를 쓰자
+1 === "1" // false
+
+// 동등 연산자는 정보 값만 같으면 된다
+1 == "1" // true
+```
+
+- null
+
+```jsx
+alert(null == undefined);       //true
+alert(null === undefined);      //false
+alert(true == 1);               //true
+alert(true === 1);              //false
+alert(true == '1');             //true
+alert(true === '1');            //false
+ 
+alert(0 === -0);                //true
+alert(NaN === NaN);             //false
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1fcea66e-2e55-4cd6-a1fc-37778e65cc16/Untitled.png)
+
+- `!==` 정확히 같지 않다
+
+## 조건문
+
+```jsx
+if(false) {
+	alert('result: true');
+}
+if (false) {
+	alert(1);
+}
+// 안에 있는 게 실행 안 된다
+// true일 경우에는 무조건 실행
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a7a2a8fd-8d88-49b9-9d5c-b085b2ee0127/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/65397f57-ca5c-481d-9eab-4940c5ebd04b/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a8052196-a53f-4264-b0cf-082cbf2724bb/Untitled.png)
+
+- 새로운 코드: 
+
+  ```
+  prompt
+  ```
+
+  - 입력창 안에 어떤 값을 받아 올 수 있다
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/3babdd33-2711-4842-82ca-1cfd0b89e949/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d8ba567c-a099-4a98-8d15-6a7683c5daec/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f0f9a62c-fa90-4d95-bd0c-063882be13ad/Untitled.png)
+
+- 입력한 값에 3이 곱해져서 나온다
+
+```jsx
+<script>
+      var id = prompt("ID를 입력해 주세요.");
+      if (id == "SsoHhyun") {
+        var password = prompt("password를 입력해 주세요.");
+        if (password == "123456") {
+          alert("로그인하였습니다.\\n환영합니다. " + id + "님!");
+        } else {
+          alert("비밀번호를 다시 확인해 주시기 바랍니다.");
+        }
+      } else {
+        alert("아이디가 다릅니다.");
+      }
+    </script>
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/4e102285-a7aa-41b2-ba0c-32e9d4566d0d/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5663f95e-695b-41ed-b9c1-05598ff272af/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/dab1ef5e-7f44-4940-94a4-6256e1573f78/Untitled.png)
+
+- 아이디와 비밀번호를 판별하여 로그인 여부 확인하는 기능
+
+### 논리 연산자
+
+```jsx
+true && false = false;
+true || false = true;
+!false = true;
+!true = false;
+
+// 위의 코드 단순화 가능
+// 비밀번호 틀린 걸 따로 안내를 안 해 주니 엄밀히 말해 같은 코드라고는 볼 수 없음
+<script>
+      var id = prompt("ID를 입력해 주세요.");
+      var password = prompt("password를 입력해 주세요.");
+			if (id == "SsoHhyun" && password == "123456") {  
+          alert("로그인하였습니다.\\n환영합니다. " + id + "님!");
+      } else {
+	        alert("아이디가 다릅니다.");
+      }
+</script>
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1f8d0a83-14ec-4d73-b102-9f5a0cfb3f26/Untitled.png)
+
+### boolean의 대체재
+
+```jsx
+if(1)= if(true)로 간주 // 쓰지는 말 것
+if('') = false; // 빈 문자열 false로 간주
+if(undefined) = false; // undefined false로 간주
+그 외 NaN, null도 false로 간주... 
+```
+
+## 반복문
+
+### while
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c297579a-8ffe-49ac-97b0-61b42e960901/Untitled.png)
+
+- 조건 true가 false가 될 때까지 실행
+- 그냥 true라고 쓰면 무한 루프에 빠질 수 있다
+
+```jsx
+<script>
+	document.write("안녕하세요.");
+</script>
+```
+
+- `document.write`: html에 쓴 것처럼 화면에 출력
+
+### for
+
+```jsx
+// 초기회: for문이 실행될 때 처음 한 번만 실행
+
+for(초기화; 반복 조건; 반복될 때마다 실행되는 코드) {
+	반복해서 실행할 코드
+}
+
+// alert가 실행된 이후에 i가 1 증가
+alert(i++);
+
+// i가 1 증가한 이후에 alert 실행
+alert(++i);
+```
+
+### break
+
+```jsx
+<script>
+	for(var i = 0; i < 10; i++) {
+		if(i === 5) {
+			break;
+		}
+		document.write(i +"안녕하세요."+"</br>")
+</script>
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/202dd2c1-dc05-46f8-b02a-25f0117b85c9/Untitled.png)
+
+- 아예 반복문 종료
+
+### continue
+
+```jsx
+<script>
+	for(var i = 0 ; i < 10; i++) {
+		if(i === 5) {
+			continue;
+		}
+		document.write(i + "안녕하세요.</br>");
+</script>
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a2d824d0-d29d-4afe-a50c-8f236f2d6aba/Untitled.png)
+
+- 해당 인덱스(5)에서만 실행되지 않음
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/88e4ea10-f595-476c-b777-c5803573cdd5/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b8326e9b-783a-41da-8c93-d8a7ac186499/Untitled.png)
+
+- 숫자 + 문자 ⇒ 문자
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8c83e81c-a9ef-4188-b198-28003a360e01/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c008f1d8-35ba-40b9-b859-1b1edf1d761e/Untitled.png)
+
+- 디버거 기능
+
+## 함수
+
+- 하나의 로직을 재실행할 수 있게 함 → 코드의 `재사용성` 높여 준다
+- `유지보수`가 용이하다
+- `가독성`이 높아진다
+- 
+
+```jsx
+function 함수명( [인자...[,인자]] ){
+   코드 내용
+   return 반환값
+}
+
+예)
+function numbering() {
+       document.write(1);
+}
+      // 함수 호출
+      numbering();
+
+<script>
+      function nnumbering() {
+        i = 0;
+        while (i < 10) {
+          document.write(i);
+          i++;
+        }
+      }
+      nnumbering();
+    </script>
+
+// 결과: 0123456789
+```
+
+### return
+
+- 역할
+  - 함수를 종료
+  - 뒤에 있는 값을 출력
+
+```jsx
+function get_member1() {
+		return 'SsoHhyun';
+}
+alert(get_member1());
+
+// SsoHhyun 알림창에 출력
+```
+
+### 인자
+
+- 함수 안에 들어가는 값
+  - `매개변수`: parameter
+- 출력 값
+  - `인자`: argument
+
+```jsx
+function get_argument(arg) { // 매개변수
+		return arg*1000;
+}
+
+alert(get_argument(1)); // arg = 1, 인자
+// 1000 출력
+alert(get_argument(2)); // arg = 2
+// 2000 출력
+```
+
+- 여러 개의 입력 값을 받을 수 있지만 `출력 값은 하나`만 받을 수 있다
+
+### 정의법
+
+```jsx
+numbering = function () {
+		i = 0;
+		while(i < 10) {
+			document.write(i);
+			i++;
+	}
+}
+numbering();
+```
+
+- 함수를 `변수로 정의`하여 변수로도 호출 가능
+
+### 익명함수
+
+- 정의와 호출을 동시에 하기
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/016a551a-b682-4a8f-a96a-1c991d177b56/Untitled.png)
+
+- 함수 앞뒤로 `괄호()`로 묶고, 함수 식 뒤에 `()`을 붙이기
+
+## 배열
+
+- 배열(array): 연관된 데이터를 모아 통으로 관리하기 위하여 사용하는 데이터 타입
+- 원소(element): 배열에 들어 있는 각각의 데이터
+
+```jsx
+var member = ['wonyoung', 'yujin', 'rei']
+alert(member[0]); // wonyoung
+alert(member[2]); // rei
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d8cdb765-da17-4030-b844-362e982fa911/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7aca8b2d-ba94-43f4-979d-40b724aa223b/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ef2576c1-ac00-4a1a-87de-5860b0359632/Untitled.png)
+
+### 배열의 제어
+
+- 배열 끝에 하나 추가: 배열.`push`(’값’);
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/2ceadb04-d9c2-438e-b23f-eaad475c8368/Untitled.png)
+
+- 배열 합치기: 배열.`concat`(’값1’, ‘값2’, …, ‘값n’);
+
+```jsx
+var arr1 = ['a', 'b', 'c'];
+var arr2 = ['d', 'e', 'f'];
+var arr3 = arr1.concat(arr2);
+
+document.write(arr3);
+// a, b, c, d, e, f
+```
+
+- 배열 시작에 하나 추가: 배열.`unshift`(’값’);
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/16d0b0e4-2f61-4307-b52e-4043ca69b590/Untitled.png)
+
+- 배열 중간에 추가: 배열.
+
+  ```
+  splice
+  ```
+
+  (index, howmany, element1, element2, …);
+
+  - howmany: index부터 제거될 원소의 수
+    - 0이면 원소가 삭제되지 않음
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0ada40b0-a14c-4c05-9130-438b95c28c6e/Untitled.png)
+
+- 1이어서 원소 하나 삭제
+  - 삭제된 원소 return
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/79a62bcd-cefd-4a34-8359-e6250f0725cb/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0e7d4054-4306-4ab0-bd01-998c32273245/Untitled.png)
+
+- 첫 번째 원소 삭제: 배열.`shift`();
+
+- 마지막 원소 삭제: 배열.`pop`();
+
+- 정렬: 배열.`sort`();
+
+- 역정렬: 배열.`reverse`();
+
+  ----
+
+## 2022-10-27
+
+# JavaScript 공부
+
+## 객체
+
+- 객체 = 연관 배열 = 맵 = 딕셔너리
+- 데이터를 담는 배열로서의 객체
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a09fb9d7-a5b6-4c68-961f-b5ef2d548800/Untitled.png)
+
+```jsx
+// key와 value의 조합
+// 이름: key, 점수: value
+
+// 만드는 방법 1
+var grades = {'원영': 100, '유진': 95, '레이': 90};'
+
+// 만드는 방법 2
+var grades = {};
+grades['원영'] = 100;
+grades['유진'] = 95;
+grades['레이'] = 90;
+
+// 만드는 방법 3
+var grades = new Object();
+grades['원영'] = 100;
+grades['유진'] = 95;
+grades['레이'] = 90;
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/bc45d2eb-1add-4792-93d6-a470b8bf9133/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b88e627f-8829-475f-9409-c3554d9be925/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f1a90a74-290c-4262-bec2-dda7bf76b12d/Untitled.png)
+
+- 객체는 순서가 없다
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/3805a7f8-b459-44d1-86f8-f8e2262d1e2f/Untitled.png)
+
+```jsx
+for(key in grades) {
+	console.log(key);
+	console.log(grade[key]);
+}
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d96c1d68-5f84-478a-bd33-e733806a2a5e/Untitled.png)
+
+- 객체 안에 함수를 저장 가능하다
+
+  ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ff66d4f0-588c-48da-8829-9d0b93f020df/Untitled.png)
+
+  ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0085a655-c489-4123-b01e-68b64b03e37d/Untitled.png)
+
+## 모듈
+
+- 자주 사용하는 코드를 별도의 파일로 만들어 필요할 때마다 재활용 가능 ⇒ 모듈화
+- 코드 수정 시 필요한 로직 빠르게 찾을 수 있음
+- 필요한 로직만을 로드하여 메모리 낭비 감소
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/90df282e-c652-45b4-9fc6-d4c37313d4e4/Untitled.png)
+
+- 함수 호출하듯 파일을 가져온 효과
+
+### Node.js에서의 모듈화
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/339dfd8d-6be5-4da5-b834-c4f728cade4e/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/cfdf1d22-73fc-4336-81d2-47e35210e2ef/Untitled.png)
+
+### 라이브러리
+
+- 자주 사용하는 로직을 `재사용하기 편리하도록 잘 정리한 일련의 코드들`의 집합
+- 어떤 목적을 쉽게 달성할 수 있도록 한다 ↔ 브라우저가 제공하는 기능은 너무 복잡함
+
+### 제이쿼리
+
+- 모든 태그가 `$`로 시작
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f28ea3db-00e0-40c2-abd2-e67a2eef9f26/Untitled.png)
+
+- list라는 아이디를 지닌 하위 li들이 전부 바뀐다
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a9602e0c-a926-4f64-aeec-fb4419abfe6c/Untitled.png)
+
+- 버튼 클릭 시 해당 텍스트가 입력되도록 하기
+
+## UI, API, 문서
+
+- 생활코딩에 있는 동영상들이다
+
+- UI: User Interface
+
+  - 사용자를 대면하는 접점
+
+- API: Appication Programming Interface
+
+  - javascrpt:(”Hello world”);
+
+  ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/fa209f21-62f9-4059-bd00-5fae4a770202/Untitled.png)
+
+  - 기반이 되는 시스템(여기서는 브라우저)이 우리에게 제공한 인터페이스 예) alert
+  - 개발자는 API를 통해 웹 브라우저와 같은 플랫폼을 제어함
+
+- 개념적 계층
+
+  ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1443d766-e9e4-461c-9f70-2ad29095fbea/Untitled.png)
+
+  ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a6098646-43ef-4b50-8384-f0bd286010e7/Untitled.png)
+
+### API
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/58cb0ae2-7139-47c2-a37f-220286a33d38/Untitled.png)
+
+## 정규 표현식
+
+- 문자열에서 특정한 문자를 찾아내는 도구
+- 특정 정보에서 어떤 패턴을 찾아내 치환
+- 정규 표현식 수업 따로 듣기 → 생활 코딩
+
+### 사용 방법
+
+- 컴파일: 문자 유무 판단, 치환을 위해 `패턴을 찾는 것`
+- 실행: 찾아온 대상에 대해 구체적인 작업을 하는 것
+
+1. 정규 표현식 리터럴
+
+```jsx
+// 우리가 찾고자 하는 패턴이'a'임을 알려 줌
+var pattern = /a/;
+```
+
+1. 정규 표현식 객체 생성자
+
+```jsx
+// 정규 표현식 객체 생성자 'new RegExp'를 만듦
+var pattern = new RegExp('a');
+```
+
+- 찾고자 하는 문자 ‘a’를 `패턴`으로 만듦
+
+### 정규 표현식 메소드 실행
+
+1. 어떤 정보를 `추출`할 때 사용
+2. 그 정보가 있는지 없는지 `test`
+3. 찾아낸 정보를 다른 정보로 `치환`
+
+**RegExp.exec(): `추출`**
+
+```jsx
+var pattern = /a/;
+pattern.exec('abcde'); // 찾고자 하는 정보 'a'를 담고 있는 정보 'abcde'
+// 결과 ["a"]
+
+var pattern = /a./; // . -> 하나의 문자라는 의미, 앞에는 문자가 있어야 함
+pattern.exec('abcde');
+// 결과 ["ab"]
+
+var pattern = /a/;
+pattern.exec('bcdef');
+// 결과 null
+```
+
+- 정규 표현식이 찾고자 하는 대상을 첫 번째 인자로 전달해서, 그 대상이 있다면 배열로 return
+
+**test(): `test`**
+
+```jsx
+var pattern = /a/;
+pattern.exec('bcdef');
+// 결과 null
+
+pattern.test('abcde');
+// 결과 true
+
+pattern.test('bcde');
+// 결과 false
+```
+
+- 어떤 정보가 있는지 없는지를 확인
+
+**String.match()**
+
+```jsx
+var pattern = /a/;
+var str = 'abcdef';
+str.match(pattern);
+// 결과 ["a"]
+
+var str = 'bcdef';
+str.match(pattern);
+// 결과 null
+```
+
+**String.replace(): `변경`**
+
+```jsx
+var pattern = /a/;
+var str = 'abcdef';
+str.replace(pattern, 'A');
+// 결과 "Abcdef"
+```
+
+### 옵션
+
+### i
+
+- 뒤에 붙이면 `대소문자를 구분하지 않음`
+
+```jsx
+var xi = /a/;
+"Abcde".match(xi);
+// null
+
+var oi = /a/i;
+"Abcde".match(oi);
+// ["A"]
+```
+
+### g
+
+- 검색된 `모든 결과`를 리턴
+
+```jsx
+var xg = /a/;
+"abcdea".match(xg);
+// ["a"]
+
+var og = /a/g;
+"abcdea".match(og);
+// ["a", "a"]
+
+// 같이 붙여서 쓸 수도 있다
+var ig = /a/ig;
+"AabcdAa".match(ig);
+// ["A", "a", "A", "a"]
+```
+
+### 캡처
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/981f31ad-58f7-4127-99e2-f452eab528c6/Untitled.png)
+
+- `()`는 정규 표현식에서 그룹을 의미한다
+- `\\w`는 문자를 의미한다
+- `+` 는 수량자로, 문자가 하나 이상일 때 유효하다
+- `\\s`는 공백, 스페이스
+- 문자가 하나 이상 있는 경우 해당 패턴이 일치
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a9e37a70-3fb0-4f82-bfa0-e91a439519ab/Untitled.png)
+
+- 해당되지 않으면 파란색으로 표시 X
+
+```jsx
+var pattern = /(\\w+)\\s(/w+)/;
+var str = "coding everybody";
+// 패턴에 있는 문자를 뒤의 방법대로 치환한다는 뜻
+// $2: 두 번째 그룹을 의미(everybody)
+// $1 : 첫 번째 그룹을 의미
+var result = str.replace(pattern, "$2, $1");
+console.log(reuult);
+// 즉, 순서가 바뀌고 중간에 점이 찍힘
+// 결과: everybody, coding
+```
+
+- 그룹을 지정하고 그 그룹을 가져와서 쓰는 기능을 `캡처`라고 부른다
+
+### 치환
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/dbf525c1-08c4-4b2f-a224-d125d586b577/Untitled.png)
+
+# 시즌 2
+
+## 함수
+
+## 유효 범위(scope)
+
+- 변수의 수명
+
+```jsx
+var vscope = 'global';
+function fscope() {
+		alert(vscope);
+}
+fscope();
+// 전역 범수
+// gloabl 경고창에 출력
+
+var vscope = 'global'; // 전역 범수
+function fscope() {
+var vscope = 'local'; // 지역 범수
+		alert(vscope);
+}
+fscope();
+// 지역변수
+// local 경고창에 출력
+// 자기 자신에 가까운 쪽에 정의되어 있는(함수 내) 변수 가리킴
+```
+
+- 지역 변수는 `함수 내`에서만 접근 가능
+- 전역 변수는 JS `전역`에서 접근 가능
+
+```jsx
+var vscope = 'global'
+function fscope() {
+		var vscope = 'local';
+}
+fscope();
+alert(vscope);
+// 결과: global
+// 함수 내에서 var 사용할 경우 그 변수는 지역 변수가 된다
+
+var vscope = 'global'
+function fscope() {
+		vscope = 'local';
+}
+fscope();
+alert(vscope);
+// 결과: local
+// 함수 내 var 사용하지 않으면 그 변수는 전역 변수가 된다
+// 전역 변수인 vscope을 local로 변경했기 때문에 그게 출력됨
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/09c075b1-0c6b-417f-ae5a-e3e2cb247a20/Untitled.png)
+
+- 이 경우에는 함수 내에서 가장 가까운 것이 지역 변수이므로 출력 값이 local
+  - 내부에서 변경해도 전역 변수가 아닌 지역 변수 vscope의 값을 변경한 것
+- 전역 변수를 사용해야 할 구체적인 이유가 없다면 `지역 변수`를 사용해야 한다
+- `var`을 함수 바깥에서 사용하면 `전역 변수`가 된다
+- 함수 내에서 사용하면 그 함수의 `지역 변수`가 된다
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b898107c-e4d2-4434-8e26-92c6ed7bf079/Untitled.png)
+
+- `var이 붙지 않으면` 전역 변수로 인식하여서 i는 계속 0이 되기에 중단되지 않고 함수가 계속 실행
+- 그래서 적절하게 지역 변수를 사용할 필요가 있다
+
+```jsx
+MYAPP = {}
+MYAPP.calculator = {
+    'left' : null,
+    'right' : null
+}
+MYAPP.coordinate = {
+    'left' : null,
+    'right' : null
+}
+ 
+MYAPP.calculator.left = 10;
+MYAPP.calculator.right = 20;
+function sum(){
+    return MYAPP.calculator.left + MYAPP.calculator.right;
+}
+document.write(sum());
+// 결과: 30
+```
+
+- 전역 변수를 사용해야 하는 경우에는 하나의 객체를 전역 변수로 만들고 객체 속성으로 변수 관리
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/052495de-13f3-4c09-98f1-2ee7145cdd39/Untitled.png)
+
+- 변수 자체를 `함수`로 한 번 더 묶어 버리며 `익명 함수를 호출`하면 MYAPP을 지역 변수가 아닌 전역 변수로 활용할 수 있다
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/80bd3d70-4382-4bf1-a490-3fca0beea437/Untitled.png)
+
+- 자바스크립트에서는 지역 변수가 함수 내에서만 의미를 가진다
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0cc15083-c8ad-4335-8261-ed4abcc9eb87/Untitled.png)
+
+- 메서드가 정의되는 시점에서의 i를 가져옴 → 결과: 5
+
+## 함수의 용도
+
+- 함수도 값이다
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/3bcbf800-0066-4d0d-8dda-f2021adf5bab/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/4ff9040d-662a-4a47-b522-2ff4efa04eb5/Untitled.png)
+
+- `()`는 함수 호출
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/218d2106-137d-4a9e-a183-4782604fe8d0/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/857d89f1-5af2-41c3-8745-3ff922814208/Untitled.png)
+
+- 값을 저장하는 컨테이너인 배열에도 저장할 수 있다
+- first-class citizen(object): 변수, 매개변수, 리턴값 등 다양한 형태로 이용 가능
+
+### 콜백
+
+- 어떠한 함수가 수신하는 인자가 `함수`인 경우
+
+```jsx
+var numbers = {1, 2, 3, 4, 5, 6, 9, 8, 7, 10, 20}
+numbers.sort();
+// 여기서 numbers는 객체, 배열
+// sort는 메소드, 내장 객체, 빌트인 메소드
+// 출력값: {1, 10, 2, 20, 3, 4, 5, 6, 7, 8, 9}
+```
+
+- 문자로 비교했기 때문에 앞 숫자가 1, 2인 숫자들이 우선 값 가짐
+
+```jsx
+var numbers = [20, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
+var sortfunc = function(a, b) {
+	if(a > b) {
+		return 1;
+	else if (a < b) {
+		return -1;
+	else
+		return = 0;
+}
+console.log(numbers.sort(sortfunc));
+// 출력 값: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20]
+```
+
+- 코드 단순화
+
+```jsx
+var numbers = [20, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
+var sortfunc = function(a, b) {
+	return a - b;
+console.log(numbers.sort(sortfunc));
+// 출력 값: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20]
+// 출력 순서 반대로 하고 싶으면 b - a
+```
+
+- 여기서 sortfunc는 
+
+  ```
+  콜백함수
+  ```
+
+  - 기존 함수가 동작하는 기본 동작을 변경 → 함수를 값으로서 이용하고 변경
+
+### 비동기 처리
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6954170e-dca5-498e-8008-b9e0eee67e3a/Untitled.png)
+
+- `Ajax`에서 비동기 처리 (asynchronous javascript and XML)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/98823fcf-80f3-41a6-b764-46bf36c89d13/Untitled.png)
+
+- 서버에서 정보를 가져오는 행위는 `get`이라는 메소드가 알아서 동일하게 처리
+- 사용자에게 위임하는 방법 → 콜백 함수를 통해 인자 전달받음
+
+## 클로저
+
+- 내부 함수가 외부 함수의 맥락에 접근할 수 있는 것
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/bee246b8-36e3-44cd-9e1f-dcc1dd911be4/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/cd176aee-f6d0-401b-b293-49cd7bfa75ff/Untitled.png)
+
+- 내부 함수가 외부 함수의 지역 변수에 접근할 수 있다
+  - title을 찾아보고 없으면 외부 함수에서 찾음
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/03f65c2c-5def-488a-98f8-2d8cf745df89/Untitled.png)
+
+- 내부 함수에서 이미 사라진, 종료된 `외부 함수에 접근` 가능
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/07d00167-2c37-4606-85d1-5c05a5a68b56/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/42fc7744-4c05-4ee0-ba66-4df758378430/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/3c6777ff-e020-41b0-bb85-a92d7999410d/Untitled.png)
+
+- 공각기동대와 Matrix 출력
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/69cdd990-76dd-4f49-bd8f-dc72d218341c/Untitled.png)
+
+- title이 `private`한 변수가 된다 → 내부의 get_title 함수와 set_title 메서드를 이용해서만 접근 가능
+
+```jsx
+var arr = []
+for(var i = 0; i < 5; i++){
+    arr[i] = function(){
+        return i;
+    }
+}
+for(var index in arr) {
+    console.log(arr[index]());
+}
+// 결과: 5만 다섯 번
+// i가 내부에 접근하지 못함
+```
+
+- 수정한 코드
+
+```jsx
+var arr = []
+for(var i = 0; i < 5; i++){
+		// 외부 함수 정의
+    arr[i] = function(id) {
+		// 내부 함수 return
+		// return한 내부 함수가 배열에 담긴다
+        return function(){
+				// id 반환
+            return id;
+        } // 매개 변수 인자 값으로 i를 가져감
+    }(i); // 외부 함수 호출
+}
+for(var index in arr) {
+    console.log(arr[index]());
+}
+```
+
+## arguments
+
+- 함수에 대해 여러 가지 정보를 담고 있는 객체 → 유사 배열
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/51f2cca2-0cf6-413a-a646-c8bfb60e3d75/Untitled.png)
+
+- 매개 변수: 변수
+- 인자: 들어가는 값
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ed586ade-c3dd-46d9-a4f7-0accd8ec511d/Untitled.png)
+
+- arguments라는 약속한 변수에 대한 길이 값으로 구하기
+
+<aside> 💡 1. `.length`를 통해 이 객체를 포함하고 있는 함수가 몇 개인지 알 수 있음 2. `arguments[i]`를 통해 특정 자리에 있는 인자 값을 알아낼 수 있음
+
+</aside>
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d59972f7-ba6c-4d9c-b0e3-d39aa7f2b56e/Untitled.png)
+
+- 함수의 인자 개수: 1개
+- arguments 개수: 2개
+
+💫 둘은 다르다!
+
+## 함수의 호출
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5d38df1d-2043-40a5-8422-99d47eee5c83/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5a8ba636-421f-460c-b0e8-e098ed0af6c9/Untitled.png)
+
+- 이래도 똑같이 3 나옴
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d6c8fead-f251-4d0b-913e-31d12bccb28c/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c55a6762-5ea8-4d1d-8851-f2566049faad/Untitled.png)
+
+- 형태 확인으로 함수와 다를 경우에만 연산
+
+## 객체 지향
+
+- 객체 지향 프로그래밍(Object Oriented Programming): 객체를 만드는 것
+  - 객체(변수, 메소드)가 언어 차원에서 제공된다
+  - 로직: 상태(state) + 행위(behavior)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/93e88dbe-9386-4bbd-8694-24bd559dad70/Untitled.png)
+
+- 기능별로 객체 분류, 카테고라이징
+- 재활용성에 객체가 기여 → 해당 로직을 다른 곳에서도 사용
+- 추상화: 해결해야 할 현실의 문제를 프로그래밍적으로 단순하게 만듦
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5804e61e-ebb3-4c84-adb8-5b07406a7026/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7d929d33-74d1-499b-906b-2fcd17db897e/Untitled.png)
+
+- 부품화: 기능과 메소드를 나눠서 활용
+  - 객체 지향 → 부품화의 정점
+  - 적합함을 찾기
+  - `메소드`: 부품화의 예 → 기능별로 로직을 꾸리기
+- 은닉화, 캡슐화: 내부의 동작 방법을 `단단한 케이스(객체)` 안으로 숨기고, 사용자에게는 `그 부품의 사용 방법(메소드)`만을 노출
+- 인터페이스: 장치와 장치를 연결하는 연결점
+- 복제와 상속은 하드웨어가 할 수 없다
+
+## 생성자와 new
+
+- 객체 지향: 연관된 변수와 메소드를 하나의 객체에 담는다 (그룹핑, 카테고라이징)
+  - 객체 하나하나마다의 독립성을 가진다
+
+```jsx
+var person = {}; // Object를 만들기
+person.name = 'egoing'; // 객체 안에 프로퍼티 담기
+person.introduce = function () { // 프로퍼티로 함수 담기 -> 메소드
+		return 'My name is ' + this.name;
+}
+document.write(person.introduce());
+```
+
+- 객체를 시작하고 닿는 중괄호 안에 프로퍼티와 메소드를 직접 정의해 주기
+
+```jsx
+var person = {
+		'name' : 'egoing',
+		'introduce' : function() {
+				return 'My name is ' + this.name;
+		}
+}
+
+document.write(person.introduce());
+```
+
+- 가독성도 좋아지고, 중간에 다른 게 끼어들어서 변조될 위험성도 줄어든다
+- 생성자, new → 중복 제거
+- `생성자`: 객체를 만드는 역할을 하는 함수 (객체의 창조자)
+
+```jsx
+function Person() {
+	// 객체의 생성자 -> 비어 있는 객체를 만들고 반환
+	var p = new person();
+	p.name = 'egoing';
+	p.introduce = function() {
+		return 'My name is ' + this.name;
+```
+
+- 중복 개선 코드
+
+```jsx
+function Person(name) {
+		this.name = name;
+		// 객체에 대한 초기화 (init) -> 코드의 재사용성 높아짐
+		this.introduce = function () {
+				return 'My name is + this.name;
+		}
+}
+// 생성자 이 객체의 name의 property 값은 egoing이 된다
+var p1 = new Person('egoing');
+document.write(p1.introduce() + "<br/>");
+
+var p2 = new Person('leezche');
+document.write(p2.introduce());
+```
+
+## 전역 객체
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/96a7185e-77d3-4ba9-896d-c84c22d1f566/Untitled.png)
+
+- window: 전역 객체
+  - 객체에 모든 것이 소속되어 있다
+
+## 함수와 this
+
+- this: 함수 호출 
+
+  ```
+  맥락
+  ```
+
+   → 가변적
+
+  - 함수를 어떻게 호출하느냐에 따라서 this의 역할이 달라짐
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b72c27ce-55e9-436f-8ac5-fac3ed0e46b7/Untitled.png)
+
+### 메소드의 호출
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ba70e2d5-e960-42fe-b8f1-2614666ede0a/Untitled.png)
+
+### 생성자 내 this
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/95d1c7e6-f7f5-4bba-ab18-784c1457edb5/Untitled.png)
+
+```jsx
+if(o2 == this)라고 할 때,
+o2는 아직 객체가 들어 있지 않음, 존재하지 않음
+-> undefined 출력
+```
+
+- 생성자 내에서 this는 그 생성자가 만든 객체를 가리킨다
+
+### apply와 call
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7b7a745a-4975-4415-b7af-0c3c6a8b8c4d/Untitled.png)
+
+- Literal: 쉽게 객체를 만들 수 있게 해 주는 것
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/fed8303e-f2af-479c-8800-6e8aa9c92931/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/23aac774-e521-4cd6-aeaf-cf269dd16bf6/Untitled.png)
+
+- 함수는 어떻게 부르냐에 따라서 객체에 종속되기도 한다
+- this는 어디에 소속되어 있는지에 따라 객체를 가리킨다
+
+## 상속
+
+- 상속받은 객체가 부모 객체에서 어떤 로직을 물려받아 기존 로직을 수정하고 변경해 경우에 따라 로직 재활용
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/9816834d-a8bc-4519-a9df-7190fe546149/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/9a4445d0-3219-40fb-9d6e-b81875865e6b/Untitled.png)
+
+### 기능의 추가
+
+```jsx
+function Person(name){
+    this.name = name;
+}
+Person.prototype.name=null;
+Person.prototype.introduce = function(){
+    return 'My name is '+this.name; 
+}
+ 
+function Programmer(name){
+    this.name = name;
+}
+Programmer.prototype = new Person();
+Programmer.prototype.coding = function(){
+    return "hello world";
+}
+ 
+var p1 = new Programmer('egoing');
+document.write(p1.introduce()+"<br />");
+document.write(p1.coding()+"<br />");
+```
+
+## 프로토타입
+
+- 프로토타입: 원형
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c8e6d964-451c-4e38-a3ba-48b13ea6d32c/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/2b1f960f-917a-4c67-9ec6-b3c83078bfd7/Untitled.png)
+
+- prototype을 통해 상속
+
+- sub 함수의 prototype 객체는 super를 통해 만들어진다
+
+  ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a60d0933-1e35-47d0-8c4d-2cbbfa597f6d/Untitled.png)
+
+- prototype chain
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/fd6108dc-26d3-4b97-bd6f-39192a04fe48/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/3872b794-1933-48b4-a3dd-9365bad6365e/Untitled.png)
+
+- 객체 상속받을 때는 상속받으려는 객체 복제본을 상속받아야 함
+  - prototype (x)
+
+## 표준 내장 객체
+
+- 표준 내장 객체(Standard Built-in Object): 자바스크립트가 기본적으로 제공하는 객체 ↔ 사용자 정의 객체
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b703f564-3b7f-4c48-8712-a6cee97d7b3c/Untitled.png)
+
+```jsx
+var arr = new Array('seoul','new york','ladarkh','pusan', 'Tsukuba');
+function getRandomValueFromArray(haystack){
+    var index = Math.floor(haystack.length*Math.random());
+    return haystack[index]; 
+}
+console.log(getRandomValueFromArray(arr));
+```
+
+- 수정 버전
+
+  ```jsx
+  Array.prototype.randOM = function(){
+      var index = Math.floor(this.length*Math.random());
+      return this[index];
+  }
+  var arr = new Array('seoul','new york','ladarkh','pusan', 'Tsukuba');
+  console.log(arr.randOM());
+  ```
+
+## Object 객체
+
+- 어떤 거는 prototype이 필요하고 , 어떤 거는 바로 점
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/4e9eef6c-b404-4eaa-9e47-73ffaedd9e15/Untitled.png)
+
+- Object 객체가 가진 기능은 모든 객체가 가지고 있다
+
+  - 모든 객체에 어떤 기능을 추가하고 싶다면 Object에 하면 된다
+
+- Object.keys: 배열의 인덱스 리턴
+
+  ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/76087c99-123b-4d30-bf26-35c1354464c6/Untitled.png)
+
+  ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5aea49fb-079c-4163-b63d-3854285ea090/Untitled.png)
+
+- object.tostring: 객체나 배열의 형태를 사람이 보기 편하게 만들어 줌
+
+  ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f04a4f23-0758-46aa-bebc-8cf7f437c439/Untitled.png)
+
+- object의 prototype 객체는 모든 객체가 상속받고 있는 공통의 기능
+
+  ```java
+  Object.prototype.contain = function(neddle) {
+      for(var name in this){
+          if(this[name] === neddle){
+              return true;
+          }
+      }
+      return false;
+  }
+  var o = {'name':'egoing', 'city':'seoul'}
+  console.log(o.contain('egoing'));
+  var a = ['egoing','leezche','grapittie'];
+  console.log(a.contain('leezche'));
+  
+  // 둘 다 true 출력
+  
+  for(var name in o) {
+  console.log(name);
+  }
+  // 결과: name, city, contain
+  
+  for(var name in a) {
+  	if(a.hasOwnProperty(name)){
+  			console.log(name);
+  	}
+  }
+  // 결과: 1, 2, 3
+  ```
+
+- 모든 객체에 영향을 줄 수 있기 때문에 추천하는 방법은 아님
+
+- object에 property나 객체를 추가할 때 신중하게 해야 함 → 공통의 최소 단위에서
+
+## 데이터 타입
+
+- 원시(기본) 데이터 타입
+  - 숫자 → Number, 문자 → String, 불리언 → boolean, null, undefined
+  - null과 undefined는 래퍼 객체가 존재하지 않는다
+- 객체(참조) 데이터 타입
+  - 위에 열거한 것들 제외 (객체가 아닌 것)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/232ea6d7-4229-49eb-90f9-5fcde00dd1b9/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/594d05d4-4333-407f-b590-b1306bea5f58/Untitled.png)
+
+- wrapper로 인해 원시 데이터를 객체처럼 사용
+
+## 참조와 복제
+
+### 복제
+
+```jsx
+var a = 1; // 원시 데이터 타입
+var b = a;
+b = 2;
+console.log(a); // 결과: 1
+```
+
+### 참조
+
+```jsx
+var a = {'id':1);
+var b = a;
+b.id - 2;
+console.log(a.id); // 결과: 2
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7cf2e424-4afd-4ad4-966b-e1e8754ce58f/Untitled.png)
+
+```jsx
+var a = {'id': 1};
+var b = a;
+b = {'id': 2); // 새로운 객체 생성, b에 의해 a가 영향받지 않음
+console.log(a.id); // 결과: 1
+```
+
+### 함수
+
+```jsx
+var a = 1;
+function func(b) {
+		b = 2;
+}
+func(a);
+console.log(a); // 결과 : 1
+var a = {'id': 1};
+function func(b) {
+		b = {'id' : 2};
+}
+func(a);
+console.log(a.id); // 결과 : 1
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b0ed77d6-87f6-4769-a5b2-b7f7d9cd0fb4/Untitled.png)
+
+- 새로운 객체를 생성하므로써 a와 b가 연결이 끊김
+
+```jsx
+var a = {'id': 1};
+function func(b) {
+		b.id = 2;
+}
+func(a);
+console.log(a.id); // 결과 : 2
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/49746b5a-8899-464e-878e-96dffd24b5f9/Untitled.png)
+
+⏫ [맨 위로](https://www.notion.so/JS-6afd5b96618b4b39904b3304603025d7)
+
+## 2022-10-28
+
+# HTML
+
+------
+
+[기본 태그](https://www.notion.so/HTML-7a72361009c74188a991c2f07ef14977)
+
+[링크](https://www.notion.so/HTML-7a72361009c74188a991c2f07ef14977)
+
+[인터넷](https://www.notion.so/HTML-7a72361009c74188a991c2f07ef14977)
+
+[여타 태그들](https://www.notion.so/HTML-7a72361009c74188a991c2f07ef14977)
+
+------
+
+## 기본 문법 태그
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    Hypertext Markup Language(HTML) is the standdard markup language for
+    <strong>creating <u>web</u> pages</strong> and web application.
+	<h1>abc</h1>
+	<h2>a</h2>
+	<h3>b</h3>
+	<h4>c</h4>
+	<h5>d</h5>
+	<h6>e</h6>
+  </body>
+</html>
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/972502b8-fb81-4152-8f7e-e87deb601b4f/Untitled.png)
+
+- `strong`: 강조
+- `u`: 밑줄
+- `h1 ~ h6`: 제목 태그, 글씨가 굵어지고 숫자가 커질수록 작아짐
+
+### 태그 순서
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/79b0cb44-17ff-447b-9f4d-1458feaae781/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/3354de9e-b0c8-4bd2-8989-deec0986e533/Untitled.png)
+
+- 유명한 태그 위주로 사용하는 게 좋다
+
+### 줄 바꿈: <br> vs <p>
+
+```html
+생각이 많은 건 말이야<br />당연히 해야 할 일이야<br />나에겐 우리가 지금 일순위야<br />안전한 유리병을 핑계로<br />바람을 가둬 둔 것 같지만<br />기억나? 그날의 우리가 <br />잡았던 그 손엔 말이야 <br />설레임보다 커다란 믿음이 담겨서 <br />난 함박웃음을 지었지만 <br />울음이 날 것도 같았어 <br />소중한 건 언제나 두려움이니까 <br />문을 열면 들리던 목소리 <br />
+<img src="twlight.jpg" width="50%">
+<p>너로 인해 변해있던 따뜻한 공기 여전히 자신 없지만 안녕히 저기, 사라진 별의 자리 아스라이 하얀 빛 한동안은 꺼내 볼 수 있을 거야</p><p style="margin-top: 50px;">아낌없이 반짝인 시간은 조금씩 옅어져 가더라도 너와 내 맘에 살아 숨 쉴 테니 여긴, 서로의 끝이 아닌 새로운 길 모퉁이 익숙함에 진심을 속이지 말자 하나 둘 추억이 떠오르면 많이 많이 그리워할 거야 고마웠어요</p>
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/e8871d9b-1a4b-4ad3-a2f0-2d470a64ee67/Untitled.png)
+
+- `br`: 줄 바꿈, 닫힘 태그를 쓰지 않는다, 여러 줄 사용 가능
+
+- ```
+  p
+  ```
+
+  : 단락을 나누는 태그, 닫힘 태그 사용함 → 정보로서 좀 더 가치 있음, 정해진 만큼만 여백이 나누어져 시각적 효과가 떨어짐
+
+  - 대신 css에서 `style=margin` 사용 가능
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/139b8bbb-fcb8-4e2f-9d9d-5a1c954d781d/Untitled.png)
+
+```html
+<img src="twilight.jpg" width="50%">
+```
+
+- Attribute: 속성, 위치는 상관없음
+  - 태그만으로 정보가 부족할 때 속성으로 의미를 더 부여할 수 있음
+
+```html
+		<ul>
+      <li>1. HTML</li>
+      <li>2. CSS</li>
+      <li>3. JavaScript</li>
+    </ul>
+    <ul>
+      <li>장원영</li>
+      <li>안유진</li>
+      <li>김지원</li>
+    </ul>
+    <ol>
+      <li>러브 다이브</li>
+      <li>일레븐</li>
+      <li>애프터라이크</li>
+      <li>테이크 잇</li>
+      <li>로얄</li>
+      <li>마이 새티스팩션</li>
+    </ol>
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/db01fe76-39b3-434b-ad19-d25a7d683a78/Untitled.png)
+
+- `ul`(Unordered list): li의 `부모` 태그, 관련 있는 것들끼리 나눠 줌
+- `li`: 항목별로 나누어 주며 동시에 줄을 나눠 준다
+- `ol`(Ordered list): 숫자 넘버링 해 주면서 항목별로 나눠 줌
+
+```html
+<!doctype html>
+<html>
+<head>
+	<title>HTML이란 무엇인가</title>
+	<meta charset="utf-8">
+</head>
+<body>
+</body>
+</html>
+```
+
+- `title`: 제목 정하는 태그
+
+- ```
+  utf-8
+  ```
+
+  로 설정해 둬야 한국어가 깨지지 않는다
+
+  - 해당 본문이 utf-8로 설정되어 있다
+
+- `head`: body를 설명하는 태그
+
+------
+
+## 링크
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IVE</title>
+  </head>
+  <body>
+    2021년 12월 1일에 데뷔한 스타쉽엔터테인먼트 소속의 6인조 다국적 걸그룹.
+    그룹명인 IVE는 I HAVE의
+    <a
+      href="<http://ive-official.com/>"
+      target="_blank"
+      title="아이브 공식 홈페이지"
+      >I'VE</a
+    >에서 유래되었으며, ‘우리가 가진 것들을 모두 당당히 보여 드리겠다.’는 포부를
+    담았다.
+  </body>
+</html>
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/61f51d16-2690-435e-8be7-ae04876d5494/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/bab2ce5d-c40c-48e8-993d-bc7c60338090/Untitled.png)
+
+- ```
+  a
+  ```
+
+  : 링크를 거는 태그
+
+  - `href`: 링크 주소 담기
+  - `target="_blank"`: 새 탭에서 열기
+  - `title`: tooltip으로 어떤 사이트인지 정보 알려 주기
+
+## 인터넷
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/bb80eaf8-16bd-46a3-afe4-2ddcc9a9fd2b/Untitled.png)
+
+- 인터넷이 도로라면, 웹은 자동차
+- 원시 웹 → 웹이 되기 위한 최소한의 조건만 가지고 있음
+- 인터넷이 동작하기 위해서는 최소 2대의 컴퓨터가 필요
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c007155c-ed1c-448c-8ada-5d0b6c148321/Untitled.png)
+
+- 웹 브라우저 - 클라이언트: 정보를 `요청`
+- 웹 서버 - 서버: 정보를 `응답`
+
+## Web Server for Chrome
+
+- 웹서버 운영하는 간단한 확장 프로그램
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/82a1012d-afba-4d45-8952-ea777b6fd72e/Untitled.png)
+
+- 현실에서는 서로 정보를 주고받기 때문에 다르다
+
+## 동영상 업로드
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/cf8afeb1-c943-4e17-a169-b03e72e2297d/Untitled.png)
+
+- 퍼가기 클릭
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5c6b29ac-c908-40eb-b231-eb8f5d2125e4/Untitled.png)
+
+- `iframe` 코드 복사
+
+## 댓글 기능
+
+- [DISQUS](https://disqus.com/) 이용하기
+
+## 채팅 기능
+
+- [tawk.to](https://www.tawk.to/) 이용하기
+
+## 방문자 추적 기능
+
+- 구글 애널리틱스 이용
