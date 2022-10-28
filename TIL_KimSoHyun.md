@@ -3100,3 +3100,221 @@ console.log(a.id); // 결과 : 2
 ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/49746b5a-8899-464e-878e-96dffd24b5f9/Untitled.png)
 
 ⏫ [맨 위로](https://www.notion.so/JS-6afd5b96618b4b39904b3304603025d7)
+
+## 2022-10-28
+
+# HTML
+
+------
+
+[기본 태그](https://www.notion.so/HTML-7a72361009c74188a991c2f07ef14977)
+
+[링크](https://www.notion.so/HTML-7a72361009c74188a991c2f07ef14977)
+
+[인터넷](https://www.notion.so/HTML-7a72361009c74188a991c2f07ef14977)
+
+[여타 태그들](https://www.notion.so/HTML-7a72361009c74188a991c2f07ef14977)
+
+------
+
+## 기본 문법 태그
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    Hypertext Markup Language(HTML) is the standdard markup language for
+    <strong>creating <u>web</u> pages</strong> and web application.
+	<h1>abc</h1>
+	<h2>a</h2>
+	<h3>b</h3>
+	<h4>c</h4>
+	<h5>d</h5>
+	<h6>e</h6>
+  </body>
+</html>
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/972502b8-fb81-4152-8f7e-e87deb601b4f/Untitled.png)
+
+- `strong`: 강조
+- `u`: 밑줄
+- `h1 ~ h6`: 제목 태그, 글씨가 굵어지고 숫자가 커질수록 작아짐
+
+### 태그 순서
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/79b0cb44-17ff-447b-9f4d-1458feaae781/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/3354de9e-b0c8-4bd2-8989-deec0986e533/Untitled.png)
+
+- 유명한 태그 위주로 사용하는 게 좋다
+
+### 줄 바꿈: <br> vs <p>
+
+```html
+생각이 많은 건 말이야<br />당연히 해야 할 일이야<br />나에겐 우리가 지금 일순위야<br />안전한 유리병을 핑계로<br />바람을 가둬 둔 것 같지만<br />기억나? 그날의 우리가 <br />잡았던 그 손엔 말이야 <br />설레임보다 커다란 믿음이 담겨서 <br />난 함박웃음을 지었지만 <br />울음이 날 것도 같았어 <br />소중한 건 언제나 두려움이니까 <br />문을 열면 들리던 목소리 <br />
+<img src="twlight.jpg" width="50%">
+<p>너로 인해 변해있던 따뜻한 공기 여전히 자신 없지만 안녕히 저기, 사라진 별의 자리 아스라이 하얀 빛 한동안은 꺼내 볼 수 있을 거야</p><p style="margin-top: 50px;">아낌없이 반짝인 시간은 조금씩 옅어져 가더라도 너와 내 맘에 살아 숨 쉴 테니 여긴, 서로의 끝이 아닌 새로운 길 모퉁이 익숙함에 진심을 속이지 말자 하나 둘 추억이 떠오르면 많이 많이 그리워할 거야 고마웠어요</p>
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/e8871d9b-1a4b-4ad3-a2f0-2d470a64ee67/Untitled.png)
+
+- `br`: 줄 바꿈, 닫힘 태그를 쓰지 않는다, 여러 줄 사용 가능
+
+- ```
+  p
+  ```
+
+  : 단락을 나누는 태그, 닫힘 태그 사용함 → 정보로서 좀 더 가치 있음, 정해진 만큼만 여백이 나누어져 시각적 효과가 떨어짐
+
+  - 대신 css에서 `style=margin` 사용 가능
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/139b8bbb-fcb8-4e2f-9d9d-5a1c954d781d/Untitled.png)
+
+```html
+<img src="twilight.jpg" width="50%">
+```
+
+- Attribute: 속성, 위치는 상관없음
+  - 태그만으로 정보가 부족할 때 속성으로 의미를 더 부여할 수 있음
+
+```html
+		<ul>
+      <li>1. HTML</li>
+      <li>2. CSS</li>
+      <li>3. JavaScript</li>
+    </ul>
+    <ul>
+      <li>장원영</li>
+      <li>안유진</li>
+      <li>김지원</li>
+    </ul>
+    <ol>
+      <li>러브 다이브</li>
+      <li>일레븐</li>
+      <li>애프터라이크</li>
+      <li>테이크 잇</li>
+      <li>로얄</li>
+      <li>마이 새티스팩션</li>
+    </ol>
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/db01fe76-39b3-434b-ad19-d25a7d683a78/Untitled.png)
+
+- `ul`(Unordered list): li의 `부모` 태그, 관련 있는 것들끼리 나눠 줌
+- `li`: 항목별로 나누어 주며 동시에 줄을 나눠 준다
+- `ol`(Ordered list): 숫자 넘버링 해 주면서 항목별로 나눠 줌
+
+```html
+<!doctype html>
+<html>
+<head>
+	<title>HTML이란 무엇인가</title>
+	<meta charset="utf-8">
+</head>
+<body>
+</body>
+</html>
+```
+
+- `title`: 제목 정하는 태그
+
+- ```
+  utf-8
+  ```
+
+  로 설정해 둬야 한국어가 깨지지 않는다
+
+  - 해당 본문이 utf-8로 설정되어 있다
+
+- `head`: body를 설명하는 태그
+
+------
+
+## 링크
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IVE</title>
+  </head>
+  <body>
+    2021년 12월 1일에 데뷔한 스타쉽엔터테인먼트 소속의 6인조 다국적 걸그룹.
+    그룹명인 IVE는 I HAVE의
+    <a
+      href="<http://ive-official.com/>"
+      target="_blank"
+      title="아이브 공식 홈페이지"
+      >I'VE</a
+    >에서 유래되었으며, ‘우리가 가진 것들을 모두 당당히 보여 드리겠다.’는 포부를
+    담았다.
+  </body>
+</html>
+```
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/61f51d16-2690-435e-8be7-ae04876d5494/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/bab2ce5d-c40c-48e8-993d-bc7c60338090/Untitled.png)
+
+- ```
+  a
+  ```
+
+  : 링크를 거는 태그
+
+  - `href`: 링크 주소 담기
+  - `target="_blank"`: 새 탭에서 열기
+  - `title`: tooltip으로 어떤 사이트인지 정보 알려 주기
+
+## 인터넷
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/bb80eaf8-16bd-46a3-afe4-2ddcc9a9fd2b/Untitled.png)
+
+- 인터넷이 도로라면, 웹은 자동차
+- 원시 웹 → 웹이 되기 위한 최소한의 조건만 가지고 있음
+- 인터넷이 동작하기 위해서는 최소 2대의 컴퓨터가 필요
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c007155c-ed1c-448c-8ada-5d0b6c148321/Untitled.png)
+
+- 웹 브라우저 - 클라이언트: 정보를 `요청`
+- 웹 서버 - 서버: 정보를 `응답`
+
+## Web Server for Chrome
+
+- 웹서버 운영하는 간단한 확장 프로그램
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/82a1012d-afba-4d45-8952-ea777b6fd72e/Untitled.png)
+
+- 현실에서는 서로 정보를 주고받기 때문에 다르다
+
+## 동영상 업로드
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/cf8afeb1-c943-4e17-a169-b03e72e2297d/Untitled.png)
+
+- 퍼가기 클릭
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5c6b29ac-c908-40eb-b231-eb8f5d2125e4/Untitled.png)
+
+- `iframe` 코드 복사
+
+## 댓글 기능
+
+- [DISQUS](https://disqus.com/) 이용하기
+
+## 채팅 기능
+
+- [tawk.to](https://www.tawk.to/) 이용하기
+
+## 방문자 추적 기능
+
+- 구글 애널리틱스 이용
