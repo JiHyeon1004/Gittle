@@ -364,3 +364,10 @@
       - `entered`
       - `exiting`
       - `exited`
+
+## 221028
+
+---
+
+- react-beautiful-dnd 적용
+  - index.js(index.ts)에서 `<React.StrictMode>` 반드시 해제해야 한다.
