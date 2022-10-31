@@ -3,6 +3,7 @@ import { Octokit } from "octokit";
 
 export default function GitDiff() {
   const [date, setDate] = useState("");
+  const [user, setUser] = useState("");
   useEffect(() => {
     // 해당 branch 정보 가져오기
     // auth, owner, repo, branch 변수에 저장해서 사용해야 함
@@ -23,12 +24,14 @@ export default function GitDiff() {
       console.log(branch);
       console.log(branch.data.commit.commit.author);
       setDate(branch.data.commit.commit.author.date);
+      setUser(branch.data.commit.commit.author.name);
     }
     getBranch();
   }, []);
   return (
     <>
       <p>최종 수정 시간 : {date}</p>
+      <p>변경한 사람 : {user}</p>
     </>
   );
 }
