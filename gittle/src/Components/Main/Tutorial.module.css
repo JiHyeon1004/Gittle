@@ -1,0 +1,11 @@
+.tutorial{
+    display: flex;
+    justify-content: center;
+    color: #4D96FF;
+    font-size: 2.4vh;
+    font-weight: bold;
+}
+
+.tutorial:hover{
+    cursor: pointer;
+}
