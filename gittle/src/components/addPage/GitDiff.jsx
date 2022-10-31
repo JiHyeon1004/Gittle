@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Octokit } from "octokit";
+import styles from "./GitDiff.module.css";
 
 export default function GitDiff() {
   // 마지막으로 커밋한 날짜
@@ -70,7 +71,8 @@ export default function GitDiff() {
         {files.map((file, index) => (
           <div key={index}>
             <p>{file.filename}</p>
-            <p>{file.patch}</p>
+            <pre style={{ color: "crimson" }}>{file.patch}</pre>
+            <p className={styles.code}>{file.patch}</p>
           </div>
         ))}
       </div>
