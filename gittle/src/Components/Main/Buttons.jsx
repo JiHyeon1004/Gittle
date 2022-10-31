@@ -25,6 +25,7 @@ function Buttons(){
 
             <Button comment="열기" isOpen={isOpen} close={closeModal} name="open" 
                 call={()=>{
+                    setTest(test+1)
                     setIsOpen(true)
                     console.log('열기호출!')
                 }}
@@ -32,6 +33,7 @@ function Buttons(){
 
             <Button comment="복제" isClone={isOpen} close={closeModal} name="clone" 
                 call={()=>{
+                    setTest(test+1)
                     setIsOpen(true)
                     console.log('복제호출!')
                 }}
