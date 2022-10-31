@@ -1,9 +1,10 @@
 import React from "react";
+import SideBar from "../components/common/sidebar/SideBar";
 
 function AddPage() {
   return (
     <div>
-      <p>add</p>
+      <SideBar />
     </div>
   );
 }
