@@ -11,12 +11,3 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
-@font-face {
-  font-family: "inter";
-  src: url(./assets/font/Inter/Inter-VariableFont_slnt\,wght.ttf);
-}
-
-:root{
-  --font-Inter: "inter";
-}
