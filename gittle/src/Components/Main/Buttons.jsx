@@ -1,44 +1,51 @@
 import React,{ useState} from "react";
 import Button from "./Button"
+import Modal from "./Modal"
 import styles from './Buttons.module.css'
 
 function Buttons(){
 
     const [isOpen , setIsOpen] = useState(false);
-    const [test, setTest]= useState(0)
 
     const closeModal = ()=>{
         setIsOpen(false)
     }
-  
+
+    const modalArray = [
+        {name:"생성",isRoot:true},
+        {name:"열기",isRoot:false},
+        {name:"복제",isRoot:true}
+    ]
+    
+    const [chosen , setChosen] = useState(-1);
+
 
     return(
+        <>
         <div className={styles.buttons}>
-            {test}
-            <Button comment="생성" isOpen={isOpen} close={closeModal} name="create"  
-                call={()=>{
-                    setTest(test+1)
+            <Button comment="생성" isOpen={isOpen} name="create"  
+                callModal={()=>{
                     setIsOpen(true)
-                    console.log('생성호출!')
+                    setChosen(0)
                 }}
              />
 
-            <Button comment="열기" isOpen={isOpen} close={closeModal} name="open" 
-                call={()=>{
-                    setTest(test+1)
+            <Button comment="열기" isOpen={isOpen} name="open" 
+                callModal={()=>{
                     setIsOpen(true)
-                    console.log('열기호출!')
+                    setChosen(1)
                 }}
             />
 
-            <Button comment="복제" isClone={isOpen} close={closeModal} name="clone" 
-                call={()=>{
-                    setTest(test+1)
+            <Button comment="복제" isClone={isOpen}  name="clone" 
+                callModal={()=>{
                     setIsOpen(true)
-                    console.log('복제호출!')
+                    setChosen(2)
                 }}
             />
         </div>
+        {isOpen && <Modal  setModalOpen={modalArray[chosen]} close={closeModal}/>}
+        </>
     )
     
 }

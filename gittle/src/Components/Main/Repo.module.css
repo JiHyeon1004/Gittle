@@ -1,9 +1,12 @@
 .routes{
     margin-top: 2vh;
     margin-left: 2vw;
+    font-size: 2vh;
+    cursor: pointer;
 }
 
 
 .folder{
     width: 1.8vw;
+    margin-right: 1vw;
 }
