@@ -100,9 +100,11 @@ export default function GitDiff() {
   };
   return (
     <>
-      <p>최종 수정 시간 : {date}</p>
-      <p>변경한 사람 : {user}</p>
-      <p>커밋 메세지 : {message}</p>
+      <div className={styles.textbox}>
+        <div className={styles.text}>최종 수정 시간 : {date}</div>
+        <div className={styles.text}>변경한 사람 : {user}</div>
+        <div className={styles.text}>커밋 메세지 : {message}</div>
+      </div>
       <div>
         {files.length && codeBefore.length && codeAfter.length ? (
           <div>
@@ -113,27 +115,39 @@ export default function GitDiff() {
                   className={styles.file}
                   onClick={() => showCode(index)}
                 >
-                  {file.filename}
+                  {index === fileIdx ? (
+                    <div className={styles.active}>{file.filename}</div>
+                  ) : (
+                    <div>{file.filename}</div>
+                  )}
                 </div>
               ))}
             </div>
             <div className={styles.code}>
               <div className={styles.codebefore}>
-                <p>변경 전</p>
+                <div className={styles.title}>변경 전</div>
                 <div className={styles.box}>
                   {codeBefore[fileIdx].map((code, index) => (
                     <div key={index}>
-                      <div>{code}</div>
+                      {code[0] === "-" ? (
+                        <div className={styles.minus}>{code}</div>
+                      ) : (
+                        <div>{code}</div>
+                      )}
                     </div>
                   ))}
                 </div>
               </div>
               <div className={styles.codeafter}>
-                <p>변경 후</p>
+                <div className={styles.title}>변경 후</div>
                 <div className={styles.box}>
                   {codeAfter[fileIdx].map((code, index) => (
                     <div key={index}>
-                      <div>{code}</div>
+                      {code[0] === "+" ? (
+                        <div className={styles.plus}>{code}</div>
+                      ) : (
+                        <div>{code}</div>
+                      )}
                     </div>
                   ))}
                 </div>
