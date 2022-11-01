@@ -16,6 +16,7 @@ export default function GitDiff() {
   // 마지막 커밋에서 모든 파일의 코드
   const [codeBefore, setCodeBefore] = useState([]);
   const [codeAfter, setCodeAfter] = useState([]);
+  const [fileIdx, setFileIdx] = useState(0);
 
   useEffect(() => {
     // 해당 branch 정보 가져오기
@@ -93,20 +94,34 @@ export default function GitDiff() {
     }
     getCommit();
   }, [commit]);
+
+  const showCode = (index) => {
+    setFileIdx(index);
+  };
   return (
     <>
       <p>최종 수정 시간 : {date}</p>
       <p>변경한 사람 : {user}</p>
       <p>커밋 메세지 : {message}</p>
       <div>
-        {files.map((file, index) => (
-          <div className={styles.codebox}>
-            <div key={index}>{file.filename}</div>
+        {files.length && codeBefore.length && codeAfter.length ? (
+          <div>
+            <div className={styles.codebox}>
+              {files.map((file, index) => (
+                <div
+                  key={index}
+                  className={styles.file}
+                  onClick={() => showCode(index)}
+                >
+                  {file.filename}
+                </div>
+              ))}
+            </div>
             <div className={styles.code}>
               <div className={styles.codebefore}>
                 <p>변경 전</p>
                 <div className={styles.box}>
-                  {codeBefore[index].map((code, index) => (
+                  {codeBefore[fileIdx].map((code, index) => (
                     <div key={index}>
                       <div>{code}</div>
                     </div>
@@ -116,7 +131,7 @@ export default function GitDiff() {
               <div className={styles.codeafter}>
                 <p>변경 후</p>
                 <div className={styles.box}>
-                  {codeAfter[index].map((code, index) => (
+                  {codeAfter[fileIdx].map((code, index) => (
                     <div key={index}>
                       <div>{code}</div>
                     </div>
@@ -125,7 +140,9 @@ export default function GitDiff() {
               </div>
             </div>
           </div>
-        ))}
+        ) : (
+          <></>
+        )}
       </div>
     </>
   );
