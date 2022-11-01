@@ -1,6 +1,6 @@
 import { Link, Route, Routes, useLocation } from "react-router-dom";
-import Main from "./Pages/MainPage";
-import Add from "./Pages/AddPage";
+import Main from "./pages/MainPage";
+import Add from "./pages/AddPage";
 
 function App() {
   const location = useLocation();
