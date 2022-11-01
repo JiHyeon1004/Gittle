@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Octokit, App } from "octokit";
+import { Octokit } from "octokit";
+import Button from "../Button";
+import Modal from "../Modal";
 
 function BranchSelector() {
   useEffect(() => {
@@ -14,30 +16,66 @@ function BranchSelector() {
           repo: "cli",
         }
       );
-      console.log(branches);
 
       const branchList = [];
       branches.data.forEach((branch) => {
         branchList.push(branch.name);
       });
       setBranchList(branchList);
+      setCurretBranch(branchList[0]);
     }
     getBranchList();
   }, []);
 
   const onChangeHandler = (e) => {
-    setSelectedBranch(e.currentTarget.value);
+    setPrevBranch(currentBranch);
+    setCurretBranch(e.currentTarget.value);
   };
   const [branchList, setBranchList] = useState([]);
-  const [selectedBranch, setSelectedBranch] = useState("");
+  const [currentBranch, setCurretBranch] = useState("");
+  const [prevBranch, setPrevBranch] = useState("");
+
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
   return (
     <div>
-      <select onChange={onChangeHandler} value={selectedBranch}>
+      <select onChange={onChangeHandler} value={currentBranch}>
         {branchList.map((branch) => (
           <option value={branch}>{branch}</option>
         ))}
       </select>
-      <p>{selectedBranch}</p>
+
+      <Button
+        action={openModal}
+        content={"선택"}
+        style={{ backgroundColor: "#6BCC78" }}
+      />
+      <Modal
+        open={modalOpen}
+        content={
+          <>
+            <p>
+              {prevBranch} branch에서 {currentBranch}branch로 이동하시겠습니까?
+            </p>
+          </>
+        }
+      >
+        <div>
+          <Button content={"예"} style={{ backgroundColor: "#6BCC78" }} />
+          <Button
+            action={closeModal}
+            content={"아니오"}
+            style={{ border: "1px solid #7B7B7B" }}
+          />
+        </div>
+      </Modal>
     </div>
   );
 }
