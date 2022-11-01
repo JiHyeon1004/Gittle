@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Octokit } from "octokit";
-// import styles from "./GitDiff.module.css";
+import styles from "./GitDiff.module.css";
 
 export default function GitDiff() {
   // 마지막으로 커밋한 날짜
@@ -100,21 +100,29 @@ export default function GitDiff() {
       <p>커밋 메세지 : {message}</p>
       <div>
         {files.map((file, index) => (
-          <div>
+          <div className={styles.codebox}>
             <div key={index}>{file.filename}</div>
-            <div>
-              {codeBefore[index].map((code, index) => (
-                <div key={index}>
-                  <div>{code}</div>
+            <div className={styles.code}>
+              <div className={styles.codebefore}>
+                <p>변경 전</p>
+                <div className={styles.box}>
+                  {codeBefore[index].map((code, index) => (
+                    <div key={index}>
+                      <div>{code}</div>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-            <div>
-              {codeAfter[index].map((code, index) => (
-                <div key={index}>
-                  <div>{code}</div>
+              </div>
+              <div className={styles.codeafter}>
+                <p>변경 후</p>
+                <div className={styles.box}>
+                  {codeAfter[index].map((code, index) => (
+                    <div key={index}>
+                      <div>{code}</div>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
             </div>
           </div>
         ))}
