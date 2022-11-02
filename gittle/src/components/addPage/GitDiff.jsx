@@ -37,7 +37,9 @@ export default function GitDiff() {
 
       // console.log(branch);
       // console.log(branch.data.commit.commit.author);
-      setDate(branch.data.commit.commit.author.date);
+      setDate(
+        branch.data.commit.commit.author.date.replace("T", " ").replace("Z", "")
+      );
       setUser(branch.data.commit.commit.author.name);
       setMessage(branch.data.commit.commit.message);
       setCommit(branch.data.commit.sha);
