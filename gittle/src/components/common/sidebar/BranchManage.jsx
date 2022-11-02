@@ -4,10 +4,10 @@ import DeleteBranch from "./DeleteBranch";
 
 function BranchManage() {
   return (
-    <>
+    <div>
       <AddBranch />
       <DeleteBranch />
-    </>
+    </div>
   );
 }
 
