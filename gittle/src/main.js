@@ -1,5 +1,9 @@
-const { app, BrowserWindow,ipcMain } = require("electron");
+
+const { app, BrowserWindow,ipcMain,dialog } = require("electron");
 const path = require("path");
+const fs = require('fs')
+const {CLICK}=require('./constants')
+
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -11,18 +15,26 @@ function createWindow() {
       enableRemoteModule: true
     },
   });
-  require('@electron/remote/main').initialize()
-  require("@electron/remote/main").enable(win.webContents);
   win.loadURL("http://localhost:3000");
 }
 
+ipcMain.on(CLICK,(event,arg)=>{
+  
+  dialog.showOpenDialog({ properties: ['openDirectory'] })
+  .then(result => {
+      console.log(result.filePaths[0])
 
-
-
+      event.returnValue=result.filePaths[0]
+  })
+  .catch(err=>{
+    console.log('에러발생',err)
+  })
+})
 
 
 app.whenReady().then(() => {
   createWindow();
+  
 });
 app.on("window-all-closed", function () {
   if (process.platform !== "darwin") app.quit();

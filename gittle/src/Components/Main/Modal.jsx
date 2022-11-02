@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./Modal.module.css"
 import { useNavigate } from "react-router";
- 
+import {CLICK} from '../../constants'
 
 
 
@@ -11,23 +11,12 @@ function Modal(props){
     // const {dialog} =require('@electron/remote');
     const [repoName,setRepoName]=useState("");
     const [repoRoot, setRepoRoot]= useState("");
-    
-    // const [folderPath, setFolderPath] = useState('');
-  
-    // const handleSelectFolder = (e) => {
-    //     try{
-    //         console.log(require('@electron/remote'))
-    //         // console.log(window.require('electron'))s
-    //         console.log(dialog)
-    //         dialog.showOpenDialog({ properties: ['openDirectory'] })
-    //     .then(result => {
-    //         console.log(result);
-    //     })
-    //     } catch(error) {
-    //         console.error(error);
-    //     }
-    // }
-  
+    const {ipcRenderer} = window.require('electron')
+
+    const findDirectoryRoot = ()=>{
+        setRepoRoot(ipcRenderer.sendSync(CLICK,'start'))
+    }
+
     //저장소 이름 가져오기
     const repositoryName =(
             <div className={styles.inputBlock}>
@@ -43,16 +32,9 @@ function Modal(props){
     const localPath=(
             <div  className={styles.inputBlock}>
                 <div className={styles.names}>Local 경로</div>
-                <div>
-                    
-                    <input type="file" className={styles.haveButton} webkitdirectory='true' onChange={(e)=>{
-                        setRepoRoot(e.target.files[0].path)
-                        console.log(e.target.files[0].path)
-                    }}/>
-                    {/* <input type='text' value={folderPath} readOnly/>
-                    <button onClick={e => handleSelectFolder(e)}>
-                        FileUpload
-                    </button> */}
+                <div onClick={findDirectoryRoot}>
+                    <input type="text" readOnly value={repoRoot}/>
+                    <button>button</button>
                 </div>
             </div>
         )
@@ -73,8 +55,6 @@ function Modal(props){
             <div className={styles.nameTag}>
                 {'Repository'+props.setModalOpen.name}
             </div>
-            {repoName}<br></br>
-            {repoRoot}
 
             {props.setModalOpen.isRoot && repositoryName}
 
