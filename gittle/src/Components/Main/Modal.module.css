@@ -70,3 +70,16 @@
     height: 3vh;
     width:  2vw;
 }
+
+.localPath{
+    width: 35vw;
+    height: 4vh;
+    margin-right: 1vw;
+}
+
+.pathButton{
+    height: 5vh;
+    background-color: #ecec27ab;
+    border: 1px solid black;
+    border-radius: 5px;
+}
