@@ -143,7 +143,7 @@ export default function GitLog() {
                             {code[0] === "-" ? (
                               <div className={styles.minus}>{code}</div>
                             ) : (
-                              <div>{code}</div>
+                              <div className={styles.zero}>{code}</div>
                             )}
                           </div>
                         ))}
@@ -157,7 +157,7 @@ export default function GitLog() {
                             {code[0] === "+" ? (
                               <div className={styles.plus}>{code}</div>
                             ) : (
-                              <div>{code}</div>
+                              <div className={styles.zero}>{code}</div>
                             )}
                           </div>
                         ))}

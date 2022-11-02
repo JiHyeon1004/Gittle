@@ -108,8 +108,22 @@
 
 .minus {
   background-color: rgba(255, 107, 107, 0.5);
+  font-family: "D2Coding";
+}
+
+.zero {
+  font-family: "D2Coding";
 }
 
 .plus {
   background-color: rgba(107, 204, 120, 0.5);
+  font-family: "D2Coding";
+}
+
+@font-face {
+  font-family: "D2Coding";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_three@1.0/D2Coding.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
