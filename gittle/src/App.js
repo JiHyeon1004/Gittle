@@ -1,9 +1,9 @@
 import { Link, Route, Routes, useLocation } from "react-router-dom";
-import Main from "./Pages/MainPage";
-import Add from "./Pages/AddPage";
-import Oauth from "./Pages/OauthPage";
+import Main from "./pages/MainPage";
+import Add from "./pages/AddPage";
+import Oauth from "./pages/OauthPage";
 import React from "react";
-import Log from "./Pages/LogPage";
+import Log from "./pages/LogPage";
 import MergeReady from "./pages/MergeReadyPage";
 import "./App.css";
 
