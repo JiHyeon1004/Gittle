@@ -1,17 +1,16 @@
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, ipcMain, shell } = require("electron");
 const path = require("path");
-
-// git에서 gittle 업데이트 시 자동 호환
 
 function createWindow() {
   const win = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
-      nodeIntegration: true,
       contextIsolation: false,
+      preload: path.join(app.getAppPath(), "preload.js"),
     },
   });
+  ipcMain.handle("ping", () => "pong");
   win.loadURL("http://localhost:3000");
 }
 app.whenReady().then(() => {
@@ -23,3 +22,15 @@ app.whenReady().then(() => {
 app.on("window-all-closed", function () {
   if (process.platform !== "darwin") app.quit();
 });
+
+// 추가 창 생성 방지
+// app.on("web-contents-created", (event, contents) => {
+//   contents.setWindowOpenHandler(({ url }) => {
+//     if (isSafeForExternalOpen(url)) {
+//       setImmediate(() => {
+//         shell.openExternal(url);
+//       });
+//     }
+//     return { action: "deny" };
+//   });
+// });
