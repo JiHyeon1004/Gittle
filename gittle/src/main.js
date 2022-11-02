@@ -2,7 +2,6 @@ const { app, BrowserWindow } = require("electron");
 const path = require("path");
 
 // git에서 gittle 업데이트 시 자동 호환
-require("update-electron-app")();
 
 function createWindow() {
   const win = new BrowserWindow({
