@@ -20,9 +20,14 @@
   border-radius: 0.5rem 0.5rem 0 0;
 }
 
+.filename {
+  font-size: 0.8rem;
+}
+
 .active {
   font-weight: 500;
   color: #a66cff;
+  font-size: 0.8rem;
 }
 
 .code {

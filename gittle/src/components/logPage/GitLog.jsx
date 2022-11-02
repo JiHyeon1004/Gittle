@@ -105,8 +105,12 @@ export default function GitLog() {
               />
               <div className={styles.textbox}>
                 <div className={styles.message}>{log.commit.message}</div>
-                <div className={styles.name}>{log.committer.login}</div>
-                <div className={styles.time}>{log.commit.author.date}</div>
+                <div className={styles.authortime}>
+                  <div className={styles.name}>{log.committer.login}</div>
+                  <div className={styles.time}>
+                    {log.commit.author.date.replace("T", " ").replace("Z", "")}
+                  </div>
+                </div>
               </div>
             </div>
             <div>
@@ -125,7 +129,7 @@ export default function GitLog() {
                         {index === fileIdx ? (
                           <div className={styles.active}>{file.filename}</div>
                         ) : (
-                          <div>{file.filename}</div>
+                          <div className={styles.filename}>{file.filename}</div>
                         )}
                       </div>
                     ))}

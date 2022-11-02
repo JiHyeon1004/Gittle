@@ -118,7 +118,7 @@ export default function GitDiff() {
                   {index === fileIdx ? (
                     <div className={styles.active}>{file.filename}</div>
                   ) : (
-                    <div>{file.filename}</div>
+                    <div className={styles.filename}>{file.filename}</div>
                   )}
                 </div>
               ))}
