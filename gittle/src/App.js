@@ -3,7 +3,7 @@ import Main from "./Pages/MainPage";
 import Add from "./Pages/AddPage";
 import Oauth from "./Pages/OauthPage";
 import React from "react";
-import Log from "./pages/LogPage";
+import Log from "./Pages/LogPage";
 import "./App.css";
 
 function App() {
