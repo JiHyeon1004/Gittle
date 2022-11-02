@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Octokit } from "octokit";
+import styles from "./GitLog.module.css";
 
 export default function GitLog() {
   const [logs, setLogs] = useState([]);
@@ -14,6 +15,7 @@ export default function GitLog() {
         {
           owner: "junghyun1009",
           repo: "TIL",
+          sha: "test",
         }
       );
 
@@ -27,9 +29,17 @@ export default function GitLog() {
     <>
       <div>
         {logs.map((log, index) => (
-          <div key={index}>
-            <div>{log.commit.author.name}</div>
-            <div>{log.commit.message}</div>
+          <div key={index} className={styles.logbox}>
+            <img
+              src={log.committer.avatar_url}
+              alt="avatar"
+              className={styles.avatar}
+            />
+            <div className={styles.textbox}>
+              <div className={styles.message}>{log.commit.message}</div>
+              <div className={styles.name}>{log.committer.login}</div>
+              <div className={styles.time}>{log.commit.author.date}</div>
+            </div>
           </div>
         ))}
       </div>
