@@ -23,7 +23,7 @@ export default function GitDiff() {
     // auth, owner, repo, branch 변수에 저장해서 사용해야 함
     async function getBranch() {
       const octokit = new Octokit({
-        auth: "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",
+        auth: "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",
       });
 
       const branch = await octokit.request(
@@ -52,7 +52,7 @@ export default function GitDiff() {
     // auth, owner, repo 변수에 저장해서 사용해야 함
     async function getCommit() {
       const octokit = new Octokit({
-        auth: "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",
+        auth: "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",
       });
 
       const commitInfo = await octokit.request(

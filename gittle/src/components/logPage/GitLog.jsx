@@ -17,7 +17,7 @@ export default function GitLog() {
   useEffect(() => {
     async function getLog() {
       const octokit = new Octokit({
-        auth: "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",
+        auth: "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",
       });
 
       const result = await octokit.request(
@@ -39,7 +39,7 @@ export default function GitLog() {
   useEffect(() => {
     async function getCommit() {
       const octokit = new Octokit({
-        auth: "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",
+        auth: "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",
       });
 
       const commitInfo = await octokit.request(

@@ -5,10 +5,9 @@ import Add from "./pages/AddPage";
 import Oauth from "./pages/OauthPage";
 import React from "react";
 import Log from "./pages/LogPage";
-
+import MergeReady from "./pages/MergeReadyPage";
 import Header from "./components/common/header/Header";
 import SideBar from "./components/common/sidebar/SideBar";
-
 import "./App.css";
 
 function App() {
@@ -24,6 +23,7 @@ function App() {
           <Route path="/add" element={<Add />} />
           <Route path="/oauth" element={<Oauth />} />
           <Route path="/log" element={<Log />} />
+          <Route path="/merge" element={<MergeReady />} />
         </Routes>
       </div>
     </>
