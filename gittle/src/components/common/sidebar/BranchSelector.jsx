@@ -7,14 +7,15 @@ import styles from "./BranchSelector.module.css";
 function BranchSelector() {
   useEffect(() => {
     async function getBranchList() {
+      const user = localStorage.getItem("userInfo");
       const octokit = new Octokit({
         auth: "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",
       });
       const branches = await octokit.request(
         "GET /repos/{owner}/{repo}/branches",
         {
-          owner: "cli",
-          repo: "cli",
+          owner: user,
+          repo: "TIL",
         }
       );
 

@@ -22,6 +22,7 @@ export default function GitDiff() {
     // 해당 branch 정보 가져오기
     // auth, owner, repo, branch 변수에 저장해서 사용해야 함
     async function getBranch() {
+      const user = localStorage.getItem("userInfo");
       const octokit = new Octokit({
         auth: "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",
       });
@@ -29,7 +30,7 @@ export default function GitDiff() {
       const branch = await octokit.request(
         "GET /repos/{owner}/{repo}/branches/{branch}",
         {
-          owner: "junghyun1009",
+          owner: user,
           repo: "TIL",
           branch: "main",
         }
