@@ -1,10 +1,9 @@
 import React from "react";
-import Logo from "../Components/Main/Logo"
-import Buttons from "../Components/Main/Buttons"
-import Tutorial from "../Components/Main/Tutorial"
-import Repositories from "../Components/Main/Repositories"
-import LoginButton from "../Components/Main/LoginButton"
-import styles from "./MainPage.module.css";
+import Logo from "../components/Main/Logo"
+import Buttons from "../components/Main/Buttons"
+import Tutorial from "../components/Main/Tutorial"
+import Repositories from "../components/Main/Repositories"
+import LoginButton from "../components/Main/LoginButton"
 
 function MainPage() {
 
