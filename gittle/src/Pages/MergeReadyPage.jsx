@@ -1,11 +1,11 @@
 import React from "react";
-import BranchTree from "../components/mergePage/BranchTree";
+import Remote from "../components/mergePage/Remote";
 
 function MergeReadyPage() {
   return (
     <div>
       <p>merge</p>
-      <BranchTree />
+      <Remote />
     </div>
   );
 }
