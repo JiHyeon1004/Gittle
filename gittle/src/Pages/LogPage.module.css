@@ -1,4 +1,8 @@
 .container {
+<<<<<<< HEAD
   padding-left: 1.6rem;
   border-left: 1px solid #000000;
+=======
+  padding: 0.5rem;
+>>>>>>> 80982ebeecad257818e756b3f013ca37a3f7a8ef
 }
