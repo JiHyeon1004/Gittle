@@ -28,14 +28,6 @@ function Modal(props){
     }
 
     //최근 사용한 Repo로 값 넣어주기
-    // const Store=require('electron-store')
-    // const store = new Store()
-
-    // const [arr,setArr] = useState(store.get('gittle-myRepo'))
-
-    // function setMyRepoArr(){
-    //     arr.unshift({branch:{repoName},root:{repoRoot}})
-    // }
 
     //저장소 이름 가져오기
     const repositoryName =(

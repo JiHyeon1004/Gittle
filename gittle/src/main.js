@@ -77,6 +77,23 @@ ipcMain.on('call-my-repo',(event,arg)=>{
   
 })
 
+ipcMain.on('call-my-repo-2',(event,arg)=>{
+  console.log('가져오기 시작')
+  const Store=require('electron-store')
+  const store = new Store()
+
+  let arr = store.get('gittle-myRepo')
+
+  if(arr===undefined){
+    arr=[]
+  }
+  console.log(arr)
+  console.log('돌아갑니다')
+  event.sender.send('return-2',arr)
+  
+})
+
+
 
 
 app.whenReady().then(() => {
