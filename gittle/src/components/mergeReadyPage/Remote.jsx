@@ -13,7 +13,7 @@ export default function Remote() {
   useEffect(() => {
     async function getBranches() {
       const octokit = new Octokit({
-        auth: "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",
+        auth: "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",
       });
 
       const branch = await octokit.request(
@@ -41,55 +41,58 @@ export default function Remote() {
         <div className={styles.remotebox}>
           <p>remote</p>
         </div>
-        {branches.length ? (
-          <div>
-            <div className={styles.box}>
-              <div className={styles.title}>branches</div>
-              <div className={styles.list}>
-                {branches.map((branch, index) =>
-                  push === branch.name ? (
-                    <div className={styles.pushbranch}>
-                      <FontAwesomeIcon
-                        icon={faCodeBranch}
-                        className={styles.icon}
-                      />
-                      <div key={index}>{branch.name}</div>
-                    </div>
-                  ) : merge === branch.name ? (
-                    <div className={styles.mergebranch}>
-                      <FontAwesomeIcon
-                        icon={faCodeBranch}
-                        className={styles.icon}
-                      />
-                      <div key={index}>{branch.name}</div>
-                    </div>
-                  ) : (
-                    <div className={styles.branch}>
-                      <FontAwesomeIcon
-                        icon={faCodeBranch}
-                        className={styles.icon}
-                      />
-                      <div
-                        key={index}
-                        onClick={() => selectBranch(branch.name)}
-                      >
-                        {branch.name}
+        <div className={styles.listandbtn}>
+          {branches.length ? (
+            <div>
+              <div className={styles.box}>
+                <div className={styles.title}>branches</div>
+                <div className={styles.list}>
+                  {branches.map((branch, index) =>
+                    push === branch.name ? (
+                      <div className={styles.pushbranch}>
+                        <FontAwesomeIcon
+                          icon={faCodeBranch}
+                          className={styles.icon}
+                        />
+                        <div key={index}>{branch.name}</div>
                       </div>
-                    </div>
-                  )
-                )}
+                    ) : merge === branch.name ? (
+                      <div className={styles.mergebranch}>
+                        <FontAwesomeIcon
+                          icon={faCodeBranch}
+                          className={styles.icon}
+                        />
+                        <div key={index}>{branch.name}</div>
+                      </div>
+                    ) : (
+                      <div className={styles.branch}>
+                        <FontAwesomeIcon
+                          icon={faCodeBranch}
+                          className={styles.icon}
+                        />
+                        <div
+                          key={index}
+                          onClick={() => selectBranch(branch.name)}
+                        >
+                          {branch.name}
+                        </div>
+                      </div>
+                    )
+                  )}
+                </div>
+              </div>
+              <div className={styles.info}>
+                <div className={styles.push}></div>
+                <div className={styles.text}>push 완료된 branch</div>
+              </div>
+              <div className={styles.info}>
+                <div className={styles.merge}></div>
+                <div className={styles.text}>merge 할 branch</div>
               </div>
             </div>
-            <div className={styles.info}>
-              <div className={styles.push}></div>
-              <div className={styles.text}>push 완료된 branch</div>
-            </div>
-            <div className={styles.info}>
-              <div className={styles.merge}></div>
-              <div className={styles.text}>merge 할 branch</div>
-            </div>
-          </div>
-        ) : null}
+          ) : null}
+          <div>merge</div>
+        </div>
       </div>
     </div>
   );
