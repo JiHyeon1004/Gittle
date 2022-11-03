@@ -6,7 +6,6 @@ import styles from "./AddPage.module.css";
 function AddPage() {
   return (
     <div className={styles.container}>
-      <p>add</p>
       <GitDiff />
       <StatusComp />
     </div>
