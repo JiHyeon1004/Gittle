@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Octokit } from "octokit";
 import Button from "../Button";
 import Modal from "../Modal";
+import styles from "./BranchSelector.module.css";
 
 function BranchSelector() {
   useEffect(() => {
@@ -46,7 +47,11 @@ function BranchSelector() {
 
   return (
     <div>
-      <select onChange={onChangeHandler} value={currentBranch}>
+      <select
+        className={styles.selector}
+        onChange={onChangeHandler}
+        value={currentBranch}
+      >
         {branchList.map((branch) => (
           <option value={branch}>{branch}</option>
         ))}
