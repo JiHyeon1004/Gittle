@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Button from "../Button";
 import Modal from "../Modal";
 import BranchSelector from "./BranchSelector";
+import styles from "./AddBranch.module.css";
 
 function AddBranch() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -35,7 +36,7 @@ function AddBranch() {
           </>
         }
       >
-        <div>
+        <div className={styles.buttonContainer}>
           <Button content={"추가"} style={{ backgroundColor: "#6BCC78" }} />
           <Button
             action={closeModal}

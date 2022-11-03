@@ -46,33 +46,44 @@ function BranchSelector() {
   };
 
   return (
-    <div>
-      <select
-        className={styles.selector}
-        onChange={onChangeHandler}
-        value={currentBranch}
-      >
-        {branchList.map((branch) => (
-          <option value={branch}>{branch}</option>
-        ))}
-      </select>
+    <>
+      <div className={styles.container}>
+        <select
+          className={styles.selector}
+          onChange={onChangeHandler}
+          value={currentBranch}
+        >
+          {branchList.map((branch) => (
+            <option value={branch}>{branch}</option>
+          ))}
+        </select>
 
-      <Button
-        action={openModal}
-        content={"선택"}
-        style={{ backgroundColor: "#6BCC78" }}
-      />
+        <Button
+          action={openModal}
+          content={"선택"}
+          style={{ backgroundColor: "#6BCC78" }}
+        />
+      </div>
       <Modal
         open={modalOpen}
         content={
           <>
-            <p>
-              {prevBranch} branch에서 {currentBranch}branch로 이동하시겠습니까?
-            </p>
+            {prevBranch ? (
+              <p>
+                <span className={styles.branch}>{prevBranch}</span> branch에서{" "}
+                <span className={styles.branch}>{currentBranch}</span> branch로
+                이동하시겠습니까?
+              </p>
+            ) : (
+              <p>
+                <span className={styles.branch}>{currentBranch}</span> branch로
+                이동하시겠습니까?
+              </p>
+            )}
           </>
         }
       >
-        <div>
+        <div className={styles.buttonContainer}>
           <Button content={"예"} style={{ backgroundColor: "#6BCC78" }} />
           <Button
             action={closeModal}
@@ -81,7 +92,7 @@ function BranchSelector() {
           />
         </div>
       </Modal>
-    </div>
+    </>
   );
 }
 
