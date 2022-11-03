@@ -52,8 +52,10 @@ function BranchSelector() {
         onChange={onChangeHandler}
         value={currentBranch}
       >
-        {branchList.map((branch) => (
-          <option value={branch}>{branch}</option>
+        {branchList.map((branch, index) => (
+          <option key={index} value={branch}>
+            {branch}
+          </option>
         ))}
       </select>
 
