@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Octokit } from "octokit";
 import styles from "./Remote.module.css";
+import { faCodeBranch } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // push된 브랜치 이름 받아오기
 export default function Remote() {
@@ -34,8 +36,11 @@ export default function Remote() {
   };
 
   return (
-    <>
-      <div>
+    <div className={styles.main}>
+      <div className={styles.remote}>
+        <div className={styles.remotebox}>
+          <p>remote</p>
+        </div>
         {branches.length ? (
           <div>
             <div className={styles.box}>
@@ -43,20 +48,33 @@ export default function Remote() {
               <div className={styles.list}>
                 {branches.map((branch, index) =>
                   push === branch.name ? (
-                    <div key={index} className={styles.pushbranch}>
-                      {branch.name}
+                    <div className={styles.pushbranch}>
+                      <FontAwesomeIcon
+                        icon={faCodeBranch}
+                        className={styles.icon}
+                      />
+                      <div key={index}>{branch.name}</div>
                     </div>
                   ) : merge === branch.name ? (
-                    <div key={index} className={styles.mergebranch}>
-                      {branch.name}
+                    <div className={styles.mergebranch}>
+                      <FontAwesomeIcon
+                        icon={faCodeBranch}
+                        className={styles.icon}
+                      />
+                      <div key={index}>{branch.name}</div>
                     </div>
                   ) : (
-                    <div
-                      key={index}
-                      onClick={() => selectBranch(branch.name)}
-                      className={styles.branch}
-                    >
-                      {branch.name}
+                    <div className={styles.branch}>
+                      <FontAwesomeIcon
+                        icon={faCodeBranch}
+                        className={styles.icon}
+                      />
+                      <div
+                        key={index}
+                        onClick={() => selectBranch(branch.name)}
+                      >
+                        {branch.name}
+                      </div>
                     </div>
                   )
                 )}
@@ -73,6 +91,6 @@ export default function Remote() {
           </div>
         ) : null}
       </div>
-    </>
+    </div>
   );
 }

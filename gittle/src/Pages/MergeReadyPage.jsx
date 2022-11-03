@@ -1,11 +1,16 @@
 import React from "react";
-import Remote from "../components/mergePage/Remote";
+import Local from "../components/mergeReadyPage/Local";
+import Remote from "../components/mergeReadyPage/Remote";
+import styles from "./MergeReadyPage.module.css";
 
 function MergeReadyPage() {
   return (
     <div>
       <p>merge</p>
-      <Remote />
+      <div className={styles.box}>
+        <Local />
+        <Remote />
+      </div>
     </div>
   );
 }
