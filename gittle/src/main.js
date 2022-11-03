@@ -1,5 +1,13 @@
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
+
+
+let child_process = require("child_process")
+
+
+let runCommand = (command) => {
+  return child_process.execSync(command).toString()
+}
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -21,3 +29,10 @@ app.whenReady().then(() => {
 app.on("window-all-closed", function () {
   if (process.platform !== "darwin") app.quit();
 });
+
+ipcMain.on('gitStatus', (event, payload) => {
+  let data = runCommand("git status -u -s")
+  console.log('git status : \n', data)
+  // replyInputValue 송신 또는 응답
+  event.returnValue = data
+})
