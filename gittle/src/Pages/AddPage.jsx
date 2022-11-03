@@ -1,12 +1,13 @@
-import {useLocation} from 'react-router-dom'
-
+import React from "react";
+import GitDiff from "../components/addPage/GitDiff";
+import StatusComp from "../components/addPage/StatusComp";
+import styles from "./AddPage.module.css";
 
 function AddPage() {
-  const location=useLocation()
   return (
-    <div>
-      <p>add</p>
-      {location.state.root}
+    <div className={styles.container}>
+      <GitDiff />
+      <StatusComp />
     </div>
   );
 }
