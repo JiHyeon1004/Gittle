@@ -253,7 +253,7 @@ function MultiTableDrag() {
       console.log(1)
     }
     else if(destination.droppableId==="unstaged"){
-      command = "git reset " + command
+      command = "git reset HEAD " + command
       ipcRenderer.send("gitReset",command);
       console.log(2)
     }
