@@ -1,9 +1,12 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Table, Row, Col, Card, Empty } from "antd";
-import 'antd/dist/antd.css';
+import "antd/dist/antd.css";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
-import { mutliDragAwareReorder, multiSelectTo as multiSelect } from "./StatusUtils";
+import {
+  mutliDragAwareReorder,
+  multiSelectTo as multiSelect,
+} from "./StatusUtils";
 import "./StatusStyle.css";
 /**
  * git add
@@ -12,29 +15,31 @@ import "./StatusStyle.css";
  */
 
 // 오른쪽 있으면 unstaged 그걸로 추가 ??
-//taskids도 비슷하게 
-const { ipcRenderer } = window.require("electron"); 
-let gitStatus = ipcRenderer.sendSync("gitStatus","asdf")
-    .split("\n").filter((element) => element !=="");
-function unstagedData(){
-  let data = []
+//taskids도 비슷하게
+const { ipcRenderer } = window.require("electron");
+let gitStatus = ipcRenderer
+  .sendSync("gitStatus", "asdf")
+  .split("\n")
+  .filter((element) => element !== "");
+function unstagedData() {
+  let data = [];
   for (let i of gitStatus) {
-    let ii = i.trim().split(" ")
-    if(i[0]===' '||i[0]==='?'){
-      data.push({id : data.length.toString(), title :ii[1]})
+    let ii = i.trim().split(" ");
+    if (i[0] === " " || i[0] === "?") {
+      data.push({ id: data.length.toString(), title: ii[1] });
     }
   }
   return data;
 }
 //수정 예정
-function unstagedIds(state){
-  let unstagedIds = []
-  let stagedIds = []
+function unstagedIds(state) {
+  let unstagedIds = [];
+  let stagedIds = [];
   for (let i in gitStatus) {
-    unstagedIds.push(i.toString())
+    unstagedIds.push(i.toString());
   }
-  if(state) return unstagedIds
-  else return stagedIds
+  if (state) return unstagedIds;
+  else return stagedIds;
 }
 let entitiesMock = {
   tasks: unstagedData(),
@@ -43,14 +48,14 @@ let entitiesMock = {
     unstaged: {
       id: "unstaged",
       title: "Unstaged",
-      taskIds: unstagedIds(true)
+      taskIds: unstagedIds(true),
     },
     staged: {
       id: "staged",
       title: "Staged",
-      taskIds: []
-    }
-  }
+      taskIds: [],
+    },
+  },
 };
 const COLUMN_ID_DONE = "staged";
 
@@ -61,12 +66,13 @@ function MultiTableDrag() {
   const [entities, setEntities] = useState(entitiesMock);
   const [selectedTaskIds, setSelectedTaskIds] = useState([]);
   const [draggingTaskId, setDraggingTaskId] = useState(null);
+  const [selectedTaskTitles, setSelectedTaskTitles] = useState([]);
   //이거가 테이블 헤더? 그거
   const tableColumns = [
     {
       title: "파일 이름",
-      dataIndex: "title"
-    }
+      dataIndex: "title",
+    },
   ];
 
   /**
@@ -78,6 +84,7 @@ function MultiTableDrag() {
       return;
     }
     setSelectedTaskIds([]);
+    setSelectedTaskTitles([]);
   }, []);
 
   /**
@@ -91,6 +98,7 @@ function MultiTableDrag() {
 
     if (e.key === "Escape") {
       setSelectedTaskIds([]);
+      setSelectedTaskTitles([]);
     }
   }, []);
 
@@ -111,9 +119,9 @@ function MultiTableDrag() {
    * Droppable table body
    */
   const DroppableTableBody = ({ columnId, tasks, ...props }) => {
-
     return (
-      <Droppable droppableId={columnId}
+      <Droppable
+        droppableId={columnId}
         // isDropDisabled={columnId === 'unstaged'}
       >
         {(provided, snapshot) => (
@@ -136,8 +144,6 @@ function MultiTableDrag() {
    * Draggable table row
    */
   const DraggableTableRow = ({ index, record, columnId, tasks, ...props }) => {
-
-
     if (!tasks.length) {
       return (
         <tr className="ant-table-placeholder row-item" {...props}>
@@ -151,10 +157,8 @@ function MultiTableDrag() {
     }
 
     const isSelected = selectedTaskIds.some(
-      (selectedTaskId) =>
-        selectedTaskId === record.id
+      (selectedTaskId) => selectedTaskId === record.id
     );
-
 
     const isGhosting =
       isSelected && Boolean(draggingTaskId) && draggingTaskId !== record.id;
@@ -188,7 +192,6 @@ function MultiTableDrag() {
    * Get tasks
    */
   const getTasks = (entities, id) => {
-
     return entities.columns[id].taskIds.map((taskId) =>
       entities.tasks.find((item) => item.id === taskId)
     );
@@ -204,12 +207,10 @@ function MultiTableDrag() {
     // 드래그 중인 아이템이 선택된 것이 아닐 때 초기화
     if (!selected) {
       setSelectedTaskIds([]);
-
+      setSelectedTaskTitles([]);
     }
     //드래그 중인 아이템에 현재 드래그 중인 행 추가
     // setDraggingTaskId(draggableId);   얘가 문제!!!!!!!!!!!!!!!!!!!!!!!
-    
-    
   };
 
   /**
@@ -219,12 +220,18 @@ function MultiTableDrag() {
     const destination = result.destination;
     const source = result.source;
     // 같은 테이블 or 테이블 밖이면 초기화
-    if (!destination || destination.droppableId === source.droppableId || result.reason === "CANCEL") {
+    if (
+      !destination ||
+      destination.droppableId === source.droppableId ||
+      result.reason === "CANCEL"
+    ) {
       setDraggingTaskId(null);
       return;
     }
     for (let i of selectedTaskIds) {
-      const state = entitiesMock.tasks.find(element => element.id === i.toString())
+      const state = entitiesMock.tasks.find(
+        (element) => element.id === i.toString()
+      );
     }
 
     //try catch 할 예정
@@ -238,9 +245,8 @@ function MultiTableDrag() {
       entities,
       selectedTaskIds,
       source,
-      destination
+      destination,
     });
-
 
     setEntities(processed.entities);
     setDraggingTaskId(null);
@@ -250,53 +256,65 @@ function MultiTableDrag() {
    * Toggle selection
    * 키 안누르고 행 선택할 때
    */
-  const toggleSelection = (taskId) => {
-    const wasSelected = selectedTaskIds.includes(taskId);
+  const toggleSelection = (task) => {
+    const wasSelected = selectedTaskIds.includes(task.id);
+    const wasSelctedFiles = selectedTaskIds.includes(task.title);
     const newTaskIds = (() => {
       // Task was not previously selected
       // now will be the only selected item
       // 선택 안 되어 있었으면 추가
       if (!wasSelected) {
-        return [taskId];
+        return [task.id];
       }
 
       // Task was part of a selected group
       // will now become the only selected item
       // 여러개 선택되어 있었으면 그 행만 선택, 나머지 초기화
       if (selectedTaskIds.length > 1) {
-
-        return [taskId];
+        return [task.id];
       }
       // task was previously selected but not in a group
       // we will now clear the selection
       // 선택 되어있었으면 빼기
       return [];
     })();
+    const newTaskTitles = (() => {
+      if (!wasSelctedFiles) {
+        return [task.title];
+      }
+      if (setSelectedTaskTitles.length > 1) {
+        return [task.title];
+      }
+      return [];
+    })();
     setSelectedTaskIds(newTaskIds);
-
+    setSelectedTaskTitles(newTaskTitles);
   };
 
   /**
    * Toggle selection in group
    * ctrl키 누르고 선택 시
    */
-  const toggleSelectionInGroup = (taskId) => {
-    const index = selectedTaskIds.indexOf(taskId);
+  const toggleSelectionInGroup = (task) => {
+    const index = selectedTaskIds.indexOf(task.id);
+    const title = task.title;
     // if not selected - add it to the selected items
     // 선택 안되어 있었으면 추가
     if (index === -1) {
-      setSelectedTaskIds([...selectedTaskIds, taskId]);
-
+      setSelectedTaskIds([...selectedTaskIds, task.id]);
+      setSelectedTaskTitles([...selectedTaskTitles, task.title]);
       return;
     }
 
     // it was previously selected and now needs to be removed from the group
     // 선택 되어 있었으면 빼기
     const shallow = [...selectedTaskIds];
+    const shallowTitles = [...selectedTaskTitles];
     shallow.splice(index, 1);
+    shallowTitles.splice(title, 1);
 
     setSelectedTaskIds(shallow);
-
+    setSelectedTaskTitles(shallowTitles);
   };
 
   /**
@@ -304,15 +322,20 @@ function MultiTableDrag() {
    * This behaviour matches the MacOSX finder selection
    * shift키 선택시
    */
-  const multiSelectTo = (newTaskId) => {
+  const multiSelectTo = (task) => {
     //util.js 확인
-    const updated = multiSelect(entities, selectedTaskIds, newTaskId);
+    const updated = multiSelect(entities, selectedTaskIds, task.id);
     if (updated == null) {
       return;
     }
 
-    setSelectedTaskIds(updated);
+    const updatedTitles = multiSelect(entities, selectedTaskTitles, task.title);
+    if (updatedTitles == null) {
+      return;
+    }
 
+    setSelectedTaskIds(updated);
+    setSelectedTaskTitles(updatedTitles);
   };
 
   /**
@@ -356,107 +379,107 @@ function MultiTableDrag() {
    * 행 선택했을 때 ctrl, shift, 기본 별 분기점
    */
   const performAction = (e, record) => {
-
     //ctrl
     if (wasToggleInSelectionGroupKeyUsed(e)) {
-      toggleSelectionInGroup(record.id);
+      toggleSelectionInGroup(record);
       return;
     }
 
     //shift
     if (wasMultiSelectKeyUsed(e)) {
-      multiSelectTo(record.id);
-      return; 
+      multiSelectTo(record);
+      return;
     }
 
     //default
-    toggleSelection(record.id);
+    toggleSelection(record);
   };
 
   return (
     <>
       <Card className={`c-multi-drag-table`}>
         <div>selectedTaskIds: {JSON.stringify(selectedTaskIds)}</div>
+        <div>selectedTaskTitles: {JSON.stringify(selectedTaskTitles)}</div>
         <br />
         <DragDropContext
           onBeforeCapture={onBeforeCapture}
           onDragEnd={onDragEnd}
         >
           <Row gutter={24}>
-              <Col key="unstaged" span={12}>
-                <div className="inner-col-unstaged">
-                  <Row >
-                    <h2>Unstaged</h2>
-                  </Row>
-                  <Table
-                    dataSource={getTasks(entities, "unstaged")}
-                    columns={tableColumns}
-                    pagination={false} 
-                    scroll={{ y : 200 }}
-                    rowKey="id"
-                    components={{
-                      body: {
-                        // Custom tbody
-                        wrapper: (val) =>
-                          DroppableTableBody({
-                            columnId: entities.columns["unstaged"].id,
-                            tasks: getTasks(entities, "unstaged"),
-                            ...val
-                          }),
-                        // Custom td
-                        row: (val) =>
-                          DraggableTableRow({
-                            tasks: getTasks(entities, "unstaged"),
-                            ...val
-                          })
-                      }
-                    }}
-                    // Set props on per row (td)
-                    onRow={(record, index) => ({
-                      index,
-                      record,
-                      onClick: (e) => onClickRow(e, record),
-                    })}
-                  />
-                </div>
-              </Col>
-              <Col key="staged" span={12}>
-                <div className="inner-col-staged">
-                  <Row justify="space-between" align="middle">
-                    <h2>staged</h2>
-                  </Row>
-                  <Table
-                    dataSource={getTasks(entities, "staged")}
-                    columns={tableColumns}
-                    pagination={false}
-                    scroll={{ y: 200 }} 
-                    rowKey="id"
-                    components={{
-                      body: {
-                        // Custom tbody
-                        wrapper: (val) =>
-                          DroppableTableBody({
-                            columnId: entities.columns["staged"].id,
-                            tasks: getTasks(entities, "staged"),
-                            ...val
-                          }),
-                        // Custom td
-                        row: (val) =>
-                          DraggableTableRow({
-                            tasks: getTasks(entities, "staged"),
-                            ...val
-                          })
-                      }
-                    }}
-                    // Set props on per row (td)
-                    onRow={(record, index) => ({
-                      index,
-                      record,
-                      onClick: (e) => onClickRow(e, record),
-                    })}
-                  />
-                </div>
-              </Col>
+            <Col key="unstaged" span={12}>
+              <div className="inner-col-unstaged">
+                <Row>
+                  <h2>Unstaged</h2>
+                </Row>
+                <Table
+                  dataSource={getTasks(entities, "unstaged")}
+                  columns={tableColumns}
+                  pagination={false}
+                  scroll={{ y: 200 }}
+                  rowKey="id"
+                  components={{
+                    body: {
+                      // Custom tbody
+                      wrapper: (val) =>
+                        DroppableTableBody({
+                          columnId: entities.columns["unstaged"].id,
+                          tasks: getTasks(entities, "unstaged"),
+                          ...val,
+                        }),
+                      // Custom td
+                      row: (val) =>
+                        DraggableTableRow({
+                          tasks: getTasks(entities, "unstaged"),
+                          ...val,
+                        }),
+                    },
+                  }}
+                  // Set props on per row (td)
+                  onRow={(record, index) => ({
+                    index,
+                    record,
+                    onClick: (e) => onClickRow(e, record),
+                  })}
+                />
+              </div>
+            </Col>
+            <Col key="staged" span={12}>
+              <div className="inner-col-staged">
+                <Row justify="space-between" align="middle">
+                  <h2>staged</h2>
+                </Row>
+                <Table
+                  dataSource={getTasks(entities, "staged")}
+                  columns={tableColumns}
+                  pagination={false}
+                  scroll={{ y: 200 }}
+                  rowKey="id"
+                  components={{
+                    body: {
+                      // Custom tbody
+                      wrapper: (val) =>
+                        DroppableTableBody({
+                          columnId: entities.columns["staged"].id,
+                          tasks: getTasks(entities, "staged"),
+                          ...val,
+                        }),
+                      // Custom td
+                      row: (val) =>
+                        DraggableTableRow({
+                          tasks: getTasks(entities, "staged"),
+                          ...val,
+                        }),
+                    },
+                  }}
+                  // Set props on per row (td)
+                  onRow={(record, index) => ({
+                    index,
+                    record,
+                    onClick: (e) => onClickRow(e, record),
+                  })}
+                />
+              </div>
+            </Col>
           </Row>
           <br />
           <i>Multi select: Ctrl/Shift + Left Click</i>
@@ -464,6 +487,6 @@ function MultiTableDrag() {
       </Card>
     </>
   );
-};
+}
 
 export default MultiTableDrag;

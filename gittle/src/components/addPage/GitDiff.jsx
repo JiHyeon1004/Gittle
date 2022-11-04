@@ -101,6 +101,10 @@ export default function GitDiff() {
   const showCode = (index) => {
     setFileIdx(index);
   };
+
+  // const { ipcRenderer } = window.require("electron");
+  // let gitDiff = ipcRenderer.sendSync("gitDiff");
+
   return (
     <>
       <div className={styles.textbox}>
