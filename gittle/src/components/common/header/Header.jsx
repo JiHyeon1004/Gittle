@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
+import GitPull from "./GitPull";
 import styles from "./Header.module.css";
 
 function Header() {
@@ -13,6 +14,7 @@ function Header() {
         <Link to="/oauth">oauth</Link> | <Link to="/log">log</Link> |{" "}
         <Link to="/merge">merge</Link>
       </div>
+      <GitPull />
     </div>
   );
 }
