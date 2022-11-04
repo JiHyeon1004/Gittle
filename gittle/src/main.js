@@ -119,3 +119,15 @@ ipcMain.on('gitStatus', (event, payload) => {
   // replyInputValue 송신 또는 응답
   event.returnValue = data
 })
+
+ipcMain.on('gitAdd', (event, payload) => {
+  let data = runCommand(payload)
+  console.log(data)
+  // replyInputValue 송신 또는 응답
+})
+
+ipcMain.on('gitReset', (event, payload) => {
+  let data = runCommand(payload)
+  console.log(data)
+  // replyInputValue 송신 또는 응답
+})
