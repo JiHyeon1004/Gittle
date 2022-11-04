@@ -21,23 +21,25 @@ let changedFile = []
 
 function statusData(){
   //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  //반쪽짜리
+  //반쪽짜리 
+  //둘다 있을때 안사람짐 초기화 한번 해야됨
   let count = 0
   console.log(gitStatus)
+  const statusValue = ["M","T","A","R","C","U","D"]
   for (let status of gitStatus) {
     let type = "staged"
     let statusArray = status.trim().split(" ").filter((element)=> element !=='')
-    const id = count.toString()
-    console.log(statusArray)
-    if(status[0]===' '||status[0]==='?') {
+    if(statusValue.findIndex((e) => e===status[0])!==-1 ) {
+      stagedIds.push(count.toString())
+      changedFile.push({id : count.toString(), type : type, title : statusArray[1]})
+      count++
+    }
+    if(statusValue.findIndex((e) => e===status[1])!==-1||status[1]==='?') {
       type = "unstaged"
-      unstagedIds.push(id)
+      unstagedIds.push(count.toString())
+      changedFile.push({id : count.toString(), type : type, title : statusArray[1]})
+      count++
     }
-    else {
-      stagedIds.push(id)
-    }
-    changedFile.push({id : id, type : type, title : statusArray[1]})
-    count++
   }
 };
 statusData()
