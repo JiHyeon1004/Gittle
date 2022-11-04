@@ -22,6 +22,7 @@ web_modules/
 .env.test.local
 .env.production.local
 
+
 # Logs
 logs
 *.log
