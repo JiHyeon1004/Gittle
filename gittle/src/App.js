@@ -11,15 +11,16 @@ import SideBar from "./components/common/sidebar/SideBar";
 import "./App.css";
 
 function App() {
-  const location = useLocation();
+  // const location = useLocation();
 
   return (
     <>
       <Header />
       <div className="App">
         <SideBar />
-        <Routes location={location}>
-          <Route path="/main" element={<Main />} />
+        {/* <Routes location={location}> */}
+        <Routes>
+          <Route path="/" element={<Main />} />
           <Route path="/add" element={<Add />} />
           <Route path="/oauth" element={<Oauth />} />
           <Route path="/log" element={<Log />} />
