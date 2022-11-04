@@ -1,17 +1,13 @@
-const { app, BrowserWindow,ipcMain,dialog } = require("electron");
+const { app, BrowserWindow, ipcMain, dialog } = require("electron");
 const path = require("path");
-const fs = require('fs')
-const {CLICK}=require('./constants')
+const fs = require("fs");
+const { CLICK } = require("./constants");
 
-
-
-
-let child_process = require("child_process")
-
+let child_process = require("child_process");
 
 let runCommand = (command) => {
-  return child_process.execSync(command).toString()
-}
+  return child_process.execSync(command).toString();
+};
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -20,88 +16,88 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
-      enableRemoteModule: true
+      enableRemoteModule: true,
     },
   });
   win.loadURL("http://localhost:3000");
 }
 
-ipcMain.on(CLICK,(event,arg)=>{
-  
-  dialog.showOpenDialog({ properties: ['openDirectory'] })
-  .then(result => {
-      console.log(result.filePaths[0])
+ipcMain.on(CLICK, (event, arg) => {
+  dialog
+    .showOpenDialog({ properties: ["openDirectory"] })
+    .then((result) => {
+      console.log(result.filePaths[0]);
 
-      event.returnValue=result.filePaths[0]
-  })
-  .catch(err=>{
-    console.log('에러발생',err)
-  })
-})
+      event.returnValue = result.filePaths[0];
+    })
+    .catch((err) => {
+      console.log("에러발생", err);
+    });
+});
 
-ipcMain.on('update-my-repo',(event,arg)=>{
-    console.log('변화시작')
-    const Store=require('electron-store')
-    const store = new Store()
+ipcMain.on("update-my-repo", (event, arg) => {
+  console.log("변화시작");
+  const Store = require("electron-store");
+  const store = new Store();
 
-    
-    let arr =store.get('gittle-myRepo')
+  let arr = store.get("gittle-myRepo");
 
-    if(arr===undefined){
-      
-      arr=[]
-    }
-
-    arr.unshift(arg)
-
-    if(arr.length===4){
-      arr.pop()
-    }
-
-    console.log('arr입니다 : '+arr.length)
-    for(let i=0;i<arr.length;i++){
-      console.log(arr[i])
-    }
-    store.set('gittle-myRepo',arr)
-})
-
-
-
-
-ipcMain.on('call-my-repo',(event,arg)=>{
-  console.log('가져오기 시작')
-  const Store=require('electron-store')
-  const store = new Store()
-
-  let arr = store.get('gittle-myRepo')
-
-  if(arr===undefined){
-    arr=[]
+  if (arr === undefined) {
+    arr = [];
   }
-  console.log(arr)
-  console.log('돌아갑니다')
-  event.returnValue=arr
-  
-})
 
-ipcMain.on('call-my-repo-2',(event,arg)=>{
-  console.log('가져오기 시작')
-  const Store=require('electron-store')
-  const store = new Store()
+  arr.unshift(arg);
 
-  let arr = store.get('gittle-myRepo')
-
-  if(arr===undefined){
-    arr=[]
+  if (arr.length === 4) {
+    arr.pop();
   }
-  console.log(arr)
-  console.log('돌아갑니다')
-  event.sender.send('return-2',arr)
-  
-})
 
+  console.log("arr입니다 : " + arr.length);
+  for (let i = 0; i < arr.length; i++) {
+    console.log(arr[i]);
+  }
+  store.set("gittle-myRepo", arr);
+});
 
+ipcMain.on("call-my-repo", (event, arg) => {
+  console.log("가져오기 시작");
+  const Store = require("electron-store");
+  const store = new Store();
 
+  let arr = store.get("gittle-myRepo");
+
+  if (arr === undefined) {
+    arr = [];
+  }
+  console.log(arr);
+  console.log("돌아갑니다");
+  event.returnValue = arr;
+});
+
+ipcMain.on("call-my-repo-2", (event, arg) => {
+  console.log("가져오기 시작");
+  const Store = require("electron-store");
+  const store = new Store();
+
+  let arr = store.get("gittle-myRepo");
+
+  if (arr === undefined) {
+    arr = [];
+  }
+  console.log(arr);
+  console.log("돌아갑니다");
+  event.sender.send("return-2", arr);
+});
+
+ipcMain.on("gitBranch", (event, newBranch) => {
+  console.log("브랜치 추가");
+  // console.log(arg);
+  const codes = [];
+  let branch = runCommand(`git branch ${newBranch}`);
+  console.log("git branch : ", branch);
+  codes.push(branch);
+  event.returnValue = codes;
+});
 
 app.whenReady().then(() => {
   createWindow();
@@ -113,9 +109,9 @@ app.on("window-all-closed", function () {
   if (process.platform !== "darwin") app.quit();
 });
 
-ipcMain.on('gitStatus', (event, payload) => {
-  let data = runCommand("git status -u -s")
-  console.log('git status : \n', data)
+ipcMain.on("gitStatus", (event, payload) => {
+  let data = runCommand("git status -u -s");
+  console.log("git status : \n", data);
   // replyInputValue 송신 또는 응답
-  event.returnValue = data
-})
+  event.returnValue = data;
+});
