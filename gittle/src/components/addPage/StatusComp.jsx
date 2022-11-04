@@ -63,7 +63,7 @@ const COLUMN_ID_DONE = "staged";
 // https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/button
 const PRIMARY_BUTTON_NUMBER = 0;
 
-function MultiTableDrag() {
+function MultiTableDrag({ getFile, getDiff }) {
   const [entities, setEntities] = useState(entitiesMock);
   const [selectedTaskIds, setSelectedTaskIds] = useState([]);
   const [draggingTaskId, setDraggingTaskId] = useState(null);
@@ -87,9 +87,13 @@ function MultiTableDrag() {
         console.log("gitDiff", gitDiff);
         // return gitDiff;
         setSelectedCodes(gitDiff);
+        getFile(arr);
+        getDiff(gitDiff);
       }
     };
     showDiff(selectedTaskTitles);
+    console.log("sc", selectedCodes);
+    // getDiff(selectedCodes);
   }, [selectedTaskTitles]);
 
   /**
