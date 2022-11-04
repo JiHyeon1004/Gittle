@@ -63,6 +63,7 @@ const COLUMN_ID_DONE = "staged";
 // https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/button
 const PRIMARY_BUTTON_NUMBER = 0;
 
+// 부모 요소로 getFile, getDiff 보내줘야 해서 넣어줌
 function MultiTableDrag({ getFile, getDiff }) {
   const [entities, setEntities] = useState(entitiesMock);
   const [selectedTaskIds, setSelectedTaskIds] = useState([]);
@@ -81,18 +82,20 @@ function MultiTableDrag({ getFile, getDiff }) {
   useEffect(() => {
     const showDiff = (arr) => {
       const { ipcRenderer } = window.require("electron");
-      console.log(arr);
+      // console.log(arr);
       if (arr.length) {
         const gitDiff = ipcRenderer.sendSync("gitDiff", arr);
-        console.log("gitDiff", gitDiff);
+        // console.log("gitDiff", gitDiff);
         // return gitDiff;
         setSelectedCodes(gitDiff);
+        // 부모 요소에 unstaged 목록에서 선택한 파일 목록 보내기
         getFile(arr);
+        // 부모 요소에 unstaged 목록에서 선택한 파일 변경 사항 보내기
         getDiff(gitDiff);
       }
     };
     showDiff(selectedTaskTitles);
-    console.log("sc", selectedCodes);
+    // console.log("sc", selectedCodes);
     // getDiff(selectedCodes);
   }, [selectedTaskTitles]);
 

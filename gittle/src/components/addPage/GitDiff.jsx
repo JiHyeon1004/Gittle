@@ -162,7 +162,7 @@ export default function GitDiff({ diffFiles, diff }) {
             </div>
           </div>
         ) : (
-          <></>
+          <div>변경사항이 없습니다!</div>
         )}
       </div>
     </>
