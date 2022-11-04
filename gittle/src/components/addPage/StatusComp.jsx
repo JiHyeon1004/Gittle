@@ -31,6 +31,7 @@ function unstagedData() {
   }
   return data;
 }
+
 //수정 예정
 function unstagedIds(state) {
   let unstagedIds = [];
@@ -67,6 +68,7 @@ function MultiTableDrag() {
   const [selectedTaskIds, setSelectedTaskIds] = useState([]);
   const [draggingTaskId, setDraggingTaskId] = useState(null);
   const [selectedTaskTitles, setSelectedTaskTitles] = useState([]);
+  const [selectedCodes, setSelectedCodes] = useState([]);
   //이거가 테이블 헤더? 그거
   const tableColumns = [
     {
@@ -74,6 +76,21 @@ function MultiTableDrag() {
       dataIndex: "title",
     },
   ];
+
+  // unstaged 목록에서 클릭한 파일들에 대해 git diff 실행하는 함수
+  useEffect(() => {
+    const showDiff = (arr) => {
+      const { ipcRenderer } = window.require("electron");
+      console.log(arr);
+      if (arr.length) {
+        const gitDiff = ipcRenderer.sendSync("gitDiff", arr);
+        console.log("gitDiff", gitDiff);
+        // return gitDiff;
+        setSelectedCodes(gitDiff);
+      }
+    };
+    showDiff(selectedTaskTitles);
+  }, [selectedTaskTitles]);
 
   /**
    * On window click
@@ -83,8 +100,9 @@ function MultiTableDrag() {
     if (e.defaultPrevented) {
       return;
     }
-    setSelectedTaskIds([]);
-    setSelectedTaskTitles([]);
+    // 정현 컴포넌트 누르면 초기화되길래 일단 주석 처리 해둠!
+    // setSelectedTaskIds([]);
+    // setSelectedTaskTitles([]);
   }, []);
 
   /**
@@ -97,8 +115,9 @@ function MultiTableDrag() {
     }
 
     if (e.key === "Escape") {
-      setSelectedTaskIds([]);
-      setSelectedTaskTitles([]);
+      // 정현 컴포넌트 누르면 초기화되길래 일단 주석 처리 해둠!
+      // setSelectedTaskIds([]);
+      // setSelectedTaskTitles([]);
     }
   }, []);
 
@@ -258,7 +277,7 @@ function MultiTableDrag() {
    */
   const toggleSelection = (task) => {
     const wasSelected = selectedTaskIds.includes(task.id);
-    const wasSelctedFiles = selectedTaskIds.includes(task.title);
+    const wasSelctedFiles = selectedTaskTitles.includes(task.title);
     const newTaskIds = (() => {
       // Task was not previously selected
       // now will be the only selected item
@@ -297,7 +316,7 @@ function MultiTableDrag() {
    */
   const toggleSelectionInGroup = (task) => {
     const index = selectedTaskIds.indexOf(task.id);
-    const title = task.title;
+    const title = selectedTaskTitles.indexOf(task.title);
     // if not selected - add it to the selected items
     // 선택 안되어 있었으면 추가
     if (index === -1) {
