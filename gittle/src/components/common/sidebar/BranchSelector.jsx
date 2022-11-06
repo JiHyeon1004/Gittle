@@ -3,18 +3,21 @@ import { Octokit } from "octokit";
 import Button from "../Button";
 import Modal from "../Modal";
 import styles from "./BranchSelector.module.css";
+import { useRecoilState } from "recoil";
+import { selectBranch } from "../../../atoms";
 
 function BranchSelector() {
   useEffect(() => {
     async function getBranchList() {
+      const user = localStorage.getItem("userInfo");
       const octokit = new Octokit({
         auth: "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",
       });
       const branches = await octokit.request(
         "GET /repos/{owner}/{repo}/branches",
         {
-          owner: "cli",
-          repo: "cli",
+          owner: user,
+          repo: "TIL",
         }
       );
 
@@ -36,14 +39,19 @@ function BranchSelector() {
   const [branchList, setBranchList] = useState([]);
   const [currentBranch, setCurretBranch] = useState("");
   const [prevBranch, setPrevBranch] = useState("");
-
   const [modalOpen, setModalOpen] = useState(false);
+  const [branch, setBranch] = useRecoilState(selectBranch);
 
   const openModal = () => {
     setModalOpen(true);
   };
   const closeModal = () => {
     setModalOpen(false);
+  };
+  const changeBranch = () => {
+    closeModal();
+    console.log("바꿔쓰", currentBranch);
+    setBranch(currentBranch);
   };
 
   return (
