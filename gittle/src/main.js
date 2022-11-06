@@ -14,11 +14,11 @@ function createWindow() {
     width: 1024,
     height: 768,
     webPreferences: {
-      nodeIntegration: true,
       contextIsolation: false,
       enableRemoteModule: true,
     },
   });
+  ipcMain.handle("ping", () => "pong");
   win.loadURL("http://localhost:3000");
 }
 

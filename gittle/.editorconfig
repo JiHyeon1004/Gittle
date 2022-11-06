@@ -1,0 +1,16 @@
+# 오픈 코드 소스 포캣 정의하기
+# prettier을 써도 됨
+# 예) editorconfig.org
+
+# root = true
+
+# [*]
+# indent_size = 2
+# indent_style = space
+# end_of_line = lf
+# charset = utf-8
+# trim_trailing_whitespace = true
+# insert_final_newline = true
+
+# [*.md]
+# trim_trailing_whitespace = false
