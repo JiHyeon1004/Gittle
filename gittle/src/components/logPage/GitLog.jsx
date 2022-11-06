@@ -21,6 +21,7 @@ export default function GitLog() {
 
   useEffect(() => {
     async function getLog() {
+      const user = localStorage.getItem("userInfo");
       const octokit = new Octokit({
         auth: "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",
       });
@@ -30,7 +31,7 @@ export default function GitLog() {
       const result = await octokit.request(
         "GET /repos/{owner}/{repo}/commits",
         {
-          owner: "junghyun1009",
+          owner: user,
           repo: "TIL",
           sha: branch,
         }
