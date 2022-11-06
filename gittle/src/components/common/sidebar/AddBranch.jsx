@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Button from "../Button";
 import Modal from "../Modal";
-import BranchSelector from "./BranchSelector";
+import BranchSelector from "../BranchSelector";
 import styles from "./AddBranch.module.css";
 
 function AddBranch() {
