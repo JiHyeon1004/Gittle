@@ -58,7 +58,6 @@ ipcMain.on('update-my-repo',(event,arg)=>{
       arr.pop()
     }
 
-    console.log('arr입니다 : '+arr.length)
     for(let i=0;i<arr.length;i++){
       console.log(arr[i])
     }
@@ -109,6 +108,8 @@ app.whenReady().then(() => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
 });
+
+
 app.on("window-all-closed", function () {
   if (process.platform !== "darwin") app.quit();
 });
@@ -118,4 +119,12 @@ ipcMain.on('gitStatus', (event, payload) => {
   console.log('git status : \n', data)
   // replyInputValue 송신 또는 응답
   event.returnValue = data
+})
+
+ipcMain.on('git-Clone',(event, payload)=>{
+  console.log('도착했습니다요요요용')
+  console.log('저장소 루트 : '+payload.cloneRoot)
+  console.log('폴더 루트 : '+payload.repoRoot)
+  let path=runCommand(`cd "${payload.repoRoot}" && git clone ${payload.cloneRoot}`)
+  console.log('path : '+path)
 })
