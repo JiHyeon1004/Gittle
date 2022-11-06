@@ -54,6 +54,7 @@ function OauthPage() {
         console.log(data);
         //데이터를 object로
         setUserData(data);
+        localStorage.setItem("userInfo", data.login);
       });
   }
 
@@ -65,6 +66,7 @@ function OauthPage() {
           <button
             onClick={() => {
               localStorage.removeItem("accessToken");
+              localStorage.removeItem("userInfo");
               setRerender(!rerender);
             }}
           >
