@@ -3,6 +3,8 @@ import { Octokit } from "octokit";
 import Button from "../Button";
 import Modal from "../Modal";
 import styles from "./BranchSelector.module.css";
+import {useRecoilState} from "recoil"
+import {selectBranch} from "../../../atoms"
 
 function BranchSelector() {
   useEffect(() => {
@@ -36,8 +38,8 @@ function BranchSelector() {
   const [branchList, setBranchList] = useState([]);
   const [currentBranch, setCurretBranch] = useState("");
   const [prevBranch, setPrevBranch] = useState("");
-
   const [modalOpen, setModalOpen] = useState(false);
+  const [branch, setBranch] = useRecoilState(selectBranch)
 
   const openModal = () => {
     setModalOpen(true);
@@ -45,6 +47,11 @@ function BranchSelector() {
   const closeModal = () => {
     setModalOpen(false);
   };
+  const changeBranch = () => {
+    closeModal()
+    console.log('바꿔쓰', currentBranch)
+    setBranch(currentBranch)
+  }
 
   return (
     <div>
@@ -76,7 +83,7 @@ function BranchSelector() {
         }
       >
         <div>
-          <Button content={"예"} style={{ backgroundColor: "#6BCC78" }} />
+          <Button content={"예"} style={{ backgroundColor: "#6BCC78" }} action={changeBranch} />
           <Button
             action={closeModal}
             content={"아니오"}
