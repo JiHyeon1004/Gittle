@@ -1,18 +1,94 @@
-const { app, BrowserWindow, ipcMain, shell } = require("electron");
+const { app, BrowserWindow, ipcMain, dialog } = require("electron");
 const path = require("path");
+const fs = require("fs");
+const { CLICK } = require("./constants");
+
+let child_process = require("child_process");
+
+let runCommand = (command) => {
+  return child_process.execSync(command).toString();
+};
 
 function createWindow() {
   const win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1024,
+    height: 768,
     webPreferences: {
       contextIsolation: false,
-      preload: path.join(app.getAppPath(), "preload.js"),
+      enableRemoteModule: true,
     },
   });
   ipcMain.handle("ping", () => "pong");
   win.loadURL("http://localhost:3000");
 }
+
+ipcMain.on(CLICK, (event, arg) => {
+  dialog
+    .showOpenDialog({ properties: ["openDirectory"] })
+    .then((result) => {
+      console.log(result.filePaths[0]);
+
+      event.returnValue = result.filePaths[0];
+    })
+    .catch((err) => {
+      console.log("에러발생", err);
+    });
+});
+
+ipcMain.on("update-my-repo", (event, arg) => {
+  console.log("변화시작");
+  const Store = require("electron-store");
+  const store = new Store();
+
+  let arr = store.get("gittle-myRepo");
+
+  if (arr === undefined) {
+    arr = [];
+  }
+
+  arr.unshift(arg);
+
+  if (arr.length === 4) {
+    arr.pop();
+  }
+
+  console.log("arr입니다 : " + arr.length);
+  for (let i = 0; i < arr.length; i++) {
+    console.log(arr[i]);
+  }
+  store.set("gittle-myRepo", arr);
+});
+
+ipcMain.on("call-my-repo", (event, arg) => {
+  console.log("가져오기 시작");
+  const Store = require("electron-store");
+  const store = new Store();
+
+  let arr = store.get("gittle-myRepo");
+
+  if (arr === undefined) {
+    arr = [];
+  }
+  console.log(arr);
+  console.log("돌아갑니다");
+  event.returnValue = arr;
+});
+
+ipcMain.on("call-my-repo-2", (event, arg) => {
+  console.log("가져오기 시작");
+  const Store = require("electron-store");
+  const store = new Store();
+
+  let arr = store.get("gittle-myRepo");
+
+  if (arr === undefined) {
+    arr = [];
+  }
+  console.log(arr);
+  console.log("돌아갑니다");
+  event.sender.send("return-2", arr);
+});
+
 app.whenReady().then(() => {
   createWindow();
   app.on("activate", () => {
@@ -23,14 +99,32 @@ app.on("window-all-closed", function () {
   if (process.platform !== "darwin") app.quit();
 });
 
-// 추가 창 생성 방지
-// app.on("web-contents-created", (event, contents) => {
-//   contents.setWindowOpenHandler(({ url }) => {
-//     if (isSafeForExternalOpen(url)) {
-//       setImmediate(() => {
-//         shell.openExternal(url);
-//       });
-//     }
-//     return { action: "deny" };
-//   });
-// });
+ipcMain.on("gitStatus", (event, payload) => {
+  let data = runCommand("git status -u -s");
+  console.log("git status : \n", data);
+  // replyInputValue 송신 또는 응답
+  event.returnValue = data;
+});
+
+ipcMain.on("gitDiff", (event, arg) => {
+  console.log("코드 전후 비교해볼래");
+  console.log(arg);
+  const codes = [];
+  arg.map((file) => {
+    let diff = runCommand(`git diff ${file}`);
+    console.log("git diff : ", diff);
+    codes.push(diff);
+  });
+  event.returnValue = codes;
+  // const Store=require('electron-store')
+  // const store = new Store()
+
+  // let arr = store.get('gittle-myRepo')
+
+  // if(arr===undefined){
+  //   arr=[]
+  // }
+  // console.log(arr)
+  // console.log('돌아갑니다')
+  // event.sender.send('return-2',arr)
+});

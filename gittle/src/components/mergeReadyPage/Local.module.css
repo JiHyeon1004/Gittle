@@ -1,0 +1,21 @@
+.local {
+  margin-right: 1rem;
+}
+
+.localbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-width: 0.2rem;
+  border-radius: 0.5rem;
+  background-color: #6bcc78;
+  height: 2.5rem;
+  width: 6rem;
+  margin-bottom: 2rem;
+}
+
+.localbox > p {
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
