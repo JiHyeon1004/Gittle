@@ -7,7 +7,7 @@ function AddPage() {
   return (
     <div className={styles.container}>
       <GitDiff />
-      <StatusComp />
+      {/* <StatusComp /> */}
     </div>
   );
 }

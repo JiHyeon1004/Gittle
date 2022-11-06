@@ -9,3 +9,7 @@
   height: calc(100vh - 140px);
   padding: 1rem 0.5rem;
 }
+
+.selector {
+  display: flex;
+}

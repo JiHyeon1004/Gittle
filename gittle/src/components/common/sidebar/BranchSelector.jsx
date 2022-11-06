@@ -31,6 +31,7 @@ function BranchSelector() {
   const onChangeHandler = (e) => {
     setPrevBranch(currentBranch);
     setCurretBranch(e.currentTarget.value);
+    openModal();
   };
   const [branchList, setBranchList] = useState([]);
   const [currentBranch, setCurretBranch] = useState("");
@@ -59,12 +60,6 @@ function BranchSelector() {
             </option>
           ))}
         </select>
-
-        <Button
-          action={openModal}
-          content={"선택"}
-          style={{ backgroundColor: "#6BCC78" }}
-        />
       </div>
       <Modal
         open={modalOpen}
