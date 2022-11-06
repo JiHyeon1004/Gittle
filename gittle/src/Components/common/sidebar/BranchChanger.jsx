@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { Octokit } from "octokit";
+import BranchSelector from "../BranchSelector";
 import Button from "../Button";
 import Modal from "../Modal";
-import styles from "./BranchSelector.module.css";
 import { useRecoilState } from "recoil";
 import { selectBranch } from "../../../atoms";
+import styles from "./BranchChanger.module.css";
 
-function BranchSelector() {
+function BranchChanger() {
+  const [branchList, setBranchList] = useState([]);
+  const [currentBranch, setCurretBranch] = useState("");
+  const [prevBranch, setPrevBranch] = useState("");
+
+  const [modalOpen, setModalOpen] = useState(false);
   useEffect(() => {
     async function getBranchList() {
       const user = localStorage.getItem("userInfo");
@@ -31,17 +37,6 @@ function BranchSelector() {
     getBranchList();
   }, []);
 
-  const onChangeHandler = (e) => {
-    setPrevBranch(currentBranch);
-    setCurretBranch(e.currentTarget.value);
-    openModal();
-  };
-  const [branchList, setBranchList] = useState([]);
-  const [currentBranch, setCurretBranch] = useState("");
-  const [prevBranch, setPrevBranch] = useState("");
-  const [modalOpen, setModalOpen] = useState(false);
-  const [branch, setBranch] = useRecoilState(selectBranch);
-
   const openModal = () => {
     setModalOpen(true);
   };
@@ -52,23 +47,15 @@ function BranchSelector() {
     closeModal();
     console.log("바꿔쓰", currentBranch);
     setBranch(currentBranch);
+  const onChangeHandler = (e) => {
+    setPrevBranch(currentBranch);
+    setCurretBranch(e.currentTarget.value);
+    openModal();
   };
 
   return (
     <>
-      <div className={styles.container}>
-        <select
-          className={styles.selector}
-          onChange={onChangeHandler}
-          value={currentBranch}
-        >
-          {branchList.map((branch, index) => (
-            <option key={index} value={branch}>
-              {branch}
-            </option>
-          ))}
-        </select>
-      </div>
+      <BranchSelector action={onChangeHandler} />
       <Modal
         open={modalOpen}
         content={
@@ -101,4 +88,4 @@ function BranchSelector() {
   );
 }
 
-export default BranchSelector;
+export default BranchChanger;
