@@ -106,6 +106,34 @@ ipcMain.on("gitStatus", (event, payload) => {
   event.returnValue = data;
 });
 
+//이거 exe 로 만들면 현재 디렉토리가 어디지?
+ipcMain.on('WriteCommitConvention', (event, payload) => {
+  if(!fs.existsSync("./asdf/commitConvention.json")){
+    fs.appendFileSync("./asdf/commitConvention.json","["+JSON.stringify(payload)+"]");
+  }
+  else{
+    const commitRules = JSON.parse(fs.readFileSync("./asdf/commitConvention.json").toString());
+    commitRules.push(payload)
+    fs.writeFileSync("./asdf/commitConvention.json",JSON.stringify(commitRules))
+  }
+})
+
+ipcMain.on('ReadCommitConvention', (event) => {
+  if(!fs.existsSync("./asdf/commitConvention.json")){
+    //fs.appendFileSync("./asdf/commitConvention.json","[]");
+    console.log("temp")
+    event.returnValue = "empty"
+  }
+  else {
+    const commitRules = fs.readFileSync("./asdf/commitConvention.json").toString();
+    console.log(commitRules)
+    console.log(typeof commitRules)
+    event.returnValue = commitRules
+  }
+
+})
+
+
 ipcMain.on("gitDiff", (event, arg) => {
   console.log("코드 전후 비교해볼래");
   console.log(arg);
@@ -138,4 +166,8 @@ ipcMain.on('gitReset', (event, payload) => {
   let data = runCommand(payload)
   console.log(data)
   // replyInputValue 송신 또는 응답
+})
+ipcMain.on('gitCommit', (event, payload) => {
+  let data = runCommand(payload)
+  console.log(data)
 })
