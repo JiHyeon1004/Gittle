@@ -16,7 +16,7 @@ function OauthPage() {
 
     if (codeParam && localStorage.getItem("accessToken") === null) {
       async function getAccessToken() {
-        await fetch("http://localhost:4000/getAccessToken?code=" + codeParam, {
+        await fetch("http://k7a503.p.ssafy.io:4000/getAccessToken?code=" + codeParam, {
           method: "GET",
         })
           .then((response) => {
@@ -41,7 +41,7 @@ function OauthPage() {
   }
 
   async function getUserData() {
-    await fetch("http://localhost:4000/getUserData", {
+    await fetch("http://k7a503.p.ssafy.io:4000/getUserData", {
       method: "GET",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("accessToken"),
