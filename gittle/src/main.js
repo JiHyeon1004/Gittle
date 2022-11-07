@@ -100,8 +100,6 @@ ipcMain.on("gitBranch", (event, newBranch) => {
   codes.push(branch);
   event.returnValue = codes;
 });
-=========
->>>>>>>>> Temporary merge branch 2
 
 app.whenReady().then(() => {
   createWindow();
