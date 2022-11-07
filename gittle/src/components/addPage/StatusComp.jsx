@@ -11,44 +11,63 @@ import "./StatusStyle.css";
  * file:///C:/Program%20Files/Git/mingw64/share/doc/git-doc/git-status.html
  */
 
-// 오른쪽 있으면 unstaged 그걸로 추가 ??
-//taskids도 비슷하게 
 const { ipcRenderer } = window.require("electron"); 
 let gitStatus = ipcRenderer.sendSync("gitStatus","asdf")
     .split("\n").filter((element) => element !=="");
-function unstagedData(){
-  let data = []
-  for (let i of gitStatus) {
-    let ii = i.trim().split(" ")
-    if(i[0]===' '||i[0]==='?'){
-      data.push({id : data.length.toString(), title :ii[1]})
+
+let unstagedIds = []
+let stagedIds = []
+let changedFile = []
+
+function statusData(){
+  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  //반쪽짜리 
+  //둘다 있을때 안사람짐 초기화 한번 해야됨
+  let count = 0
+  console.log(gitStatus)
+  const statusValue = ["M","T","A","R","C","U","D"]
+  for (let status of gitStatus) {
+    let type = "staged"
+    let statusArray = status.trim().split(" ").filter((element)=> element !=='')
+    if(statusValue.findIndex((e) => e===status[0])!==-1 ) {
+      stagedIds.push(count.toString())
+      changedFile.push({id : count.toString(), type : type, title : statusArray[1]})
+      count++
+    }
+    if(statusValue.findIndex((e) => e===status[1])!==-1||status[1]==='?') {
+      type = "unstaged"
+      unstagedIds.push(count.toString())
+      changedFile.push({id : count.toString(), type : type, title : statusArray[1]})
+      count++
     }
   }
-  return data;
-}
+};
+statusData()
+console.log(stagedIds)
+console.log(unstagedIds)
+console.log(changedFile)
 //수정 예정
-function unstagedIds(state){
-  let unstagedIds = []
-  let stagedIds = []
-  for (let i in gitStatus) {
-    unstagedIds.push(i.toString())
-  }
-  if(state) return unstagedIds
-  else return stagedIds
-}
+// function stagedIds(){
+//   for (let i in gitStatus) {
+//     console.log(i)
+//     unstagedIds.push(i.toString())
+//   }
+//   if(state) return unstagedIds
+//   else return stagedIds
+// }
 let entitiesMock = {
-  tasks: unstagedData(),
+  tasks: changedFile,
   columnIds: ["unstaged", "staged"],
   columns: {
     unstaged: {
       id: "unstaged",
       title: "Unstaged",
-      taskIds: unstagedIds(true)
+      taskIds: unstagedIds
     },
     staged: {
       id: "staged",
       title: "Staged",
-      taskIds: []
+      taskIds: stagedIds
     }
   }
 };
@@ -61,6 +80,7 @@ function MultiTableDrag() {
   const [entities, setEntities] = useState(entitiesMock);
   const [selectedTaskIds, setSelectedTaskIds] = useState([]);
   const [draggingTaskId, setDraggingTaskId] = useState(null);
+  const [filenames, setFilename] = useState([]);
   //이거가 테이블 헤더? 그거
   const tableColumns = [
     {
@@ -211,37 +231,42 @@ function MultiTableDrag() {
     
     
   };
-
+  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 이 밑으로 쭉 바꿈 리턴 바로위까지
   /**
    * On drag end
    */
   const onDragEnd = (result) => {
     const destination = result.destination;
     const source = result.source;
+    let command = "";
+    console.log(result.reason)
     // 같은 테이블 or 테이블 밖이면 초기화
     if (!destination || destination.droppableId === source.droppableId || result.reason === "CANCEL") {
       setDraggingTaskId(null);
       return;
     }
     for (let i of selectedTaskIds) {
-      const state = entitiesMock.tasks.find(element => element.id === i.toString())
+      command += " " + entitiesMock.tasks.find(element => element.id === i.toString()).title
     }
-
-    //try catch 할 예정
-    // if(destination.droppableId==="staged"){
-    //   const state = ipcRenderer.ipcRenderer.sendSync("gitAdd","추가예정");
-    // }
-    // else if(destination.droppableId==="unstaged"){
-
-    // }
+    console.log(command)
+    if(destination.droppableId==="staged"){
+      command = "git add -v " + command
+      ipcRenderer.send("gitAdd",command);
+      console.log(1)
+    }
+    else if(destination.droppableId==="unstaged"){
+      command = "git reset HEAD " + command
+      ipcRenderer.send("gitReset",command);
+      console.log(2)
+    }
     const processed = mutliDragAwareReorder({
       entities,
       selectedTaskIds,
       source,
       destination
     });
-
-
+    console.log(processed)
+    
     setEntities(processed.entities);
     setDraggingTaskId(null);
   };
@@ -250,14 +275,14 @@ function MultiTableDrag() {
    * Toggle selection
    * 키 안누르고 행 선택할 때
    */
-  const toggleSelection = (taskId) => {
-    const wasSelected = selectedTaskIds.includes(taskId);
+  const toggleSelection = (task) => {
+    const wasSelected = selectedTaskIds.includes(task.id);
     const newTaskIds = (() => {
       // Task was not previously selected
       // now will be the only selected item
       // 선택 안 되어 있었으면 추가
       if (!wasSelected) {
-        return [taskId];
+        return [task.id];
       }
 
       // Task was part of a selected group
@@ -265,7 +290,7 @@ function MultiTableDrag() {
       // 여러개 선택되어 있었으면 그 행만 선택, 나머지 초기화
       if (selectedTaskIds.length > 1) {
 
-        return [taskId];
+        return [task.id];
       }
       // task was previously selected but not in a group
       // we will now clear the selection
@@ -280,12 +305,12 @@ function MultiTableDrag() {
    * Toggle selection in group
    * ctrl키 누르고 선택 시
    */
-  const toggleSelectionInGroup = (taskId) => {
-    const index = selectedTaskIds.indexOf(taskId);
+  const toggleSelectionInGroup = (task) => {
+    const index = selectedTaskIds.indexOf(task.id);
     // if not selected - add it to the selected items
     // 선택 안되어 있었으면 추가
     if (index === -1) {
-      setSelectedTaskIds([...selectedTaskIds, taskId]);
+      setSelectedTaskIds([...selectedTaskIds, task.id]);
 
       return;
     }
@@ -304,9 +329,9 @@ function MultiTableDrag() {
    * This behaviour matches the MacOSX finder selection
    * shift키 선택시
    */
-  const multiSelectTo = (newTaskId) => {
+  const multiSelectTo = (task) => {
     //util.js 확인
-    const updated = multiSelect(entities, selectedTaskIds, newTaskId);
+    const updated = multiSelect(entities, selectedTaskIds, task.id);
     if (updated == null) {
       return;
     }
@@ -359,18 +384,18 @@ function MultiTableDrag() {
 
     //ctrl
     if (wasToggleInSelectionGroupKeyUsed(e)) {
-      toggleSelectionInGroup(record.id);
+      toggleSelectionInGroup(record);
       return;
     }
 
     //shift
     if (wasMultiSelectKeyUsed(e)) {
-      multiSelectTo(record.id);
+      multiSelectTo(record);
       return; 
     }
 
     //default
-    toggleSelection(record.id);
+    toggleSelection(record);
   };
 
   return (
@@ -420,7 +445,7 @@ function MultiTableDrag() {
                   />
                 </div>
               </Col>
-              <Col key="staged" span={12}>
+              <Col key="Staged" span={12}>
                 <div className="inner-col-staged">
                   <Row justify="space-between" align="middle">
                     <h2>staged</h2>

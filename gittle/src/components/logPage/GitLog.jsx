@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Octokit } from "octokit";
 import styles from "./GitLog.module.css";
+import { useRecoilValue } from "recoil"; 
+import { selectedBranch } from "../../atoms";
 
 export default function GitLog() {
   const [logs, setLogs] = useState([]);
@@ -13,19 +15,25 @@ export default function GitLog() {
   const [codeAfter, setCodeAfter] = useState([]);
   const [commitIdx, setCommitIdx] = useState(0);
   const [fileIdx, setFileIdx] = useState(0);
+  const branch = useRecoilValue(selectedBranch)
+
+  console.log(branch)
 
   useEffect(() => {
     async function getLog() {
+      const user = localStorage.getItem("userInfo");
       const octokit = new Octokit({
         auth: "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",
       });
+      
+      console.log(branch)
 
       const result = await octokit.request(
         "GET /repos/{owner}/{repo}/commits",
         {
-          owner: "junghyun1009",
+          owner: user,
           repo: "TIL",
-          sha: "test",
+          sha: branch,
         }
       );
 
@@ -34,7 +42,7 @@ export default function GitLog() {
       setLogs(result.data);
     }
     getLog();
-  }, []);
+  }, [branch]);
 
   useEffect(() => {
     async function getCommit() {
@@ -91,6 +99,7 @@ export default function GitLog() {
   return (
     <>
       <div>
+        {branch}
         {logs.map((log, index) => (
           <div
             className={styles.logbox}

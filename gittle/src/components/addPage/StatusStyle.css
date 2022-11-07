@@ -15,16 +15,24 @@
   background: #e2e2e2;
   z-index: 1;
 }
-.c-multi-drag-table .inner-col {
+.c-multi-drag-table .inner-col-unstaged {
   position: relative;
   height: 100%;
   background: #fff;
-  border: 1px solid #f0f0f0;
+  border: 4px solid #FF6B6B;
   padding: 10px;
   /* z-index: 2; */
 }
+.c-multi-drag-table .inner-col-staged {
+    position: relative;
+    height: 100%;
+    background: #fff;
+    border: 4px solid #6BCC78;
+    padding: 10px;
+    /* z-index: 2; */
+}
 .c-multi-drag-table .ant-table {
-  border: 1px solid #f0f0f0;
+  /* border: 5px solid #f0f0f0; */
 }
 .c-multi-drag-table .ant-table-thead > tr > th,
 .c-multi-drag-table .ant-table-tbody > tr > td,
