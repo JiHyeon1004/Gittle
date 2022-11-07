@@ -52,7 +52,6 @@ ipcMain.on("update-my-repo", (event, arg) => {
     arr.pop();
   }
 
-  console.log("arr입니다 : " + arr.length);
   for (let i = 0; i < arr.length; i++) {
     console.log(arr[i]);
   }
@@ -69,24 +68,30 @@ ipcMain.on("call-my-repo", (event, arg) => {
   if (arr === undefined) {
     arr = [];
   }
-  console.log(arr);
-  console.log("돌아갑니다");
-  event.returnValue = arr;
-});
 
-ipcMain.on("call-my-repo-2", (event, arg) => {
-  console.log("가져오기 시작");
-  const Store = require("electron-store");
-  const store = new Store();
+  console.log("arr : " + arr);
 
-  let arr = store.get("gittle-myRepo");
+  let result = [];
 
-  if (arr === undefined) {
-    arr = [];
+  for (let i = 0; i < arr.length; i++) {
+    // if(arr[i]===null){
+    //   arr=[]
+    // }
+    if (arr[i] !== null) {
+      result.push(arr[i]);
+    }
+
+    console.log(arr[i]);
   }
-  console.log(arr);
+
+  if (result.length !== arr.length) {
+    store.set("gittle-myRepo", result);
+  }
+
+  console.log(result.length);
+  console.log(result);
   console.log("돌아갑니다");
-  event.sender.send("return-2", arr);
+  event.returnValue = result;
 });
 
 app.whenReady().then(() => {
@@ -95,6 +100,7 @@ app.whenReady().then(() => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
 });
+
 app.on("window-all-closed", function () {
   if (process.platform !== "darwin") app.quit();
 });
@@ -104,6 +110,21 @@ ipcMain.on("gitStatus", (event, payload) => {
   console.log("git status : \n", data);
   // replyInputValue 송신 또는 응답
   event.returnValue = data;
+});
+
+ipcMain.on("git-Clone", (event, payload) => {
+  console.log("도착했습니다요요요용");
+  console.log("저장소 루트 : " + payload.cloneRoot);
+  console.log("폴더 루트 : " + payload.repoRoot);
+  let path = runCommand(
+    `cd "${payload.repoRoot}" && git clone ${payload.cloneRoot}`
+  );
+  console.log("path : " + path);
+});
+
+ipcMain.on("git-Init", (event, payload) => {
+  let start = runCommand(`cd "${payload.repoRoot}" && git init`);
+  console.log("start : " + start);
 });
 
 ipcMain.on("gitDiff", (event, arg) => {
@@ -127,6 +148,17 @@ ipcMain.on("gitDiff", (event, arg) => {
   // console.log(arr)
   // console.log('돌아갑니다')
   // event.sender.send('return-2',arr)
+});
+ipcMain.on("gitAdd", (event, payload) => {
+  let data = runCommand(payload);
+  console.log(data);
+  // replyInputValue 송신 또는 응답
+});
+
+ipcMain.on("gitReset", (event, payload) => {
+  let data = runCommand(payload);
+  console.log(data);
+  // replyInputValue 송신 또는 응답
 });
 
 ipcMain.on("gitBranch", (event, route) => {
