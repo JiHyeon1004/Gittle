@@ -41,6 +41,7 @@
   border-style: solid;
   border-width: 0.1rem 0 0.1rem 0.1rem;
   border-color: black;
+  /* max-height: 30%; */
 }
 
 .codeafter {
@@ -48,6 +49,7 @@
   border-style: solid;
   border-width: 0.1rem;
   border-color: black;
+  /* max-height: 30%; */
 }
 
 .title {
@@ -59,6 +61,8 @@
 
 .box {
   padding: 0.3rem;
+  overflow: scroll;
+  max-height: 200px;
 }
 
 .minus {

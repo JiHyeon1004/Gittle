@@ -115,3 +115,26 @@ ipcMain.on("gitStatus", (event, payload) => {
   // replyInputValue 송신 또는 응답
   event.returnValue = data;
 });
+
+ipcMain.on("gitDiff", (event, arg) => {
+  console.log("코드 전후 비교해볼래");
+  console.log(arg);
+  const codes = [];
+  arg.map((file) => {
+    let diff = runCommand(`git diff ${file}`);
+    console.log("git diff : ", diff);
+    codes.push(diff);
+  });
+  event.returnValue = codes;
+  // const Store=require('electron-store')
+  // const store = new Store()
+
+  // let arr = store.get('gittle-myRepo')
+
+  // if(arr===undefined){
+  //   arr=[]
+  // }
+  // console.log(arr)
+  // console.log('돌아갑니다')
+  // event.sender.send('return-2',arr)
+});
