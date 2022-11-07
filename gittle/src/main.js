@@ -106,7 +106,7 @@ app.on("window-all-closed", function () {
 });
 
 ipcMain.on("gitStatus", (event, payload) => {
-  let data = runCommand("git status -u -s");
+  let data = runCommand(`git --git-dir=${payload}\\.git status -u -s`);
   console.log("git status : \n", data);
   // replyInputValue 송신 또는 응답
   event.returnValue = data;
