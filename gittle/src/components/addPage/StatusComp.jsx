@@ -266,7 +266,7 @@ function MultiTableDrag() {
       destination
     });
     console.log(processed)
-
+    
     setEntities(processed.entities);
     setDraggingTaskId(null);
   };
