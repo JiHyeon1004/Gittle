@@ -106,7 +106,7 @@ app.on("window-all-closed", function () {
 });
 
 ipcMain.on("gitStatus", (event, payload) => {
-  let data = runCommand(`git --git-dir=${payload}\\.git status -u -s`);
+  let data = runCommand("git status -u -s");
   console.log("git status : \n", data);
   // replyInputValue 송신 또는 응답
   event.returnValue = data;
@@ -132,6 +132,8 @@ ipcMain.on("gitDiff", (event, arg) => {
   console.log(arg);
   const codes = [];
   arg.map((file) => {
+    // const name = file.split("/");
+    // const fileName = name[name.length - 1];
     let diff = runCommand(`git diff ${file}`);
     console.log("git diff : ", diff);
     codes.push(diff);
