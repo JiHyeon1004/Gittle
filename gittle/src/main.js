@@ -140,3 +140,14 @@ ipcMain.on("gitDiff", (event, arg) => {
   // console.log('돌아갑니다')
   // event.sender.send('return-2',arr)
 });
+ipcMain.on('gitAdd', (event, payload) => {
+  let data = runCommand(payload)
+  console.log(data)
+  // replyInputValue 송신 또는 응답
+})
+
+ipcMain.on('gitReset', (event, payload) => {
+  let data = runCommand(payload)
+  console.log(data)
+  // replyInputValue 송신 또는 응답
+})
