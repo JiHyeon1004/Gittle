@@ -165,3 +165,21 @@ ipcMain.on('gitReset', (event, payload) => {
   console.log(data)
   // replyInputValue 송신 또는 응답
 })
+
+ipcMain.on('git-Branch',(event,payload)=>{
+  let data= runCommand(`cd "${payload}" && git branch -r`)
+  // console.log(typeof(data))
+  // console.log("data : "+data)
+  let result=data.split('\n')
+  let arr=[]
+  for(let i=0;i<result.length;i++){
+    if(result[i].length!==0){
+      arr.push(result[i])
+    }
+  }
+  for(let i=0;i<arr.length;i++){
+    console.log(i,'번 째 : ',arr[i])
+  }
+
+  event.returnValue=arr
+})

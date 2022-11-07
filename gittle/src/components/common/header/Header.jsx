@@ -9,7 +9,7 @@ function Header() {
       <div>
         <Link to="/main">main</Link> | <Link to="/add">add</Link> |{" "}
         <Link to="/oauth">oauth</Link> | <Link to="/log">log</Link> |{" "}
-        <Link to="/merge">merge</Link>
+        <Link to="/merge">merge</Link> | <Link to="/push">push</Link> |{" "}
       </div>
     </div>
   );

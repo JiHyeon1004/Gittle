@@ -1,0 +1,10 @@
+.commit{
+    width: 60%;
+    height: 60%;
+    border: 3px solid rgb(36, 186, 71);
+    background-color: antiquewhite;
+    border-radius: 10px;
+    position: relative;
+    left: 20%;
+    top: 20%;
+}

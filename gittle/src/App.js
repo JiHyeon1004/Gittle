@@ -6,6 +6,7 @@ import Oauth from "./pages/OauthPage";
 import React from "react";
 import Log from "./pages/LogPage";
 import MergeReady from "./pages/MergeReadyPage";
+import GitPush from "./pages/GitPush"
 import Header from "./components/common/header/Header";
 import SideBar from "./components/common/sidebar/SideBar";
 import "./App.css";
@@ -24,6 +25,7 @@ function App() {
           <Route path="/oauth" element={<Oauth />} />
           <Route path="/log" element={<Log />} />
           <Route path="/merge" element={<MergeReady />} />
+          <Route path="/push" element={<GitPush/>}/>
         </Routes>
       </div>
     </>
