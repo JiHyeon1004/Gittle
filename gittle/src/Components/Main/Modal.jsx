@@ -28,13 +28,17 @@ function Modal(props){
     }
 
     const updateMyRepo= ()=>{
-        ipcRenderer.send('update-my-repo',{branch:{repoName},root:{repoRoot}})
+            ipcRenderer.send('update-my-repo',{branch:{repoName},root:{repoRoot}})
     }
 
     const cloneMyRepo=()=>{
         console.log('repoRoot : '+{repoRoot})
         console.log('cloneRoot : '+{cloneRoot})
         ipcRenderer.send('git-Clone',{repoRoot:repoRoot,cloneRoot:cloneRoot})
+    }
+
+    const initMyRepo=()=>{
+        ipcRenderer.send('git-Init',{repoRoot:repoRoot})
     }
 
     //최근 사용한 Repo로 값 넣어주기
@@ -77,12 +81,17 @@ function Modal(props){
             <div className={styles.buttonLayer}>
                 <button className={styles.button} onClick={()=>{
                     if(props.setModalOpen.number===0){
+                        //git init 
+                        initMyRepo()
                         updateMyRepo()
                         navigate("/add",{state:{name:repoName,root:repoRoot}})
                     }else if(props.setModalOpen.number===1){
-
+                        //폴더 바꿔주기
+                        updateMyRepo()
+                        navigate("/add",{state:{name:repoName,root:repoRoot}})
                     }else{
                         cloneMyRepo()
+                        updateMyRepo()
                         navigate("/add",{state:{name:repoName,root:repoRoot}})
                     }
                     

@@ -128,3 +128,8 @@ ipcMain.on('git-Clone',(event, payload)=>{
   let path=runCommand(`cd "${payload.repoRoot}" && git clone ${payload.cloneRoot}`)
   console.log('path : '+path)
 })
+
+ipcMain.on('git-Init',(event,payload)=>{
+  let start=runCommand(`cd "${payload.repoRoot}" && git init`)
+  console.log("start : " + start)
+})
