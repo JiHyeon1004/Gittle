@@ -128,3 +128,13 @@ ipcMain.on("gitDiff", (event, arg) => {
   // console.log('돌아갑니다')
   // event.sender.send('return-2',arr)
 });
+
+ipcMain.on("gitBranch", (event, route) => {
+  console.log("현재 작업 중인 브랜치를 보여줘");
+  console.log(route);
+  const branch = runCommand(
+    `git --git-dir=${route}\\.git branch --show-current `
+  );
+  console.log("브랜치이이이", branch);
+  event.returnValue = branch;
+});
