@@ -1,0 +1,31 @@
+.merge {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.text {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.text p {
+  margin-bottom: 0;
+}
+
+.branch {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-right: 0.5rem;
+}
+
+.arrow {
+  display: flex;
+  flex-direction: column;
+  margin: 1.3rem 0.5rem 0 0.5rem;
+}
+
+.arrow p {
+  margin-bottom: 0;
+}
