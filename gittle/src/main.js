@@ -42,52 +42,63 @@ ipcMain.on("update-my-repo", (event, arg) => {
 
   let arr = store.get("gittle-myRepo");
 
-  if (arr === undefined) {
-    arr = [];
+    if(arr===undefined){
+      
+      arr=[]
+    }
+
+    arr.unshift(arg)
+
+    if(arr.length===4){
+      arr.pop()
+    }
+
+    for(let i=0;i<arr.length;i++){
+      console.log(arr[i])
+    }
+    store.set('gittle-myRepo',arr)
+})
+
+
+
+
+ipcMain.on('call-my-repo',(event,arg)=>{
+  console.log('가져오기 시작')
+  const Store=require('electron-store')
+  const store = new Store()
+
+  let arr = store.get('gittle-myRepo')
+
+  if(arr===undefined){
+    arr=[]
+  }
+  
+
+  console.log("arr : "+arr)
+
+  let result=[]
+
+  for(let i =0;i<arr.length;i++){
+    // if(arr[i]===null){
+    //   arr=[]
+    // }
+    if(arr[i]!==null){
+      result.push(arr[i])
+    }
+
+    console.log(arr[i])
   }
 
-  arr.unshift(arg);
-
-  if (arr.length === 4) {
-    arr.pop();
+  if(result.length!==arr.length){
+    store.set('gittle-myRepo',result)
   }
 
-  console.log("arr입니다 : " + arr.length);
-  for (let i = 0; i < arr.length; i++) {
-    console.log(arr[i]);
-  }
-  store.set("gittle-myRepo", arr);
-});
-
-ipcMain.on("call-my-repo", (event, arg) => {
-  console.log("가져오기 시작");
-  const Store = require("electron-store");
-  const store = new Store();
-
-  let arr = store.get("gittle-myRepo");
-
-  if (arr === undefined) {
-    arr = [];
-  }
-  console.log(arr);
-  console.log("돌아갑니다");
-  event.returnValue = arr;
-});
-
-ipcMain.on("call-my-repo-2", (event, arg) => {
-  console.log("가져오기 시작");
-  const Store = require("electron-store");
-  const store = new Store();
-
-  let arr = store.get("gittle-myRepo");
-
-  if (arr === undefined) {
-    arr = [];
-  }
-  console.log(arr);
-  console.log("돌아갑니다");
-  event.sender.send("return-2", arr);
-});
+  console.log(result.length)
+  console.log(result)
+  console.log('돌아갑니다')
+  event.returnValue=result
+  
+})
 
 app.whenReady().then(() => {
   createWindow();
@@ -95,6 +106,8 @@ app.whenReady().then(() => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
 });
+
+
 app.on("window-all-closed", function () {
   if (process.platform !== "darwin") app.quit();
 });
@@ -103,8 +116,21 @@ ipcMain.on("gitStatus", (event, payload) => {
   let data = runCommand("git status -u -s");
   console.log("git status : \n", data);
   // replyInputValue 송신 또는 응답
-  event.returnValue = data;
-});
+  event.returnValue = data
+})
+
+ipcMain.on('git-Clone',(event, payload)=>{
+  console.log('도착했습니다요요요용')
+  console.log('저장소 루트 : '+payload.cloneRoot)
+  console.log('폴더 루트 : '+payload.repoRoot)
+  let path=runCommand(`cd "${payload.repoRoot}" && git clone ${payload.cloneRoot}`)
+  console.log('path : '+path)
+})
+
+ipcMain.on('git-Init',(event,payload)=>{
+  let start=runCommand(`cd "${payload.repoRoot}" && git init`)
+  console.log("start : " + start)
+})
 
 ipcMain.on("gitDiff", (event, arg) => {
   console.log("코드 전후 비교해볼래");

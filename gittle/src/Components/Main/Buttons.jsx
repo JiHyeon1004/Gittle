@@ -12,9 +12,9 @@ function Buttons(){
     }
 
     const modalArray = [
-        {name:"생성",isRoot:true},
-        {name:"열기",isRoot:false},
-        {name:"복제",isRoot:true}
+        {name:"생성",isRoot:true,number:0},
+        {name:"열기",isRoot:false,number:1},
+        {name:"복제",isRoot:true,number:2}
     ]
     
     const [chosen , setChosen] = useState(-1);
