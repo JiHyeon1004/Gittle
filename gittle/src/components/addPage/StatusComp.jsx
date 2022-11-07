@@ -96,10 +96,12 @@ const COLUMN_ID_DONE = "staged";
 // https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/button
 const PRIMARY_BUTTON_NUMBER = 0;
 
-function MultiTableDrag() {
+function MultiTableDrag({ getFile, getDiff }) {
   const [entities, setEntities] = useState(entitiesMock);
   const [selectedTaskIds, setSelectedTaskIds] = useState([]);
   const [draggingTaskId, setDraggingTaskId] = useState(null);
+  const [selectedTaskTitles, setSelectedTaskTitles] = useState([]);
+  const [selectedCodes, setSelectedCodes] = useState([]);
   const [filenames, setFilename] = useState([]);
   //이거가 테이블 헤더? 그거
   const tableColumns = [
@@ -109,6 +111,27 @@ function MultiTableDrag() {
     },
   ];
 
+  // unstaged 목록에서 클릭한 파일들에 대해 git diff 실행하는 함수
+  useEffect(() => {
+    const showDiff = (arr) => {
+      const { ipcRenderer } = window.require("electron");
+      // console.log(arr);
+      if (arr.length) {
+        const gitDiff = ipcRenderer.sendSync("gitDiff", arr);
+        // console.log("gitDiff", gitDiff);
+        // return gitDiff;
+        setSelectedCodes(gitDiff);
+        // 부모 요소에 unstaged 목록에서 선택한 파일 목록 보내기
+        getFile(arr);
+        // 부모 요소에 unstaged 목록에서 선택한 파일 변경 사항 보내기
+        getDiff(gitDiff);
+      }
+    };
+    showDiff(selectedTaskTitles);
+    // console.log("sc", selectedCodes);
+    // getDiff(selectedCodes);
+  }, [selectedTaskTitles]);
+
   /**
    * On window click
    * 선택한 행 초기화
@@ -117,7 +140,9 @@ function MultiTableDrag() {
     if (e.defaultPrevented) {
       return;
     }
-    setSelectedTaskIds([]);
+    // 정현 컴포넌트 누르면 초기화되길래 일단 주석 처리 해둠!
+    // setSelectedTaskIds([]);
+    // setSelectedTaskTitles([]);
   }, []);
 
   /**
@@ -130,7 +155,9 @@ function MultiTableDrag() {
     }
 
     if (e.key === "Escape") {
-      setSelectedTaskIds([]);
+      // 정현 컴포넌트 누르면 초기화되길래 일단 주석 처리 해둠!
+      // setSelectedTaskIds([]);
+      // setSelectedTaskTitles([]);
     }
   }, []);
 
@@ -239,6 +266,7 @@ function MultiTableDrag() {
     // 드래그 중인 아이템이 선택된 것이 아닐 때 초기화
     if (!selected) {
       setSelectedTaskIds([]);
+      setSelectedTaskTitles([]);
     }
     //드래그 중인 아이템에 현재 드래그 중인 행 추가
     // setDraggingTaskId(draggableId);   얘가 문제!!!!!!!!!!!!!!!!!!!!!!!
@@ -294,6 +322,7 @@ function MultiTableDrag() {
    */
   const toggleSelection = (task) => {
     const wasSelected = selectedTaskIds.includes(task.id);
+    const wasSelctedFiles = selectedTaskTitles.includes(task.title);
     const newTaskIds = (() => {
       // Task was not previously selected
       // now will be the only selected item
@@ -313,7 +342,19 @@ function MultiTableDrag() {
       // 선택 되어있었으면 빼기
       return [];
     })();
+
+    const newTaskTitles = (() => {
+      if (!wasSelctedFiles) {
+        return [task.title];
+      }
+      if (setSelectedTaskTitles.length > 1) {
+        return [task.title];
+      }
+      return [];
+    })();
+
     setSelectedTaskIds(newTaskIds);
+    setSelectedTaskTitles(newTaskTitles);
   };
 
   /**
@@ -322,20 +363,24 @@ function MultiTableDrag() {
    */
   const toggleSelectionInGroup = (task) => {
     const index = selectedTaskIds.indexOf(task.id);
+    const title = selectedTaskTitles.indexOf(task.title);
     // if not selected - add it to the selected items
     // 선택 안되어 있었으면 추가
     if (index === -1) {
       setSelectedTaskIds([...selectedTaskIds, task.id]);
-
+      setSelectedTaskTitles([...selectedTaskTitles, task.title]);
       return;
     }
 
     // it was previously selected and now needs to be removed from the group
     // 선택 되어 있었으면 빼기
     const shallow = [...selectedTaskIds];
+    const shallowTitles = [...selectedTaskTitles];
     shallow.splice(index, 1);
+    shallowTitles.splice(title, 1);
 
     setSelectedTaskIds(shallow);
+    setSelectedTaskTitles(shallowTitles);
   };
 
   /**
@@ -350,7 +395,13 @@ function MultiTableDrag() {
       return;
     }
 
+    const updatedTitles = multiSelect(entities, selectedTaskTitles, task.title);
+    if (updatedTitles == null) {
+      return;
+    }
+
     setSelectedTaskIds(updated);
+    setSelectedTaskTitles(updatedTitles);
   };
 
   /**
@@ -414,6 +465,7 @@ function MultiTableDrag() {
     <>
       <Card className={`c-multi-drag-table`}>
         <div>selectedTaskIds: {JSON.stringify(selectedTaskIds)}</div>
+        <div>selectedTaskTitles: {JSON.stringify(selectedTaskTitles)}</div>
         <br />
         <DragDropContext
           onBeforeCapture={onBeforeCapture}
