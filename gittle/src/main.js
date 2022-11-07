@@ -72,49 +72,33 @@ ipcMain.on('call-my-repo',(event,arg)=>{
   if(arr===undefined){
     arr=[]
   }
+  
 
-  arr.unshift(arg);
+  console.log("arr : "+arr)
 
-  if (arr.length === 4) {
-    arr.pop();
+  let result=[]
+
+  for(let i =0;i<arr.length;i++){
+    // if(arr[i]===null){
+    //   arr=[]
+    // }
+    if(arr[i]!==null){
+      result.push(arr[i])
+    }
+
+    console.log(arr[i])
   }
 
-  console.log("arr입니다 : " + arr.length);
-  for (let i = 0; i < arr.length; i++) {
-    console.log(arr[i]);
+  if(result.length!==arr.length){
+    store.set('gittle-myRepo',result)
   }
-  store.set("gittle-myRepo", arr);
-});
 
-ipcMain.on("call-my-repo", (event, arg) => {
-  console.log("가져오기 시작");
-  const Store = require("electron-store");
-  const store = new Store();
-
-  let arr = store.get("gittle-myRepo");
-
-  if (arr === undefined) {
-    arr = [];
-  }
-  console.log(arr);
-  console.log("돌아갑니다");
-  event.returnValue = arr;
-});
-
-ipcMain.on("call-my-repo-2", (event, arg) => {
-  console.log("가져오기 시작");
-  const Store = require("electron-store");
-  const store = new Store();
-
-  let arr = store.get("gittle-myRepo");
-
-  if (arr === undefined) {
-    arr = [];
-  }
-  console.log(arr);
-  console.log("돌아갑니다");
-  event.sender.send("return-2", arr);
-});
+  console.log(result.length)
+  console.log(result)
+  console.log('돌아갑니다')
+  event.returnValue=result
+  
+})
 
 app.whenReady().then(() => {
   createWindow();
