@@ -38,9 +38,7 @@ export default function Remote() {
   return (
     <div className={styles.main}>
       <div className={styles.remote}>
-        <div className={styles.remotebox}>
-          <p>remote</p>
-        </div>
+        <div className={styles.remotebox}>remote</div>
         <div className={styles.listandbtn}>
           {branches.length ? (
             <div>
@@ -91,7 +89,7 @@ export default function Remote() {
               </div>
             </div>
           ) : null}
-          <div>merge</div>
+          <div className={styles.button}>merge</div>
         </div>
       </div>
     </div>
