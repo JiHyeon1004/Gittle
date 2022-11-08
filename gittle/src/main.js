@@ -13,6 +13,7 @@ function createWindow() {
   const win = new BrowserWindow({
     width: 1024,
     height: 768,
+    icon: path.join(__dirname, "../public/apple.png"),
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
@@ -113,7 +114,7 @@ ipcMain.on("gitStatus", (event, payload) => {
 });
 
 ipcMain.on("git-Clone", (event, payload) => {
-  console.log("도착했습니다요요요용");
+  console.log("도착했습니다");
   console.log("저장소 루트 : " + payload.cloneRoot);
   console.log("폴더 루트 : " + payload.repoRoot);
   let path = runCommand(
