@@ -141,62 +141,62 @@ function MergePage() {
   };
 
   return (
-    <div>
+    <div className={styles.main}>
       <p>merge</p>
       <div className={styles.merge}>
         <div className={styles.text}>
-          <p className={styles.branch}>{pushed}</p>
-          <p>branch에서</p>
+          <p className={styles.pushedbranch}>{pushed}</p>
+          <p className={styles.line}>branch 에서</p>
         </div>
         <div className={styles.arrow}>
           <FontAwesomeIcon icon={faCircleArrowRight} className={styles.icon} />
           <p>merge</p>
         </div>
         <div className={styles.text}>
-          <p className={styles.branch}>{merging}</p>
-          <p>branch로</p>
+          <p className={styles.mergingbranch}>{merging}</p>
+          <p className={styles.line}>branch 로</p>
         </div>
       </div>
       <div>
-        <div>제목</div>
-        <input type="text" onChange={onTitleChange} value={title} />
+        <p className={styles.title}>제목</p>
+        <input type="text" onChange={onTitleChange} value={title} className={styles.titleinput} />
       </div>
       <div>
-        <div>설명</div>
+        <p className={styles.title}>설명</p>
         <textarea
           name="description"
           cols="50"
           rows="10"
           onChange={onDesChange}
           value={description}
+          className={styles.input}
         ></textarea>
       </div>
-      <button onClick={sendRequest}>merge 요청하기</button>
-      <hr />
-      <div>리뷰 요청</div>
-      <div>
+      <div className={styles.review}>
         <div>
-          <div>담당자</div>
-          <select onChange={onAssigneeChange}>
+          <p className={styles.title}>담당자</p>
+          <select onChange={onAssigneeChange} className={styles.select}>
             {collab.map((member) => (
               <option
                 key={member.value}
                 value={member.value}
                 defaultValue={member.value === "null"}
+                className={styles.option}
               >
                 {member.name}
               </option>
             ))}
           </select>
         </div>
-        <div>
-          <div>검토자</div>
-          <select onChange={onReviewerChange}>
+        <div className={styles.reviewer}>
+          <p className={styles.title}>검토자</p>
+          <select onChange={onReviewerChange} className={styles.select}>
             {reviewer.map((member) => (
               <option
                 key={member.value}
                 value={member.value}
                 defaultValue={member.value === "null"}
+                className={styles.option}
               >
                 {member.name}
               </option>
@@ -204,6 +204,7 @@ function MergePage() {
           </select>
         </div>
       </div>
+      <button onClick={sendRequest}>merge 요청하기</button>
     </div>
   );
 }
