@@ -110,11 +110,14 @@ ipcMain.on("gitStatus", (event, payload) => {
 ipcMain.on('WriteCommitConvention', (event, payload) => {
   if(!fs.existsSync("./asdf/commitConvention.json")){
     fs.appendFileSync("./asdf/commitConvention.json","["+JSON.stringify(payload)+"]");
+    const commitRules = JSON.parse(fs.readFileSync("./asdf/commitConvention.json").toString());
+    event.returnValue = commitRules;
   }
   else{
     const commitRules = JSON.parse(fs.readFileSync("./asdf/commitConvention.json").toString());
     commitRules.push(payload)
     fs.writeFileSync("./asdf/commitConvention.json",JSON.stringify(commitRules))
+    event.returnValue = commitRules;
   }
 })
 
@@ -170,4 +173,15 @@ ipcMain.on('gitReset', (event, payload) => {
 ipcMain.on('gitCommit', (event, payload) => {
   let data = runCommand(payload)
   console.log(data)
+  event.returnValue = data;
+})
+ipcMain.on('lastCommitDescription', (event, payload) => {
+  let data
+  try {
+    data = runCommand(payload).split(" : ")[1]
+  } catch (error) {
+    console.error(error);
+    data = "empty"
+  }
+  event.returnValue = data;
 })

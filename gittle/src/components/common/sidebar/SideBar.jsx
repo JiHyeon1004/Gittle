@@ -1,5 +1,4 @@
 import React from "react";
-import AddCommitConvention from "./AddCommitConvention";
 import BranchManage from "./BranchManage";
 import BranchSelector from "./BranchSelector";
 import GitCommit from "./GitCommit";
@@ -11,7 +10,6 @@ function SideBar() {
     <div className={styles.container}>
       <BranchSelector />
       <BranchManage />
-      <AddCommitConvention/>
       <GitCommit/>
     </div>
   );
