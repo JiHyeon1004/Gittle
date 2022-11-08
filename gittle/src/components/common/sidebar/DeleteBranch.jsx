@@ -4,12 +4,18 @@ import Modal from "../Modal";
 import styles from "./DeleteBranch.module.css";
 import { useLocation } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { currentBranch } from "../../../atoms";
+import { currentBranch, deleteBranch } from "../../../atoms";
 
 function DeleteBranch() {
   const location = useLocation();
   const [modalOpen, setModalOpen] = useState(false);
-  const [current, setCurrent] = useRecoilState(currentBranch);
+  // const [current, setCurrent] = useRecoilState(currentBranch);
+  const [delBranch, setDelBranch] = useRecoilState(deleteBranch);
+  const { ipcRenderer } = window.require("electron");
+
+  const deleteBranch = (delBranch) => {
+    ipcRenderer.sendSync("delete branch", location.state.root, delBranch);
+  };
 
   const openModal = () => {
     setModalOpen(true);
@@ -18,15 +24,21 @@ function DeleteBranch() {
     setModalOpen(false);
   };
 
-  const deleteNewBranches = (curBranch) => {
-    const { ipcRenderer } = window.require("electron");
-    const gitBranch = ipcRenderer.sendSync(
-      "delete branch",
-      curBranch,
-      location.state.root
-    );
-    return gitBranch;
+  const branchDeletor = () => {
+    deleteBranch(delBranch);
   };
+  console.log("del", delBranch);
+
+  // const deleteNewBranches = (curBranch) => {
+  //   const { ipcRenderer } = window.require("electron");
+  //   const gitBranch = ipcRenderer.sendSync(
+  //     "delete branch",
+  //     defaultBranch,
+  //     curBranch,
+  //     location.state.root
+  //   );
+  //   return gitBranch;
+  // };
 
   return (
     <>
@@ -47,7 +59,7 @@ function DeleteBranch() {
       >
         <div className={styles.buttonContainer}>
           <Button
-            action={deleteNewBranches(current)}
+            // action={deleteNewBranches(current)}
             content={"예"}
             style={{ backgroundColor: "#6BCC78" }}
           />

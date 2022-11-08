@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { currentBranch, selectBranch } from "../../../atoms";
+import { currentBranch, selectBranch, deleteBranch } from "../../../atoms";
 import styles from "./BranchList.module.css";
 
 function BranchList() {
   const location = useLocation();
   const [curBranch, setCurBranch] = useRecoilState(currentBranch);
   const [selectedBranch, setSelectedBranch] = useRecoilState(selectBranch);
-
+  const [delBranch, setDelBranch] = useRecoilState(deleteBranch);
   const [listOpen, setListOpen] = useState(false);
   const { ipcRenderer } = window.require("electron");
   const branches = ipcRenderer.sendSync("branchList", location.state.root);
@@ -28,6 +28,10 @@ function BranchList() {
     // return gitBranch;
   };
 
+  //   const deleteBranch = (delBranch) => {
+  //     ipcRenderer.sendSync("delete branch", location.state.root, delBranch);
+  //   };
+
   const showBranches = () => {
     setListOpen(!listOpen);
   };
@@ -44,11 +48,24 @@ function BranchList() {
     setSelectedBranch(innerText);
   };
 
-  const onChangeHandler = () => {
+  const branchChanger = () => {
     changeBranch(selectedBranch);
     setCurBranch(selectedBranch);
   };
-  useEffect(onChangeHandler, [selectedBranch]);
+
+  useEffect(branchChanger, [selectedBranch]);
+
+  const delBranchSelector = (e) => {
+    let innerText = e.target.innerText;
+    setDelBranch(innerText);
+  };
+
+  //   const branchDeletor = () => {
+  //     deleteBranch(delBranch);
+  //   };
+  console.log("del", delBranch);
+
+  //   useEffect(branchDeletor, [delBranch]);
 
   return (
     <div>
@@ -56,7 +73,7 @@ function BranchList() {
       <p>----------</p>
       <div className={listOpen ? `${styles.openList}` : `${styles.list}`}>
         {branchList.map((branch) => (
-          <p onDoubleClick={branchSelector}>
+          <p onDoubleClick={branchSelector} onClick={delBranchSelector}>
             {branch.includes("*") ? `${curBranch}` : `${branch}`}
           </p>
         ))}

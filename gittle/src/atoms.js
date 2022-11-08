@@ -17,3 +17,8 @@ export const currentBranch = atom({
   key: "currentBranch",
   default: "",
 });
+
+export const deleteBranch = atom({
+  key: "deleteBranch",
+  default: "",
+});

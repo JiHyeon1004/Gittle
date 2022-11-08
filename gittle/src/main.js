@@ -126,12 +126,12 @@ ipcMain.on("add branch", (event, route, newBranch) => {
   event.returnValue = codes;
 });
 
-// ipcMain.on("delete branch", (event, curBranch, route) => {
+// ipcMain.on("delete branch", (event, delBranch, route) => {
 //   console.log("브랜치 삭제");
 
 //   const codes = [];
 //   let branch = runCommand(
-//     `git --git-dir=${route}\\.git branch -d ${curBranch}`
+//     `git --git-dir=${route}\\.git branch -d ${delBranch}`
 //   );
 //   console.log("delete branch : ", branch);
 //   codes.push(branch);
