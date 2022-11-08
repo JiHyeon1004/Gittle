@@ -89,15 +89,13 @@ ipcMain.on("call-my-repo-2", (event, arg) => {
   event.sender.send("return-2", arr);
 });
 
-// ipcMain.on("gitBranch", (event, newBranch, baseBranch) => {
-ipcMain.on("gitBranch", (event, newBranch) => {
-  console.log("브랜치 추가");
+ipcMain.on("branchList", (event, route) => {
+  console.log("브랜치 리스트");
 
   const codes = [];
-  // let branch = runCommand(`git checkout -b ${newBranch} ${baseBranch}`);
-  let branch = runCommand(`git checkout -b ${newBranch}`);
-  console.log("git branch : ", branch);
-  codes.push(branch);
+  let branchList = runCommand(`git --git-dir=${route}\\.git branch -a`);
+  console.log("branchList : ", branchList);
+  codes.push(branchList);
   event.returnValue = codes;
 });
 
@@ -140,14 +138,14 @@ ipcMain.on("gitDiff", (event, arg) => {
   // console.log('돌아갑니다')
   // event.sender.send('return-2',arr)
 });
-ipcMain.on('gitAdd', (event, payload) => {
-  let data = runCommand(payload)
-  console.log(data)
+ipcMain.on("gitAdd", (event, payload) => {
+  let data = runCommand(payload);
+  console.log(data);
   // replyInputValue 송신 또는 응답
-})
+});
 
-ipcMain.on('gitReset', (event, payload) => {
-  let data = runCommand(payload)
-  console.log(data)
+ipcMain.on("gitReset", (event, payload) => {
+  let data = runCommand(payload);
+  console.log(data);
   // replyInputValue 송신 또는 응답
-})
+});

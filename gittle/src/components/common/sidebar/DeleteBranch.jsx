@@ -2,9 +2,14 @@ import React, { useState } from "react";
 import Button from "../Button";
 import Modal from "../Modal";
 import styles from "./DeleteBranch.module.css";
+import { useLocation } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { currentBranch } from "../../../atoms";
 
 function DeleteBranch() {
+  const location = useLocation();
   const [modalOpen, setModalOpen] = useState(false);
+  const [current, setCurrent] = useRecoilState(currentBranch);
 
   const openModal = () => {
     setModalOpen(true);
@@ -12,6 +17,17 @@ function DeleteBranch() {
   const closeModal = () => {
     setModalOpen(false);
   };
+
+  const deleteNewBranches = (curBranch) => {
+    const { ipcRenderer } = window.require("electron");
+    const gitBranch = ipcRenderer.sendSync(
+      "delete branch",
+      curBranch,
+      location.state.root
+    );
+    return gitBranch;
+  };
+
   return (
     <>
       <Button
@@ -30,7 +46,11 @@ function DeleteBranch() {
         }
       >
         <div className={styles.buttonContainer}>
-          <Button content={"예"} style={{ backgroundColor: "#6BCC78" }} />
+          <Button
+            action={deleteNewBranches(current)}
+            content={"예"}
+            style={{ backgroundColor: "#6BCC78" }}
+          />
           <Button
             action={closeModal}
             content={"아니오"}
