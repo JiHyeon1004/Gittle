@@ -22,3 +22,8 @@ export const mergingBranch = atom({
   key: "mergingBranch",
   default: "",
 });
+
+export const pullNumber = atom({
+  key: "pullNumber",
+  default: 0,
+});
