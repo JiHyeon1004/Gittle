@@ -18,10 +18,16 @@ function MergePage() {
   const repo = repoArr[repoArr.length - 1];
   // collaborator 저장하기
   const [collab, setCollab] = useState([]);
+  // reviewer 저장하기
+  const [reviewer, setReviewer] = useState([]);
   // 제목 저장하기
   const [title, setTitle] = useState("");
   // 설명 저장하기
   const [description, setDescription] = useState("");
+  // 담당자 저장하기
+  const [assignees, setAssignees] = useState("");
+  // 리뷰어 저장하기
+  const [reviewers, setReviewers] = useState("");
 
   // merge request 보내는 함수
   async function mergeRequest() {
@@ -55,7 +61,7 @@ function MergePage() {
         owner: user,
         repo: repo,
         issue_number: pullNum,
-        assignees: ["junghyun1009"],
+        assignees: [assignees],
       }
     );
 
@@ -65,7 +71,7 @@ function MergePage() {
         owner: user,
         repo: repo,
         pull_number: pullNum,
-        reviewers: ["uussong"],
+        reviewers: [reviewers],
       }
     );
 
@@ -89,11 +95,20 @@ function MergePage() {
         }
       );
       console.log(collaborator);
-      const members = [];
+      const members = [{ value: "null", name: "선택 안 함" }];
+      const exceptMe = [{ value: "null", name: "선택 안 함" }];
       collaborator.data.map((member) => {
-        members.push(member.login);
+        const each = {};
+        each.value = member.login;
+        each.name = member.login;
+        members.push(each);
+        if (each.name !== user) {
+          exceptMe.push(each);
+        }
       });
+      console.log(members);
       setCollab(members);
+      setReviewer(exceptMe);
     }
     getCollab();
   }, []);
@@ -106,6 +121,16 @@ function MergePage() {
   // 설명 저장하기
   const onDesChange = (e) => {
     setDescription(e.target.value);
+  };
+
+  // 담당자 저장하기
+  const onAssigneeChange = (e) => {
+    setAssignees(e.target.value);
+  };
+
+  // 리뷰어 저장하기
+  const onReviewerChange = (e) => {
+    setReviewers(e.target.value);
   };
 
   // 한꺼번에 요청 보내기!
@@ -150,10 +175,34 @@ function MergePage() {
       <hr />
       <div>리뷰 요청</div>
       <div>
-        <div>검토자</div>
-        {collab.map((each, index) => (
-          <div key={index}>{each}</div>
-        ))}
+        <div>
+          <div>담당자</div>
+          <select onChange={onAssigneeChange}>
+            {collab.map((member) => (
+              <option
+                key={member.value}
+                value={member.value}
+                defaultValue={member.value === "null"}
+              >
+                {member.name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <div>검토자</div>
+          <select onChange={onReviewerChange}>
+            {reviewer.map((member) => (
+              <option
+                key={member.value}
+                value={member.value}
+                defaultValue={member.value === "null"}
+              >
+                {member.name}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
     </div>
   );
