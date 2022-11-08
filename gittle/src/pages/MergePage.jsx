@@ -19,14 +19,15 @@ function MergePage() {
   const repo = repoArr[repoArr.length - 1];
   // pull number 저장하기
   const [pullNum, setPullNum] = useRecoilState(pullNumber);
+  // collaborator 저장하기
+  const [collab, setCollab] = useState([]);
 
-  // useEffect(() => {
   async function mergeRequest() {
     const octokit = new Octokit({
       auth: "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",
     });
 
-    const response = await octokit.request("POST /repos/{owner}/{repo}/pulls", {
+    const merge = await octokit.request("POST /repos/{owner}/{repo}/pulls", {
       owner: user,
       repo: repo,
       title: "Amazing new feature",
@@ -35,11 +36,72 @@ function MergePage() {
       base: merging,
     });
 
-    console.log(response);
-    setPullNum(response.number);
+    console.log("숫자", merge.data.number);
+    return merge.data.number;
   }
-  // mergeRequest();
-  // }, [isClicked]);
+
+  // useEffect(() => {
+  async function reviewRequest(pullNum) {
+    console.log("들어오라고고고", pullNum);
+    const octokit = new Octokit({
+      auth: "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",
+    });
+
+    const assignee = await octokit.request(
+      "POST /repos/{owner}/{repo}/issues/{issue_number}/assignees",
+      {
+        owner: user,
+        repo: repo,
+        issue_number: pullNum,
+        assignees: ["junghyun1009"],
+      }
+    );
+
+    const review = await octokit.request(
+      "POST /repos/{owner}/{repo}/pulls/{pull_number}/requested_reviewers",
+      {
+        owner: user,
+        repo: repo,
+        pull_number: pullNum,
+        reviewers: ["uussong"],
+      }
+    );
+
+    console.log(assignee);
+    console.log(review);
+    return { assignee, review };
+  }
+  // reviewRequest();
+  // }, [[pullNum]]);
+
+  useEffect(() => {
+    async function getCollab() {
+      const octokit = new Octokit({
+        auth: "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",
+      });
+
+      const collaborator = await octokit.request(
+        "GET /repos/{owner}/{repo}/collaborators",
+        {
+          owner: user,
+          repo: repo,
+        }
+      );
+      console.log(collaborator);
+      const members = [];
+      collaborator.data.map((member) => {
+        members.push(member.login);
+      });
+      setCollab(members);
+    }
+    getCollab();
+  }, []);
+
+  const sendRequest = async () => {
+    const pullNumber = await mergeRequest();
+    const response = await reviewRequest(pullNumber);
+    return response;
+  };
 
   return (
     <div>
@@ -66,13 +128,22 @@ function MergePage() {
         <p>설명</p>
         <input type="text" />
       </div>
-      <button
+      <button onClick={sendRequest}>merge 요청하기</button>
+      <hr />
+      <div>리뷰 요청</div>
+      <div>
+        <div>검토자</div>
+        {collab.map((each, index) => (
+          <div key={index}>{each}</div>
+        ))}
+      </div>
+      {/* <button
         onClick={async () => {
-          await mergeRequest();
+          await reviewRequest();
         }}
       >
-        merge request
-      </button>
+        리뷰 요청하기
+      </button> */}
     </div>
   );
 }

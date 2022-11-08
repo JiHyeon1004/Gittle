@@ -40,7 +40,7 @@ export default function Remote() {
     }
     getBranches();
     // push된 branch 받아오기
-    setPush("test");
+    setPush("jung");
   }, []);
 
   const selectBranch = (branch) => {
@@ -71,31 +71,28 @@ export default function Remote() {
                 <div className={styles.list}>
                   {branches.map((branch, index) =>
                     push === branch.name ? (
-                      <div className={styles.pushbranch}>
+                      <div key={index} className={styles.pushbranch}>
                         <FontAwesomeIcon
                           icon={faCodeBranch}
                           className={styles.icon}
                         />
-                        <div key={index}>{branch.name}</div>
+                        <div>{branch.name}</div>
                       </div>
                     ) : merge === branch.name ? (
-                      <div className={styles.mergebranch}>
+                      <div key={index} className={styles.mergebranch}>
                         <FontAwesomeIcon
                           icon={faCodeBranch}
                           className={styles.icon}
                         />
-                        <div key={index}>{branch.name}</div>
+                        <div>{branch.name}</div>
                       </div>
                     ) : (
-                      <div className={styles.branch}>
+                      <div key={index} className={styles.branch}>
                         <FontAwesomeIcon
                           icon={faCodeBranch}
                           className={styles.icon}
                         />
-                        <div
-                          key={index}
-                          onClick={() => selectBranch(branch.name)}
-                        >
+                        <div onClick={() => selectBranch(branch.name)}>
                           {branch.name}
                         </div>
                       </div>
