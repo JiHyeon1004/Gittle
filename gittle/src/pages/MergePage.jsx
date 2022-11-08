@@ -1,6 +1,6 @@
 import React from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { pushedBranch, mergingBranch, pullNumber } from "../atoms";
+import { useRecoilValue } from "recoil";
+import { pushedBranch, mergingBranch } from "../atoms";
 import { faCircleArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "./MergePage.module.css";
@@ -8,20 +8,22 @@ import { useEffect, useState } from "react";
 import { Octokit } from "octokit";
 
 function MergePage() {
-  const [repository, setRepository] = useState("");
+  // push된 브랜치와 merge할 브랜치 받아오기
   const pushed = useRecoilValue(pushedBranch);
   const merging = useRecoilValue(mergingBranch);
-  console.log(pushed, merging);
+  // user와 현재 repo 받아오기
   const user = localStorage.getItem("userInfo");
   const location = localStorage.getItem("currentRepo");
-  // 레포지토리 주소에서 이름 저장하기
   const repoArr = location.split("\\");
   const repo = repoArr[repoArr.length - 1];
-  // pull number 저장하기
-  const [pullNum, setPullNum] = useRecoilState(pullNumber);
   // collaborator 저장하기
   const [collab, setCollab] = useState([]);
+  // 제목 저장하기
+  const [title, setTitle] = useState("");
+  // 설명 저장하기
+  const [description, setDescription] = useState("");
 
+  // merge request 보내는 함수
   async function mergeRequest() {
     const octokit = new Octokit({
       auth: "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",
@@ -30,8 +32,8 @@ function MergePage() {
     const merge = await octokit.request("POST /repos/{owner}/{repo}/pulls", {
       owner: user,
       repo: repo,
-      title: "Amazing new feature",
-      body: "Please pull these awesome changes in!",
+      title: title,
+      body: description,
       head: pushed,
       base: merging,
     });
@@ -40,7 +42,7 @@ function MergePage() {
     return merge.data.number;
   }
 
-  // useEffect(() => {
+  // assignee 등록하고, review 요청 보내는 함수
   async function reviewRequest(pullNum) {
     console.log("들어오라고고고", pullNum);
     const octokit = new Octokit({
@@ -71,9 +73,8 @@ function MergePage() {
     console.log(review);
     return { assignee, review };
   }
-  // reviewRequest();
-  // }, [[pullNum]]);
 
+  // 현재 repo에서 collaborator 정보 받아오는 함수
   useEffect(() => {
     async function getCollab() {
       const octokit = new Octokit({
@@ -97,6 +98,17 @@ function MergePage() {
     getCollab();
   }, []);
 
+  // 제목 저장하기
+  const onTitleChange = (e) => {
+    setTitle(e.target.value);
+  };
+
+  // 설명 저장하기
+  const onDesChange = (e) => {
+    setDescription(e.target.value);
+  };
+
+  // 한꺼번에 요청 보내기!
   const sendRequest = async () => {
     const pullNumber = await mergeRequest();
     const response = await reviewRequest(pullNumber);
@@ -121,12 +133,18 @@ function MergePage() {
         </div>
       </div>
       <div>
-        <p>제목</p>
-        <input type="text" />
+        <div>제목</div>
+        <input type="text" onChange={onTitleChange} value={title} />
       </div>
       <div>
-        <p>설명</p>
-        <input type="text" />
+        <div>설명</div>
+        <textarea
+          name="description"
+          cols="50"
+          rows="10"
+          onChange={onDesChange}
+          value={description}
+        ></textarea>
       </div>
       <button onClick={sendRequest}>merge 요청하기</button>
       <hr />
@@ -137,13 +155,6 @@ function MergePage() {
           <div key={index}>{each}</div>
         ))}
       </div>
-      {/* <button
-        onClick={async () => {
-          await reviewRequest();
-        }}
-      >
-        리뷰 요청하기
-      </button> */}
     </div>
   );
 }

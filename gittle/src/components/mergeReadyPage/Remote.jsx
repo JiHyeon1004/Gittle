@@ -40,7 +40,7 @@ export default function Remote() {
     }
     getBranches();
     // push된 branch 받아오기
-    setPush("jung");
+    setPush("ussong");
   }, []);
 
   const selectBranch = (branch) => {
