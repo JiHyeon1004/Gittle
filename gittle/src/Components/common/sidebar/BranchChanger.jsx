@@ -26,14 +26,14 @@ function BranchChanger() {
           repo: "TIL",
         }
       );
-
-      const branchList = [];
-      branches.data.forEach((branch) => {
-        branchList.push(branch.name);
-      });
-      setBranchList(branchList);
-      setCurretBranch(branchList[0]);
     }
+
+    const branchList = [];
+    branches.data.forEach((branch) => {
+      branchList.push(branch.name);
+    });
+    setBranchList(branchList);
+    setCurretBranch(branchList[0]);
     getBranchList();
   }, []);
 
@@ -47,6 +47,7 @@ function BranchChanger() {
     closeModal();
     console.log("바꿔쓰", currentBranch);
     setBranch(currentBranch);
+  };
   const onChangeHandler = (e) => {
     setPrevBranch(currentBranch);
     setCurretBranch(e.currentTarget.value);
