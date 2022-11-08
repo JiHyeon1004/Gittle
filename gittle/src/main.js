@@ -99,6 +99,20 @@ ipcMain.on("branchList", (event, route) => {
   event.returnValue = codes;
 });
 
+// ipcMain.on("gitBranch", (event, newBranch, baseBranch) => {
+ipcMain.on("add branch", (event, newBranch, route) => {
+  console.log("브랜치 추가");
+
+  const codes = [];
+  // let branch = runCommand(`git checkout -b ${newBranch} ${baseBranch}`);
+  let branch = runCommand(
+    `git --git-dir=${route}\\.git checkout -b ${newBranch}`
+  );
+  console.log("add branch : ", branch);
+  codes.push(branch);
+  event.returnValue = codes;
+});
+
 app.whenReady().then(() => {
   createWindow();
   app.on("activate", () => {
