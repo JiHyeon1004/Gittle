@@ -8,6 +8,7 @@ function BranchManage() {
     <div>
       <AddBranch />
       <DeleteBranch />
+      <AddCommitConvention/>
     </div>
   );
 }
