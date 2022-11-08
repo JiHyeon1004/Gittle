@@ -3,7 +3,6 @@ import GitDiff from "../components/addPage/GitDiff";
 import StatusComp from "../components/addPage/StatusComp";
 import styles from "./AddPage.module.css";
 
-
 function AddPage() {
   const [files, setFiles] = useState({});
   const [codes, setCodes] = useState([]);
