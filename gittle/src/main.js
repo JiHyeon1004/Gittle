@@ -113,6 +113,37 @@ ipcMain.on("gitStatus", (event, payload) => {
   event.returnValue = data;
 });
 
+//이거 exe 로 만들면 현재 디렉토리가 어디지?
+ipcMain.on('WriteCommitConvention', (event, payload) => {
+  if(!fs.existsSync("./asdf/commitConvention.json")){
+    fs.appendFileSync("./asdf/commitConvention.json","["+JSON.stringify(payload)+"]");
+    const commitRules = JSON.parse(fs.readFileSync("./asdf/commitConvention.json").toString());
+    event.returnValue = commitRules;
+  }
+  else{
+    const commitRules = JSON.parse(fs.readFileSync("./asdf/commitConvention.json").toString());
+    commitRules.push(payload)
+    fs.writeFileSync("./asdf/commitConvention.json",JSON.stringify(commitRules))
+    event.returnValue = commitRules;
+  }
+})
+
+ipcMain.on('ReadCommitConvention', (event) => {
+  if(!fs.existsSync("./asdf/commitConvention.json")){
+    //fs.appendFileSync("./asdf/commitConvention.json","[]");
+    console.log("temp")
+    event.returnValue = "empty"
+  }
+  else {
+    const commitRules = fs.readFileSync("./asdf/commitConvention.json").toString();
+    console.log(commitRules)
+    console.log(typeof commitRules)
+    event.returnValue = commitRules
+  }
+
+})
+
+
 ipcMain.on("git-Clone", (event, payload) => {
   console.log("도착했습니다");
   console.log("저장소 루트 : " + payload.cloneRoot);
@@ -173,3 +204,18 @@ ipcMain.on("gitBranch", (event, route) => {
   console.log("브랜치이이이", branch);
   event.returnValue = branch;
 });
+ipcMain.on('gitCommit', (event, payload) => {
+  let data = runCommand(payload)
+  console.log(data)
+  event.returnValue = data;
+})
+ipcMain.on('lastCommitDescription', (event, payload) => {
+  let data
+  try {
+    data = runCommand(payload).split(" : ")[1]
+  } catch (error) {
+    console.error(error);
+    data = "empty"
+  }
+  event.returnValue = data;
+})
