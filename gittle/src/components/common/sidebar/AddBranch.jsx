@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import Button from "../Button";
 import Modal from "../Modal";
-import BranchSelector from "./BranchSelector";
+import BranchSelector from "../BranchSelector";
+import styles from "./AddBranch.module.css";
 
 function AddBranch() {
   const [modalOpen, setModalOpen] = useState(false);
+  const [newBranches, setNewBranches] = useState("");
 
   const openModal = () => {
     setModalOpen(true);
@@ -12,6 +14,25 @@ function AddBranch() {
   const closeModal = () => {
     setModalOpen(false);
   };
+
+  const onChangeHandler = (e) => {
+    setNewBranches(e.target.value);
+  };
+
+  const onHandleSubmit = (e) => {
+    e.preventDefault();
+    if (newBranches.trim().length === 0) return;
+    addNewBranches(newBranches);
+    setNewBranches("");
+    closeModal();
+  };
+
+  const addNewBranches = (newBranch) => {
+    const { ipcRenderer } = window.require("electron");
+    const gitBranch = ipcRenderer.sendSync("gitBranch", newBranch);
+    return gitBranch;
+  };
+
   return (
     <>
       <Button
@@ -24,26 +45,37 @@ function AddBranch() {
         open={modalOpen}
         content={
           <>
-            <div>
-              <label>이름</label>
-              <input type="text" />
-            </div>
-            <div>
-              <label>상위 브랜치</label>
-              <BranchSelector />
-            </div>
+            <form onSubmit={onHandleSubmit}>
+              <div>
+                <label>이름</label>
+                <input
+                  required
+                  type="text"
+                  value={newBranches}
+                  onChange={onChangeHandler}
+                />
+              </div>
+
+              <div>
+                <label>상위 브랜치</label>
+                <BranchSelector />
+              </div>
+              <div className={styles.buttonContainer}>
+                <Button
+                  // action={addNewBranches(newBranches)}
+                  content={"추가"}
+                  style={{ backgroundColor: "#6BCC78" }}
+                />
+                <Button
+                  action={closeModal}
+                  content={"취소"}
+                  style={{ border: "1px solid #7B7B7B" }}
+                />
+              </div>
+            </form>
           </>
         }
-      >
-        <div>
-          <Button content={"추가"} style={{ backgroundColor: "#6BCC78" }} />
-          <Button
-            action={closeModal}
-            content={"취소"}
-            style={{ border: "1px solid #7B7B7B" }}
-          />
-        </div>
-      </Modal>
+      ></Modal>
     </>
   );
 }

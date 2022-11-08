@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Button from "../Button";
 import Modal from "../Modal";
+import styles from "./DeleteBranch.module.css";
 
 function DeleteBranch() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -28,7 +29,7 @@ function DeleteBranch() {
           </>
         }
       >
-        <div>
+        <div className={styles.buttonContainer}>
           <Button content={"예"} style={{ backgroundColor: "#6BCC78" }} />
           <Button
             action={closeModal}

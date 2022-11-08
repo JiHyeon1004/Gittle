@@ -95,6 +95,28 @@ ipcMain.on("call-my-repo", (event, arg) => {
   event.returnValue = result;
 });
 
+// ipcMain.on("gitBranch", (event, newBranch, baseBranch) => {
+ipcMain.on("gitBranch", (event, newBranch) => {
+  console.log("브랜치 추가");
+
+  const codes = [];
+  // let branch = runCommand(`git checkout -b ${newBranch} ${baseBranch}`);
+  let branch = runCommand(`git checkout -b ${newBranch}`);
+  console.log("git branch : ", branch);
+  codes.push(branch);
+  event.returnValue = codes;
+});
+
+// ipcMain.on("gitBranch", (event, branch) => {
+//   console.log("브랜치 이동");
+
+//   const codes = [];
+//   let branch = runCommand(`git checkout ${branch}`);
+//   console.log("git branch : ", branch);
+//   codes.push(branch);
+//   event.returnValue = codes;
+// });
+
 app.whenReady().then(() => {
   createWindow();
   app.on("activate", () => {

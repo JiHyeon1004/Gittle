@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./Modal.module.css";
 
 function Modal(props) {
-  const { open, content } = props;
+  const { open, style, content } = props;
   return (
     <div
       className={
@@ -10,7 +10,7 @@ function Modal(props) {
       }
     >
       {open ? (
-        <section>
+        <section style={style}>
           <main>
             {content}
             {props.children}
