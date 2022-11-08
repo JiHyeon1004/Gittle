@@ -4,6 +4,7 @@ const fs = require("fs");
 const { CLICK } = require("./constants");
 
 let child_process = require("child_process");
+const { check } = require("yargs");
 
 let runCommand = (command) => {
   return child_process.execSync(command).toString();
@@ -99,8 +100,20 @@ ipcMain.on("branchList", (event, route) => {
   event.returnValue = codes;
 });
 
+ipcMain.on("change branch", (event, route, selectedBranch) => {
+  console.log("브랜치 이동");
+
+  const codes = [];
+  let branch = runCommand(
+    `git --git-dir=${route}\\.git checkout ${selectedBranch}`
+  );
+  console.log("change branch : ", branch);
+  codes.push(branch);
+  event.returnValue = codes;
+});
+
 // ipcMain.on("gitBranch", (event, newBranch, baseBranch) => {
-ipcMain.on("add branch", (event, newBranch, route) => {
+ipcMain.on("add branch", (event, route, newBranch) => {
   console.log("브랜치 추가");
 
   const codes = [];
@@ -112,6 +125,18 @@ ipcMain.on("add branch", (event, newBranch, route) => {
   codes.push(branch);
   event.returnValue = codes;
 });
+
+// ipcMain.on("delete branch", (event, curBranch, route) => {
+//   console.log("브랜치 삭제");
+
+//   const codes = [];
+//   let branch = runCommand(
+//     `git --git-dir=${route}\\.git branch -d ${curBranch}`
+//   );
+//   console.log("delete branch : ", branch);
+//   codes.push(branch);
+//   event.returnValue = codes;
+// });
 
 app.whenReady().then(() => {
   createWindow();

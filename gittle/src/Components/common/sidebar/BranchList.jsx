@@ -1,44 +1,63 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { currentBranch } from "../../../atoms";
+import { currentBranch, selectBranch } from "../../../atoms";
 import styles from "./BranchList.module.css";
 
 function BranchList() {
   const location = useLocation();
-  const [current, setCurrent] = useRecoilState(currentBranch);
-  const [listOpen, setListOpen] = useState(false);
+  const [curBranch, setCurBranch] = useRecoilState(currentBranch);
+  const [selectedBranch, setSelectedBranch] = useRecoilState(selectBranch);
 
+  const [listOpen, setListOpen] = useState(false);
   const { ipcRenderer } = window.require("electron");
-  const branchList = ipcRenderer.sendSync("branchList", location.state.root);
-  const branches = branchList[0]
+  const branches = ipcRenderer.sendSync("branchList", location.state.root);
+  const branchList = branches[0]
     .split("\n")
     .filter((branch) => branch)
     .filter((branch) => !branch.includes("->"))
     .map((branch) => branch.trim());
-  console.log(branches);
 
-  branches.map((branch) => {
-    if (branch.includes("*")) {
-      setCurrent(branch.replace("*", ""));
-    }
-  });
-  console.log(current);
+  const changeBranch = (selectedBranch) => {
+    const gitBranch = ipcRenderer.sendSync(
+      "change branch",
+      location.state.root,
+      selectedBranch
+    );
+    // console.log(gitBranch);
+    // return gitBranch;
+  };
 
   const showBranches = () => {
     setListOpen(!listOpen);
   };
+
+  branchList.map((branch) => {
+    if (branch.includes("*")) {
+      setCurBranch(branch.replace("*", "").trim());
+    }
+    return;
+  });
+
+  const branchSelector = (e) => {
+    let innerText = e.target.innerText;
+    setSelectedBranch(innerText);
+  };
+
+  const onChangeHandler = () => {
+    changeBranch(selectedBranch);
+    setCurBranch(selectedBranch);
+  };
+  useEffect(onChangeHandler, [selectedBranch]);
+
   return (
     <div>
-      <div onClick={showBranches}>{current}</div>
+      <div onClick={showBranches}>{curBranch}</div>
+      <p>----------</p>
       <div className={listOpen ? `${styles.openList}` : `${styles.list}`}>
-        {branches.map((branch) => (
-          <p>
-            {branch.includes("*") ? (
-              <span>{branch.replace("*", "")}</span>
-            ) : (
-              <div>{branch}</div>
-            )}
+        {branchList.map((branch) => (
+          <p onDoubleClick={branchSelector}>
+            {branch.includes("*") ? `${curBranch}` : `${branch}`}
           </p>
         ))}
       </div>
