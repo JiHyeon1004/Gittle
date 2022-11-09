@@ -4,6 +4,7 @@ const fs = require("fs");
 const { CLICK } = require("./constants");
 
 let child_process = require("child_process");
+const { check } = require("yargs");
 
 let runCommand = (command) => {
   return child_process.execSync(command).toString();
@@ -95,27 +96,53 @@ ipcMain.on("call-my-repo", (event, arg) => {
   event.returnValue = result;
 });
 
-// ipcMain.on("gitBranch", (event, newBranch, baseBranch) => {
-ipcMain.on("gitBranch", (event, newBranch) => {
-  console.log("브랜치 추가");
+ipcMain.on("branchList", (event, route) => {
+  console.log("브랜치 리스트");
 
   const codes = [];
-  // let branch = runCommand(`git checkout -b ${newBranch} ${baseBranch}`);
-  let branch = runCommand(`git checkout -b ${newBranch}`);
-  console.log("git branch : ", branch);
+  let branchList = runCommand(`git --git-dir=${route}\\.git branch -a`);
+  console.log("branchList : ", branchList);
+  codes.push(branchList);
+  event.returnValue = codes;
+});
+
+ipcMain.on("change branch", (event, route, selectedBranch) => {
+  console.log("브랜치 이동");
+
+  const codes = [];
+  let branch = runCommand(
+    `git --git-dir=${route}\\.git checkout ${selectedBranch}`
+  );
+  console.log("change branch : ", branch);
   codes.push(branch);
   event.returnValue = codes;
 });
 
-// ipcMain.on("gitBranch", (event, branch) => {
-//   console.log("브랜치 이동");
+// ipcMain.on("gitBranch", (event, newBranch, baseBranch) => {
+ipcMain.on("add branch", (event, route, newBranch) => {
+  console.log("브랜치 추가");
 
-//   const codes = [];
-//   let branch = runCommand(`git checkout ${branch}`);
-//   console.log("git branch : ", branch);
-//   codes.push(branch);
-//   event.returnValue = codes;
-// });
+  const codes = [];
+  // let branch = runCommand(`git checkout -b ${newBranch} ${baseBranch}`);
+  let branch = runCommand(
+    `git --git-dir=${route}\\.git checkout -b ${newBranch}`
+  );
+  console.log("add branch : ", branch);
+  codes.push(branch);
+  event.returnValue = codes;
+});
+
+ipcMain.on("delete branch", (event, route, delBranch) => {
+  console.log("브랜치 삭제");
+
+  const codes = [];
+  let branch = runCommand(
+    `git --git-dir=${route}\\.git branch -d ${delBranch}`
+  );
+  console.log("delete branch : ", branch);
+  codes.push(branch);
+  event.returnValue = codes;
+});
 
 app.whenReady().then(() => {
   createWindow();
