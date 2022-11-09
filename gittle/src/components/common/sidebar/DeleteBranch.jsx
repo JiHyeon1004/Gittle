@@ -4,18 +4,12 @@ import Modal from "../Modal";
 import styles from "./DeleteBranch.module.css";
 import { useLocation } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { currentBranch, deleteBranch } from "../../../atoms";
+import { deleteBranch } from "../../../atoms";
 
 function DeleteBranch() {
   const location = useLocation();
   const [modalOpen, setModalOpen] = useState(false);
-  // const [current, setCurrent] = useRecoilState(currentBranch);
   const [delBranch, setDelBranch] = useRecoilState(deleteBranch);
-  const { ipcRenderer } = window.require("electron");
-
-  const deleteBranch = (delBranch) => {
-    ipcRenderer.sendSync("delete branch", location.state.root, delBranch);
-  };
 
   const openModal = () => {
     setModalOpen(true);
@@ -25,20 +19,20 @@ function DeleteBranch() {
   };
 
   const branchDeletor = () => {
-    deleteBranch(delBranch);
+    deleteBranches(delBranch);
+    closeModal();
   };
   console.log("del", delBranch);
 
-  // const deleteNewBranches = (curBranch) => {
-  //   const { ipcRenderer } = window.require("electron");
-  //   const gitBranch = ipcRenderer.sendSync(
-  //     "delete branch",
-  //     defaultBranch,
-  //     curBranch,
-  //     location.state.root
-  //   );
-  //   return gitBranch;
-  // };
+  const deleteBranches = (delBranch) => {
+    const { ipcRenderer } = window.require("electron");
+    const gitBranch = ipcRenderer.sendSync(
+      "delete branch",
+      location.state.root,
+      delBranch
+    );
+    return gitBranch;
+  };
 
   return (
     <>
@@ -52,14 +46,14 @@ function DeleteBranch() {
         open={modalOpen}
         content={
           <>
-            <p>branch를 정말로 삭제하시겠습니까?</p>
+            <p>{delBranch} branch를 정말로 삭제하시겠습니까?</p>
             <p>(삭제한 branch는 복구가 불가능합니다.)</p>
           </>
         }
       >
         <div className={styles.buttonContainer}>
           <Button
-            // action={deleteNewBranches(current)}
+            action={branchDeletor}
             content={"예"}
             style={{ backgroundColor: "#6BCC78" }}
           />

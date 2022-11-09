@@ -33,8 +33,8 @@ function AddBranch() {
     const { ipcRenderer } = window.require("electron");
     const gitBranch = ipcRenderer.sendSync(
       "add branch",
-      newBranch,
-      location.state.root
+      location.state.root,
+      newBranch
     );
     return gitBranch;
   };
