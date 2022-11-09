@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Octokit } from "octokit";
 import styles from "./GitLog.module.css";
-import { useRecoilValue } from "recoil"; 
+import { useRecoilValue } from "recoil";
 import { selectedBranch } from "../../atoms";
 
 export default function GitLog() {
@@ -15,24 +15,27 @@ export default function GitLog() {
   const [codeAfter, setCodeAfter] = useState([]);
   const [commitIdx, setCommitIdx] = useState(0);
   const [fileIdx, setFileIdx] = useState(0);
-  const branch = useRecoilValue(selectedBranch)
+  const branch = useRecoilValue(selectedBranch);
 
-  console.log(branch)
+  console.log(branch);
 
   useEffect(() => {
     async function getLog() {
       const user = localStorage.getItem("userInfo");
+      const location = localStorage.getItem("currentRepo").split("\\");
+      console.log(location);
+      const repo = location[location.length - 1];
       const octokit = new Octokit({
         auth: "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",
       });
-      
-      console.log(branch)
+
+      console.log(branch);
 
       const result = await octokit.request(
         "GET /repos/{owner}/{repo}/commits",
         {
           owner: user,
-          repo: "TIL",
+          repo: repo,
           sha: branch,
         }
       );
@@ -46,6 +49,10 @@ export default function GitLog() {
 
   useEffect(() => {
     async function getCommit() {
+      const user = localStorage.getItem("userInfo");
+      const location = localStorage.getItem("currentRepo").split("\\");
+      console.log(location);
+      const repo = location[location.length - 1];
       const octokit = new Octokit({
         auth: "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",
       });
@@ -53,8 +60,8 @@ export default function GitLog() {
       const commitInfo = await octokit.request(
         "GET /repos/{owner}/{repo}/commits/{ref}",
         {
-          owner: "junghyun1009",
-          repo: "TIL",
+          owner: user,
+          repo: repo,
           ref: commit,
         }
       );
