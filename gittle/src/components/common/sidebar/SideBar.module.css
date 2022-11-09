@@ -1,0 +1,15 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 90px;
+  width: 250px;
+  height: calc(100vh - 140px);
+  padding: 1rem 0.5rem;
+}
+
+.selector {
+  display: flex;
+}

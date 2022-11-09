@@ -1,0 +1,7 @@
+.buttons{
+    display: flex;
+    padding: 0vh 15vw;
+    justify-content:space-around;
+    align-items: center;
+    height: 25vh;
+}
