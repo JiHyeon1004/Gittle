@@ -4,6 +4,7 @@ const fs = require("fs");
 const { CLICK } = require("./constants");
 
 let child_process = require("child_process");
+const { check } = require("yargs");
 
 let runCommand = (command) => {
   return child_process.execSync(command).toString();
@@ -13,6 +14,7 @@ function createWindow() {
   const win = new BrowserWindow({
     width: 1024,
     height: 768,
+    icon: path.join(__dirname, "../public/apple.png"),
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
@@ -94,6 +96,54 @@ ipcMain.on("call-my-repo", (event, arg) => {
   event.returnValue = result;
 });
 
+ipcMain.on("branchList", (event, route) => {
+  console.log("브랜치 리스트");
+
+  const codes = [];
+  let branchList = runCommand(`git --git-dir=${route}\\.git branch -a`);
+  console.log("branchList : ", branchList);
+  codes.push(branchList);
+  event.returnValue = codes;
+});
+
+ipcMain.on("change branch", (event, route, selectedBranch) => {
+  console.log("브랜치 이동");
+
+  const codes = [];
+  let branch = runCommand(
+    `git --git-dir=${route}\\.git checkout ${selectedBranch}`
+  );
+  console.log("change branch : ", branch);
+  codes.push(branch);
+  event.returnValue = codes;
+});
+
+// ipcMain.on("gitBranch", (event, newBranch, baseBranch) => {
+ipcMain.on("add branch", (event, route, newBranch) => {
+  console.log("브랜치 추가");
+
+  const codes = [];
+  // let branch = runCommand(`git checkout -b ${newBranch} ${baseBranch}`);
+  let branch = runCommand(
+    `git --git-dir=${route}\\.git checkout -b ${newBranch}`
+  );
+  console.log("add branch : ", branch);
+  codes.push(branch);
+  event.returnValue = codes;
+});
+
+ipcMain.on("delete branch", (event, route, delBranch) => {
+  console.log("브랜치 삭제");
+
+  const codes = [];
+  let branch = runCommand(
+    `git --git-dir=${route}\\.git branch -d ${delBranch}`
+  );
+  console.log("delete branch : ", branch);
+  codes.push(branch);
+  event.returnValue = codes;
+});
+
 app.whenReady().then(() => {
   createWindow();
   app.on("activate", () => {
@@ -112,8 +162,47 @@ ipcMain.on("gitStatus", (event, payload) => {
   event.returnValue = data;
 });
 
+//이거 exe 로 만들면 현재 디렉토리가 어디지?
+ipcMain.on("WriteCommitConvention", (event, payload) => {
+  if (!fs.existsSync("./asdf/commitConvention.json")) {
+    fs.appendFileSync(
+      "./asdf/commitConvention.json",
+      "[" + JSON.stringify(payload) + "]"
+    );
+    const commitRules = JSON.parse(
+      fs.readFileSync("./asdf/commitConvention.json").toString()
+    );
+    event.returnValue = commitRules;
+  } else {
+    const commitRules = JSON.parse(
+      fs.readFileSync("./asdf/commitConvention.json").toString()
+    );
+    commitRules.push(payload);
+    fs.writeFileSync(
+      "./asdf/commitConvention.json",
+      JSON.stringify(commitRules)
+    );
+    event.returnValue = commitRules;
+  }
+});
+
+ipcMain.on("ReadCommitConvention", (event) => {
+  if (!fs.existsSync("./asdf/commitConvention.json")) {
+    //fs.appendFileSync("./asdf/commitConvention.json","[]");
+    console.log("temp");
+    event.returnValue = "empty";
+  } else {
+    const commitRules = fs
+      .readFileSync("./asdf/commitConvention.json")
+      .toString();
+    console.log(commitRules);
+    console.log(typeof commitRules);
+    event.returnValue = commitRules;
+  }
+});
+
 ipcMain.on("git-Clone", (event, payload) => {
-  console.log("도착했습니다요요요용");
+  console.log("도착했습니다");
   console.log("저장소 루트 : " + payload.cloneRoot);
   console.log("폴더 루트 : " + payload.repoRoot);
   let path = runCommand(
@@ -171,4 +260,19 @@ ipcMain.on("gitBranch", (event, route) => {
   );
   console.log("브랜치이이이", branch);
   event.returnValue = branch;
+});
+ipcMain.on("gitCommit", (event, payload) => {
+  let data = runCommand(payload);
+  console.log(data);
+  event.returnValue = data;
+});
+ipcMain.on("lastCommitDescription", (event, payload) => {
+  let data;
+  try {
+    data = runCommand(payload).split(" : ")[1];
+  } catch (error) {
+    console.error(error);
+    data = "empty";
+  }
+  event.returnValue = data;
 });

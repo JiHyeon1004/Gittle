@@ -2,7 +2,7 @@ import { atom, selector } from "recoil";
 
 export const selectBranch = atom({
   key: "selectBranch",
-  default: "main",
+  default: "",
 });
 
 export const selectedBranch = selector({
@@ -18,6 +18,15 @@ export const pushedBranch = atom({
   default: "",
 });
 
+export const currentBranch = atom({
+  key: "currentBranch",
+  default: "",
+});
+
+export const deleteBranch = atom({
+  key: "deleteBranch",
+  default: "",
+});
 export const mergingBranch = atom({
   key: "mergingBranch",
   default: "",

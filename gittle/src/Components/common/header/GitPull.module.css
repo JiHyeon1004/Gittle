@@ -1,0 +1,15 @@
+.selectorContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.selector {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+}
