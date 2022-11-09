@@ -174,11 +174,17 @@ ipcMain.on('git-Branch',(event,payload)=>{
   let arr=[]
   for(let i=0;i<result.length;i++){
     if(result[i].length!==0){
-      arr.push(result[i])
+      let tempArr=result[i].split('/')
+      let temp=""
+      for(let j=1;j<tempArr.length;j++){
+        temp+=tempArr[j]
+        if(j!==tempArr.length-1){
+          temp+="/"
+        }
+      }
+
+      arr.push(temp)
     }
-  }
-  for(let i=0;i<arr.length;i++){
-    console.log(i,'번 째 : ',arr[i])
   }
 
   event.returnValue=arr

@@ -2,12 +2,13 @@ import React,{useState,useEffect} from "react";
 import styles from "./Push.module.css"
 
 
-function Push(){
+function Push(props){
 
     const repoRoot="C:\\Users\\SSAFY\\Desktop\\2nd_project\\3rd_project\\S07P31A503";
 
     const {ipcRenderer} = window.require('electron')
     const [branchArr,setBranchArr] = useState([])
+    const [selected,setSelected]=useState("")
 
     const gitBranch = ()=>{
         setBranchArr(ipcRenderer.sendSync('git-Branch',repoRoot))
@@ -19,13 +20,27 @@ function Push(){
     },[])
 
     return(
+        <>
+        
         <div className={styles.push}>
             {branchArr.map((item,idx)=>(
-                <div className={styles.branchBox}>
+
+                <div 
+                    className={styles.branchBox} 
+                    onClick={()=>{
+                        setSelected(item)
+                        props.changeBranch(item)
+                        
+                    }}
+                >
                     {item}
                 </div>
             ))}
         </div>
+        <div className={styles.selected}>
+            {selected}
+        </div>
+        </>
     )
 }
 
