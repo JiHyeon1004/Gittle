@@ -1,0 +1,41 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+}
+
+.assigned {
+  border: 2px solid;
+  border-radius: 1rem;
+  padding: 10px 20px 15px 20px;
+  margin-top: 1rem;
+}
+
+.box {
+  margin: 0.5rem 0 0.5rem 0;
+  border-style: solid;
+  border-color: #6bcc78;
+  border-width: 0 0 2px 0;
+}
+
+.title {
+  font-weight: 600;
+}
+
+.body {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 0.5rem 0 0.5rem 0;
+}
+
+.image {
+  border-radius: 10rem;
+  width: 1rem;
+  height: 1rem;
+}
+
+.text {
+  font-size: 0.8rem;
+  margin-left: 0.5rem;
+}
