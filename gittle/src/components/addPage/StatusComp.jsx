@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Table, Row, Col, Card, Empty } from "antd";
+// import {Empty } from "antd";
 import "antd/dist/antd.css";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
@@ -7,7 +8,7 @@ import {
   mutliDragAwareReorder,
   multiSelectTo as multiSelect,
 } from "./StatusUtils";
-import "./StatusStyle.css";
+import styles from "./StatusStyle.module.css";
 /**
  * git add
  * git status 상태 값
@@ -205,11 +206,11 @@ function MultiTableDrag({ getFile, getDiff }) {
   const DraggableTableRow = ({ index, record, columnId, tasks, ...props }) => {
     if (!tasks.length) {
       return (
-        <tr className="ant-table-placeholder row-item" {...props}>
-          <td colSpan={tableColumns.length} className="ant-table-cell">
-            <div className="ant-empty ant-empty-normal">
+        <tr className={styles.ant_table_placeholder} {...props}>
+          <td colSpan={tableColumns.length} className={styles.ant_table_cell}>
+            {/* <div className="ant-empty ant-empty-normal"> */}
               <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-            </div>
+            {/* </div> */}
           </td>
         </tr>
       );
@@ -235,12 +236,12 @@ function MultiTableDrag({ getFile, getDiff }) {
               {...props}
               {...provided.draggableProps}
               {...provided.dragHandleProps}
-              className={`row-item ${isSelected ? "row-selected" : ""} ${
-                isGhosting ? "row-ghosting" : ""
-              } ${snapshot.isDragging ? "row-dragging" : ""}`}
+              className={`styles.row_item${isSelected ? ".row_selected" : ""}${
+                isGhosting ? ".row_ghosting" : ""
+              }${snapshot.isDragging ? ".row_dragging" : ""}`}
               // onClick={onClick}
               // onKeyDown={event => onKeyDown(event, provided, snapshot)}
-            ></tr>
+            ><p>여기야 여기!</p></tr>
           );
         }}
       </Draggable>
@@ -463,7 +464,7 @@ function MultiTableDrag({ getFile, getDiff }) {
 
   return (
     <>
-      <Card className={`c-multi-drag-table`}>
+      <Card className={styles.c_multi_drag_table}>
         <div>selectedTaskIds: {JSON.stringify(selectedTaskIds)}</div>
         <div>selectedTaskTitles: {JSON.stringify(selectedTaskTitles)}</div>
         <br />
@@ -473,7 +474,7 @@ function MultiTableDrag({ getFile, getDiff }) {
         >
           <Row gutter={24}>
             <Col key="unstaged" span={12}>
-              <div className="inner-col-unstaged">
+              <div className={styles.inner_col_unstaged}>
                 <Row>
                   <h2>Unstaged</h2>
                 </Row>
@@ -510,7 +511,7 @@ function MultiTableDrag({ getFile, getDiff }) {
               </div>
             </Col>
             <Col key="Staged" span={12}>
-              <div className="inner-col-staged">
+              <div className={styles.inner_col_staged}>
                 <Row justify="space-between" align="middle">
                   <h2>staged</h2>
                 </Row>

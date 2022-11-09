@@ -18,7 +18,8 @@
 .c_multi_drag_table .inner_col_unstaged {
   position: relative;
   height: 100%;
-  background: #fff;
+  /* background: #fff; */
+  background: red;
   border: 4px solid #FF6B6B;
   padding: 10px;
   /* z_index: 2; */
@@ -27,12 +28,14 @@
     position: relative;
     height: 100%;
     background: #fff;
+    background: green;
     border: 4px solid #6BCC78;
     padding: 10px;
     /* z_index: 2; */
 }
 .c_multi_drag_table .ant_table {
   /* border: 5px solid #f0f0f0; */
+  background: yellow;
 }
 .c_multi_drag_table .ant_table_thead > tr > th,
 .c_multi_drag_table .ant_table_tbody > tr > td,
@@ -42,11 +45,12 @@
 }
 .c_multi_drag_table .ant_table_tbody > tr.ant_table_placeholder > td,
 .c_multi_drag_table .ant_table_tbody > tr.ant_table_placeholder:hover > td {
-  background: transparent;
+  /* background: transparent; */
+  background: red;
 }
 .c_multi_drag_table .ant_table_tbody > tr.row_item {
   /* background: #fff; */
-  background: hotpink;
+  background: yellow;
 }
 .c_multi_drag_table
   .ant_table_tbody.is_dragging_over
