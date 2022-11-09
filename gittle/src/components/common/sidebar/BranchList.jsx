@@ -11,7 +11,10 @@ function BranchList() {
   const [delBranch, setDelBranch] = useRecoilState(deleteBranch);
   const [listOpen, setListOpen] = useState(false);
   const { ipcRenderer } = window.require("electron");
-  const branches = ipcRenderer.sendSync("branchList", location.state.root);
+  const branches = ipcRenderer.sendSync(
+    "branchList",
+    localStorage.getItem("currentRepo")
+  );
   const branchList = branches[0]
     .split("\n")
     .filter((branch) => branch)
@@ -21,7 +24,8 @@ function BranchList() {
   const changeBranch = (selectedBranch) => {
     const gitBranch = ipcRenderer.sendSync(
       "change branch",
-      location.state.root,  
+      localStorage.getItem("currentRepo"),
+
       selectedBranch
     );
     // console.log(gitBranch);
