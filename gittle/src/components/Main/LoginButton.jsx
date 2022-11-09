@@ -2,7 +2,10 @@ import React,{ useEffect, useState } from "react";
 import styles from "./LoginButton.module.css"
 
 
-const CLIENT_ID = "Iv1.922f79c332120ced";
+const CLIENT_ID = process.env.REACT_APP_GITHUB_CLIENT_ID
+
+const ACCESS_TOKEN_API_URL = `${process.env.REACT_APP_SERVER_BASE_URL}/getAccessToken?code=`
+const USER_DATA_API_URL = `${process.env.REACT_APP_SERVER_BASE_URL}/getUserData`
 
 
 function Login(){
@@ -19,11 +22,11 @@ function Login(){
             const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const codeParam = urlParams.get("code");
-    console.log(codeParam);
+
 
     if (codeParam && localStorage.getItem("accessToken") === null) {
       async function getAccessTokenAndData() {
-        await fetch("http://k7a503.p.ssafy.io:4000/getAccessToken?code=" + codeParam, {
+        await fetch(`${ACCESS_TOKEN_API_URL}` + codeParam, {
           method: "GET",
         })
           .then((response) => {
@@ -36,7 +39,7 @@ function Login(){
               setRerender(!rerender);
             }
           });
-          await fetch("http://k7a503.p.ssafy.io:4000/getUserData", {
+          await fetch(`${USER_DATA_API_URL}`, {
             method: "GET",
             headers: {
               Authorization: "Bearer " + localStorage.getItem("accessToken"),
