@@ -102,6 +102,9 @@
   outline-color: #6bcc78;
 }
 
-.option {
-  /* background: rgba(107, 204, 120, 0.5); */
+.buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 20px;
 }
