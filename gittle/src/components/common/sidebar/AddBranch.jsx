@@ -3,8 +3,10 @@ import Button from "../Button";
 import Modal from "../Modal";
 import BranchSelector from "../BranchSelector";
 import styles from "./AddBranch.module.css";
+import { useLocation } from "react-router-dom";
 
 function AddBranch() {
+  const location = useLocation();
   const [modalOpen, setModalOpen] = useState(false);
   const [newBranches, setNewBranches] = useState("");
 
@@ -29,7 +31,11 @@ function AddBranch() {
 
   const addNewBranches = (newBranch) => {
     const { ipcRenderer } = window.require("electron");
-    const gitBranch = ipcRenderer.sendSync("gitBranch", newBranch);
+    const gitBranch = ipcRenderer.sendSync(
+      "add branch",
+      location.state.root,
+      newBranch
+    );
     return gitBranch;
   };
 
@@ -37,7 +43,7 @@ function AddBranch() {
     <>
       <Button
         action={openModal}
-        content={"branch  추가"}
+        content={"branch 추가"}
         style={{ backgroundColor: "#6BCC78" }}
       />
 
@@ -58,7 +64,7 @@ function AddBranch() {
 
               <div>
                 <label>상위 브랜치</label>
-                <BranchSelector />
+                {/* <BranchSelector /> */}
               </div>
               <div className={styles.buttonContainer}>
                 <Button

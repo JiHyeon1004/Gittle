@@ -3,39 +3,40 @@ import { Octokit } from "octokit";
 import BranchSelector from "../BranchSelector";
 import Button from "../Button";
 import Modal from "../Modal";
+import styles from "./BranchChanger.module.css";
 import { useRecoilState } from "recoil";
 import { selectBranch } from "../../../atoms";
-import styles from "./BranchChanger.module.css";
 
 function BranchChanger() {
+  // useEffect(() => {
+  //   async function getBranchList() {
+  //     const user = localStorage.getItem("userInfo");
+  //     const octokit = new Octokit({
+  //       auth: "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",
+  //     });
+  //     const branches = await octokit.request(
+  //       "GET /repos/{owner}/{repo}/branches",
+  //       {
+  //         owner: user,
+  //         repo: "TIL",
+  //       }
+  //     );
+
+  //     const branchList = [];
+  //     branches.data.forEach((branch) => {
+  //       branchList.push(branch.name);
+  //     });
+  //     setBranchList(branchList);
+  //     setCurretBranch(branchList[0]);
+  //   }
+  //   getBranchList();
+  // }, []);
+
   const [branchList, setBranchList] = useState([]);
   const [currentBranch, setCurretBranch] = useState("");
   const [prevBranch, setPrevBranch] = useState("");
-
   const [modalOpen, setModalOpen] = useState(false);
-  useEffect(() => {
-    async function getBranchList() {
-      const user = localStorage.getItem("userInfo");
-      const octokit = new Octokit({
-        auth: "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",
-      });
-      const branches = await octokit.request(
-        "GET /repos/{owner}/{repo}/branches",
-        {
-          owner: user,
-          repo: "TIL",
-        }
-      );
-    }
-
-    const branchList = [];
-    branches.data.forEach((branch) => {
-      branchList.push(branch.name);
-    });
-    setBranchList(branchList);
-    setCurretBranch(branchList[0]);
-    getBranchList();
-  }, []);
+  const [branch, setBranch] = useRecoilState(selectBranch);
 
   const openModal = () => {
     setModalOpen(true);
@@ -77,7 +78,11 @@ function BranchChanger() {
         }
       >
         <div className={styles.buttonContainer}>
-          <Button content={"예"} style={{ backgroundColor: "#6BCC78" }} />
+          <Button
+            action={changeBranch}
+            content={"예"}
+            style={{ backgroundColor: "#6BCC78" }}
+          />
           <Button
             action={closeModal}
             content={"아니오"}
