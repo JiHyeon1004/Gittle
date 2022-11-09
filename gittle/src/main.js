@@ -272,7 +272,7 @@ ipcMain.on("lastCommitDescription", (event, payload) => {
     data = runCommand(payload).split(" : ")[1];
   } catch (error) {
     console.error(error);
-    data = "empty";
+    data = "";
   }
   event.returnValue = data;
 });
