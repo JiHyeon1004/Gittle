@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 import BranchList from "./BranchList";
-import BranchManage from "./BranchManage";
+
 import GitCommit from "./GitCommit";
 import CommitRuleButton from "./CommitRuleButton";
 import LogCheck from "./LogCheck";
@@ -17,12 +17,9 @@ function SideBar() {
       <div>
         <div className={styles.selector}>
           <BranchList />
-          {/* <BranchChanger /> */}
-          <LogCheck />
+          {/* <LogCheck /> */}
         </div>
-        <BranchManage />
       </div>
-      {/* <FileTree /> */}
       <div>
         <CommitRuleButton />
       </div>

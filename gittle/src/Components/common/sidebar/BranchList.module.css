@@ -4,4 +4,17 @@
 
 .openList {
   display: "";
+  /* width: 250px; */
+}
+
+.curBranch {
+  cursor: pointer;
+}
+
+.branch {
+  cursor: pointer;
+}
+
+.branch:hover {
+  background-color: #d9d9d9;
 }
