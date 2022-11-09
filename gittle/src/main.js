@@ -14,6 +14,7 @@ function createWindow() {
   const win = new BrowserWindow({
     width: 1024,
     height: 768,
+    icon: path.join(__dirname, "../public/apple.png"),
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
@@ -53,7 +54,6 @@ ipcMain.on("update-my-repo", (event, arg) => {
     arr.pop();
   }
 
-  console.log("arr입니다 : " + arr.length);
   for (let i = 0; i < arr.length; i++) {
     console.log(arr[i]);
   }
@@ -70,24 +70,30 @@ ipcMain.on("call-my-repo", (event, arg) => {
   if (arr === undefined) {
     arr = [];
   }
-  console.log(arr);
-  console.log("돌아갑니다");
-  event.returnValue = arr;
-});
 
-ipcMain.on("call-my-repo-2", (event, arg) => {
-  console.log("가져오기 시작");
-  const Store = require("electron-store");
-  const store = new Store();
+  console.log("arr : " + arr);
 
-  let arr = store.get("gittle-myRepo");
+  let result = [];
 
-  if (arr === undefined) {
-    arr = [];
+  for (let i = 0; i < arr.length; i++) {
+    // if(arr[i]===null){
+    //   arr=[]
+    // }
+    if (arr[i] !== null) {
+      result.push(arr[i]);
+    }
+
+    console.log(arr[i]);
   }
-  console.log(arr);
+
+  if (result.length !== arr.length) {
+    store.set("gittle-myRepo", result);
+  }
+
+  console.log(result.length);
+  console.log(result);
   console.log("돌아갑니다");
-  event.sender.send("return-2", arr);
+  event.returnValue = result;
 });
 
 ipcMain.on("branchList", (event, route) => {
@@ -144,6 +150,7 @@ app.whenReady().then(() => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
 });
+
 app.on("window-all-closed", function () {
   if (process.platform !== "darwin") app.quit();
 });
@@ -155,11 +162,59 @@ ipcMain.on("gitStatus", (event, payload) => {
   event.returnValue = data;
 });
 
+//이거 exe 로 만들면 현재 디렉토리가 어디지?
+ipcMain.on('WriteCommitConvention', (event, payload) => {
+  if(!fs.existsSync("./asdf/commitConvention.json")){
+    fs.appendFileSync("./asdf/commitConvention.json","["+JSON.stringify(payload)+"]");
+    const commitRules = JSON.parse(fs.readFileSync("./asdf/commitConvention.json").toString());
+    event.returnValue = commitRules;
+  }
+  else{
+    const commitRules = JSON.parse(fs.readFileSync("./asdf/commitConvention.json").toString());
+    commitRules.push(payload)
+    fs.writeFileSync("./asdf/commitConvention.json",JSON.stringify(commitRules))
+    event.returnValue = commitRules;
+  }
+})
+
+ipcMain.on('ReadCommitConvention', (event) => {
+  if(!fs.existsSync("./asdf/commitConvention.json")){
+    //fs.appendFileSync("./asdf/commitConvention.json","[]");
+    console.log("temp")
+    event.returnValue = "empty"
+  }
+  else {
+    const commitRules = fs.readFileSync("./asdf/commitConvention.json").toString();
+    console.log(commitRules)
+    console.log(typeof commitRules)
+    event.returnValue = commitRules
+  }
+
+})
+
+
+ipcMain.on("git-Clone", (event, payload) => {
+  console.log("도착했습니다");
+  console.log("저장소 루트 : " + payload.cloneRoot);
+  console.log("폴더 루트 : " + payload.repoRoot);
+  let path = runCommand(
+    `cd "${payload.repoRoot}" && git clone ${payload.cloneRoot}`
+  );
+  console.log("path : " + path);
+});
+
+ipcMain.on("git-Init", (event, payload) => {
+  let start = runCommand(`cd "${payload.repoRoot}" && git init`);
+  console.log("start : " + start);
+});
+
 ipcMain.on("gitDiff", (event, arg) => {
   console.log("코드 전후 비교해볼래");
   console.log(arg);
   const codes = [];
   arg.map((file) => {
+    // const name = file.split("/");
+    // const fileName = name[name.length - 1];
     let diff = runCommand(`git diff ${file}`);
     console.log("git diff : ", diff);
     codes.push(diff);
@@ -188,3 +243,28 @@ ipcMain.on("gitReset", (event, payload) => {
   console.log(data);
   // replyInputValue 송신 또는 응답
 });
+
+ipcMain.on("gitBranch", (event, route) => {
+  console.log("현재 작업 중인 브랜치를 보여줘");
+  console.log(route);
+  const branch = runCommand(
+    `git --git-dir=${route}\\.git branch --show-current `
+  );
+  console.log("브랜치이이이", branch);
+  event.returnValue = branch;
+});
+ipcMain.on('gitCommit', (event, payload) => {
+  let data = runCommand(payload)
+  console.log(data)
+  event.returnValue = data;
+})
+ipcMain.on('lastCommitDescription', (event, payload) => {
+  let data
+  try {
+    data = runCommand(payload).split(" : ")[1]
+  } catch (error) {
+    console.error(error);
+    data = "empty"
+  }
+  event.returnValue = data;
+})
