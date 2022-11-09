@@ -13,7 +13,6 @@ function SideBar() {
   if (location.pathname === "/") return null;
   return (
     <div className={styles.container}>
-      <BranchManage />
       <GitCommit />
       <div>
         <div className={styles.selector}>

@@ -7,6 +7,7 @@ import Log from "./pages/LogPage";
 import MergeReady from "./pages/MergeReadyPage";
 import Header from "./components/common/header/Header";
 import SideBar from "./components/common/sidebar/SideBar";
+
 import "./App.css";
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
