@@ -17,7 +17,7 @@ export default function GitLog() {
   const [fileIdx, setFileIdx] = useState(0);
   const branch = useRecoilValue(selectedBranch);
 
-  console.log(branch);
+  console.log("1111", branch);
 
   useEffect(() => {
     async function getLog() {
