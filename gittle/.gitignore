@@ -17,7 +17,6 @@ web_modules/
 
 # misc
 .DS_Store
-# /gittle/.env
 .env.local
 .env.development.local
 .env.test.local
