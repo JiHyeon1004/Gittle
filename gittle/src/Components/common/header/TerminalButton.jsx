@@ -1,10 +1,10 @@
 import React from "react";
-
+import styles from "./TerminalButton.module.css"
 const { ipcRenderer } = window.require("electron");
 function TerminalButton() {
   return (
     <>
-      <button><img style={{ width: "40px", height: "40px" }}
+      <button className={styles.terminalButton}><img style={{ width: "40px", height: "40px" }}
       src={process.env.PUBLIC_URL + '/icons/terminal.png'} 
       alt="terminal" onClick={() => {ipcRenderer.send("gitbash")}} />
       <br/>
