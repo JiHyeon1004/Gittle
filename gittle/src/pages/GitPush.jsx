@@ -10,9 +10,9 @@ import Push from "../components/pushPage/Push"
 function PushPage(){
 
     const [selectedBranch,setSelectedBranch]=useState("")
-
+    const {ipcRenderer} = window.require('electron')
     const pushStart=()=>{
-
+        ipcRenderer.sendSync('git-Push',{repoRoot: localStorage.getItem('currentRepo'),branch : selectedBranch})
     }
     
     return (
@@ -35,7 +35,6 @@ function PushPage(){
             </div>
             <div className={styles.buttonArea}>
                 <button className={styles.button} onClick={pushStart()}>Push</button>
-                
             </div>
         </div>
         </>

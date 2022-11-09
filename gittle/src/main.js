@@ -312,7 +312,7 @@ ipcMain.on("gitCommit", (event, payload) => {
 });
 
 
-ipcMain.on("lastCommitDescription", (event, payload) => {
+ipcMain.on("lastCommitDescription", (event, payload,branch) => {
   let data;
   try {
     data = runCommand(payload).split(" : ")[1];
@@ -322,3 +322,10 @@ ipcMain.on("lastCommitDescription", (event, payload) => {
   }
   event.returnValue = data;
 });
+
+
+ipcMain.on("git-Push",(event,payload)=>{
+  runCommand(`
+    cd "${payload.repoRoot}" && git push origin ${payload.branch}
+  `)
+})
