@@ -1,0 +1,14 @@
+[
+    {
+        "type": "feat",
+        "explanation": "기능추가"
+    },
+    {
+        "type": "fix",
+        "explanation": "수정"
+    },
+    {
+        "type": "docs",
+        "explanation": "문서추가"
+    }
+]

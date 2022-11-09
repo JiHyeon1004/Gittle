@@ -1,7 +1,16 @@
+.container {
+  display: flex;
+}
+
 .selector {
   max-width: 125px;
   height: 40px;
   border-radius: 0.3rem;
   font-size: 16px;
+  font-weight: bold;
+}
+
+.branch {
+  color: #6bcc78;
   font-weight: bold;
 }

@@ -1,6 +1,6 @@
 .main {
   height: 100%;
-  /* width: 50%; */
+  width: 55%;
   border-style: solid;
   border-width: 0 0 0 1px;
 }
@@ -19,9 +19,6 @@
   height: 2.5rem;
   width: 6rem;
   margin-bottom: 2rem;
-}
-
-.remotebox > p {
   color: white;
   font-size: 1.2rem;
   font-weight: bold;
@@ -30,8 +27,9 @@
 .listandbtn {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   align-items: center;
-  margin-left: 10rem;
+  margin-left: 7rem;
 }
 
 .box {
@@ -109,4 +107,18 @@
 
 .text {
   font-size: 0.8rem;
+}
+
+.button {
+  margin-left: 10rem;
+  background-color: #c9a6ff;
+  height: 2.5rem;
+  width: 6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
 }

@@ -1,8 +1,11 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import GitPull from "./GitPull";
 import styles from "./Header.module.css";
 
 function Header() {
+  const location = useLocation();
+  if (location.pathname === "/") return null;
   return (
     <div className={styles.container}>
       <h2>Gittle</h2>
@@ -11,6 +14,7 @@ function Header() {
         <Link to="/oauth">oauth</Link> | <Link to="/log">log</Link> |{" "}
         <Link to="/merge">merge</Link> | <Link to="/push">push</Link> |{" "}
       </div>
+      <GitPull />
     </div>
   );
 }
