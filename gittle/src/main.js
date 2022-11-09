@@ -315,13 +315,16 @@ ipcMain.on("gitCommit", (event, payload) => {
 ipcMain.on("lastCommitDescription", (event, payload) => {
   let data;
   try {
-    data = runCommand(payload).split(" : ")[1];
+    data = runCommand(payload)
+    data = data.substring(1, data.length-1)
+    data = data.includes(" : ") ? data.split(" : ")[1] : data
+    //data = runCommand(payload).split(" : ")[1];
   } catch (error) {
     console.error(error);
     data = "";
   }
   event.returnValue = data;
 });
-ipcMain.on("gitbash",(event) =>{
-  //child_process.exec(`cd C:\\Users\\SSAFY\\Desktop\\react-electron && start "" "%PROGRAMFILES%\\Git\\bin\\sh.exe" --login`)
+ipcMain.on("gitbash",(event, currentRepo) =>{
+  child_process.exec(`cd ${currentRepo} && start "" "%PROGRAMFILES%\\Git\\bin\\sh.exe" --login`)
 }) 
