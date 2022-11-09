@@ -1,0 +1,10 @@
+.title {
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.avatar {
+  border-radius: 10rem;
+  width: 20px;
+  height: 20px;
+}

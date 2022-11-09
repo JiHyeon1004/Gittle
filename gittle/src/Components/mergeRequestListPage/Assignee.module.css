@@ -5,7 +5,7 @@
 }
 
 .assigned {
-  border: 2px solid;
+  border: 0.7px solid #959595;
   border-radius: 1rem;
   padding: 10px 20px 15px 20px;
   margin-top: 1rem;
@@ -14,7 +14,7 @@
 .box {
   margin: 0.5rem 0 0.5rem 0;
   border-style: solid;
-  border-color: #6bcc78;
+  border-color: rgba(107, 204, 120, 0.4);
   border-width: 0 0 2px 0;
 }
 

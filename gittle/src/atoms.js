@@ -31,3 +31,13 @@ export const mergingBranch = atom({
   key: "mergingBranch",
   default: "",
 });
+
+export const mergeRequest = atom({
+  key: "mergeRequest",
+  default: {},
+});
+
+export const mergeCommit = atom({
+  key: "mergeCommit",
+  default: [],
+});
