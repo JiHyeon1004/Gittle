@@ -24,7 +24,7 @@ function BranchList() {
   const changeBranch = (selectedBranch) => {
     const gitBranch = ipcRenderer.sendSync(
       "change branch",
-      location.state.root,
+      localStorage.getItem("currentRepo"),
       selectedBranch
     );
     // console.log(gitBranch);
