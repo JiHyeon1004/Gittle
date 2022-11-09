@@ -109,10 +109,12 @@ ipcMain.on("branchList", (event, route) => {
 
 ipcMain.on("change branch", (event, route, selectedBranch) => {
   console.log("브랜치 이동");
+  console.log("selectedBranch : ",selectedBranch)
 
   const codes = [];
   let branch = runCommand(
-    `git --git-dir=${route}\\.git checkout ${selectedBranch}`
+    `cd "${route}" && git init && git checkout ${selectedBranch}`
+    // `git --git-dir=${route}\\.git checkout ${selectedBranch}`
   );
   console.log("change branch : ", branch);
   codes.push(branch);
