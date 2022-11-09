@@ -13,6 +13,11 @@ export const selectedBranch = selector({
   },
 });
 
+export const pushedBranch = atom({
+  key: "pushedBranch",
+  default: "",
+});
+
 export const currentBranch = atom({
   key: "currentBranch",
   default: "",
@@ -20,5 +25,9 @@ export const currentBranch = atom({
 
 export const deleteBranch = atom({
   key: "deleteBranch",
+  default: "",
+});
+export const mergingBranch = atom({
+  key: "mergingBranch",
   default: "",
 });

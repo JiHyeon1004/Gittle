@@ -3,14 +3,26 @@ import { Octokit } from "octokit";
 import styles from "./Remote.module.css";
 import { faCodeBranch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useRecoilState } from "recoil";
+import { pushedBranch, mergingBranch } from "../../atoms";
+import Modal from "../common/Modal";
+import Button from "../common/Button";
+import { useNavigate } from "react-router-dom";
 
 // push된 브랜치 이름 받아오기
 export default function Remote() {
   const [branches, setBranches] = useState([]);
-  const [push, setPush] = useState("");
-  const [merge, setMerge] = useState("");
+  const [push, setPush] = useRecoilState(pushedBranch);
+  const [merge, setMerge] = useRecoilState(mergingBranch);
+  const [modalOpen, setModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
+    const user = localStorage.getItem("userInfo");
+    const location = localStorage.getItem("currentRepo").split("\\");
+    console.log(location);
+    const repo = location[location.length - 1];
+
     async function getBranches() {
       const octokit = new Octokit({
         auth: "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",
@@ -19,8 +31,8 @@ export default function Remote() {
       const branch = await octokit.request(
         "GET /repos/{owner}/{repo}/branches",
         {
-          owner: "junghyun1009",
-          repo: "TIL",
+          owner: user,
+          repo: repo,
         }
       );
       console.log("1", branch);
@@ -28,11 +40,23 @@ export default function Remote() {
     }
     getBranches();
     // push된 branch 받아오기
-    setPush("test");
+    setPush("ussong");
   }, []);
 
   const selectBranch = (branch) => {
     setMerge(branch);
+  };
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
+  const StartMerge = () => {
+    closeModal();
+    navigate("/merge");
   };
 
   return (
@@ -47,31 +71,28 @@ export default function Remote() {
                 <div className={styles.list}>
                   {branches.map((branch, index) =>
                     push === branch.name ? (
-                      <div className={styles.pushbranch}>
+                      <div key={index} className={styles.pushbranch}>
                         <FontAwesomeIcon
                           icon={faCodeBranch}
                           className={styles.icon}
                         />
-                        <div key={index}>{branch.name}</div>
+                        <div>{branch.name}</div>
                       </div>
                     ) : merge === branch.name ? (
-                      <div className={styles.mergebranch}>
+                      <div key={index} className={styles.mergebranch}>
                         <FontAwesomeIcon
                           icon={faCodeBranch}
                           className={styles.icon}
                         />
-                        <div key={index}>{branch.name}</div>
+                        <div>{branch.name}</div>
                       </div>
                     ) : (
-                      <div className={styles.branch}>
+                      <div key={index} className={styles.branch}>
                         <FontAwesomeIcon
                           icon={faCodeBranch}
                           className={styles.icon}
                         />
-                        <div
-                          key={index}
-                          onClick={() => selectBranch(branch.name)}
-                        >
+                        <div onClick={() => selectBranch(branch.name)}>
                           {branch.name}
                         </div>
                       </div>
@@ -89,7 +110,34 @@ export default function Remote() {
               </div>
             </div>
           ) : null}
-          <div className={styles.button}>merge</div>
+          <Button
+            action={openModal}
+            content={"merge"}
+            style={{ backgroundColor: "#C9A6FF" }}
+          />
+          <Modal
+            open={modalOpen}
+            content={
+              <>
+                <p>
+                  {push} branch를 {merge} branch로 merge 하시겠습니까?
+                </p>
+              </>
+            }
+          >
+            <div>
+              <Button
+                action={StartMerge}
+                content={"예"}
+                style={{ backgroundColor: "#6BCC78" }}
+              />
+              <Button
+                action={closeModal}
+                content={"아니오"}
+                style={{ border: "1px solid #7B7B7B" }}
+              />
+            </div>
+          </Modal>
         </div>
       </div>
     </div>

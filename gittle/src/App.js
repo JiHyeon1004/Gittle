@@ -5,6 +5,7 @@ import Add from "./pages/AddPage";
 import React from "react";
 import Log from "./pages/LogPage";
 import MergeReady from "./pages/MergeReadyPage";
+import Merge from "./pages/MergePage";
 import Header from "./components/common/header/Header";
 import SideBar from "./components/common/sidebar/SideBar";
 
@@ -27,7 +28,8 @@ function App() {
           <Route path="/" element={<Main />} />
           <Route path="/add" element={<Add />} />
           <Route path="/log" element={<Log />} />
-          <Route path="/merge" element={<MergeReady />} />
+          <Route path="/merge/ready" element={<MergeReady />} />
+          <Route path="/merge" element={<Merge />} />
         </Routes>
       </div>
     </>

@@ -11,7 +11,7 @@ function Header() {
       <h2>Gittle</h2>
       <div>
         <Link to="/">main</Link> | <Link to="/add">add</Link> |{" "}
-        <Link to="/log">log</Link> | <Link to="/merge">merge</Link>
+        <Link to="/log">log</Link> | <Link to="/merge/ready">merge</Link>
       </div>
       <GitPull />
     </div>
