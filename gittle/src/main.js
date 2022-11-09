@@ -43,6 +43,7 @@ ipcMain.on("update-my-repo", (event, arg) => {
   const store = new Store();
 
   let arr = store.get("gittle-myRepo");
+  store.delete('gittle-myRepo')
 
   if (arr === undefined) {
     arr = [];
@@ -65,7 +66,9 @@ ipcMain.on("call-my-repo", (event, arg) => {
   const Store = require("electron-store");
   const store = new Store();
 
-  let arr = store.get("gittle-myRepo");
+  // let arr = store.get("gittle-myRepo");
+  let arr = localStorage.getItem("currentRepo")
+
 
   if (arr === undefined) {
     arr = [];
@@ -76,9 +79,6 @@ ipcMain.on("call-my-repo", (event, arg) => {
   let result = [];
 
   for (let i = 0; i < arr.length; i++) {
-    // if(arr[i]===null){
-    //   arr=[]
-    // }
     if (arr[i] !== null) {
       result.push(arr[i]);
     }
@@ -87,7 +87,8 @@ ipcMain.on("call-my-repo", (event, arg) => {
   }
 
   if (result.length !== arr.length) {
-    store.set("gittle-myRepo", result);
+    // store.set("gittle-myRepo", result);
+    localStorage.setItem(result)
   }
 
   console.log(result.length);
@@ -205,15 +206,29 @@ ipcMain.on("git-Clone", (event, payload) => {
   console.log("도착했습니다");
   console.log("저장소 루트 : " + payload.cloneRoot);
   console.log("폴더 루트 : " + payload.repoRoot);
-  let path = runCommand(
+  let stringArr=payload.cloneRoot.split("/")
+  for(let i=0;i<stringArr.length;i++){
+    console.log(i,"번째 : ",stringArr[i])
+  }
+
+  let temp=stringArr[stringArr.length-1]
+  
+  let folderName=temp.substr(0,temp.length-4)
+  console.log("folderName : ",folderName)
+  runCommand(
     `cd "${payload.repoRoot}" && git clone ${payload.cloneRoot}`
   );
-  console.log("path : " + path);
+
+  console.log('돌아갑니다')
+  event.returnValue=folderName
+
 });
 
 ipcMain.on("git-Init", (event, payload) => {
-  let start = runCommand(`cd "${payload.repoRoot}" && git init`);
-  console.log("start : " + start);
+  console.log('repoName : '+payload.repoName)
+  console.log('repoRoot : '+payload.repoRoot)
+  runCommand(`cd "${payload.repoRoot}" && mkdir ${payload.repoName}  && cd ${payload.repoName}  && git init`);
+  event.returnValue=payload.repoName+"\\"+payload.repoRoot
 });
 
 ipcMain.on("gitDiff", (event, arg) => {
