@@ -17,10 +17,24 @@ export default function GitDiff({ diffFiles, diff }) {
   const [codeBefore, setCodeBefore] = useState([]);
   const [codeAfter, setCodeAfter] = useState([]);
   const [fileIdx, setFileIdx] = useState(0);
+  // 레포지토리 주소 받아오기
+  const location = localStorage.getItem("currentRepo");
+  console.log(location);
+  // 레포지토리 주소에서 이름 저장하기
+  const repoArr = location.split("\\");
+  const repo = repoArr[repoArr.length - 1];
+  console.log(repo);
+  // 현재 작업 중인 브랜치 저장
+  const [currBranch, setCurrBranch] = useState("");
 
   useEffect(() => {
     // 해당 branch 정보 가져오기
     // auth, owner, repo, branch 변수에 저장해서 사용해야 함
+    // 선택한 레포지토리에서 브랜치 가져오기
+    const { ipcRenderer } = window.require("electron");
+    const currentBranch = ipcRenderer.sendSync("gitBranch", location);
+    setCurrBranch(currentBranch);
+    console.log("브랜치", currentBranch);
     async function getBranch() {
       const user = localStorage.getItem("userInfo");
       const octokit = new Octokit({
@@ -31,8 +45,8 @@ export default function GitDiff({ diffFiles, diff }) {
         "GET /repos/{owner}/{repo}/branches/{branch}",
         {
           owner: user,
-          repo: "TIL",
-          branch: "main",
+          repo: repo,
+          branch: currentBranch.replace(/\n/g, ""),
         }
       );
 

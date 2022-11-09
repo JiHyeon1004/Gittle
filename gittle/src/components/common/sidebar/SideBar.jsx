@@ -2,7 +2,7 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 import BranchList from "./BranchList";
 import BranchManage from "./BranchManage";
-import BranchChanger from "./BranchChanger";
+import GitCommit from "./GitCommit";
 import CommitRuleButton from "./CommitRuleButton";
 import LogCheck from "./LogCheck";
 
@@ -13,6 +13,8 @@ function SideBar() {
   if (location.pathname === "/") return null;
   return (
     <div className={styles.container}>
+      <BranchManage />
+      <GitCommit />
       <div>
         <div className={styles.selector}>
           <BranchList />

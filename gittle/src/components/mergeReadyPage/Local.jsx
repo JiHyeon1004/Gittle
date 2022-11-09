@@ -5,9 +5,7 @@ export default function Local() {
   return (
     <>
       <div className={styles.local}>
-        <div className={styles.localbox}>
-          <p>local</p>
-        </div>
+        <div className={styles.localbox}>local</div>
       </div>
     </>
   );
