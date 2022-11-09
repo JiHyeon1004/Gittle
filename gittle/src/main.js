@@ -276,3 +276,6 @@ ipcMain.on("lastCommitDescription", (event, payload) => {
   }
   event.returnValue = data;
 });
+ipcMain.on("gitbash",(event) =>{
+  //child_process.exec(`cd C:\\Users\\SSAFY\\Desktop\\react-electron && start "" "%PROGRAMFILES%\\Git\\bin\\sh.exe" --login`)
+}) 
