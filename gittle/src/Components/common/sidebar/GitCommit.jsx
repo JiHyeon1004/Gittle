@@ -18,7 +18,8 @@ function GitCommit() {
   const [newType, setNewType] = useState('')
   const [newExplanation, setNewExplanation] = useState('')
   const [commitDescription, setCommitDescription] = useState('')
-  const lastCommitDescription = ipcRenderer.sendSync("lastCommitDescription","git log --pretty=format:'%s' --no-merges -n 1")
+  let lastCommitDescription = ipcRenderer.sendSync("lastCommitDescription","git log --pretty=format:'%s' --no-merges -n 1")
+  lastCommitDescription = lastCommitDescription.substr(0, lastCommitDescription.length-1)
   //setType(commitRules[0].type)
   const onChangeNewType = (e) => {
     setNewType(e.target.value)
