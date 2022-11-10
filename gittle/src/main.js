@@ -331,7 +331,7 @@ ipcMain.on("git-Push",(event,payload)=>{
   console.log("repo입니다 : ",payload.repoRoot)
   console.log("브랜치입니다 : ",payload.branch)
   let ment = runCommand(`
-    cd "${payload.repoRoot}" && git push origin ${payload.branch}
+    cd "${payload.repoRoot}" && git push origin ${payload.branch} && git status
   `)
   console.log("ment : ",ment)
   console.log("완료되었습니다")
