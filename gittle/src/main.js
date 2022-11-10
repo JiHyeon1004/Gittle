@@ -315,10 +315,13 @@ ipcMain.on("gitCommit", (event, payload) => {
 ipcMain.on("lastCommitDescription", (event, payload,branch) => {
   let data;
   try {
-    data = runCommand(payload).split(" : ")[1];
+    data = runCommand(payload)
+    data = data.substring(1, data.length-1)
+    data = data.includes(" : ") ? data.split(" : ")[1] : data
+    //data = runCommand(payload).split(" : ")[1];
   } catch (error) {
     console.error(error);
-    data = "empty";
+    data = "";
   }
   event.returnValue = data;
 });
@@ -332,3 +335,6 @@ ipcMain.on("git-Push",(event,payload)=>{
   `)
   console.log("완료되었습니다")
 })
+ipcMain.on("gitbash",(event, currentRepo) =>{
+  child_process.exec(`cd ${currentRepo} && start "" "%PROGRAMFILES%\\Git\\bin\\sh.exe" --login`)
+}) 

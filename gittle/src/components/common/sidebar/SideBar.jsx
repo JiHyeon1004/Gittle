@@ -5,8 +5,8 @@ import BranchManage from "./BranchManage";
 import GitCommit from "./GitCommit";
 import CommitRuleButton from "./CommitRuleButton";
 import LogCheck from "./LogCheck";
-
 import styles from "./SideBar.module.css";
+import GitHelp from "./GitHelp";
 
 function SideBar() {
   const location = useLocation();
@@ -26,6 +26,7 @@ function SideBar() {
       <div>
         <CommitRuleButton />
       </div>
+      <GitHelp/>
     </div>
   );
 }
