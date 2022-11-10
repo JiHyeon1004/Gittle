@@ -330,9 +330,10 @@ ipcMain.on("lastCommitDescription", (event, payload,branch) => {
 ipcMain.on("git-Push",(event,payload)=>{
   console.log("repo입니다 : ",payload.repoRoot)
   console.log("브랜치입니다 : ",payload.branch)
-  runCommand(`
+  let ment = runCommand(`
     cd "${payload.repoRoot}" && git push origin ${payload.branch}
   `)
+  console.log("ment : ",ment)
   console.log("완료되었습니다")
 })
 ipcMain.on("gitbash",(event, currentRepo) =>{
