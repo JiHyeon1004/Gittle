@@ -9,10 +9,10 @@ import Push from "../components/pushPage/Push"
 
 function PushPage(){
 
-    const [selectedBranch,setSelectedBranch]=useState("")
+    const [selBranch,setSelBranch]=useState("")
     const {ipcRenderer} = window.require('electron')
     const pushStart=()=>{
-        ipcRenderer.sendSync('git-Push',{repoRoot: localStorage.getItem('currentRepo'),branch : selectedBranch})
+        ipcRenderer.sendSync('git-Push',{repoRoot: localStorage.getItem('currentRepo'),branch : selBranch})
     }
     
     return (
@@ -30,11 +30,11 @@ function PushPage(){
 
             <div className={styles.push}>
                 <Push changeBranch={(arg)=>{
-                    setSelectedBranch(arg)
+                    setSelBranch(arg)
                 }}/>
             </div>
             <div className={styles.buttonArea}>
-                <button className={styles.button} onClick={pushStart()}>Push</button>
+                <button className={styles.button} onClick={()=>{pushStart()}}>Push</button>
             </div>
         </div>
         </>

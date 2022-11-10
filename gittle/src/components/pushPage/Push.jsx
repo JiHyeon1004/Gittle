@@ -26,6 +26,7 @@ function Push(props){
             {branchArr.map((item,idx)=>(
 
                 <div 
+                    key={idx}
                     className={styles.branchBox} 
                     onClick={()=>{
                         setSelected(item)
