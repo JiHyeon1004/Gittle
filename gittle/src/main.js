@@ -336,7 +336,11 @@ ipcMain.on("git-Push",(event,payload)=>{
   event.returnValue='return'
 })
 
-
+ipcMain.on("call-committed-files",(event,root)=>{
+  const commitIdList=runCommand(`cd "${root}" && git log -1`)
+  console.log("id List : ",commitIdList)
+  event.returnValue='return'
+})
 
 
 
