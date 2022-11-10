@@ -1,4 +1,4 @@
-import react from "react";
+import React from "react";
 import { useEffect, useState } from "react";
 import { Octokit } from "octokit";
 import styles from "./Assignee.module.css";

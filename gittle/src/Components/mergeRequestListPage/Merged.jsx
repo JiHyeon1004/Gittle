@@ -1,11 +1,10 @@
-import react from "react";
+import React from "react";
 import { Octokit } from "octokit";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { allRequests, mergedRequests } from "../../atoms";
+import { mergedRequests } from "../../atoms";
 
 export default function Merged() {
-  const [allReq, setAllReq] = useRecoilState(allRequests);
   const [mergedReq, setMergedReq] = useRecoilState(mergedRequests);
 
   const user = localStorage.getItem("userInfo");
@@ -22,30 +21,23 @@ export default function Merged() {
       const result = await octokit.request("GET /repos/{owner}/{repo}/pulls", {
         owner: user,
         repo: repo,
-        state: "all",
+        state: "closed",
       });
 
-      console.log(result);
-      setAllReq(result.data);
-
-      //   const merged = [];
-      //   result.data.map((each) => {
-      //     if (each.merged_at) {
-      //       merged.push(each);
-      //     }
-      //   });
-      //   setMergedReq(merged);
+      console.log('닫힘', result.data);
+      setMergedReq(result.data);
     }
     getRequest();
   }, []);
   return (
     <>
       <div>
-        {allReq.map((req, index) => (
+        {mergedReq.map((req, index) => (
           <div key={index}>
             <div>{req.title}</div>
-            <div>{req.user.login}</div>
-            <div>{req.merged_at}</div>
+            <div>요청자 : {req.user.login}</div>
+            <div>담당자 : {req.assignee.login}</div>
+            <div>{req.merged_at.replace("T", " ").replace("Z", "")}</div>
           </div>
         ))}
       </div>
