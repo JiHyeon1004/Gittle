@@ -335,6 +335,7 @@ ipcMain.on("git-Push",(event,payload)=>{
   `)
   console.log("bran : ",bran)
   console.log("완료되었습니다")
+  event.returnValue='return'
 })
 
 
