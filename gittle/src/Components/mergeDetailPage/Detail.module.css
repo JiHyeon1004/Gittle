@@ -1,10 +1,133 @@
 .title {
   font-size: 2rem;
   font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.needmerge {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ff6b6b;
+  width: 5.5rem;
+  height: 1.5rem;
+  color: white;
+  border-radius: 1rem;
+  font-size: 0.8rem;
+}
+
+.info {
+  display: flex;
+  margin-top: 0.5rem;
+  margin-bottom: 1.5rem;
+  margin-left: 0.2rem;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  margin-right: 0.5rem;
+}
+
+.bold {
+  font-weight: 600;
+  margin-right: 0.5rem;
 }
 
 .avatar {
   border-radius: 10rem;
   width: 20px;
   height: 20px;
+  margin-right: 0.3rem;
+}
+
+.overview {
+  display: flex;
+  flex-direction: column;
+}
+
+.tabs {
+  display: flex;
+}
+
+.tab {
+  width: 8rem;
+  height: 2rem;
+  border: solid #959595;
+  border-width: 1px 1px 0 1px;
+  border-radius: 0.8rem 0.8rem 0 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tabbox {
+  border: 1px solid #959595;
+  border-radius: 0 0.8rem 0.8rem 0.8rem;
+  padding: 20px;
+}
+
+.request {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.push {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid #6bcc78;
+  border-radius: 1rem;
+  width: 15rem;
+  height: 6rem;
+}
+
+.branch {
+  font-weight: 600;
+}
+
+.pushbranch {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #6bcc78;
+}
+
+.arrow {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 1rem;
+}
+
+.arrow div {
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: #c9a6ff;
+}
+
+.merge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid #ff6b6b;
+  border-radius: 1rem;
+  width: 15rem;
+  height: 6rem;
+}
+
+.mergebranch {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #ff6b6b;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
 }
