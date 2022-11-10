@@ -1,13 +1,13 @@
-
 var express = require('express');
 var cors = require('cors');
 
+require("dotenv").config({ path: __dirname + "/.env" });
 const axios = require('axios');
 var bodyParser = require('body-parser');
 const { response } = require('express');
-const CLIENT_ID = process.env.REACT_APP_GITHUB_CLIENT_ID;
-const CLIENT_SECRET = "3b43909d7bf450b669ede8406c88e214bc51302c";
 
+const CLIENT_ID = process.env.REACT_APP_GITHUB_CLIENT_ID
+const CLIENT_SECRET = process.env.REACT_APP_GITHUB_CLIENT_SECRET
 var app = express();
 
 app.use(cors());
@@ -23,7 +23,7 @@ app.get('/getAccessToken', async function (req, res) {
             "Accept": "application/json"
         }
     });
-	res.send(resi.data);
+    res.send(resi.data);
 });
 
 

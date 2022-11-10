@@ -4,7 +4,7 @@ import styles from "./Push.module.css"
 
 function Push(props){
 
-    const repoRoot="C:\\Users\\SSAFY\\Desktop\\2nd_project\\3rd_project\\S07P31A503";
+    const repoRoot=localStorage.getItem('currentRepo');
 
     const {ipcRenderer} = window.require('electron')
     const [branchArr,setBranchArr] = useState([])
@@ -26,11 +26,11 @@ function Push(props){
             {branchArr.map((item,idx)=>(
 
                 <div 
+                    key={idx}
                     className={styles.branchBox} 
                     onClick={()=>{
                         setSelected(item)
                         props.changeBranch(item)
-                        
                     }}
                 >
                     {item}

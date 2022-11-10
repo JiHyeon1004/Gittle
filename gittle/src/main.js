@@ -28,8 +28,7 @@ function createWindow() {
     .executeJavaScript('localStorage.getItem("currentRepo");', true)
     .then(result => {
       currentRepo = result
-      gitDir = `--git-dir=${currentRepo}\\.git`
-      console.log(currentRepo)
+      gitDir = `--git-dir=${result}\\.git`
     });
 
   win.loadURL("http://localhost:3000");
@@ -171,8 +170,11 @@ app.on("window-all-closed", function () {
   if (process.platform !== "darwin") app.quit();
 });
 
-ipcMain.on("gitStatus", (event, currentRepo) => {
-  let data = runCommand(`git --git-dir=${currentRepo}\\.git --work-tree=${currentRepo} status -u -s`);
+ipcMain.on("gitStatus", (event, curRepo) => {
+  currentRepo = curRepo
+  gitDir = `--git-dir=${currentRepo}\\.git`
+  const option = currentRepo !== null || currentRepo !== undefined ? `${gitDir} --work-tree=${currentRepo}` : ''
+  const data = runCommand(`git ${option} status -u -s`);
   event.returnValue = data;
 });
 
@@ -322,6 +324,16 @@ ipcMain.on("lastCommitDescription", (event, payload) => {
   event.returnValue = data;
 });
 
+
+
+ipcMain.on("git-Push",(event,payload)=>{
+  console.log("repo입니다 : ",payload.repoRoot)
+  console.log("브랜치입니다 : ",payload.branch)
+  runCommand(`
+    cd "${payload.repoRoot}" && git push origin ${payload.branch}
+  `)
+  console.log("완료되었습니다")
+})
 ipcMain.on("openTerminal", (event) =>{
   child_process.exec(`cd ${currentRepo} && start "" "%PROGRAMFILES%\\Git\\bin\\sh.exe" --login`)
 });
