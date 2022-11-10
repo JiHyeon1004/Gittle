@@ -41,3 +41,13 @@ export const mergeCommit = atom({
   key: "mergeCommit",
   default: [],
 });
+
+export const allRequests = atom({
+  key: "allRequests",
+  default: [],
+});
+
+export const mergedRequests = atom({
+  key: "mergedRequests",
+  default: [],
+});

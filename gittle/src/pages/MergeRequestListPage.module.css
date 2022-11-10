@@ -1,0 +1,20 @@
+.tabs {
+  display: flex;
+}
+
+.tab {
+  width: 8rem;
+  height: 2rem;
+  border: solid #959595;
+  border-width: 1px 1px 0 1px;
+  border-radius: 0.8rem 0.8rem 0 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tabbox {
+  border: 1px solid #959595;
+  border-radius: 0 0.8rem 0.8rem 0.8rem;
+  padding: 20px;
+}
