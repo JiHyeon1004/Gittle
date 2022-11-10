@@ -14,6 +14,7 @@ function PushPage(){
     const pushStart=()=>{ 
         console.log('출발합니다!!!')
         ipcRenderer.sendSync('git-Push'  ,{repoRoot: localStorage.getItem('currentRepo'),branch : selBranch})
+        console.log('도착했습니다잉')
     }
     
     return (
