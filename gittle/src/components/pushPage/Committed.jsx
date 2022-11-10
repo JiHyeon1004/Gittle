@@ -14,8 +14,10 @@ function Committed(){
         setFileList(ipcRenderer.sendSync('call-committed-files',localStorage.getItem('currentRepo')))
     }
 
-
     
+
+
+
 
     useEffect(()=>{
         callFiles()
