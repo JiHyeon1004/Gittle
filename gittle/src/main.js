@@ -334,7 +334,7 @@ ipcMain.on("git-Push",(event,payload)=>{
 
 
 
-  
+
   console.log("완료되었습니다")
   event.returnValue='return'
 })
@@ -342,6 +342,15 @@ ipcMain.on("git-Push",(event,payload)=>{
 ipcMain.on("call-committed-files",(event,root)=>{
   const commitIdList=runCommand(`cd "${root}" && git log -1`)
   console.log("id List : ",commitIdList)
+  //commit Id 뽑아내는 코드 작성
+  let commitId='';
+
+
+
+
+  
+  //실행
+  runCommand(`cd "${root}" && git show --pretty="" --name-only ${commitId}`)
   event.returnValue='return'
 })
 
