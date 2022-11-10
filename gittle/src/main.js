@@ -325,15 +325,23 @@ ipcMain.on("lastCommitDescription", (event, payload) => {
 });
 
 
-
 ipcMain.on("git-Push",(event,payload)=>{
   console.log("repo입니다 : ",payload.repoRoot)
   console.log("브랜치입니다 : ",payload.branch)
-  runCommand(`
-    cd "${payload.repoRoot}" && git push origin ${payload.branch}
-  `)
+  runCommand(`cd "${payload.repoRoot}" && git push origin ${payload.branch}`)
+
   console.log("완료되었습니다")
+  event.returnValue='return'
 })
-ipcMain.on("openTerminal", (event) =>{
+
+
+
+
+
+
+
+
+
+ipcMain.on("gitbash",(event, currentRepo) =>{
   child_process.exec(`cd ${currentRepo} && start "" "%PROGRAMFILES%\\Git\\bin\\sh.exe" --login`)
-});
+}) 

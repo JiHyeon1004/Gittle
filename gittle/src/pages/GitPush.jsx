@@ -13,7 +13,10 @@ function PushPage(){
     const {ipcRenderer} = window.require('electron')
     const pushStart=()=>{ 
         console.log('출발합니다!!!')
-        ipcRenderer.sendSync('git-Push'  ,{repoRoot: localStorage.getItem('currentRepo'),branch : selBranch})
+        const value=ipcRenderer.sendSync('git-Push'  ,{repoRoot: localStorage.getItem('currentRepo'),branch : selBranch})
+        console.log(value) 
+        
+        console.log('도착했습니다잉')
     }
     
     return (
