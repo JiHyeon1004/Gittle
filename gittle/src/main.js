@@ -330,4 +330,5 @@ ipcMain.on("git-Push",(event,payload)=>{
   runCommand(`
     cd "${payload.repoRoot}" && git push origin ${payload.branch}
   `)
+  console.log("완료되었습니다")
 })
