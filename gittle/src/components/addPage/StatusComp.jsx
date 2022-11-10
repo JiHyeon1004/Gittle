@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Table, Row, Col, Card, Empty } from "antd";
-// import {Empty } from "antd";
+import { Table, Row, Col, Empty } from "antd";
 import "antd/dist/antd.css";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
@@ -467,94 +466,96 @@ function MultiTableDrag({ getFile, getDiff }) {
 
   return (
     <>
-      <Card className={styles.c_multi_drag_table}>
-        <div>selectedTaskIds: {JSON.stringify(selectedTaskIds)}</div>
-        <div>selectedTaskTitles: {JSON.stringify(selectedTaskTitles)}</div>
-        <br />
-        <DragDropContext
-          onBeforeCapture={onBeforeCapture}
-          onDragEnd={onDragEnd}
-        >
-          <Row gutter={24}>
-            <Col key="unstaged" span={12}>
-              <div className={styles.inner_col_unstaged}>
-                <Row>
-                  <h2>Unstaged</h2>
-                </Row>
-                <Table
-                  dataSource={getTasks(entities, "unstaged")}
-                  columns={tableColumns}
-                  pagination={false}
-                  scroll={{ y: 200 }}
-                  rowKey="id"
-                  components={{
-                    body: {
-                      // Custom tbody
-                      wrapper: (val) =>
-                        DroppableTableBody({
-                          columnId: entities.columns["unstaged"].id,
-                          tasks: getTasks(entities, "unstaged"),
-                          ...val,
-                        }),
-                      // Custom td
-                      row: (val) =>
-                        DraggableTableRow({
-                          tasks: getTasks(entities, "unstaged"),
-                          ...val,
-                        }),
-                    },
-                  }}
-                  // Set props on per row (td)
-                  onRow={(record, index) => ({
-                    index,
-                    record,
-                    onClick: (e) => onClickRow(e, record),
-                  })}
-                />
-              </div>
-            </Col>
-            <Col key="Staged" span={12}>
-              <div className={styles.inner_col_staged}>
-                <Row justify="space-between" align="middle">
-                  <h2>staged</h2>
-                </Row>
-                <Table
-                  dataSource={getTasks(entities, "staged")}
-                  columns={tableColumns}
-                  pagination={false}
-                  scroll={{ y: 200 }}
-                  rowKey="id"
-                  components={{
-                    body: {
-                      // Custom tbody
-                      wrapper: (val) =>
-                        DroppableTableBody({
-                          columnId: entities.columns["staged"].id,
-                          tasks: getTasks(entities, "staged"),
-                          ...val,
-                        }),
-                      // Custom td
-                      row: (val) =>
-                        DraggableTableRow({
-                          tasks: getTasks(entities, "staged"),
-                          ...val,
-                        }),
-                    },
-                  }}
-                  // Set props on per row (td)
-                  onRow={(record, index) => ({
-                    index,
-                    record,
-                    onClick: (e) => onClickRow(e, record),
-                  })}
-                />
-              </div>
-            </Col>
-          </Row>
+      <div className={shapes.card}>
+        <div className={styles.c_multi_drag_table}>
+          <div>selectedTaskIds: {JSON.stringify(selectedTaskIds)}</div>
+          <div>selectedTaskTitles: {JSON.stringify(selectedTaskTitles)}</div>
           <br />
-          <i>Multi select: Ctrl/Shift + Left Click</i>
-        </DragDropContext>
-      </Card>
+          <DragDropContext
+            onBeforeCapture={onBeforeCapture}
+            onDragEnd={onDragEnd}
+          >
+            <Row gutter={24}>
+              <Col key="unstaged" span={12}>
+                <div className={styles.inner_col_unstaged}>
+                  <Row>
+                    <h2>Unstaged</h2>
+                  </Row>
+                  <Table
+                    dataSource={getTasks(entities, "unstaged")}
+                    columns={tableColumns}
+                    pagination={false}
+                    scroll={{ y: 200 }}
+                    rowKey="id"
+                    components={{
+                      body: {
+                        // Custom tbody
+                        wrapper: (val) =>
+                          DroppableTableBody({
+                            columnId: entities.columns["unstaged"].id,
+                            tasks: getTasks(entities, "unstaged"),
+                            ...val,
+                          }),
+                        // Custom td
+                        row: (val) =>
+                          DraggableTableRow({
+                            tasks: getTasks(entities, "unstaged"),
+                            ...val,
+                          }),
+                      },
+                    }}
+                    // Set props on per row (td)
+                    onRow={(record, index) => ({
+                      index,
+                      record,
+                      onClick: (e) => onClickRow(e, record),
+                    })}
+                  />
+                </div>
+              </Col>
+              <Col key="Staged" span={12}>
+                <div className={styles.inner_col_staged}>
+                  <Row justify="space-between" align="middle">
+                    <h2>staged</h2>
+                  </Row>
+                  <Table
+                    dataSource={getTasks(entities, "staged")}
+                    columns={tableColumns}
+                    pagination={false}
+                    scroll={{ y: 200 }}
+                    rowKey="id"
+                    components={{
+                      body: {
+                        // Custom tbody
+                        wrapper: (val) =>
+                          DroppableTableBody({
+                            columnId: entities.columns["staged"].id,
+                            tasks: getTasks(entities, "staged"),
+                            ...val,
+                          }),
+                        // Custom td
+                        row: (val) =>
+                          DraggableTableRow({
+                            tasks: getTasks(entities, "staged"),
+                            ...val,
+                          }),
+                      },
+                    }}
+                    // Set props on per row (td)
+                    onRow={(record, index) => ({
+                      index,
+                      record,
+                      onClick: (e) => onClickRow(e, record),
+                    })}
+                  />
+                </div>
+              </Col>
+            </Row>
+            <br />
+            <i>Multi select: Ctrl/Shift + Left Click</i>
+          </DragDropContext>
+        </div>
+      </div>
     </>
   );
 }
