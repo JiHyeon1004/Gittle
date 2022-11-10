@@ -331,11 +331,20 @@ ipcMain.on("git-Push",(event,payload)=>{
   console.log("repo입니다 : ",payload.repoRoot)
   console.log("브랜치입니다 : ",payload.branch)
   let ment = runCommand(`
-    cd "${payload.repoRoot}" && git push origin ${payload.branch} && git status
+    cd "${payload.repoRoot}" && git push origin ${payload.branch} && git branch -r
   `)
   console.log("ment : ",ment)
   console.log("완료되었습니다")
 })
+
+
+
+
+
+
+
+
+
 ipcMain.on("gitbash",(event, currentRepo) =>{
   child_process.exec(`cd ${currentRepo} && start "" "%PROGRAMFILES%\\Git\\bin\\sh.exe" --login`)
 }) 
