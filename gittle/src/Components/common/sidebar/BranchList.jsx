@@ -4,19 +4,36 @@ import { useRecoilState } from "recoil";
 import { currentBranch, selectBranch, deleteBranch } from "../../../atoms";
 import BranchManage from "./BranchManage";
 import styles from "./BranchList.module.css";
+import Modal from "../Modal";
+import Button from "../Button";
+import DeleteBranch from "./DeleteBranch";
 
 function BranchList() {
   const location = useLocation();
   const [curBranch, setCurBranch] = useRecoilState(currentBranch);
   const [selectedBranch, setSelectedBranch] = useRecoilState(selectBranch);
   const [delBranch, setDelBranch] = useRecoilState(deleteBranch);
+  const [modalOpen, setModalOpen] = useState(false);
+  // const [modalOpen, setModalOpen] = useRecoilState(deleteModalOpen);
   // const [branchList, setBranchList] = useState([curBranch]);
   const [listOpen, setListOpen] = useState(false);
+  // const [clicked, setClicked] = useState(false);
+  // const [dbClicked, setDbClicked] = useState(false);
   const { ipcRenderer } = window.require("electron");
   const branches = ipcRenderer.sendSync(
     "branchList",
     localStorage.getItem("currentRepo")
   );
+
+  const deleteBranches = (delBranch) => {
+    const { ipcRenderer } = window.require("electron");
+    const gitBranch = ipcRenderer.sendSync(
+      "delete branch",
+      localStorage.getItem("currentRepo"),
+      selectedBranch
+    );
+    return gitBranch;
+  };
   // console.log("currrr", curBranch);
   // console.log("branchstring", branches);
 
@@ -58,48 +75,103 @@ function BranchList() {
   // });
 
   const branchSelector = (e) => {
-    let innerText = e.target.innerText;
-    setSelectedBranch(innerText);
+    // console.log(e.target.firstChild.data);
+    let branch = e.target.firstChild.data;
+    // console.log(e.target.innerText.split("\n"));
+    // console.log("inner", innerText);
+    setSelectedBranch(branch);
+    console.log(branch);
+    // console.log("dddd", e.target.dataset);
+    // setSelectedBranch(e.target.dataset.branch);
+    // console.log("select", selectedBranch);
   };
+  // console.log("selector", branchSelector());
 
   const branchChanger = () => {
+    branchSelector();
     changeBranch(selectedBranch);
     setCurBranch(selectedBranch);
   };
 
+  const open = () => {
+    console.log(selectedBranch);
+  };
+
+  // const delBranchSelector = (e) => {
+  //   let innerText = e.target.innerText;
+  //   setDelBranch(innerText);
+  // };
+  const openModal = () => {
+    branchSelector();
+    setModalOpen(true);
+  };
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
+  const branchDeletor = () => {
+    // deleteBranches(delBranch);
+    deleteBranches(selectedBranch);
+    closeModal();
+  };
+
   // useEffect(() => {
   //   branchChanger();
-  // }, [branchList]);
+  //   branchDeletor();
+  // }, [selectedBranch]);
 
-  const delBranchSelector = (e) => {
-    let innerText = e.target.innerText;
-    setDelBranch(innerText);
-  };
+  console.log("hhhh", selectedBranch);
 
   //   const branchDeletor = () => {
   //     deleteBranch(delBranch);
   //   };
-  console.log("del", delBranch);
 
   //   useEffect(branchDeletor, [delBranch]);
 
   return (
-    <div>
-      <div className={styles.curBranch} onClick={showBranches}>
-        {curBranch}
-      </div>
-      <p>----------</p>
-      <div className={listOpen ? `${styles.openList}` : `${styles.list}`}>
-        {branchList.map((branch) => (
-          <p
-            className={styles.branch}
-            onDoubleClick={branchSelector}
-            onClick={delBranchSelector}
+    <div className={styles.container}>
+      <div className={styles.branchList}>
+        <div className={styles.curBranch} onClick={showBranches}>
+          {curBranch}
+        </div>
+
+        <div className={listOpen ? `${styles.openList}` : `${styles.list}`}>
+          {branchList.map((branch, idx) => (
+            <p
+              key={idx}
+              className={`${styles.branch}`}
+              onClick={branchChanger}
+              // data-branch={branch}
+              onContextMenu={branchSelector}
+            >
+              {branch.includes("*") ? `${curBranch}` : `${branch}`}
+              {/* <DeleteBranch branch={branch} idx={idx} /> */}
+            </p>
+          ))}
+          <BranchManage />
+          <Modal
+            open={modalOpen}
+            content={
+              <>
+                <p>{selectedBranch} branch를 정말로 삭제하시겠습니까?</p>
+                <p>(삭제한 branch는 복구가 불가능합니다.)</p>
+              </>
+            }
           >
-            {branch.includes("*") ? `${curBranch}` : `${branch}`}
-          </p>
-        ))}
-        <BranchManage />
+            {/* <div className={styles.buttonContainer}>
+              <Button
+                action={branchDeletor}
+                content={"예"}
+                style={{ backgroundColor: "#6BCC78" }}
+              />
+              <Button
+                action={closeModal}
+                content={"아니오"}
+                style={{ border: "1px solid #7B7B7B" }}
+              />
+            </div> */}
+          </Modal>
+        </div>
       </div>
     </div>
   );

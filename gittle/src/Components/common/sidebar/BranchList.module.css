@@ -1,14 +1,25 @@
+.container {
+  min-width: 250px;
+}
+
+.branchList {
+  position: absolute;
+  left: 25px;
+}
+
 .list {
   display: none;
 }
 
 .openList {
   display: "";
+  padding-top: 10px;
   /* width: 250px; */
 }
 
 .curBranch {
   cursor: pointer;
+  /* border-bottom: 1px solid #000; */
 }
 
 .branch {
@@ -17,4 +28,10 @@
 
 .branch:hover {
   background-color: #d9d9d9;
+}
+.clicked {
+  background-color: #959595;
+}
+.dbClicked {
+  font-weight: bold;
 }
