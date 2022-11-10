@@ -9,6 +9,7 @@ import {
   multiSelectTo as multiSelect,
 } from "./StatusUtils";
 import styles from "./StatusStyle.module.css";
+import shapes from "./GitDiff.module.css";
 /**
  * git add
  * git status 상태 값
@@ -209,7 +210,7 @@ function MultiTableDrag({ getFile, getDiff }) {
         <tr className={styles.ant_table_placeholder} {...props}>
           <td colSpan={tableColumns.length} className={styles.ant_table_cell}>
             {/* <div className="ant-empty ant-empty-normal"> */}
-              <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+            <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
             {/* </div> */}
           </td>
         </tr>
@@ -241,7 +242,9 @@ function MultiTableDrag({ getFile, getDiff }) {
               }${snapshot.isDragging ? ".row_dragging" : ""}`}
               // onClick={onClick}
               // onKeyDown={event => onKeyDown(event, provided, snapshot)}
-            ><p>여기야 여기!</p></tr>
+            >
+              <p>여기야 여기!</p>
+            </tr>
           );
         }}
       </Draggable>
