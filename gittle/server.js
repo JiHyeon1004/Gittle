@@ -5,8 +5,7 @@ var cors = require('cors');
 const axios = require('axios');
 var bodyParser = require('body-parser');
 const { response } = require('express');
-
-const CLIENT_ID = "Iv1.922f79c332120ced";
+const CLIENT_ID = process.env.REACT_APP_GITHUB_CLIENT_ID;
 const CLIENT_SECRET = "3b43909d7bf450b669ede8406c88e214bc51302c";
 
 var app = express();

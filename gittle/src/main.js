@@ -10,6 +10,8 @@ let runCommand = (command) => {
   return child_process.execSync(command).toString();
 };
 
+let currentRepo;
+let gitDir;
 function createWindow() {
   const win = new BrowserWindow({
     width: 1024,
@@ -20,8 +22,19 @@ function createWindow() {
       contextIsolation: false,
       enableRemoteModule: true,
     },
+
   });
+  win.webContents
+    .executeJavaScript('localStorage.getItem("currentRepo");', true)
+    .then(result => {
+      currentRepo = result
+      gitDir = `--git-dir=${currentRepo}\\.git`
+      console.log(currentRepo)
+    });
+
   win.loadURL("http://localhost:3000");
+  // currentRepo = localStorage.getItem("currentRepo");
+  // console.log(currentRepo)
 }
 
 ipcMain.on(CLICK, (event, arg) => {
@@ -158,50 +171,40 @@ app.on("window-all-closed", function () {
   if (process.platform !== "darwin") app.quit();
 });
 
-ipcMain.on("gitStatus", (event, payload) => {
-  let data = runCommand("git status -u -s");
-  console.log("git status : \n", data);
-  // replyInputValue 송신 또는 응답
+ipcMain.on("gitStatus", (event, currentRepo) => {
+  let data = runCommand(`git --git-dir=${currentRepo}\\.git --work-tree=${currentRepo} status -u -s`);
   event.returnValue = data;
 });
 
-//이거 exe 로 만들면 현재 디렉토리가 어디지?
 ipcMain.on("WriteCommitConvention", (event, payload) => {
-  if (!fs.existsSync("./asdf/commitConvention.json")) {
-    fs.appendFileSync(
-      "./asdf/commitConvention.json",
-      "[" + JSON.stringify(payload) + "]"
-    );
-    const commitRules = JSON.parse(
-      fs.readFileSync("./asdf/commitConvention.json").toString()
-    );
-    event.returnValue = commitRules;
-  } else {
-    const commitRules = JSON.parse(
-      fs.readFileSync("./asdf/commitConvention.json").toString()
-    );
-    commitRules.push(payload);
-    fs.writeFileSync(
-      "./asdf/commitConvention.json",
-      JSON.stringify(commitRules)
-    );
-    event.returnValue = commitRules;
-  }
+  // if (!fs.existsSync(`${currentRepo}/commitConvention.json`)) {
+  //   console.log("does not exist")
+  //   fs.appendFileSync(
+  //     `${currentRepo}/commitConvention.json`,
+  //     "[" + JSON.stringify(payload) + "]"
+  //   );
+  //   const commitRules = JSON.parse(
+  //     fs.readFileSync(`${currentRepo}/commitConvention.json`).toString()
+  //   );
+  //   event.returnValue = commitRules;
+  // } 
+  const commitRules = JSON.parse(
+    fs.readFileSync(`${currentRepo}/commitConvention.json`).toString()
+  );
+  commitRules.push(payload);
+  fs.writeFileSync(
+    `${currentRepo}/commitConvention.json`,
+    JSON.stringify(commitRules)
+  );
+  event.returnValue = commitRules;
 });
 
 ipcMain.on("ReadCommitConvention", (event) => {
-  if (!fs.existsSync("./asdf/commitConvention.json")) {
-    //fs.appendFileSync("./asdf/commitConvention.json","[]");
-    console.log("temp");
-    event.returnValue = "empty";
-  } else {
-    const commitRules = fs
-      .readFileSync("./asdf/commitConvention.json")
-      .toString();
-    console.log(commitRules);
-    console.log(typeof commitRules);
-    event.returnValue = commitRules;
+  if (!fs.existsSync(`${currentRepo}/commitConvention.json`)) {
+    fs.appendFileSync(`${currentRepo}/commitConvention.json`, "[]");
   }
+  const commitRules = fs.readFileSync(`${currentRepo}/commitConvention.json`).toString();
+  event.returnValue = commitRules;
 });
 
 ipcMain.on("git-Clone", (event, payload) => {
@@ -214,7 +217,6 @@ ipcMain.on("git-Clone", (event, payload) => {
   }
 
   let temp=stringArr[stringArr.length-1]
-  
   let folderName=temp.substr(0,temp.length-4)
   console.log("folderName : ",folderName)
   runCommand(
@@ -257,16 +259,14 @@ ipcMain.on("gitDiff", (event, arg) => {
   // console.log('돌아갑니다')
   // event.sender.send('return-2',arr)
 });
-ipcMain.on("gitAdd", (event, payload) => {
-  let data = runCommand(payload);
+ipcMain.on("gitAdd", (event, files) => {
+  let data = runCommand(`git add ${gitDir} -v ${files}`);
   console.log(data);
-  // replyInputValue 송신 또는 응답
 });
 
-ipcMain.on("gitReset", (event, payload) => {
-  let data = runCommand(payload);
+ipcMain.on("gitReset", (event, files) => {
+  let data = runCommand(files);
   console.log(data);
-  // replyInputValue 송신 또는 응답
 })
 
 ipcMain.on('git-Branch',(event,payload)=>{
@@ -293,7 +293,6 @@ ipcMain.on('git-Branch',(event,payload)=>{
   event.returnValue=arr
 })
 
-
 ipcMain.on("gitBranch", (event, route) => {
   console.log("현재 작업 중인 브랜치를 보여줘");
   console.log(route);
@@ -304,13 +303,11 @@ ipcMain.on("gitBranch", (event, route) => {
   event.returnValue = branch;
 });
 
-
 ipcMain.on("gitCommit", (event, payload) => {
   let data = runCommand(payload);
   console.log(data);
   event.returnValue = data;
 });
-
 
 ipcMain.on("lastCommitDescription", (event, payload) => {
   let data;
@@ -318,13 +315,13 @@ ipcMain.on("lastCommitDescription", (event, payload) => {
     data = runCommand(payload)
     data = data.substring(1, data.length-1)
     data = data.includes(" : ") ? data.split(" : ")[1] : data
-    //data = runCommand(payload).split(" : ")[1];
   } catch (error) {
     console.error(error);
     data = "";
   }
   event.returnValue = data;
 });
-ipcMain.on("gitbash",(event, currentRepo) =>{
+
+ipcMain.on("openTerminal", (event) =>{
   child_process.exec(`cd ${currentRepo} && start "" "%PROGRAMFILES%\\Git\\bin\\sh.exe" --login`)
-}) 
+});
