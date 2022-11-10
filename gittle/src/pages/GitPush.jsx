@@ -11,8 +11,9 @@ function PushPage(){
 
     const [selBranch,setSelBranch]=useState("")
     const {ipcRenderer} = window.require('electron')
-    const pushStart=()=>{
-        ipcRenderer.sendSync('git-Push',{repoRoot: localStorage.getItem('currentRepo'),branch : selBranch})
+    const pushStart=()=>{ 
+        console.log('출발합니다!!')
+        ipcRenderer.sendSync('git-Push'  ,{repoRoot: localStorage.getItem('currentRepo'),branch : selBranch})
     }
     
     return (
