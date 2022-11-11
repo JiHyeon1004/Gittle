@@ -96,13 +96,23 @@ ipcMain.on("call-my-repo", (event, arg) => {
   event.returnValue = result;
 });
 
-ipcMain.on("branchList", (event, route) => {
-  console.log("브랜치 리스트");
+ipcMain.on("localBranchList", (event, route) => {
+  console.log("로컬 브랜치 리스트");
 
   const codes = [];
-  let branchList = runCommand(`git --git-dir=${route}\\.git branch -a`);
-  console.log("branchList : ", branchList);
-  codes.push(branchList);
+  let localBranchList = runCommand(`git --git-dir=${route}\\.git branch -l`);
+  console.log("localBranchList : ", localBranchList);
+  codes.push(localBranchList);
+  event.returnValue = codes;
+});
+
+ipcMain.on("remoteBranchList", (event, route) => {
+  console.log("리모트 브랜치 리스트");
+
+  const codes = [];
+  let remoteBranchList = runCommand(`git --git-dir=${route}\\.git branch -r`);
+  console.log("remoteBranchList : ", remoteBranchList);
+  codes.push(remoteBranchList);
   event.returnValue = codes;
 });
 

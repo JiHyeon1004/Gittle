@@ -17,11 +17,17 @@ function BranchList() {
   // const [modalOpen, setModalOpen] = useRecoilState(deleteModalOpen);
   // const [branchList, setBranchList] = useState([curBranch]);
   const [listOpen, setListOpen] = useState(false);
+  const [localListOpen, setLocalListOpen] = useState(false);
+  const [remoteListOpen, setRemoteListOpen] = useState(false);
   // const [clicked, setClicked] = useState(false);
   // const [dbClicked, setDbClicked] = useState(false);
   const { ipcRenderer } = window.require("electron");
-  const branches = ipcRenderer.sendSync(
-    "branchList",
+  const localBranches = ipcRenderer.sendSync(
+    "localBranchList",
+    localStorage.getItem("currentRepo")
+  );
+  const remoteBranches = ipcRenderer.sendSync(
+    "remoteBranchList",
     localStorage.getItem("currentRepo")
   );
 
@@ -34,16 +40,18 @@ function BranchList() {
     );
     return gitBranch;
   };
-  // console.log("currrr", curBranch);
-  // console.log("branchstring", branches);
 
-  // console.log("branchhh", branchList);
+  const localBranchList = localBranches[0]
+    .split("\n")
+    .filter((branch) => branch)
+    .map((branch) => branch.trim());
 
-  const branchList = branches[0]
+  const remoteBranchList = remoteBranches[0]
     .split("\n")
     .filter((branch) => branch)
     .filter((branch) => !branch.includes("->"))
-    .map((branch) => branch.trim());
+    .map((branch) => branch.trim())
+    .map((branch) => branch.replace("origin/", ""));
 
   setCurBranch(
     ipcRenderer.sendSync("gitBranch", localStorage.getItem("currentRepo"))
@@ -66,13 +74,12 @@ function BranchList() {
   const showBranches = () => {
     setListOpen(!listOpen);
   };
-
-  // branchList.map((branch) => {
-  //   if (branch.includes("*")) {
-  //     setCurBranch(branch.replace("*", "").trim());
-  //   }
-  //   return;
-  // });
+  const showLocalBranches = () => {
+    setLocalListOpen(!localListOpen);
+  };
+  const showRemoteBranches = () => {
+    setRemoteListOpen(!remoteListOpen);
+  };
 
   const branchSelector = (e) => {
     // console.log(e.target.firstChild.data);
@@ -136,18 +143,48 @@ function BranchList() {
         </div>
 
         <div className={listOpen ? `${styles.openList}` : `${styles.list}`}>
-          {branchList.map((branch, idx) => (
-            <p
-              key={idx}
-              className={`${styles.branch}`}
-              onClick={branchChanger}
-              // data-branch={branch}
-              onContextMenu={branchSelector}
-            >
-              {branch.includes("*") ? `${curBranch}` : `${branch}`}
-              {/* <DeleteBranch branch={branch} idx={idx} /> */}
-            </p>
-          ))}
+          <div>
+            <p onClick={showLocalBranches}>local</p>
+            {localBranchList.map((branch, idx) => (
+              <div
+                className={
+                  localListOpen ? `${styles.openList}` : `${styles.list}`
+                }
+              >
+                <p
+                  key={idx}
+                  className={`${styles.branch}`}
+                  onClick={branchChanger}
+                  // data-branch={branch}
+                  onContextMenu={branchSelector}
+                >
+                  {branch.includes("*") ? `${curBranch}` : `${branch}`}
+                  {/* <DeleteBranch branch={branch} idx={idx} /> */}
+                </p>
+              </div>
+            ))}
+          </div>
+          <div>
+            <p onClick={showRemoteBranches}>remote</p>
+            {remoteBranchList.map((branch, idx) => (
+              <div
+                className={
+                  remoteListOpen ? `${styles.openList}` : `${styles.list}`
+                }
+              >
+                <p
+                  key={idx}
+                  className={`${styles.branch}`}
+                  onClick={branchChanger}
+                  // data-branch={branch}
+                  onContextMenu={branchSelector}
+                >
+                  {branch.includes("*") ? `${curBranch}` : `${branch}`}
+                  {/* <DeleteBranch branch={branch} idx={idx} /> */}
+                </p>
+              </div>
+            ))}
+          </div>
           <BranchManage />
           <Modal
             open={modalOpen}
