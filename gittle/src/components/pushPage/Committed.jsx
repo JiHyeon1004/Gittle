@@ -12,16 +12,18 @@ function Committed(){
 
     const callFiles=()=>{
         const returnValue=ipcRenderer.sendSync('call-committed-files',repoRoot)
-        console.log('컴백')
-        console.log(returnValue)
         const tempArr = returnValue.split('\n')
-        setFileList(tempArr)
+
+        const resultArr=[]
+
+        for(let i=0;i<tempArr.length;i++){
+            if(tempArr[i]!==''){
+                resultArr.push(tempArr[i])
+            }
+        }
+
+        setFileList(resultArr)
     }
-
-    
-
-
-
 
     useEffect(()=>{
         callFiles()
@@ -29,15 +31,20 @@ function Committed(){
 
 
     return(
+        <>
         <div className={styles.commit}>
-            {fileList.map((item,idx)=>{
+            
+            {fileList.map((item,idx)=>(
                 <div
-                    key={idx}>
+                    key={idx}
+                    className={styles.commitBox}
+                >
                         {item}
                 </div>
-            })}
+            ))}
 
         </div>
+        </>
     )
 }
 
