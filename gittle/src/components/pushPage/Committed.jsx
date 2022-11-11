@@ -4,7 +4,7 @@ import { useSearchParams } from "react-router-dom";
 import styles from './Committed.module.css'
 
 
-function Committed(){
+function Committed(props){
 
     const repoRoot=localStorage.getItem('currentRepo');
     const {ipcRenderer} = window.require('electron') 
@@ -27,6 +27,7 @@ function Committed(){
 
     useEffect(()=>{
         callFiles()
+        props.settingCommittedData(fileList)
     },[])
 
 

@@ -16,6 +16,7 @@ import "./StatusStyle.css";
 
 const { ipcRenderer } = window.require("electron");
 const currentRepo = localStorage.getItem("currentRepo");
+
 let gitStatus = ipcRenderer
   .sendSync("gitStatus", currentRepo)
   .split("\n")
