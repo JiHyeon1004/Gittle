@@ -8,7 +8,7 @@ function Push(props){
 
     const {ipcRenderer} = window.require('electron')
     const [branchArr,setBranchArr] = useState([])
-    const [selected,setSelected]=useState("")
+    const [selected,setSelected]=useState("브랜치를 선택해주세요!")
 
     const gitBranch = ()=>{
         setBranchArr(ipcRenderer.sendSync('git-Branch',repoRoot))

@@ -332,11 +332,36 @@ ipcMain.on("git-Push",(event,payload)=>{
   console.log("브랜치입니다 : ",payload.branch)
   runCommand(`cd "${payload.repoRoot}" && git push origin ${payload.branch}`)
 
+
+
+
   console.log("완료되었습니다")
   event.returnValue='return'
 })
 
+ipcMain.on("call-committed-files",(event,root)=>{
+  const commitIdList=runCommand(`cd "${root}" && git log -1`)
+  // console.log("id List : ",commitIdList)
+  let temp1 = commitIdList.split('\n')[0]
+  let tempArr=temp1.split(' ')
 
+  // console.log('tempArr 확인')
+  // for(let i=0;i<tempArr.length;i++){
+  //   console.log(tempArr[i])
+  // }
+  // console.log('tempArr 확인 종료')
+  //commit Id 뽑아내는 코드 작성
+  let commitId=tempArr[1];
+
+
+
+
+  
+
+  //실행
+  const returnArr=runCommand(`cd "${root}" && git show --pretty="" --name-only ${commitId}`)
+  event.returnValue=returnArr
+})
 
 
 
