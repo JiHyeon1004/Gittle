@@ -47,6 +47,8 @@ app.on("window-all-closed", function () {
   if (process.platform !== "darwin") app.quit();
 });
 
+
+
 ipcMain.on(CLICK, (event, arg) => {
   dialog
     .showOpenDialog({ properties: ["openDirectory"] })
@@ -59,6 +61,11 @@ ipcMain.on(CLICK, (event, arg) => {
       console.log("에러발생", err);
     });
 });
+
+ipcMain.on('setting-currentRepo', (event,arg)=>{
+  console.log(arg)
+  currentRepo=arg
+})
 
 ipcMain.on("update-my-repo", (event, arg) => {
   console.log("변화시작");
@@ -110,7 +117,6 @@ ipcMain.on("call-my-repo", (event, arg) => {
   }
 
   if (result.length !== arr.length) {
-    // store.set("gittle-myRepo", result);
     localStorage.setItem(result)
   }
 
@@ -173,7 +179,9 @@ ipcMain.on("delete branch", (event, route, delBranch) => {
 
 ipcMain.on("gitStatus", (event, curRepo) => {
   currentRepo = curRepo
+  console.log('currentRepo : ',currentRepo)
   gitDir = `--git-dir=${currentRepo}\\.git`
+
   const option = currentRepo !== null || currentRepo !== undefined ? `${gitDir} --work-tree=${currentRepo}` : ''
   const data = runCommand(`cd ${currentRepo} && git status -u -s`);
   event.returnValue = data;
@@ -249,6 +257,8 @@ ipcMain.on("gitDiff", (event, arg) => {
     console.log("git diff : ", diff);
     codes.push(diff);
   });
+
+  
   event.returnValue = codes;
   // const Store=require('electron-store')
   // const store = new Store()
@@ -355,7 +365,7 @@ ipcMain.on("call-committed-files",(event,root)=>{
 
 
 
-  
+
 
   //실행
   const returnArr=runCommand(`cd "${root}" && git show --pretty="" --name-only ${commitId}`)

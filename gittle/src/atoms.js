@@ -32,6 +32,10 @@ export const mergingBranch = atom({
   default: "",
 });
 
+export const pushedData = atom({
+  key:"pushedData",
+  default:{},
+})
 export const mergeRequest = atom({
   key: "mergeRequest",
   default: {},

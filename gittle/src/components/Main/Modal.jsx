@@ -40,17 +40,7 @@ function Modal(props){
                 arr =JSON.parse(localStorage.getItem('repoList'))
             }
 
-            console.log('배열인가요?')
-            if(Array.isArray(arr)){
-                console.log('넴!!')
-            }else{
-                console.log("놉!")
-            }
-            console.log("길이 : "+arr.length)            
-            for (let i = 0; i < arr.length; i++) {
-                console.log(arr[i]);
-              }
-            console.log('출력완료')
+            
             
             if(props.setModalOpen.number===0){
 
