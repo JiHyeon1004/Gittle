@@ -4,13 +4,15 @@ import Modal from "../Modal";
 import styles from "./DeleteBranch.module.css";
 import { useLocation } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { deleteBranch } from "../../../atoms";
+import { deleteBranch, selectBranch, deleteModalOpen } from "../../../atoms";
 
-function DeleteBranch() {
+function DeleteBranch(branch, idx) {
   const location = useLocation();
   const [modalOpen, setModalOpen] = useState(false);
-  const [delBranch, setDelBranch] = useRecoilState(deleteBranch);
-
+  // const [modalOpen, setModalOpen] = useRecoilState(deleteModalOpen);
+  // const [delBranch, setDelBranch] = useRecoilState(deleteBranch);
+  const [selectedBranch, setSelectedBranch] = useRecoilState(selectBranch);
+  console.log("branch", branch, idx);
   const openModal = () => {
     setModalOpen(true);
   };
@@ -19,17 +21,17 @@ function DeleteBranch() {
   };
 
   const branchDeletor = () => {
-    deleteBranches(delBranch);
+    // deleteBranches(delBranch);
+    deleteBranches(selectedBranch);
     closeModal();
   };
-  console.log("del", delBranch);
 
   const deleteBranches = (delBranch) => {
     const { ipcRenderer } = window.require("electron");
     const gitBranch = ipcRenderer.sendSync(
       "delete branch",
-      location.state.root,
-      delBranch
+      localStorage.getItem("currentRepo"),
+      selectedBranch
     );
     return gitBranch;
   };
@@ -39,6 +41,7 @@ function DeleteBranch() {
       <Button
         action={openModal}
         content={"branch 삭제"}
+        value={selectedBranch}
         style={{ border: "1px solid #7B7B7B" }}
       />
 
@@ -46,7 +49,7 @@ function DeleteBranch() {
         open={modalOpen}
         content={
           <>
-            <p>{delBranch} branch를 정말로 삭제하시겠습니까?</p>
+            <p>{selectedBranch} branch를 정말로 삭제하시겠습니까?</p>
             <p>(삭제한 branch는 복구가 불가능합니다.)</p>
           </>
         }

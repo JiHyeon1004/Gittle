@@ -111,6 +111,7 @@ ipcMain.on("change branch", (event, route, selectedBranch) => {
 
   const codes = [];
   let branch = runCommand(
+    // `cd "${route}" && git init && git checkout ${selectedBranch}`
     `git --git-dir=${route}\\.git checkout ${selectedBranch}`
   );
   console.log("change branch : ", branch);
