@@ -3,17 +3,19 @@ import { Octokit } from "octokit";
 import styles from "./Remote.module.css";
 import { faCodeBranch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { pushedBranch, mergingBranch } from "../../atoms";
 import Modal from "../common/Modal";
 import Button from "../common/Button";
 import { useNavigate } from "react-router-dom";
+import { pushedData } from "../../atoms";
 
 // push된 브랜치 이름 받아오기
 export default function Remote() {
   const [branches, setBranches] = useState([]);
   const [push, setPush] = useRecoilState(pushedBranch);
   const [merge, setMerge] = useRecoilState(mergingBranch);
+  const pushed = useRecoilValue(pushedData);
   const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -40,7 +42,7 @@ export default function Remote() {
     }
     getBranches();
     // push된 branch 받아오기
-    setPush("ussong");
+    setPush(pushed.branch);
   }, []);
 
   const selectBranch = (branch) => {
