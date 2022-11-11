@@ -36,6 +36,17 @@ function createWindow() {
   // console.log(currentRepo)
 }
 
+app.whenReady().then(() => {
+  createWindow();
+  app.on("activate", () => {
+    if (BrowserWindow.getAllWindows().length === 0) createWindow();
+  });
+});
+
+app.on("window-all-closed", function () {
+  if (process.platform !== "darwin") app.quit();
+});
+
 ipcMain.on(CLICK, (event, arg) => {
   dialog
     .showOpenDialog({ properties: ["openDirectory"] })
@@ -147,6 +158,7 @@ ipcMain.on("add branch", (event, route, newBranch) => {
   event.returnValue = codes;
 });
 
+//이거 아직 안되나요??
 ipcMain.on("delete branch", (event, route, delBranch) => {
   console.log("브랜치 삭제");
 
@@ -157,17 +169,6 @@ ipcMain.on("delete branch", (event, route, delBranch) => {
   console.log("delete branch : ", branch);
   codes.push(branch);
   event.returnValue = codes;
-});
-
-app.whenReady().then(() => {
-  createWindow();
-  app.on("activate", () => {
-    if (BrowserWindow.getAllWindows().length === 0) createWindow();
-  });
-});
-
-app.on("window-all-closed", function () {
-  if (process.platform !== "darwin") app.quit();
 });
 
 ipcMain.on("gitStatus", (event, curRepo) => {
@@ -244,7 +245,7 @@ ipcMain.on("gitDiff", (event, arg) => {
   arg.map((file) => {
     // const name = file.split("/");
     // const fileName = name[name.length - 1];
-    let diff = runCommand(`git diff ${file}`);
+    let diff = runCommand(`git -C ${currentRepo} diff ${file}`);
     console.log("git diff : ", diff);
     codes.push(diff);
   });
@@ -262,12 +263,12 @@ ipcMain.on("gitDiff", (event, arg) => {
   // event.sender.send('return-2',arr)
 });
 ipcMain.on("gitAdd", (event, files) => {
-  let data = runCommand(`git add ${gitDir} -v ${files}`);
+  let data = runCommand(`git ${gitDir} --work-tree=${currentRepo} add -v ${files}`);
   console.log(data);
 });
 
 ipcMain.on("gitReset", (event, files) => {
-  let data = runCommand(files);
+  let data = runCommand(`git -C ${currentRepo} reset ${files}`);
   console.log(data);
 })
 
@@ -305,16 +306,16 @@ ipcMain.on("gitBranch", (event, route) => {
   event.returnValue = branch;
 });
 
-ipcMain.on("gitCommit", (event, payload) => {
-  let data = runCommand(payload);
+ipcMain.on("gitCommit", (event, commitMessage) => {
+  let data = runCommand(`git -C ${currentRepo} commit -m ${commitMessage}`);
   console.log(data);
   event.returnValue = data;
 });
 
-ipcMain.on("lastCommitDescription", (event, payload) => {
+ipcMain.on("lastCommitDescription", (event, command) => {
   let data;
   try {
-    data = runCommand(payload)
+    data = runCommand(command)
     data = data.substring(1, data.length-1)
     data = data.includes(" : ") ? data.split(" : ")[1] : data
   } catch (error) {
@@ -333,14 +334,6 @@ ipcMain.on("git-Push",(event,payload)=>{
   console.log("완료되었습니다")
   event.returnValue='return'
 })
-
-
-
-
-
-
-
-
 
 ipcMain.on("gitbash",(event, currentRepo) =>{
   child_process.exec(`cd ${currentRepo} && start "" "%PROGRAMFILES%\\Git\\bin\\sh.exe" --login`)
