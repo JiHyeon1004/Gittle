@@ -59,6 +59,11 @@ ipcMain.on(CLICK, (event, arg) => {
     });
 });
 
+ipcMain.on("setting-currentRepo", (event, arg) => {
+  console.log(arg);
+  currentRepo = arg;
+});
+
 ipcMain.on("update-my-repo", (event, arg) => {
   console.log("변화시작");
   const Store = require("electron-store");
@@ -108,7 +113,6 @@ ipcMain.on("call-my-repo", (event, arg) => {
   }
 
   if (result.length !== arr.length) {
-    // store.set("gittle-myRepo", result);
     localStorage.setItem(result);
   }
 
@@ -181,12 +185,14 @@ ipcMain.on("delete branch", (event, route, delBranch) => {
 
 ipcMain.on("gitStatus", (event, curRepo) => {
   currentRepo = curRepo;
+  console.log("currentRepo : ", currentRepo);
   gitDir = `--git-dir=${currentRepo}\\.git`;
+
   const option =
     currentRepo !== null || currentRepo !== undefined
       ? `${gitDir} --work-tree=${currentRepo}`
       : "";
-  const data = runCommand(`git ${option} status -u -s`);
+  const data = runCommand(`cd ${currentRepo} && git status -u -s`);
   event.returnValue = data;
 });
 
@@ -261,6 +267,7 @@ ipcMain.on("gitDiff", (event, arg) => {
     console.log("git diff : ", diff);
     codes.push(diff);
   });
+
   event.returnValue = codes;
   // const Store=require('electron-store')
   // const store = new Store()
@@ -275,9 +282,7 @@ ipcMain.on("gitDiff", (event, arg) => {
   // event.sender.send('return-2',arr)
 });
 ipcMain.on("gitAdd", (event, files) => {
-  let data = runCommand(
-    `git ${gitDir} --work-tree=${currentRepo} add -v ${files}`
-  );
+  let data = runCommand(`cd ${currentRepo} && git add ${files}`);
   console.log(data);
 });
 
