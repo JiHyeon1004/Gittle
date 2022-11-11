@@ -36,3 +36,22 @@ export const pushedData = atom({
   key:"pushedData",
   default:{},
 })
+export const mergeRequest = atom({
+  key: "mergeRequest",
+  default: {},
+});
+
+export const mergeCommit = atom({
+  key: "mergeCommit",
+  default: [],
+});
+
+export const allRequests = atom({
+  key: "allRequests",
+  default: [],
+});
+
+export const mergedRequests = atom({
+  key: "mergedRequests",
+  default: [],
+});

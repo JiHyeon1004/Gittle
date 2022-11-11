@@ -9,6 +9,8 @@ import Push from "./pages/GitPush"
 import Merge from "./pages/MergePage";
 import Header from "./components/common/header/Header";
 import SideBar from "./components/common/sidebar/SideBar";
+import MergeRequestList from "./pages/MergeRequestListPage";
+import MergeDetail from "./pages/MergeDetailPage";
 
 import "./App.css";
 import "bootstrap";
@@ -33,6 +35,8 @@ function App() {
           <Route path="/push" element={<Push/>}/>
           <Route path="/merge/ready" element={<MergeReady />} />
           <Route path="/merge" element={<Merge />} />
+          <Route path="/merge/request" element={<MergeRequestList />} />
+          <Route path="/merge/detail" element={<MergeDetail />} />
         </Routes>
       </div>
     </>
