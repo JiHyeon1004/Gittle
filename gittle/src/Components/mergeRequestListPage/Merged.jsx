@@ -3,6 +3,7 @@ import { Octokit } from "octokit";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { mergedRequests } from "../../atoms";
+import styles from "./Merged.module.css";
 
 export default function Merged() {
   const [mergedReq, setMergedReq] = useRecoilState(mergedRequests);
@@ -24,7 +25,7 @@ export default function Merged() {
         state: "closed",
       });
 
-      console.log('닫힘', result.data);
+      console.log("닫힘", result.data);
       setMergedReq(result.data);
     }
     getRequest();
@@ -33,11 +34,30 @@ export default function Merged() {
     <>
       <div>
         {mergedReq.map((req, index) => (
-          <div key={index}>
-            <div>{req.title}</div>
-            <div>요청자 : {req.user.login}</div>
-            <div>담당자 : {req.assignee.login}</div>
-            <div>{req.merged_at.replace("T", " ").replace("Z", "")}</div>
+          <div key={index} className={styles.box}>
+            <div className={styles.title}>{req.title}</div>
+            <div className={styles.body}>
+              <div className={styles.person}>요청자</div>
+              <img
+                className={styles.image}
+                src={req.user.avatar_url}
+                alt="avatar"
+              />
+              <div className={styles.text}>{req.user.login}</div>
+              <div className={styles.text}>|</div>
+              <div className={styles.person}>담당자</div>
+              <img
+                className={styles.image}
+                src={req.assignee.avatar_url}
+                alt="avatar"
+              />
+
+              <div className={styles.text}>{req.assignee.login}</div>
+              <div className={styles.text}>|</div>
+              <div className={styles.text}>
+                {req.merged_at.replace("T", " ").replace("Z", "")} 에 merge 완료
+              </div>
+            </div>
           </div>
         ))}
       </div>

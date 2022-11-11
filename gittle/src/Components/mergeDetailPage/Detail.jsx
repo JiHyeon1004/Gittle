@@ -62,7 +62,7 @@ export default function Detail() {
       {mergeReqInfo.merged ? (
         <div>merge 완료</div>
       ) : (
-        <div className={styles.needmerge}>merge 필요</div>
+        <div className={styles.needmerge}>merge 대기</div>
       )}
       {/* <div>merge 여부 : {String(mergeReqInfo.merged)}</div> */}
       {/* <div>merge 가능 여부 : {String(mergeReqInfo.mergeable)}</div> */}
