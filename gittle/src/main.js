@@ -287,3 +287,12 @@ ipcMain.on("lastCommitDescription", (event, payload) => {
   }
   event.returnValue = data;
 });
+
+ipcMain.on("gitPull", (event, route, targetBranch) => {
+  console.log("gitPull");
+  const pull = runCommand(
+    `git --git-dir=${route}\\.git pull --set-upstream origin ${targetBranch}`
+  );
+  console.log("pull", pull);
+  event.returnValue = pull;
+});
