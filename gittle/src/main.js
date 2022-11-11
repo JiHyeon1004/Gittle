@@ -341,17 +341,21 @@ ipcMain.on("git-Push",(event,payload)=>{
 
 ipcMain.on("call-committed-files",(event,root)=>{
   const commitIdList=runCommand(`cd "${root}" && git log -1`)
-  console.log("id List : ",commitIdList)
+  // console.log("id List : ",commitIdList)
+  let temp1 = commitIdList.split('\n')[0]
+  let tempArr=temp1.split(' ')
+
+  // console.log('tempArr 확인')
+  // for(let i=0;i<tempArr.length;i++){
+  //   console.log(tempArr[i])
+  // }
+  // console.log('tempArr 확인 종료')
   //commit Id 뽑아내는 코드 작성
-  let commitId='';
+  let commitId=tempArr[1];
 
-
-
-
-  
   //실행
-  runCommand(`cd "${root}" && git show --pretty="" --name-only ${commitId}`)
-  event.returnValue='return'
+  const returnArr=runCommand(`cd "${root}" && git show --pretty="" --name-only ${commitId}`)
+  event.returnValue=returnArr
 })
 
 

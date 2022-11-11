@@ -11,7 +11,12 @@ function Committed(){
     const [fileList,setFileList]=useState([])
 
     const callFiles=()=>{
-        setFileList(ipcRenderer.sendSync('call-committed-files',localStorage.getItem('currentRepo')))
+        const returnArr=ipcRenderer.sendSync('call-committed-files',repoRoot)
+        console.log('컴백')
+        for(let i=0;i<returnArr.length;i++){
+            console.log(returnArr[i])
+        }
+        setFileList()
     }
 
     
