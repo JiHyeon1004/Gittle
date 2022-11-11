@@ -12,20 +12,12 @@ function PushPage(){
     const [selBranch,setSelBranch]=useState("")
     const {ipcRenderer} = window.require('electron')
     const pushStart=()=>{ 
-        console.log('출발합니다!!!')
         if(selBranch===''){
             alert('브랜치를 선택해주세요!')
             return
         }
         const value=ipcRenderer.sendSync('git-Push'  ,{repoRoot: localStorage.getItem('currentRepo'),branch : selBranch})
         console.log(value) 
-        
-
-
-
-        
-
-        console.log('도착했습니다잉')
     }
     
     return (
