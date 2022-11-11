@@ -124,11 +124,12 @@ export default function Remote() {
           <Modal
             open={modalOpen}
             content={
-              <>
-                <p>
-                  {push} branch를 {merge} branch로 merge 하시겠습니까?
-                </p>
-              </>
+              <div className={styles.modal}>
+                <div className={styles.pushtext}>{push}</div>
+                <div>branch를</div>
+                <div className={styles.mergetext}>{merge}</div>
+                <div>branch로 merge 하시겠습니까?</div>
+              </div>
             }
           >
             <div className={styles.buttons}>
