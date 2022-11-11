@@ -125,7 +125,7 @@ ipcMain.on("branchList", (event, route) => {
 
   const codes = [];
   let branchList = runCommand(`git --git-dir=${route}\\.git branch -a`);
-  console.log("branchList : ", branchList);
+  // console.log("branchList : ", branchList);
   codes.push(branchList);
   event.returnValue = codes;
 });
@@ -175,7 +175,7 @@ ipcMain.on("gitStatus", (event, curRepo) => {
   currentRepo = curRepo
   gitDir = `--git-dir=${currentRepo}\\.git`
   const option = currentRepo !== null || currentRepo !== undefined ? `${gitDir} --work-tree=${currentRepo}` : ''
-  const data = runCommand(`git ${option} status -u -s`);
+  const data = runCommand(`cd ${currentRepo} && git status -u -s`);
   event.returnValue = data;
 });
 
@@ -263,7 +263,7 @@ ipcMain.on("gitDiff", (event, arg) => {
   // event.sender.send('return-2',arr)
 });
 ipcMain.on("gitAdd", (event, files) => {
-  let data = runCommand(`git ${gitDir} --work-tree=${currentRepo} add -v ${files}`);
+  let data = runCommand(`cd ${currentRepo} && git add ${files}`);
   console.log(data);
 });
 
