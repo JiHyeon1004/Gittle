@@ -45,7 +45,10 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "electron": "wait-on http://localhost:3000 && electron ."
+    "electron": "wait-on http://localhost:3000 && electron .",
+    "bd": "cross-env NODE_ENV=production webpack --config webpack.build.config.js --mode production",
+    "package": "npm run build",
+    "postpackage": "electron-packager ./ --out=./release_builds"
   },
   "eslintConfig": {
     "extends": [
@@ -70,6 +73,7 @@
     "child_process": "^1.0.2",
     "concurrently": "^7.5.0",
     "electron": "^21.2.0",
+    "electron-packager": "^17.1.1",
     "react-beautiful-dnd": "^13.1.1",
     "wait-on": "^6.0.1"
   }
