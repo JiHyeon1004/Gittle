@@ -24,6 +24,8 @@ function createWindow() {
   win.loadURL("http://localhost:3000");
 }
 
+
+
 ipcMain.on(CLICK, (event, arg) => {
   dialog
     .showOpenDialog({ properties: ["openDirectory"] })
@@ -87,7 +89,6 @@ ipcMain.on("call-my-repo", (event, arg) => {
   }
 
   if (result.length !== arr.length) {
-    // store.set("gittle-myRepo", result);
     localStorage.setItem(result)
   }
 
@@ -356,7 +357,7 @@ ipcMain.on("call-committed-files",(event,root)=>{
 
 
 
-  
+
 
   //실행
   const returnArr=runCommand(`cd "${root}" && git show --pretty="" --name-only ${commitId}`)

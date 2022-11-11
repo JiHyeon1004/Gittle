@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./Repositories.module.css";
 import Repo from "./Repo";
 import { useNavigate } from "react-router";
+import { result } from "lodash";
 
 function Repoes() {
   // console.log('myRe : '+myRe)
@@ -67,12 +68,22 @@ function Repoes() {
               navigate("/add", {
                 state: { name: item.branch, root: item.root },
               });
+              localStorage.setItem("currentRepo",item.root)
               let tempArr=JSON.parse(localStorage.getItem("repoList"))
-              tempArr.unshift({ name: item.branch, root: item.root })
+              // tempArr.unshift({ name: item.branch, root: item.root })
 
-              tempArr.splice(idx+1)
+              let resultArr=[]
+              resultArr.push({ name: item.branch, root: item.root })
+              for(let i=0;i<tempArr.length;i++){
+                if(resultArr.length===3){
+                  break
+                }
+                if(tempArr[i].root !== item.root){
+                  resultArr.push(tempArr[i])
+                }
+              }
 
-              localStorage.setItem("repoList",JSON.stringify(tempArr))
+              localStorage.setItem("repoList",JSON.stringify(resultArr))
 
             }}
           />
