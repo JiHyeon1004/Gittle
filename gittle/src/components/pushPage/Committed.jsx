@@ -13,9 +13,7 @@ function Committed(){
     const callFiles=()=>{
         const returnArr=ipcRenderer.sendSync('call-committed-files',repoRoot)
         console.log('컴백')
-        for(let i=0;i<returnArr.length;i++){
-            console.log(returnArr[i])
-        }
+        console.log(returnArr)
         setFileList()
     }
 

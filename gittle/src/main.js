@@ -353,6 +353,8 @@ ipcMain.on("call-committed-files",(event,root)=>{
   //commit Id 뽑아내는 코드 작성
   let commitId=tempArr[1];
 
+  
+
   //실행
   const returnArr=runCommand(`cd "${root}" && git show --pretty="" --name-only ${commitId}`)
   event.returnValue=returnArr
