@@ -21,7 +21,10 @@ function PushPage(){
         console.log(value) 
         
 
+
+
         
+
         console.log('도착했습니다잉')
     }
     
