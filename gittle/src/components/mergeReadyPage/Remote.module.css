@@ -122,3 +122,8 @@
   font-size: 1.2rem;
   font-weight: bold;
 }
+
+.buttons {
+  display: flex;
+  justify-content: center;
+}

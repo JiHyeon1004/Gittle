@@ -113,7 +113,13 @@ export default function Remote() {
           <Button
             action={openModal}
             content={"merge"}
-            style={{ backgroundColor: "#C9A6FF" }}
+            style={{
+              backgroundColor: "#C9A6FF",
+              height: "2.5rem",
+              fontSize: "1.2rem",
+              // color: "white",
+              fontWeight: "bold",
+            }}
           />
           <Modal
             open={modalOpen}
@@ -125,7 +131,7 @@ export default function Remote() {
               </>
             }
           >
-            <div>
+            <div className={styles.buttons}>
               <Button
                 action={StartMerge}
                 content={"예"}
