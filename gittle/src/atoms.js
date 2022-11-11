@@ -31,3 +31,8 @@ export const mergingBranch = atom({
   key: "mergingBranch",
   default: "",
 });
+
+export const pushedData = atom({
+  key:"pushedData",
+  default:{},
+})
