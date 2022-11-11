@@ -3,10 +3,12 @@ import styles from "./Repositories.module.css";
 import Repo from "./Repo";
 import { useNavigate } from "react-router";
 import { result } from "lodash";
+// import { ipcRenderer } from "electron";
 
 function Repoes() {
   // console.log('myRe : '+myRe)
   const navigate = useNavigate();
+  const {ipcRenderer} = window.require('electron')
 
   const [myRe, setMyRe] = useState([ ]);
 
@@ -65,10 +67,12 @@ function Repoes() {
             branch={item.branch}
             root={item.root}
             startGittle={() => {
+              console.log("item : ",item)
+              localStorage.setItem("currentRepo",item.root)
+              ipcRenderer.send('setting-currentRepo',item.root)
               navigate("/add", {
                 state: { name: item.branch, root: item.root },
               });
-              localStorage.setItem("currentRepo",item.root)
               let tempArr=JSON.parse(localStorage.getItem("repoList"))
               // tempArr.unshift({ name: item.branch, root: item.root })
 

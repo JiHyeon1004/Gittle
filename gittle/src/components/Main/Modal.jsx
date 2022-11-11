@@ -45,6 +45,7 @@ function Modal(props){
                 console.log('넴!!')
             }else{
                 console.log("놉!")
+                
             }
             console.log("길이 : "+arr.length)            
             for (let i = 0; i < arr.length; i++) {
