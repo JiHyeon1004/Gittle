@@ -11,10 +11,11 @@ function Committed(){
     const [fileList,setFileList]=useState([])
 
     const callFiles=()=>{
-        const returnArr=ipcRenderer.sendSync('call-committed-files',repoRoot)
+        const returnValue=ipcRenderer.sendSync('call-committed-files',repoRoot)
         console.log('컴백')
-        console.log(returnArr)
-        setFileList()
+        console.log(returnValue)
+        const tempArr = returnValue.split('\n')
+        setFileList(tempArr)
     }
 
     
@@ -29,7 +30,12 @@ function Committed(){
 
     return(
         <div className={styles.commit}>
-            
+            {fileList.map((item,idx)=>{
+                <div
+                    key={idx}>
+                        {item}
+                </div>
+            })}
 
         </div>
     )
