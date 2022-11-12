@@ -130,8 +130,8 @@ ipcMain.on("change branch", (event, route, selectedBranch) => {
 });
 
 // ipcMain.on("gitBranch", (event, newBranch, baseBranch) => {
-ipcMain.on("add branch", (event, route, newBranch) => {
-  console.log("브랜치 추가");
+ipcMain.on("create branch", (event, route, newBranch) => {
+  console.log("브랜치 생성");
 
   const codes = [];
   // let branch = runCommand(`git checkout -b ${newBranch} ${baseBranch}`);

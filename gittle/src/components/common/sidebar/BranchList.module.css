@@ -1,10 +1,10 @@
 .container {
-  min-width: 250px;
-}
-
-.branchList {
+  width: 100%;
+  height: 60%;
   position: absolute;
-  left: 25px;
+  left: 0;
+  padding: 15px;
+  overflow: scroll;
 }
 
 .list {
@@ -13,25 +13,40 @@
 
 .openList {
   display: "";
-  padding-top: 10px;
+  /* padding-top: 10px; */
   /* width: 250px; */
 }
 
 .curBranch {
-  cursor: pointer;
+  font-size: 0.8rem;
+  /* cursor: pointer; */
   /* border-bottom: 1px solid #000; */
+}
+.curBranch > p {
+  font-size: 1.1rem;
+}
+
+.branchList {
+  margin-bottom: 10px;
+}
+
+.branchList > div {
+  cursor: pointer;
 }
 
 .branch {
-  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* width: 215px; */
+  padding: 0 5px;
+  margin: 0;
+  /* cursor: pointer; */
 }
 
 .branch:hover {
   background-color: #d9d9d9;
 }
 .clicked {
-  background-color: #959595;
-}
-.dbClicked {
   font-weight: bold;
 }
