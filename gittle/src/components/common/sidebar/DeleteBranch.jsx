@@ -6,13 +6,26 @@ import styles from "./DeleteBranch.module.css";
 function DeleteBranch(branch) {
   const [modalOpen, setModalOpen] = useState(false);
 
-  const delBranch = branch.branch;
-
   const { ipcRenderer } = window.require("electron");
 
-  const deleteBranches = (delBranch) => {
+  const delBranch = branch.branch;
+
+  const remoteRepository = ipcRenderer.sendSync(
+    "remoteRepository",
+    localStorage.getItem("currentRepo")
+  )[0];
+
+  const deleteLocalBranches = (delBranch) => {
     ipcRenderer.sendSync(
-      "delete branch",
+      "delete localBranch",
+      localStorage.getItem("currentRepo"),
+      delBranch
+    );
+  };
+
+  const deleteRemoteBranches = (delBranch) => {
+    ipcRenderer.sendSync(
+      "delete remoteBranch",
       localStorage.getItem("currentRepo"),
       delBranch
     );
@@ -26,8 +39,10 @@ function DeleteBranch(branch) {
   };
 
   const branchDeleter = () => {
-    console.log("del", delBranch, typeof delBranch);
-    deleteBranches(delBranch);
+    console.log("del", delBranch);
+    delBranch.includes("origin/")
+      ? deleteRemoteBranches(delBranch.replace("origin/", ""))
+      : deleteLocalBranches(delBranch);
     closeModal();
   };
 

@@ -143,12 +143,32 @@ ipcMain.on("create branch", (event, route, newBranch) => {
   event.returnValue = codes;
 });
 
-ipcMain.on("delete branch", (event, route, delBranch) => {
-  console.log("브랜치 삭제");
+ipcMain.on("delete localBranch", (event, route, delBranch) => {
+  console.log("로컬 브랜치 삭제");
 
   const codes = [];
   let branch = runCommand(
     `git --git-dir=${route}\\.git branch -d ${delBranch}`
+  );
+  console.log("delete branch : ", branch);
+  codes.push(branch);
+  event.returnValue = codes;
+});
+
+ipcMain.on("remoteRepository", (event, route) => {
+  console.log("remote repository");
+  const codes = [];
+  let remote = runCommand(`git --git-dir=${route}\\.git remote`);
+  codes.push(remote);
+  event.returnValue = codes;
+});
+
+ipcMain.on("delete remoteBranch", (event, route, delBranch) => {
+  console.log("리모트 브랜치 삭제");
+
+  const codes = [];
+  let branch = runCommand(
+    `git --git-dir=${route}\\.git push origin -d ${delBranch}`
   );
   console.log("delete branch : ", branch);
   codes.push(branch);

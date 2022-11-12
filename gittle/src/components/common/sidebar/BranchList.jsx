@@ -32,8 +32,9 @@ function BranchList() {
     .filter((branch) => branch)
     .filter((branch) => !branch.includes("->"))
     .map((branch) => branch.trim())
-    .map((branch) => (branch.includes("*") ? curBranch : branch))
-    .map((branch) => branch.replace("origin/", ""));
+    .map((branch) => (branch.includes("*") ? curBranch : branch));
+
+  // .map((branch) => branch.replace("origin/", ""));
 
   const showLocalBranches = () => {
     setLocalListOpen(!localListOpen);
@@ -56,7 +57,6 @@ function BranchList() {
 
   const branchSelector = (e) => {
     let branch = e.target.dataset.branch;
-    console.log(branch);
     setSelectedBranch(branch);
     console.log("select", selectedBranch);
   };
