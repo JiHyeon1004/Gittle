@@ -94,6 +94,7 @@ export default function Assignee() {
           >
             <div className={styles.title}>{request.title}</div>
             <div className={styles.body}>
+              <div className={styles.texttitle}>요청자</div>
               <img className={styles.image} src={request.avatar} alt="avatar" />
               <div className={styles.text}>{request.user}</div>
               <div className={styles.text}>|</div>
