@@ -62,7 +62,7 @@ function BranchList() {
   };
 
   const branchChanger = (e) => {
-    branchSelector(e);
+    // branchSelector(e);
     changeBranch(selectedBranch);
     console.log("change", selectedBranch);
     setCurBranch(selectedBranch);
@@ -94,10 +94,11 @@ function BranchList() {
               <div
                 key={idx}
                 className={
-                  selectedBranch && selectedBranch === branch
+                  curBranch === branch
                     ? `${styles.branch} ${styles.clicked}`
                     : `${styles.branch}`
                 }
+                onClick={branchSelector}
                 onDoubleClick={branchChanger}
                 data-branch={branch}
               >
