@@ -1,17 +1,59 @@
 import React, { useState } from "react";
 import Button from "../Button";
 import Modal from "../Modal";
-import BranchSelector from "../BranchSelector";
+import { useRecoilState } from "recoil";
+import { currentBranch } from "../../../atoms";
+// import BranchSelector from "../BranchSelector";
 import styles from "./GitPull.module.css";
+import { pull } from "lodash";
 
 function GitPull(props) {
+  const [curBranch, setCurBranch] = useRecoilState(currentBranch);
   const [modalOpen, setModalOpen] = useState(false);
+  const [listOpen, setListOpen] = useState(false);
+  const [targetBranch, setTargetBranch] = useState("");
+  const { ipcRenderer } = window.require("electron");
+  const pullRequest = (targetBranch) => {
+    const pull = ipcRenderer.sendSync(
+      "gitPull",
+      localStorage.getItem("currentRepo"),
+      targetBranch
+    );
+    return pull;
+  };
+  const remoteBranches = ipcRenderer.sendSync(
+    "remoteBranchList",
+    localStorage.getItem("currentRepo")
+  );
+
+  const remoteBranchList = remoteBranches[0]
+    .split("\n")
+    .filter((branch) => branch)
+    .filter((branch) => !branch.includes("->"))
+    .filter((branch) => branch !== curBranch)
+    .map((branch) => branch.trim())
+    .map((branch) => branch.replace("origin/", ""));
+
   const openModal = () => {
     setModalOpen(true);
   };
   const closeModal = () => {
     setModalOpen(false);
   };
+  const showBranches = () => {
+    setListOpen(!listOpen);
+  };
+  const getTargetBranch = (e) => {
+    let branch = e.target.firstChild.data;
+    setTargetBranch(branch);
+  };
+  console.log(targetBranch);
+  const pullData = () => {
+    pullRequest(targetBranch);
+    console.log("target", targetBranch);
+    closeModal();
+  };
+
   return (
     <div>
       <Button
@@ -21,20 +63,30 @@ function GitPull(props) {
       />
 
       <Modal
+        style={{ height: "300px" }}
         open={modalOpen}
         content={
           <>
             <div className={styles.selectorContainer}>
+              {/* <p className={styles.branch} onClick={showBranches}>
+                pull 받을 branch 선택
+              </p> */}
+              {/* <div
+                className={listOpen ? `${styles.openList}` : `${styles.list}`}
+              > */}
               <div className={styles.selector}>
-                <BranchSelector />
-                에서
+                {remoteBranchList.map((branch, idx) => (
+                  <p onClick={getTargetBranch} key={idx}>
+                    {branch}
+                  </p>
+                ))}
               </div>
-              <div className={styles.selector}>
-                <BranchSelector />로
-              </div>
+              <p>에서</p>
+              <div className={styles.selector}>{curBranch}로</div>
             </div>
             <div className={styles.buttonContainer}>
               <Button
+                action={pullData}
                 content={"pull 받기"}
                 style={{ backgroundColor: "#6BCC78" }}
               />

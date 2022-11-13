@@ -2,14 +2,34 @@ import React, { useState } from "react";
 import Button from "../Button";
 import Modal from "../Modal";
 import styles from "./DeleteBranch.module.css";
-import { useLocation } from "react-router-dom";
-import { useRecoilState } from "recoil";
-import { deleteBranch } from "../../../atoms";
 
-function DeleteBranch() {
-  const location = useLocation();
+function DeleteBranch(branch) {
   const [modalOpen, setModalOpen] = useState(false);
-  const [delBranch, setDelBranch] = useRecoilState(deleteBranch);
+
+  const { ipcRenderer } = window.require("electron");
+
+  const delBranch = branch.branch;
+
+  const remoteRepository = ipcRenderer.sendSync(
+    "remoteRepository",
+    localStorage.getItem("currentRepo")
+  )[0];
+
+  const deleteLocalBranches = (delBranch) => {
+    ipcRenderer.sendSync(
+      "delete localBranch",
+      localStorage.getItem("currentRepo"),
+      delBranch
+    );
+  };
+
+  const deleteRemoteBranches = (delBranch) => {
+    ipcRenderer.sendSync(
+      "delete remoteBranch",
+      localStorage.getItem("currentRepo"),
+      delBranch
+    );
+  };
 
   const openModal = () => {
     setModalOpen(true);
@@ -18,20 +38,12 @@ function DeleteBranch() {
     setModalOpen(false);
   };
 
-  const branchDeletor = () => {
-    deleteBranches(delBranch);
+  const branchDeleter = () => {
+    console.log("del", delBranch);
+    delBranch.includes("origin/")
+      ? deleteRemoteBranches(delBranch.replace("origin/", ""))
+      : deleteLocalBranches(delBranch);
     closeModal();
-  };
-  console.log("del", delBranch);
-
-  const deleteBranches = (delBranch) => {
-    const { ipcRenderer } = window.require("electron");
-    const gitBranch = ipcRenderer.sendSync(
-      "delete branch",
-      location.state.root,
-      delBranch
-    );
-    return gitBranch;
   };
 
   return (
@@ -46,14 +58,17 @@ function DeleteBranch() {
         open={modalOpen}
         content={
           <>
-            <p>{delBranch} branch를 정말로 삭제하시겠습니까?</p>
+            <p>
+              <span className={styles.branchName}>{delBranch}</span> branch를
+              정말로 삭제하시겠습니까?
+            </p>
             <p>(삭제한 branch는 복구가 불가능합니다.)</p>
           </>
         }
       >
         <div className={styles.buttonContainer}>
           <Button
-            action={branchDeletor}
+            action={branchDeleter}
             content={"예"}
             style={{ backgroundColor: "#6BCC78" }}
           />
