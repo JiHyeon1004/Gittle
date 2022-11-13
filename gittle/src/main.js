@@ -126,13 +126,23 @@ ipcMain.on("call-my-repo", (event, arg) => {
   event.returnValue = result;
 });
 
-ipcMain.on("branchList", (event, route) => {
-  console.log("브랜치 리스트");
+ipcMain.on("localBranchList", (event, route) => {
+  console.log("로컬 브랜치 리스트");
 
   const codes = [];
-  let branchList = runCommand(`git --git-dir=${route}\\.git branch -a`);
-  // console.log("branchList : ", branchList);
-  codes.push(branchList);
+  let localBranchList = runCommand(`git --git-dir=${route}\\.git branch -l`);
+  console.log("localBranchList : ", localBranchList);
+  codes.push(localBranchList);
+  event.returnValue = codes;
+});
+
+ipcMain.on("remoteBranchList", (event, route) => {
+  console.log("리모트 브랜치 리스트");
+
+  const codes = [];
+  let remoteBranchList = runCommand(`git --git-dir=${route}\\.git branch -r`);
+  console.log("remoteBranchList : ", remoteBranchList);
+  codes.push(remoteBranchList);
   event.returnValue = codes;
 });
 
@@ -142,8 +152,9 @@ ipcMain.on("change branch", (event, route, selectedBranch) => {
 
   const codes = [];
   let branch = runCommand(
-    `cd "${route}" && git init && git checkout ${selectedBranch}`
-    // `git --git-dir=${route}\\.git checkout ${selectedBranch}`
+    // `cd "${route}" && git init && git checkout ${selectedBranch}`
+    `git --git-dir=${route}\\.git checkout ${selectedBranch}`
+
   );
   console.log("change branch : ", branch);
   codes.push(branch);
@@ -151,8 +162,8 @@ ipcMain.on("change branch", (event, route, selectedBranch) => {
 });
 
 // ipcMain.on("gitBranch", (event, newBranch, baseBranch) => {
-ipcMain.on("add branch", (event, route, newBranch) => {
-  console.log("브랜치 추가");
+ipcMain.on("create branch", (event, route, newBranch) => {
+  console.log("브랜치 생성");
 
   const codes = [];
   // let branch = runCommand(`git checkout -b ${newBranch} ${baseBranch}`);
@@ -164,10 +175,8 @@ ipcMain.on("add branch", (event, route, newBranch) => {
   event.returnValue = codes;
 });
 
-//이거 아직 안되나요??
-ipcMain.on("delete branch", (event, route, delBranch) => {
-  console.log("브랜치 삭제");
-
+ipcMain.on("delete localBranch", (event, route, delBranch) => {
+  console.log("로컬 브랜치 삭제");
   const codes = [];
   let branch = runCommand(
     `git --git-dir=${route}\\.git branch -d ${delBranch}`
@@ -177,10 +186,43 @@ ipcMain.on("delete branch", (event, route, delBranch) => {
   event.returnValue = codes;
 });
 
+
+ipcMain.on("remoteRepository", (event, route) => {
+  console.log("remote repository");
+  const codes = [];
+  let remote = runCommand(`git --git-dir=${route}\\.git remote`);
+  codes.push(remote);
+  event.returnValue = codes;
+});
+
+ipcMain.on("delete remoteBranch", (event, route, delBranch) => {
+  console.log("리모트 브랜치 삭제");
+
+  const codes = [];
+  let branch = runCommand(
+    `git --git-dir=${route}\\.git push origin -d ${delBranch}`
+  );
+  console.log("delete branch : ", branch);
+  codes.push(branch);
+  event.returnValue = codes;
+});
+
+app.whenReady().then(() => {
+  createWindow();
+  app.on("activate", () => {
+    if (BrowserWindow.getAllWindows().length === 0) createWindow();
+  });
+});
+
+app.on("window-all-closed", function () {
+  if (process.platform !== "darwin") app.quit();
+});
+
 ipcMain.on("gitStatus", (event, curRepo) => {
   currentRepo = curRepo
   console.log('currentRepo : ',currentRepo)
   gitDir = `--git-dir=${currentRepo}\\.git`
+
 
   const option = currentRepo !== null || currentRepo !== undefined ? `${gitDir} --work-tree=${currentRepo}` : ''
   const data = runCommand(`cd ${currentRepo} && git status -u -s`);
@@ -335,6 +377,14 @@ ipcMain.on("lastCommitDescription", (event, command) => {
   event.returnValue = data;
 });
 
+ipcMain.on("gitPull", (event, route, targetBranch) => {
+  console.log("gitPull");
+  const pull = runCommand(
+    `git --git-dir=${route}\\.git pull --set-upstream origin ${targetBranch}`
+  );
+  console.log("pull", pull);
+  event.returnValue = pull;
+});
 
 ipcMain.on("git-Push",(event,payload)=>{
   console.log("repo입니다 : ",payload.repoRoot)
@@ -381,3 +431,4 @@ ipcMain.on("call-committed-files",(event,root)=>{
 ipcMain.on("gitbash",(event, currentRepo) =>{
   child_process.exec(`cd ${currentRepo} && start "" "%PROGRAMFILES%\\Git\\bin\\sh.exe" --login`)
 }) 
+

@@ -1,14 +1,21 @@
 import React, { useState } from "react";
 import Button from "../Button";
 import Modal from "../Modal";
-import BranchSelector from "../BranchSelector";
-import styles from "./AddBranch.module.css";
-import { useLocation } from "react-router-dom";
+import styles from "./CreateBranch.module.css";
 
-function AddBranch() {
-  const location = useLocation();
+function CreateBranch() {
   const [modalOpen, setModalOpen] = useState(false);
   const [newBranches, setNewBranches] = useState("");
+
+  const { ipcRenderer } = window.require("electron");
+
+  const createNewBranches = (newBranch) => {
+    ipcRenderer.sendSync(
+      "create branch",
+      localStorage.getItem("currentRepo"),
+      newBranch
+    );
+  };
 
   const openModal = () => {
     setModalOpen(true);
@@ -21,29 +28,19 @@ function AddBranch() {
     setNewBranches(e.target.value);
   };
 
-  const onHandleSubmit = (e) => {
+  const branchCreator = (e) => {
     e.preventDefault();
     if (newBranches.trim().length === 0) return;
-    addNewBranches(newBranches);
+    createNewBranches(newBranches);
     setNewBranches("");
     closeModal();
-  };
-
-  const addNewBranches = (newBranch) => {
-    const { ipcRenderer } = window.require("electron");
-    const gitBranch = ipcRenderer.sendSync(
-      "add branch",
-      location.state.root,
-      newBranch
-    );
-    return gitBranch;
   };
 
   return (
     <>
       <Button
         action={openModal}
-        content={"branch 추가"}
+        content={"새 branch"}
         style={{ backgroundColor: "#6BCC78" }}
       />
 
@@ -51,13 +48,14 @@ function AddBranch() {
         open={modalOpen}
         content={
           <>
-            <form onSubmit={onHandleSubmit}>
+            <form onSubmit={branchCreator}>
               <div>
                 <label>이름</label>
                 <input
                   required
                   type="text"
                   value={newBranches}
+                  className={styles.input}
                   onChange={onChangeHandler}
                 />
               </div>
@@ -68,8 +66,7 @@ function AddBranch() {
               </div>
               <div className={styles.buttonContainer}>
                 <Button
-                  // action={addNewBranches(newBranches)}
-                  content={"추가"}
+                  content={"branch 생성"}
                   style={{ backgroundColor: "#6BCC78" }}
                 />
                 <Button
@@ -86,4 +83,4 @@ function AddBranch() {
   );
 }
 
-export default AddBranch;
+export default CreateBranch;
