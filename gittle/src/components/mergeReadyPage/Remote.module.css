@@ -109,6 +109,23 @@
   font-size: 0.8rem;
 }
 
+.modal {
+  display: flex;
+}
+
+.pushtext {
+  font-weight: 600;
+  color: #6bcc78;
+  margin-right: 0.5rem;
+}
+
+.mergetext {
+  font-weight: 600;
+  color: #ff6b6b;
+  margin-left: 0.5rem;
+  margin-right: 0.4rem;
+}
+
 .button {
   margin-left: 10rem;
   background-color: #c9a6ff;
@@ -121,4 +138,10 @@
   color: white;
   font-size: 1.2rem;
   font-weight: bold;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
 }

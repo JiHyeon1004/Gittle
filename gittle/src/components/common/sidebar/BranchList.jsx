@@ -51,6 +51,7 @@ function BranchList() {
     ipcRenderer.sendSync(
       "change branch",
       localStorage.getItem("currentRepo"),
+
       selectedBranch
     );
   };

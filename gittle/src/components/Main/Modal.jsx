@@ -16,9 +16,11 @@ function Modal(props){
     const [repoRoot, setRepoRoot]= useState("");
     //클론 주소
     const [cloneRoot, setCloneRoot]=useState("");
-
+    const [folderName, setFolderName]=useState("")
     //폴더 위치 가져오기 위한 변수선언
     const {ipcRenderer} = window.require('electron')
+
+    
 
     
 
@@ -27,18 +29,57 @@ function Modal(props){
         setRepoRoot(ipcRenderer.sendSync(CLICK,'start'))
     }
 
-    const updateMyRepo= ()=>{
-            ipcRenderer.send('update-my-repo',{branch:{repoName},root:{repoRoot}})
+    const updateMyRepo= (folder)=>{
+            console.log("repo update 시작")
+            // localStorage.setItem('currentRepo',JSON.stringify([{branch:repoName, root:repoRoot+"\\"+repoName}]))
+            // ipcRenderer.send('update-my-repo',{branch:repoName,root:repoRoot+"\\"+repoName})
+            let arr;
+            if(localStorage.getItem('repoList')===null || localStorage.getItem('repoList')===""){
+                arr=[]
+            }else{
+                arr =JSON.parse(localStorage.getItem('repoList'))
+            }
+
+            
+            
+            if(props.setModalOpen.number===0){
+
+                arr.unshift({branch:repoName,root:repoRoot+"\\"+repoName})
+            }else if(props.setModalOpen.number===1){
+                arr.unshift({branch:repoName,root:repoRoot})
+            }else{
+                arr.unshift({branch:repoName,root:repoRoot+"\\"+folder})
+            }
+
+            if(arr.length===4){
+                arr.pop()
+            }
+            console.log("arr 테스트 ")
+            for(let i=0;i<arr.length;i++){
+                console.log(arr[i])
+            }
+            console.log("arr테스트 끝")
+        
+
+            localStorage.setItem('repoList',JSON.stringify(arr))
+
+            setRepoRoot(repoName+"\\"+repoName)
     }
 
     const cloneMyRepo=()=>{
-        console.log('repoRoot : '+{repoRoot})
-        console.log('cloneRoot : '+{cloneRoot})
-        ipcRenderer.send('git-Clone',{repoRoot:repoRoot,cloneRoot:cloneRoot})
+        
+        const folderName=ipcRenderer.sendSync('git-Clone',{repoRoot:repoRoot,cloneRoot:cloneRoot})
+        console.log("folderName : ",folderName)
+        setFolderName(folderName)
+        return folderName
     }
 
     const initMyRepo=()=>{
-        ipcRenderer.send('git-Init',{repoRoot:repoRoot})
+        console.log('init 시작!!!!!!!!!!!!!!!!!!!!!!!!')
+        ipcRenderer.sendSync('git-Init',{repoName:repoName ,repoRoot:repoRoot})
+        const temp=repoRoot
+        console.log(temp+"\\"+repoName)
+        
     }
 
     //최근 사용한 Repo로 값 넣어주기
@@ -82,20 +123,28 @@ function Modal(props){
                 <button className={styles.button} onClick={()=>{
                     if(props.setModalOpen.number===0){
                         //git init 
-                        initMyRepo()
-                        updateMyRepo()
+                        initMyRepo(repoName)
+                        updateMyRepo('')
+                        console.log("생성 로컬 확인 : ",repoRoot+"\\"+repoName)
+                        localStorage.setItem('currentRepo',repoRoot+"\\"+repoName)
                         navigate("/add",{state:{name:repoName,root:repoRoot}})
                     }else if(props.setModalOpen.number===1){
                         //폴더 바꿔주기
-                        updateMyRepo()
+                        updateMyRepo('')
+                        localStorage.setItem('currentRepo',repoRoot)
                         navigate("/add",{state:{name:repoName,root:repoRoot}})
                     }else{
-                        cloneMyRepo()
-                        updateMyRepo()
-                        navigate("/add",{state:{name:repoName,root:repoRoot}})
+                        const folder=cloneMyRepo()
+                        updateMyRepo(folder)
+                        const result=repoRoot+"\\"+folder
+                        console.log("result : ",result)
+                        localStorage.setItem('currentRepo',result)
+                        navigate("/add",{state:{name:repoName,root:result}})
                     }
                     
-                }}>만들기</button>
+                }}>
+                    만들기
+                </button>
                 <button className={styles.button} onClick={()=>props.close()}>취소</button>
             </div>
         )

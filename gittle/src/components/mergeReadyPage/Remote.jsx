@@ -3,17 +3,19 @@ import { Octokit } from "octokit";
 import styles from "./Remote.module.css";
 import { faCodeBranch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { pushedBranch, mergingBranch } from "../../atoms";
 import Modal from "../common/Modal";
 import Button from "../common/Button";
 import { useNavigate } from "react-router-dom";
+import { pushedData } from "../../atoms";
 
 // push된 브랜치 이름 받아오기
 export default function Remote() {
   const [branches, setBranches] = useState([]);
   const [push, setPush] = useRecoilState(pushedBranch);
   const [merge, setMerge] = useRecoilState(mergingBranch);
+  const pushed = useRecoilValue(pushedData);
   const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -40,7 +42,7 @@ export default function Remote() {
     }
     getBranches();
     // push된 branch 받아오기
-    setPush("ussong");
+    setPush(pushed.branch);
   }, []);
 
   const selectBranch = (branch) => {
@@ -113,19 +115,26 @@ export default function Remote() {
           <Button
             action={openModal}
             content={"merge"}
-            style={{ backgroundColor: "#C9A6FF" }}
+            style={{
+              backgroundColor: "#C9A6FF",
+              height: "2.5rem",
+              fontSize: "1.2rem",
+              // color: "white",
+              fontWeight: "bold",
+            }}
           />
           <Modal
             open={modalOpen}
             content={
-              <>
-                <p>
-                  {push} branch를 {merge} branch로 merge 하시겠습니까?
-                </p>
-              </>
+              <div className={styles.modal}>
+                <div className={styles.pushtext}>{push}</div>
+                <div>branch를</div>
+                <div className={styles.mergetext}>{merge}</div>
+                <div>branch로 merge 하시겠습니까?</div>
+              </div>
             }
           >
-            <div>
+            <div className={styles.buttons}>
               <Button
                 action={StartMerge}
                 content={"예"}
