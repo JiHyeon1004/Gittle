@@ -11,6 +11,7 @@ import Header from "./components/common/header/Header";
 import SideBar from "./components/common/sidebar/SideBar";
 import MergeRequestList from "./pages/MergeRequestListPage";
 import MergeDetail from "./pages/MergeDetailPage";
+import Graph from "./pages/GraphPage"
 
 import "./App.css";
 import "bootstrap";
@@ -36,6 +37,7 @@ function App() {
           <Route path="/merge" element={<Merge />} />
           <Route path="/merge/request" element={<MergeRequestList />} />
           <Route path="/merge/detail" element={<MergeDetail />} />
+          <Route path="/graph" element={<Graph />} />
         </Routes>
       </div>
     </>

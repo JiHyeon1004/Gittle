@@ -422,3 +422,8 @@ ipcMain.on("gitbash",(event, currentRepo) =>{
   child_process.exec(`cd ${currentRepo} && start "" "%PROGRAMFILES%\\Git\\bin\\sh.exe" --login`)
 }) 
 
+ipcMain.on("gitGraph", (event) => {
+  const gitGraph = runCommand("git log --branches --decorate --graph --oneline");
+  event.returnValue = gitGraph
+})
+
