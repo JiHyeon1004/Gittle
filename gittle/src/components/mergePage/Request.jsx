@@ -140,6 +140,7 @@ export default function Request() {
   const sendRequest = async () => {
     const pullNumber = await mergeRequest();
     const response = await reviewRequest(pullNumber);
+    navigate("/merge/request");
     return response;
   };
 

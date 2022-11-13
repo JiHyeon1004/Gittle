@@ -12,6 +12,16 @@ export default function Detail() {
   const mergeReqInfo = useRecoilValue(mergeRequest);
   const mergeCommitInfo = useRecoilValue(mergeCommit);
   const [overview, setOverview] = useState(true);
+  const [commit, setCommit] = useState("");
+  const [commitIdx, setCommitIdx] = useState(0);
+  // 마지막 커밋 변경 파일 목록
+  const [files, setFiles] = useState([]);
+  const [commitId, setCommitId] = useState("");
+    // 마지막 커밋에서 모든 파일의 코드
+  const [codeBefore, setCodeBefore] = useState([]);
+  const [codeAfter, setCodeAfter] = useState([]);
+  const [fileIdx, setFileIdx] = useState(0);
+
   const navigate = useNavigate();
 
   const user = localStorage.getItem("userInfo");
@@ -24,12 +34,70 @@ export default function Detail() {
     console.log("~~~~~~~~~~", mergeCommitInfo);
   }, []);
 
+  useEffect(() => {
+    async function getCommit() {
+      const user = localStorage.getItem("userInfo");
+      const location = localStorage.getItem("currentRepo").split("\\");
+      console.log(location);
+      const repo = location[location.length - 1];
+      const octokit = new Octokit({
+        auth: "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",
+      });
+
+      const commitInfo = await octokit.request(
+        "GET /repos/{owner}/{repo}/commits/{ref}",
+        {
+          owner: user,
+          repo: repo,
+          ref: commit,
+        }
+      );
+
+      console.log("lalalal", commitInfo);
+      setFiles(commitInfo.data.files);
+      setCommitId(commitInfo.data.sha);
+      let fileBefore = [];
+      let fileAfter = [];
+      commitInfo.data.files.map((file) => {
+        // setCodes((prev) => [...prev, file.patch.split("\n")]);
+        let before = [];
+        let after = [];
+        let lines = file.patch.split("\n");
+        lines.map((line) => {
+          if (line[0] === "-") {
+            before.push(line);
+          } else if (line[0] === "+") {
+            after.push(line);
+          } else {
+            before.push(line);
+            after.push(line);
+          }
+        });
+        fileBefore.push(before);
+        fileAfter.push(after);
+      });
+      setCodeBefore(fileBefore);
+      setCodeAfter(fileAfter);
+      setFileIdx(0);
+    }
+    getCommit();
+  }, [commit]);
+
   const showOverview = () => {
     setOverview(true);
   };
 
   const showHistory = () => {
     setOverview(false);
+  };
+
+  const showDiff = (sha, index) => {
+    setCommit(sha);
+    setCommitIdx(index);
+  };
+
+  const showCode = (index) => {
+    setFileIdx(index);
   };
 
   async function mergeAccept() {
@@ -58,7 +126,7 @@ export default function Detail() {
 
   return (
     <>
-      <div className={styles.title}>{mergeReqInfo.title}</div>
+      <div className={styles.reqtitle}>{mergeReqInfo.title}</div>
       {mergeReqInfo.merged ? (
         <div>merge 완료</div>
       ) : (
@@ -72,7 +140,7 @@ export default function Detail() {
           <img
             src={mergeReqInfo.user.avatar_url}
             alt="avatar"
-            className={styles.avatar}
+            className={styles.reqavatar}
           />
           <div>{mergeReqInfo.user.login} |</div>
         </div>
@@ -92,10 +160,10 @@ export default function Detail() {
       <div className={styles.overview}>
         <div className={styles.tabs}>
           <div className={styles.tab} onClick={showOverview}>
-            개요
+            {overview ? <div className={styles.selected}>개요</div> : <div>개요</div>}
           </div>
           <div className={styles.tab} onClick={showHistory}>
-            변경사항
+          {overview ? <div>변경사항</div> : <div className={styles.selected}>변경사항</div>}
           </div>
         </div>
         <div className={styles.tabbox}>
@@ -132,13 +200,79 @@ export default function Detail() {
               <div className={styles.bold}>commit 내역</div>
               <div>
                 {mergeCommitInfo.map((commit, index) => (
-                  <div key={index}>
-                    <div>{commit.commit.message}</div>
-                    <div>{commit.commit.author.name}</div>
+                  <div className={styles.logbox} key={index} onClick={() => showDiff(commit.sha, index)}>
+                    <div className={styles.commitprofile}>
+                      <img
+                        src={commit.author.avatar_url}
+                        alt="avatar"
+                        className={styles.avatar}
+                      />
+                      <div className={styles.textbox}>
+                        <div className={styles.message}>{commit.commit.message}</div>
+                        <div className={styles.authortime}>
+                          <div className={styles.name}>{commit.commit.author.name}</div>
+                          <div className={styles.time}>
+                            {commit.commit.author.date
+                              .replace("T", " ")
+                              .replace("Z", "")}
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
                     <div>
-                      {commit.commit.author.date
-                        .replace("T", " ")
-                        .replace("Z", "")}
+                      {files.length &&
+                      codeBefore.length &&
+                      codeAfter.length &&
+                      commit.sha === commitId ? (
+                        <div className={styles.codearea}>
+                          <div className={styles.codebox}>
+                            {files.map((file, index) => (
+                              <div
+                                key={index}
+                                className={styles.file}
+                                onClick={() => showCode(index)}
+                              >
+                                {index === fileIdx ? (
+                                  <div className={styles.active}>{file.filename}</div>
+                                ) : (
+                                  <div className={styles.filename}>{file.filename}</div>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                          <div className={styles.code}>
+                            <div className={styles.codebefore}>
+                              <div className={styles.title}>변경 전</div>
+                              <div className={styles.box}>
+                                {codeBefore[fileIdx].map((code, index) => (
+                                  <div key={index}>
+                                    {code[0] === "-" ? (
+                                      <div className={styles.minus}>{code}</div>
+                                    ) : (
+                                      <div className={styles.zero}>{code}</div>
+                                    )}
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                            <div className={styles.codeafter}>
+                              <div className={styles.title}>변경 후</div>
+                              <div className={styles.box}>
+                                {codeAfter[fileIdx].map((code, index) => (
+                                  <div key={index}>
+                                    {code[0] === "+" ? (
+                                      <div className={styles.plus}>{code}</div>
+                                    ) : (
+                                      <div className={styles.zero}>{code}</div>
+                                    )}
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ) : null}
                     </div>
                   </div>
                 ))}
