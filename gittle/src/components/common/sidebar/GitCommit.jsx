@@ -7,7 +7,7 @@ import Tooltip from 'react-bootstrap/Tooltip';
 
 const { ipcRenderer } = window.require("electron"); 
 const getCommitRules = () => {
-  return JSON.parse(ipcRenderer.sendSync("ReadCommitConvention"))
+  return JSON.parse(ipcRenderer.sendSync("ReadCommitConvention", localStorage.getItem("currentRepo")))
 }
 
 function GitCommit() {

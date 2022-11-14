@@ -6,7 +6,7 @@ function TerminalButton() {
     <>
       <button className={styles.terminalButton}><img style={{ width: "40px", height: "40px" }}
       src={process.env.PUBLIC_URL + '/icons/terminal.png'} 
-      alt="terminal" onClick={() => {ipcRenderer.send("openTerminal")}} />
+      alt="terminal" onClick={() => {ipcRenderer.send("openTerminal", localStorage.getItem("currentRepo"))}} />
       <br/>
       터미널
       </button>
