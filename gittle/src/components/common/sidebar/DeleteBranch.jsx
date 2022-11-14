@@ -17,16 +17,7 @@ function DeleteBranch(props) {
   //   localStorage.getItem("currentRepo")
   // )[0];
 
-<<<<<<< HEAD
-  // const remoteRepository = ipcRenderer.sendSync(
-  //   "remoteRepository",
-  //   localStorage.getItem("currentRepo")
-  // )[0];
-
-  const deleteLocalBranches = (delBranch) => {
-=======
   const deleteLocalBranches = (branch) => {
->>>>>>> 04091373c0b2a950450d51fbd6d2443b134fea28
     ipcRenderer.sendSync(
       "delete localBranch",
       localStorage.getItem("currentRepo"),
