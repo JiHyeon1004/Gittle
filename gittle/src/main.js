@@ -181,13 +181,13 @@ ipcMain.on("delete localBranch", (event, route, delBranch) => {
   event.returnValue = codes;
 });
 
-ipcMain.on("remoteRepository", (event, route) => {
-  console.log("remote repository");
-  const codes = [];
-  let remote = runCommand(`git --git-dir=${route}\\.git remote`);
-  codes.push(remote);
-  event.returnValue = codes;
-});
+// ipcMain.on("remoteRepository", (event, route) => {
+//   console.log("remote repository");
+//   const codes = [];
+//   let remote = runCommand(`git --git-dir=${route}\\.git remote`);
+//   codes.push(remote);
+//   event.returnValue = codes;
+// });
 
 ipcMain.on("delete remoteBranch", (event, route, delBranch) => {
   console.log("리모트 브랜치 삭제");
@@ -417,4 +417,12 @@ ipcMain.on("gitbash", (event, currentRepo) => {
   child_process.exec(
     `cd ${currentRepo} && start "" "%PROGRAMFILES%\\Git\\bin\\sh.exe" --login`
   );
+});
+
+ipcMain.on("gitStash", (event, route) => {
+  console.log("gitStash");
+  console.log('cur',route);
+  const stash = runCommand(`git --git-dir=${route}\\.git stash`);
+  console.log("gitStash", stash);
+  event.returnValue = stash;
 });

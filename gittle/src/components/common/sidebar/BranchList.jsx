@@ -68,9 +68,17 @@ function BranchList() {
     setCurBranch(selectedBranch);
   };
 
-  const closeModal = () => {
+  const goCommit = () => {
     setStashModalOpen(false);
     navigate("/add");
+  };
+  const gitStash = () => {
+    ipcRenderer.sendSync("gitStash", currentRepo);
+  };
+
+  const goStash = () => {
+    gitStash();
+    setStashModalOpen(false);
   };
 
   // useEffect(() => {
@@ -143,12 +151,12 @@ function BranchList() {
             <p>commit하거나 임시저장해주세요</p>
             <div className={styles.buttonContainer}>
               <Button
-                action={closeModal}
+                action={goCommit}
                 content={"commit하러 가기"}
                 style={{ backgroundColor: "#6BCC78" }}
               />
               <Button
-                // action={closeModal}
+                action={goStash}
                 content={"stash"}
                 style={{ border: "1px solid #7B7B7B" }}
               />
