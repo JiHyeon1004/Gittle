@@ -150,7 +150,6 @@ ipcMain.on("change branch", (event, route, selectedBranch) => {
   let branch = runCommand(
     // `cd "${route}" && git init && git checkout ${selectedBranch}`
     `git --git-dir=${route}\\.git checkout ${selectedBranch}`
-
   );
   console.log("change branch : ", branch);
   codes.push(branch);
@@ -181,7 +180,6 @@ ipcMain.on("delete localBranch", (event, route, delBranch) => {
   codes.push(branch);
   event.returnValue = codes;
 });
-
 
 ipcMain.on("remoteRepository", (event, route) => {
   console.log("remote repository");
@@ -218,10 +216,13 @@ ipcMain.on("gitStatus", (event, curRepo) => {
   currentRepo = curRepo;
   console.log("currentRepo : ", currentRepo);
   gitDir = `--git-dir=${currentRepo}\\.git`;
-
-
-  const option = currentRepo !== null || currentRepo !== undefined ? `${gitDir} --work-tree=${currentRepo}` : ''
-  const data = runCommand(`cd ${currentRepo} && git status -u -s`);
+  const a = curRepo === null ? "./" : curRepo;
+  const option =
+    currentRepo !== null || currentRepo !== undefined
+      ? `${gitDir} --work-tree=${currentRepo}`
+      : "";
+  const data = runCommand(`cd ${a} && git status -u -s`);
+  // const data = runCommand(`git status -u -s`);
   event.returnValue = data;
 });
 
@@ -412,13 +413,8 @@ ipcMain.on("call-committed-files", (event, root) => {
   event.returnValue = returnArr;
 });
 
-
-
-
-
-
-
-ipcMain.on("gitbash",(event, currentRepo) =>{
-  child_process.exec(`cd ${currentRepo} && start "" "%PROGRAMFILES%\\Git\\bin\\sh.exe" --login`)
-}) 
-
+ipcMain.on("gitbash", (event, currentRepo) => {
+  child_process.exec(
+    `cd ${currentRepo} && start "" "%PROGRAMFILES%\\Git\\bin\\sh.exe" --login`
+  );
+});
