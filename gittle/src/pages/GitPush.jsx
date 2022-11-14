@@ -16,36 +16,11 @@ function PushPage() {
 
   // useEffect(()=>{
 
-<<<<<<< HEAD
   // },[])
   const pushStart = () => {
     if (selBranch === "") {
       alert("브랜치를 선택해주세요!");
       return;
-=======
-
-function PushPage(){
-
-    const [selBranch,setSelBranch]=useState("")
-    const {ipcRenderer} = window.require('electron')
-    const navigate = useNavigate()
-    const [committedList,setCommittedList]=useState([])
-    const [pushData , setPushData] = useRecoilState(pushedData)
-
-
-    const pushStart=()=>{ 
-        if(selBranch===''){
-            alert('브랜치를 선택해주세요!')
-            return
-        }
-        const value=ipcRenderer.sendSync('git-Push'  ,{repoRoot: localStorage.getItem('currentRepo'),branch : selBranch})
-
-        const result={branch:selBranch, commitList:committedList}
-        setPushData(result)
-        console.log(value) 
-        navigate("/merge")
-        
->>>>>>> 26d5d62c018c6752c43cacd7479e01c32a5026bb
     }
     const value = ipcRenderer.sendSync("git-Push", {
       repoRoot: localStorage.getItem("currentRepo"),
