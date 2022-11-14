@@ -5,6 +5,7 @@
 /.pnp
 .pnp.js
 jspm_packages/
+release_builds/
 
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
