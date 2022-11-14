@@ -35,7 +35,6 @@ function createWindow() {
   // console.log(currentRepo)
 }
 
-
 app.on("window-all-closed", function () {
   if (process.platform !== "darwin") app.quit();
 });
@@ -144,7 +143,6 @@ ipcMain.on("change branch", (event, route, selectedBranch) => {
   let branch = runCommand(
     // `cd "${route}" && git init && git checkout ${selectedBranch}`
     `git --git-dir=${route}\\.git checkout ${selectedBranch}`
-
   );
   console.log("change branch : ", branch);
   codes.push(branch);
@@ -176,7 +174,6 @@ ipcMain.on("delete localBranch", (event, route, delBranch) => {
   event.returnValue = codes;
 });
 
-
 ipcMain.on("delete remoteBranch", (event, route, delBranch) => {
   console.log("리모트 브랜치 삭제");
 
@@ -202,11 +199,12 @@ app.on("window-all-closed", function () {
 
 ipcMain.on("gitStatus", (event, curRepo) => {
   gitDir = `--git-dir=${currentRepo}\\.git`;
-  const data = (curRepo === null || curRepo === undefined) ? 
-    "" : 
-    runCommand(`cd ${curRepo} && git status -u -s`)
+  const data =
+    curRepo === null || curRepo === undefined
+      ? ""
+      : runCommand(`cd ${curRepo} && git status -u -s`);
   // const data = runCommand(`git status -u -s`);
-  console.log("data" +data)
+  console.log("data" + data);
   event.returnValue = data;
 });
 
@@ -397,13 +395,16 @@ ipcMain.on("call-committed-files", (event, root) => {
   event.returnValue = returnArr;
 });
 
-
-
-
-
-
-
 ipcMain.on("gitbash", (event, currentRepo) => {
-  child_process.exec(`cd ${currentRepo} && start "" "%PROGRAMFILES%\\Git\\bin\\sh.exe" --login`)
-})
+  child_process.exec(
+    `cd ${currentRepo} && start "" "%PROGRAMFILES%\\Git\\bin\\sh.exe" --login`
+  );
+});
 
+ipcMain.on("gitStash", (event, route) => {
+  console.log("gitStash");
+  console.log("cur", route);
+  const stash = runCommand(`git --git-dir=${route}\\.git stash`);
+  console.log("gitStash", stash);
+  event.returnValue = stash;
+});
