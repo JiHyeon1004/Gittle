@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
+import GitHelp from "./GitHelp";
 import GitPull from "./GitPull";
 import styles from "./Header.module.css";
 import TerminalButton from "./TerminalButton";
@@ -17,6 +18,7 @@ function Header() {
         <Link to="/merge/request">merge request</Link>
       </div>
       <TerminalButton />
+      <GitHelp/>
       <GitPull />
     </div>
   );
