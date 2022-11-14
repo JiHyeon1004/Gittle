@@ -108,10 +108,11 @@ export default function Detail() {
   };
   // 설명 저장하기
   const onDesChange = (e) => {
+    console.log(11111111111111);
     setDescription(e.target.value);
   };
 
-  async function sendReview(sha) {
+  async function saveReview(sha) {
     const octokit = new Octokit({
       auth: "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",
     });
@@ -153,6 +154,13 @@ export default function Detail() {
   }
 
   const goList = () => {
+    navigate("/merge/request");
+  };
+
+  const sendReview = async (sha) => {
+    console.log("클릭", sha);
+    const review = await saveReview(sha);
+    // event.stopPropagation();
     navigate("/merge/request");
   };
 
@@ -198,7 +206,13 @@ export default function Detail() {
               <div>개요</div>
             )}
           </div>
-          <div className={styles.tab} onClick={showHistory}>
+          <div
+            className={styles.tab}
+            onClick={(event) => {
+              event.stopPropagation();
+              showHistory();
+            }}
+          >
             {overview ? (
               <div>변경사항</div>
             ) : (
@@ -240,139 +254,157 @@ export default function Detail() {
               <div className={styles.bold}>commit 내역</div>
               <div>
                 {mergeCommitInfo.map((commit, index) => (
-                  <div
-                    className={styles.logbox}
-                    key={index}
-                    onClick={() => showDiff(commit.sha, index)}
-                  >
-                    <div className={styles.commitprofile}>
-                      <img
-                        src={commit.author.avatar_url}
-                        alt="avatar"
-                        className={styles.avatar}
-                      />
-                      <div className={styles.textbox}>
-                        <div className={styles.message}>
-                          {commit.commit.message}
-                        </div>
-                        <div className={styles.authortime}>
-                          <div className={styles.name}>
-                            {commit.commit.author.name}
+                  <div key={index}>
+                    <div className={styles.logbox}>
+                      <div
+                        className={styles.commitprofile}
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          showDiff(commit.sha, index);
+                        }}
+                      >
+                        <img
+                          src={commit.author.avatar_url}
+                          alt="avatar"
+                          className={styles.avatar}
+                        />
+                        <div className={styles.textbox}>
+                          <div className={styles.message}>
+                            {commit.commit.message}
                           </div>
-                          <div className={styles.time}>
-                            {commit.commit.author.date
-                              .replace("T", " ")
-                              .replace("Z", "")}
+                          <div className={styles.authortime}>
+                            <div className={styles.name}>
+                              {commit.commit.author.name}
+                            </div>
+                            <div className={styles.time}>
+                              {commit.commit.author.date
+                                .replace("T", " ")
+                                .replace("Z", "")}
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div>
-                      {files.length &&
-                      codeBefore.length &&
-                      codeAfter.length &&
-                      commit.sha === commitId ? (
-                        <div>
-                          <div className={styles.codearea}>
-                            <div className={styles.codebox}>
-                              {files.map((file, index) => (
-                                <div
-                                  key={index}
-                                  className={styles.file}
-                                  onClick={() => showCode(index)}
-                                >
-                                  {index === fileIdx ? (
-                                    <div className={styles.active}>
-                                      {file.filename}
-                                    </div>
-                                  ) : (
-                                    <div className={styles.filename}>
-                                      {file.filename}
-                                    </div>
-                                  )}
-                                </div>
-                              ))}
-                            </div>
-                            <div className={styles.code}>
-                              <div className={styles.codebefore}>
-                                <div className={styles.title}>변경 전</div>
-                                <div className={styles.box}>
-                                  {codeBefore[fileIdx].map((code, index) => (
-                                    <div key={index}>
-                                      {code[0] === "-" ? (
-                                        <div className={styles.minus}>
-                                          {code}
-                                        </div>
-                                      ) : (
-                                        <div className={styles.zero}>
-                                          {code}
-                                        </div>
-                                      )}
-                                    </div>
-                                  ))}
-                                </div>
-                              </div>
-                              <div className={styles.codeafter}>
-                                <div className={styles.title}>변경 후</div>
-                                <div className={styles.box}>
-                                  {codeAfter[fileIdx].map((code, index) => (
-                                    <div key={index}>
-                                      {code[0] === "+" ? (
-                                        <div className={styles.plus}>
-                                          {code}
-                                        </div>
-                                      ) : (
-                                        <div className={styles.zero}>
-                                          {code}
-                                        </div>
-                                      )}
-                                    </div>
-                                  ))}
-                                </div>
-                              </div>
-                            </div>
-                          </div>
+                      <div>
+                        {files.length &&
+                        codeBefore.length &&
+                        codeAfter.length &&
+                        commit.sha === commitId ? (
                           <div>
-                            <div>댓글</div>
-                            <div>
-                              <div>검토한 파일을 체크해주세요.</div>
-                              <div>
+                            <div className={styles.codearea}>
+                              <div className={styles.codebox}>
                                 {files.map((file, index) => (
-                                  <div key={index}>
-                                    <label>
-                                      <input
-                                        type="radio"
-                                        value={file.filename}
-                                        name={file.filename}
-                                        onChange={saveFile}
-                                      />
-                                      {file.filename}
-                                    </label>
+                                  <div
+                                    key={index}
+                                    className={styles.file}
+                                    onClick={(event) => {
+                                      event.stopPropagation();
+                                      showCode(index);
+                                    }}
+                                  >
+                                    {index === fileIdx ? (
+                                      <div className={styles.active}>
+                                        {file.filename}
+                                      </div>
+                                    ) : (
+                                      <div className={styles.filename}>
+                                        {file.filename}
+                                      </div>
+                                    )}
                                   </div>
                                 ))}
                               </div>
-                              <div>검토한 내용을 적어주세요.</div>
-                              <textarea
-                                name="description"
-                                cols="50"
-                                rows="3"
-                                onChange={onDesChange}
-                                value={description}
-                                className={styles.input}
-                              ></textarea>
+                              <div className={styles.code}>
+                                <div className={styles.codebefore}>
+                                  <div className={styles.title}>변경 전</div>
+                                  <div className={styles.box}>
+                                    {codeBefore[fileIdx].map((code, index) => (
+                                      <div key={index}>
+                                        {code[0] === "-" ? (
+                                          <div className={styles.minus}>
+                                            {code}
+                                          </div>
+                                        ) : (
+                                          <div className={styles.zero}>
+                                            {code}
+                                          </div>
+                                        )}
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                                <div className={styles.codeafter}>
+                                  <div className={styles.title}>변경 후</div>
+                                  <div className={styles.box}>
+                                    {codeAfter[fileIdx].map((code, index) => (
+                                      <div key={index}>
+                                        {code[0] === "+" ? (
+                                          <div className={styles.plus}>
+                                            {code}
+                                          </div>
+                                        ) : (
+                                          <div className={styles.zero}>
+                                            {code}
+                                          </div>
+                                        )}
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                              </div>
                             </div>
-                            <Button
-                              action={sendReview(commit.sha)}
-                              content={"작성하기"}
-                              style={{
-                                backgroundColor: "#6BCC78",
-                                border: "2px solid #6BCC78",
-                                fontWeight: "600",
-                              }}
-                            />
+                            <div className={styles.review}>
+                              <div className={styles.comment}>검토</div>
+                              <div className={styles.commentbox}>
+                                <div className={styles.des}>
+                                  해당 commit에서 검토한 파일을 체크해주세요.
+                                </div>
+                                <div>
+                                  {files.map((file, index) => (
+                                    <div key={index}>
+                                      <label className={styles.label}>
+                                        <input
+                                          type="radio"
+                                          value={file.filename}
+                                          name={file.filename}
+                                          onChange={saveFile}
+                                        />
+                                        <div className={styles.radio}>
+                                          {file.filename}
+                                        </div>
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className={styles.des}>
+                                  검토한 내용을 적어주세요.
+                                </div>
+                                <textarea
+                                  name="description"
+                                  cols="50"
+                                  rows="3"
+                                  onChange={onDesChange}
+                                  value={description}
+                                  className={styles.input}
+                                ></textarea>
+                              </div>
+                              <Button
+                                onClick={(event) => {
+                                  alert("1");
+                                  event.stopImmediatePropagation();
+                                  alert("2");
+                                  sendReview(commit.sha);
+                                }}
+                                content={"작성하기"}
+                                style={{
+                                  backgroundColor: "#6BCC78",
+                                  border: "2px solid #6BCC78",
+                                  fontWeight: "600",
+                                }}
+                              />
+                            </div>
                           </div>
-                        </div>
-                      ) : null}
+                        ) : null}
+                      </div>
                     </div>
                   </div>
                 ))}

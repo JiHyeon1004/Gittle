@@ -43,7 +43,7 @@ export default function Remote() {
     getBranches();
     // push된 branch 받아오기
     // setPush(pushed.branch);
-    setPush("test");
+    setPush("test9");
   }, []);
 
   const selectBranch = (branch) => {

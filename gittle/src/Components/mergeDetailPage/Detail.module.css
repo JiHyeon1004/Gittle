@@ -51,13 +51,13 @@
   padding: 0.7rem 0.5rem;
   /* border-radius: 1rem; */
   border-width: 0 0 0.1rem 0;
-  cursor: pointer;
 }
 
 .commitprofile {
   display: flex;
   flex-direction: row;
   align-items: center;
+  cursor: pointer;
 }
 
 .avatar {
@@ -271,6 +271,46 @@
   margin-bottom: 0.1rem;
 }
 
+.review {
+  margin-top: 1rem;
+}
+
+.comment {
+  font-weight: 600;
+  color: #6bcc78;
+}
+
+.commentbox {
+  margin-top: 0.5rem;
+  margin-left: 0.5rem;
+}
+
+.des {
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.label {
+  display: flex;
+  margin-bottom: 0.5rem;
+}
+
+.radio {
+  margin-left: 0.3rem;
+  font-size: 0.8rem;
+}
+
+.input {
+  width: 100%;
+  border-radius: 10px;
+  border-color: black;
+  border-width: 1.5px;
+  margin-bottom: 1rem;
+  outline-color: #6bcc78;
+  padding: 10px;
+}
+
 @font-face {
   font-family: "D2Coding";
   src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_three@1.0/D2Coding.woff")
@@ -278,4 +318,3 @@
   font-weight: normal;
   font-style: normal;
 }
-

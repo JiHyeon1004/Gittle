@@ -10,10 +10,10 @@ function DeleteBranch(branch) {
 
   const delBranch = branch.branch;
 
-  const remoteRepository = ipcRenderer.sendSync(
-    "remoteRepository",
-    localStorage.getItem("currentRepo")
-  )[0];
+  // const remoteRepository = ipcRenderer.sendSync(
+  //   "remoteRepository",
+  //   localStorage.getItem("currentRepo")
+  // )[0];
 
   const deleteLocalBranches = (delBranch) => {
     ipcRenderer.sendSync(
