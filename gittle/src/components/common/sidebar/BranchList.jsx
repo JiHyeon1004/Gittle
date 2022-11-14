@@ -1,86 +1,136 @@
-import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import React, { useState } from "react";
 import { useRecoilState } from "recoil";
-import { currentBranch, selectBranch, deleteBranch } from "../../../atoms";
+import { currentBranch, selectBranch } from "../../../atoms";
+import BranchManage from "./BranchManage";
+import DeleteBranch from "./DeleteBranch";
 import styles from "./BranchList.module.css";
 
 function BranchList() {
-  const location = useLocation();
   const [curBranch, setCurBranch] = useRecoilState(currentBranch);
   const [selectedBranch, setSelectedBranch] = useRecoilState(selectBranch);
-  const [delBranch, setDelBranch] = useRecoilState(deleteBranch);
-  const [listOpen, setListOpen] = useState(false);
+  const [localListOpen, setLocalListOpen] = useState(false);
+  const [remoteListOpen, setRemoteListOpen] = useState(false);
+
   const { ipcRenderer } = window.require("electron");
-  const branches = ipcRenderer.sendSync(
-    "branchList",
+  const localBranches = ipcRenderer.sendSync(
+    "localBranchList",
     localStorage.getItem("currentRepo")
   );
-  const branchList = branches[0]
+  const remoteBranches = ipcRenderer.sendSync(
+    "remoteBranchList",
+    localStorage.getItem("currentRepo")
+  );
+
+  const localBranchList = localBranches[0]
+    .split("\n")
+    .filter((branch) => branch)
+    .map((branch) => branch.trim())
+    .map((branch) => (branch.includes("*") ? curBranch : branch));
+
+  const remoteBranchList = remoteBranches[0]
     .split("\n")
     .filter((branch) => branch)
     .filter((branch) => !branch.includes("->"))
-    .map((branch) => branch.trim());
+    .map((branch) => branch.trim())
+    .map((branch) => (branch.includes("*") ? curBranch : branch));
+
+  // .map((branch) => branch.replace("origin/", ""));
+
+  const showLocalBranches = () => {
+    setLocalListOpen(!localListOpen);
+  };
+  const showRemoteBranches = () => {
+    setRemoteListOpen(!remoteListOpen);
+  };
+
+  setCurBranch(
+    ipcRenderer.sendSync("gitBranch", localStorage.getItem("currentRepo"))
+  );
 
   const changeBranch = (selectedBranch) => {
-    const gitBranch = ipcRenderer.sendSync(
+    ipcRenderer.sendSync(
       "change branch",
       localStorage.getItem("currentRepo"),
 
       selectedBranch
     );
-    // console.log(gitBranch);
-    // return gitBranch;
   };
-
-  //   const deleteBranch = (delBranch) => {
-  //     ipcRenderer.sendSync("delete branch", location.state.root, delBranch);
-  //   };
-
-  const showBranches = () => {
-    setListOpen(!listOpen);
-  };
-
-  branchList.map((branch) => {
-    if (branch.includes("*")) {
-      setCurBranch(branch.replace("*", "").trim());
-    }
-    return;
-  });
 
   const branchSelector = (e) => {
-    let innerText = e.target.innerText;
-    setSelectedBranch(innerText);
+    let branch = e.target.dataset.branch;
+    setSelectedBranch(branch);
+    console.log("select", selectedBranch);
   };
 
-  const branchChanger = () => {
+  const branchChanger = (e) => {
+    branchSelector(e);
     changeBranch(selectedBranch);
+    console.log("change", selectedBranch);
     setCurBranch(selectedBranch);
   };
 
-  useEffect(branchChanger, [selectedBranch]);
+  // useEffect(() => {
+  //   branchChanger();
+  //   branchDeletor();
+  // }, [selectedBranch]);
 
-  const delBranchSelector = (e) => {
-    let innerText = e.target.innerText;
-    setDelBranch(innerText);
-  };
-
-  //   const branchDeletor = () => {
-  //     deleteBranch(delBranch);
-  //   };
-  console.log("del", delBranch);
+  console.log("sel", selectedBranch, "cur", curBranch);
 
   //   useEffect(branchDeletor, [delBranch]);
 
   return (
-    <div>
-      <div onClick={showBranches}>{curBranch}</div>
-      <p>----------</p>
-      <div className={listOpen ? `${styles.openList}` : `${styles.list}`}>
-        {branchList.map((branch) => (
-          <p onDoubleClick={branchSelector} onClick={delBranchSelector}>
-            {branch.includes("*") ? `${curBranch}` : `${branch}`}
-          </p>
-        ))}
+    <div className={styles.container}>
+      <div className={styles.curBranch}>
+        현재 branch <p>{curBranch}</p>
+      </div>
+      <div>
+        <div className={styles.branchList}>
+          <div onClick={showLocalBranches}>local</div>
+          {localBranchList.map((branch, idx) => (
+            <div
+              className={
+                localListOpen ? `${styles.openList}` : `${styles.list}`
+              }
+            >
+              <div
+                key={idx}
+                className={
+                  selectedBranch && selectedBranch === branch
+                    ? `${styles.branch} ${styles.clicked}`
+                    : `${styles.branch}`
+                }
+                onDoubleClick={branchChanger}
+                data-branch={branch}
+              >
+                {branch}
+
+                <DeleteBranch branch={branch} />
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className={styles.branchList}>
+          <div onClick={showRemoteBranches}>remote</div>
+          {remoteBranchList.map((branch, idx) => (
+            <div
+              className={
+                remoteListOpen ? `${styles.openList}` : `${styles.list}`
+              }
+            >
+              <div
+                key={idx}
+                className={styles.branch}
+                onDoubleClick={branchChanger}
+                data-branch={branch}
+              >
+                {branch}
+
+                <DeleteBranch branch={branch} />
+              </div>
+            </div>
+          ))}
+        </div>
+        <BranchManage />
       </div>
     </div>
   );

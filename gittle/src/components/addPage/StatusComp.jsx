@@ -16,9 +16,10 @@ import shapes from "./GitDiff.module.css";
  */
 
 const { ipcRenderer } = window.require("electron");
-const location = localStorage.getItem("currentRepo");
+const currentRepo = localStorage.getItem("currentRepo");
+
 let gitStatus = ipcRenderer
-  .sendSync("gitStatus", location)
+  .sendSync("gitStatus", currentRepo)
   .split("\n")
   .filter((element) => element !== "");
 
@@ -281,7 +282,7 @@ function MultiTableDrag({ getFile, getDiff }) {
   const onDragEnd = (result) => {
     const destination = result.destination;
     const source = result.source;
-    let command = "";
+    let files = "";
     console.log(result.reason);
     // 같은 테이블 or 테이블 밖이면 초기화
     if (
@@ -293,19 +294,15 @@ function MultiTableDrag({ getFile, getDiff }) {
       return;
     }
     for (let i of selectedTaskIds) {
-      command +=
+      files +=
         " " +
         entitiesMock.tasks.find((element) => element.id === i.toString()).title;
     }
-    console.log(command);
+    console.log(files);
     if (destination.droppableId === "staged") {
-      command = "git add -v " + command;
-      ipcRenderer.send("gitAdd", command);
-      console.log(1);
+      ipcRenderer.send("gitAdd", files);
     } else if (destination.droppableId === "unstaged") {
-      command = "git reset HEAD " + command;
-      ipcRenderer.send("gitReset", command);
-      console.log(2);
+      ipcRenderer.send("gitReset", files);
     }
     const processed = mutliDragAwareReorder({
       entities,

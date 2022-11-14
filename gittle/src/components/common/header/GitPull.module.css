@@ -1,12 +1,25 @@
 .selectorContainer {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .selector {
-  display: flex;
-  align-items: center;
+  overflow: scroll;
+  /* display: flex;
+  align-items: center; */
+  max-height: 250px;
   padding: 10px;
+}
+
+.list {
+  display: none;
+}
+
+.openList {
+  display: "";
+  position: relative;
+  left: 0;
 }
 
 .buttonContainer {
