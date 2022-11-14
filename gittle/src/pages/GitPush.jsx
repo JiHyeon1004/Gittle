@@ -19,9 +19,6 @@ function PushPage(){
     const [pushData , setPushData] = useRecoilState(pushedData)
 
 
-    // useEffect(()=>{
-
-    // },[])
     const pushStart=()=>{ 
         if(selBranch===''){
             alert('브랜치를 선택해주세요!')

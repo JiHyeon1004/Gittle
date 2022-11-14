@@ -12,6 +12,10 @@ let runCommand = (command) => {
 
 let currentRepo;
 let gitDir;
+
+
+
+
 function createWindow() {
   const win = new BrowserWindow({
     width: 1024,
