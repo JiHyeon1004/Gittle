@@ -17,10 +17,13 @@ export default function Detail() {
   // 마지막 커밋 변경 파일 목록
   const [files, setFiles] = useState([]);
   const [commitId, setCommitId] = useState("");
-    // 마지막 커밋에서 모든 파일의 코드
+  // 마지막 커밋에서 모든 파일의 코드
   const [codeBefore, setCodeBefore] = useState([]);
   const [codeAfter, setCodeAfter] = useState([]);
   const [fileIdx, setFileIdx] = useState(0);
+  const [file, setFile] = useState("");
+  // 설명 저장하기
+  const [description, setDescription] = useState("");
 
   const navigate = useNavigate();
 
@@ -100,6 +103,35 @@ export default function Detail() {
     setFileIdx(index);
   };
 
+  const saveFile = (e) => {
+    setFile(e.target.value);
+  };
+  // 설명 저장하기
+  const onDesChange = (e) => {
+    setDescription(e.target.value);
+  };
+
+  async function sendReview(sha) {
+    const octokit = new Octokit({
+      auth: "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",
+    });
+
+    const review = await octokit.request(
+      "POST /repos/{owner}/{repo}/pulls/{pull_number}/comments",
+      {
+        owner: user,
+        repo: repo,
+        pull_number: mergeReqInfo.number,
+        body: description,
+        commit_id: sha,
+        path: file,
+        line: 1,
+      }
+    );
+
+    console.log(review);
+  }
+
   async function mergeAccept() {
     const octokit = new Octokit({
       auth: "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",
@@ -160,10 +192,18 @@ export default function Detail() {
       <div className={styles.overview}>
         <div className={styles.tabs}>
           <div className={styles.tab} onClick={showOverview}>
-            {overview ? <div className={styles.selected}>개요</div> : <div>개요</div>}
+            {overview ? (
+              <div className={styles.selected}>개요</div>
+            ) : (
+              <div>개요</div>
+            )}
           </div>
           <div className={styles.tab} onClick={showHistory}>
-          {overview ? <div>변경사항</div> : <div className={styles.selected}>변경사항</div>}
+            {overview ? (
+              <div>변경사항</div>
+            ) : (
+              <div className={styles.selected}>변경사항</div>
+            )}
           </div>
         </div>
         <div className={styles.tabbox}>
@@ -200,7 +240,11 @@ export default function Detail() {
               <div className={styles.bold}>commit 내역</div>
               <div>
                 {mergeCommitInfo.map((commit, index) => (
-                  <div className={styles.logbox} key={index} onClick={() => showDiff(commit.sha, index)}>
+                  <div
+                    className={styles.logbox}
+                    key={index}
+                    onClick={() => showDiff(commit.sha, index)}
+                  >
                     <div className={styles.commitprofile}>
                       <img
                         src={commit.author.avatar_url}
@@ -208,9 +252,13 @@ export default function Detail() {
                         className={styles.avatar}
                       />
                       <div className={styles.textbox}>
-                        <div className={styles.message}>{commit.commit.message}</div>
+                        <div className={styles.message}>
+                          {commit.commit.message}
+                        </div>
                         <div className={styles.authortime}>
-                          <div className={styles.name}>{commit.commit.author.name}</div>
+                          <div className={styles.name}>
+                            {commit.commit.author.name}
+                          </div>
                           <div className={styles.time}>
                             {commit.commit.author.date
                               .replace("T", " ")
@@ -218,58 +266,110 @@ export default function Detail() {
                           </div>
                         </div>
                       </div>
-
                     </div>
                     <div>
                       {files.length &&
                       codeBefore.length &&
                       codeAfter.length &&
                       commit.sha === commitId ? (
-                        <div className={styles.codearea}>
-                          <div className={styles.codebox}>
-                            {files.map((file, index) => (
-                              <div
-                                key={index}
-                                className={styles.file}
-                                onClick={() => showCode(index)}
-                              >
-                                {index === fileIdx ? (
-                                  <div className={styles.active}>{file.filename}</div>
-                                ) : (
-                                  <div className={styles.filename}>{file.filename}</div>
-                                )}
+                        <div>
+                          <div className={styles.codearea}>
+                            <div className={styles.codebox}>
+                              {files.map((file, index) => (
+                                <div
+                                  key={index}
+                                  className={styles.file}
+                                  onClick={() => showCode(index)}
+                                >
+                                  {index === fileIdx ? (
+                                    <div className={styles.active}>
+                                      {file.filename}
+                                    </div>
+                                  ) : (
+                                    <div className={styles.filename}>
+                                      {file.filename}
+                                    </div>
+                                  )}
+                                </div>
+                              ))}
+                            </div>
+                            <div className={styles.code}>
+                              <div className={styles.codebefore}>
+                                <div className={styles.title}>변경 전</div>
+                                <div className={styles.box}>
+                                  {codeBefore[fileIdx].map((code, index) => (
+                                    <div key={index}>
+                                      {code[0] === "-" ? (
+                                        <div className={styles.minus}>
+                                          {code}
+                                        </div>
+                                      ) : (
+                                        <div className={styles.zero}>
+                                          {code}
+                                        </div>
+                                      )}
+                                    </div>
+                                  ))}
+                                </div>
                               </div>
-                            ))}
+                              <div className={styles.codeafter}>
+                                <div className={styles.title}>변경 후</div>
+                                <div className={styles.box}>
+                                  {codeAfter[fileIdx].map((code, index) => (
+                                    <div key={index}>
+                                      {code[0] === "+" ? (
+                                        <div className={styles.plus}>
+                                          {code}
+                                        </div>
+                                      ) : (
+                                        <div className={styles.zero}>
+                                          {code}
+                                        </div>
+                                      )}
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
                           </div>
-                          <div className={styles.code}>
-                            <div className={styles.codebefore}>
-                              <div className={styles.title}>변경 전</div>
-                              <div className={styles.box}>
-                                {codeBefore[fileIdx].map((code, index) => (
+                          <div>
+                            <div>댓글</div>
+                            <div>
+                              <div>검토한 파일을 체크해주세요.</div>
+                              <div>
+                                {files.map((file, index) => (
                                   <div key={index}>
-                                    {code[0] === "-" ? (
-                                      <div className={styles.minus}>{code}</div>
-                                    ) : (
-                                      <div className={styles.zero}>{code}</div>
-                                    )}
+                                    <label>
+                                      <input
+                                        type="radio"
+                                        value={file.filename}
+                                        name={file.filename}
+                                        onChange={saveFile}
+                                      />
+                                      {file.filename}
+                                    </label>
                                   </div>
                                 ))}
                               </div>
+                              <div>검토한 내용을 적어주세요.</div>
+                              <textarea
+                                name="description"
+                                cols="50"
+                                rows="3"
+                                onChange={onDesChange}
+                                value={description}
+                                className={styles.input}
+                              ></textarea>
                             </div>
-                            <div className={styles.codeafter}>
-                              <div className={styles.title}>변경 후</div>
-                              <div className={styles.box}>
-                                {codeAfter[fileIdx].map((code, index) => (
-                                  <div key={index}>
-                                    {code[0] === "+" ? (
-                                      <div className={styles.plus}>{code}</div>
-                                    ) : (
-                                      <div className={styles.zero}>{code}</div>
-                                    )}
-                                  </div>
-                                ))}
-                              </div>
-                            </div>
+                            <Button
+                              action={sendReview(commit.sha)}
+                              content={"작성하기"}
+                              style={{
+                                backgroundColor: "#6BCC78",
+                                border: "2px solid #6BCC78",
+                                fontWeight: "600",
+                              }}
+                            />
                           </div>
                         </div>
                       ) : null}
