@@ -35,7 +35,6 @@ function createWindow() {
   // console.log(currentRepo)
 }
 
-
 app.on("window-all-closed", function () {
   if (process.platform !== "darwin") app.quit();
 });
@@ -144,7 +143,6 @@ ipcMain.on("change branch", (event, route, selectedBranch) => {
   let branch = runCommand(
     // `cd "${route}" && git init && git checkout ${selectedBranch}`
     `git --git-dir=${route}\\.git checkout ${selectedBranch}`
-
   );
   console.log("change branch : ", branch);
   codes.push(branch);
@@ -175,7 +173,6 @@ ipcMain.on("delete localBranch", (event, route, delBranch) => {
   codes.push(branch);
   event.returnValue = codes;
 });
-
 
 ipcMain.on("remoteRepository", (event, route) => {
   console.log("remote repository");
@@ -409,13 +406,8 @@ ipcMain.on("call-committed-files", (event, root) => {
   event.returnValue = returnArr;
 });
 
-
-
-
-
-
-
 ipcMain.on("gitbash", (event, currentRepo) => {
-  child_process.exec(`cd ${currentRepo} && start "" "%PROGRAMFILES%\\Git\\bin\\sh.exe" --login`)
-})
-
+  child_process.exec(
+    `cd ${currentRepo} && start "" "%PROGRAMFILES%\\Git\\bin\\sh.exe" --login`
+  );
+});
