@@ -53,3 +53,15 @@
     color: white;
     font-weight: bolder;
 }
+
+.mergeButton{
+    position: relative;
+    top:45%;
+    width:13vmin;
+    height: 13vmin;
+    border-radius: 50px;
+    cursor: pointer;
+    background-color: #c7df27;
+    color: white;
+    font-weight: bolder;
+}

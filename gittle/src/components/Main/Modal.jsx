@@ -115,6 +115,13 @@ function Modal(props){
             }}/>
         </div>
     )
+
+    //.git 폴더가 있는지 확인
+    const checkGitFolder=()=>{
+        const result = ipcRenderer.sendSync("check-git-folder",repoRoot)
+        console.log('check check : ',result)
+        return result
+    }
     
 
     //버튼 모음
@@ -130,6 +137,10 @@ function Modal(props){
                         navigate("/add",{state:{name:repoName,root:repoRoot}})
                     }else if(props.setModalOpen.number===1){
                         //폴더 바꿔주기
+                        if(checkGitFolder()==='false'){
+                            alert('git이 시작되지 않았습니다. 레포지토리를 생성하거나, 폴더 주소를 확인해주세요')
+                            return
+                        }
                         updateMyRepo('')
                         localStorage.setItem('currentRepo',repoRoot)
                         navigate("/add",{state:{name:repoName,root:repoRoot}})

@@ -13,6 +13,7 @@ function PushPage() {
   const navigate = useNavigate();
   const [committedList, setCommittedList] = useState([]);
   const [pushData, setPushData] = useRecoilState(pushedData);
+  const [isMerge, setIsMerge] = useState(false);
 
   // useEffect(()=>{
 
@@ -34,8 +35,9 @@ function PushPage() {
 
     const result = { branch: selBranch, commitList: committedList };
     setPushData(result);
+    setIsMerge(true);
     // console.log(value);
-    navigate("/merge/ready");
+    // navigate("/merge/ready");
   };
 
   return (
@@ -65,14 +67,22 @@ function PushPage() {
           />
         </div>
         <div className={styles.buttonArea}>
-          <button
+          {!isMerge && <button
             className={styles.button}
             onClick={() => {
               pushStart();
             }}
           >
             Push
-          </button>
+          </button>}
+          {isMerge && <button
+            className={styles.mergeButton}
+            onClick={() => {
+              navigate("/merge/ready");
+            }}
+          >
+            Merge
+          </button>}
         </div>
       </div>
     </>
