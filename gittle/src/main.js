@@ -205,6 +205,7 @@ ipcMain.on("gitStatus", (event, curRepo) => {
       : runCommand(`cd ${curRepo} && git status -u -s`);
   // const data = runCommand(`git status -u -s`);
   console.log("data" + data);
+
   event.returnValue = data;
 });
 
