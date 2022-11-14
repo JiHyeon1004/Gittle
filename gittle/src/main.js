@@ -383,15 +383,18 @@ ipcMain.on("gitPull", (event, route, targetBranch) => {
 ipcMain.on("git-Push", (event, payload) => {
   console.log("repo입니다 : ", payload.repoRoot);
   console.log("브랜치입니다 : ", payload.branch);
+  
   try{
     runCommand(`cd "${payload.repoRoot}" && git push origin ${payload.branch}`);
+    event.returnValue = "return";
   }catch(exception){
     console.log('오류가 발생했습니다.')
     console.log(exception)
+    event.returnValue = "error";
   }
 
   console.log("완료되었습니다");
-  event.returnValue = "return";
+  
 });
 
 ipcMain.on("call-committed-files", (event, root) => {
