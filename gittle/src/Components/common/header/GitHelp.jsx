@@ -17,7 +17,7 @@ const gitCommandExample =[
 function GitHelp() {
 
   return (
-      <Dropdown drop="up"  >
+      <Dropdown drop="down"  >
         <Dropdown.Toggle variant="secondary">
           git 명령어 도움말
         </Dropdown.Toggle>
