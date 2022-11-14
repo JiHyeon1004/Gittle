@@ -174,13 +174,6 @@ ipcMain.on("delete localBranch", (event, route, delBranch) => {
   event.returnValue = codes;
 });
 
-ipcMain.on("remoteRepository", (event, route) => {
-  console.log("remote repository");
-  const codes = [];
-  let remote = runCommand(`git --git-dir=${route}\\.git remote`);
-  codes.push(remote);
-  event.returnValue = codes;
-});
 
 ipcMain.on("delete remoteBranch", (event, route, delBranch) => {
   console.log("리모트 브랜치 삭제");
@@ -206,16 +199,12 @@ app.on("window-all-closed", function () {
 });
 
 ipcMain.on("gitStatus", (event, curRepo) => {
-  currentRepo = curRepo;
-  console.log("currentRepo : ", currentRepo);
   gitDir = `--git-dir=${currentRepo}\\.git`;
-  const a = curRepo === null ? "./" : curRepo;
-  const option =
-    currentRepo !== null || currentRepo !== undefined
-      ? `${gitDir} --work-tree=${currentRepo}`
-      : "";
-  const data = runCommand(`cd ${a} && git status -u -s`);
+  const data = (curRepo === null || curRepo === undefined) ? 
+    "" : 
+    runCommand(`cd ${curRepo} && git status -u -s`)
   // const data = runCommand(`git status -u -s`);
+  console.log("data" +data)
   event.returnValue = data;
 });
 
