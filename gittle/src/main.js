@@ -400,3 +400,11 @@ ipcMain.on("gitbash", (event, currentRepo) => {
     `cd ${currentRepo} && start "" "%PROGRAMFILES%\\Git\\bin\\sh.exe" --login`
   );
 });
+
+ipcMain.on("gitStash", (event, route) => {
+  console.log("gitStash");
+  console.log('cur',route);
+  const stash = runCommand(`git --git-dir=${route}\\.git stash`);
+  console.log("gitStash", stash);
+  event.returnValue = stash;
+});
