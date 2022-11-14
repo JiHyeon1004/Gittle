@@ -107,7 +107,6 @@ function MultiTableDrag({ getFile, getDiff }) {
   //이거가 테이블 헤더? 그거
   const tableColumns = [
     {
-      title: "파일 이름",
       dataIndex: "title",
     },
   ];
@@ -509,7 +508,7 @@ function MultiTableDrag({ getFile, getDiff }) {
             <Col key="Staged" span={12}>
               <div className="inner-col-staged">
                 <Row justify="space-between" align="middle">
-                  <h2>staged</h2>
+                  <h2>Staged</h2>
                 </Row>
                 <Table
                   dataSource={getTasks(entities, "staged")}
