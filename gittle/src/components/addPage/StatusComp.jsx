@@ -242,9 +242,7 @@ function MultiTableDrag({ getFile, getDiff }) {
               }${snapshot.isDragging ? ".row_dragging" : ""}`}
               // onClick={onClick}
               // onKeyDown={event => onKeyDown(event, provided, snapshot)}
-            >
-              <p>여기야 여기!</p>
-            </tr>
+            ></tr>
           );
         }}
       </Draggable>
