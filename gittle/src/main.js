@@ -177,14 +177,6 @@ ipcMain.on("delete localBranch", (event, route, delBranch) => {
 });
 
 
-ipcMain.on("remoteRepository", (event, route) => {
-  console.log("remote repository");
-  const codes = [];
-  let remote = runCommand(`git --git-dir=${route}\\.git remote`);
-  codes.push(remote);
-  event.returnValue = codes;
-});
-
 ipcMain.on("delete remoteBranch", (event, route, delBranch) => {
   console.log("리모트 브랜치 삭제");
 
