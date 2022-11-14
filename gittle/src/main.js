@@ -12,6 +12,10 @@ let runCommand = (command) => {
 
 let currentRepo;
 let gitDir;
+
+
+
+
 function createWindow() {
   const win = new BrowserWindow({
     width: 1024,
@@ -197,6 +201,17 @@ app.on("window-all-closed", function () {
   if (process.platform !== "darwin") app.quit();
 });
 
+// ipcMain.on("gitStatus", (event, curRepo) => {
+//   currentRepo = curRepo;
+//   console.log("currentRepo : ", currentRepo);
+//   gitDir = `--git-dir=${currentRepo}\\.git`;
+
+
+//   const option = currentRepo !== null || currentRepo !== undefined ? `${gitDir} --work-tree=${currentRepo}` : ''
+//   const data = runCommand(`cd ${currentRepo} && git status -u -s`);
+//   event.returnValue = data;
+// });
+
 ipcMain.on("gitStatus", (event, curRepo) => {
   gitDir = `--git-dir=${currentRepo}\\.git`;
   const data =
@@ -208,6 +223,8 @@ ipcMain.on("gitStatus", (event, curRepo) => {
 
   event.returnValue = data;
 });
+
+
 
 ipcMain.on("WriteCommitConvention", (event, payload) => {
   // if (!fs.existsSync(`${currentRepo}/commitConvention.json`)) {
@@ -369,10 +386,18 @@ ipcMain.on("gitPull", (event, route, targetBranch) => {
 ipcMain.on("git-Push", (event, payload) => {
   console.log("repo입니다 : ", payload.repoRoot);
   console.log("브랜치입니다 : ", payload.branch);
-  runCommand(`cd "${payload.repoRoot}" && git push origin ${payload.branch}`);
+  
+  try{
+    runCommand(`cd "${payload.repoRoot}" && git push origin ${payload.branch}`);
+    event.returnValue = "return";
+  }catch(exception){
+    console.log('오류가 발생했습니다.')
+    console.log(exception)
+    event.returnValue = "error";
+  }
 
   console.log("완료되었습니다");
-  event.returnValue = "return";
+  
 });
 
 ipcMain.on("call-committed-files", (event, root) => {

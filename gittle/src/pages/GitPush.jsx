@@ -27,9 +27,14 @@ function PushPage() {
       branch: selBranch,
     });
 
+    if(value==='error'){
+      alert("해당 브랜치에 푸시할 수 없습니다. 먼저 풀을 당겨서 원격 브랜치와 로컬 브린치의 버전을 맞춰주세요")
+      return;
+    }
+
     const result = { branch: selBranch, commitList: committedList };
     setPushData(result);
-    console.log(value);
+    // console.log(value);
     navigate("/merge/ready");
   };
 
