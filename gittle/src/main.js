@@ -214,16 +214,32 @@ app.on("window-all-closed", function () {
   if (process.platform !== "darwin") app.quit();
 });
 
+// ipcMain.on("gitStatus", (event, curRepo) => {
+//   currentRepo = curRepo;
+//   console.log("currentRepo : ", currentRepo);
+//   gitDir = `--git-dir=${currentRepo}\\.git`;
+
+
+//   const option = currentRepo !== null || currentRepo !== undefined ? `${gitDir} --work-tree=${currentRepo}` : ''
+//   const data = runCommand(`cd ${currentRepo} && git status -u -s`);
+//   event.returnValue = data;
+// });
+
 ipcMain.on("gitStatus", (event, curRepo) => {
   currentRepo = curRepo;
   console.log("currentRepo : ", currentRepo);
   gitDir = `--git-dir=${currentRepo}\\.git`;
-
-
-  const option = currentRepo !== null || currentRepo !== undefined ? `${gitDir} --work-tree=${currentRepo}` : ''
-  const data = runCommand(`cd ${currentRepo} && git status -u -s`);
+  const a = curRepo === null ? "./" : curRepo;
+  const option =
+    currentRepo !== null || currentRepo !== undefined
+      ? `${gitDir} --work-tree=${currentRepo}`
+      : "";
+  const data = runCommand(`cd ${a} && git status -u -s`);
+  // const data = runCommand(`git status -u -s`);
   event.returnValue = data;
 });
+
+
 
 ipcMain.on("WriteCommitConvention", (event, payload) => {
   // if (!fs.existsSync(`${currentRepo}/commitConvention.json`)) {
