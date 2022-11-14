@@ -120,21 +120,21 @@ ipcMain.on("call-my-repo", (event, arg) => {
 });
 
 ipcMain.on("localBranchList", (event, route) => {
-  console.log("로컬 브랜치 리스트");
+  // console.log("로컬 브랜치 리스트");
 
   const codes = [];
   let localBranchList = runCommand(`git --git-dir=${route}\\.git branch -l`);
-  console.log("localBranchList : ", localBranchList);
+  // console.log("localBranchList : ", localBranchList);
   codes.push(localBranchList);
   event.returnValue = codes;
 });
 
 ipcMain.on("remoteBranchList", (event, route) => {
-  console.log("리모트 브랜치 리스트");
+  // console.log("리모트 브랜치 리스트");
 
   const codes = [];
   let remoteBranchList = runCommand(`git --git-dir=${route}\\.git branch -r`);
-  console.log("remoteBranchList : ", remoteBranchList);
+  // console.log("remoteBranchList : ", remoteBranchList);
   codes.push(remoteBranchList);
   event.returnValue = codes;
 });
@@ -214,7 +214,7 @@ app.on("window-all-closed", function () {
 
 ipcMain.on("gitStatus", (event, curRepo) => {
   gitDir = `--git-dir=${currentRepo}\\.git`;
-  const data = (curRepo === null || curRepo === undefined) ? 
+  const data = (curRepo === null || curRepo === undefined) ?
     "" :
     runCommand(`cd ${curRepo} && git status -u -s`)
   // const data = runCommand(`git status -u -s`);
@@ -343,12 +343,12 @@ ipcMain.on("git-Branch", (event, payload) => {
 });
 
 ipcMain.on("gitBranch", (event, route) => {
-  console.log("현재 작업 중인 브랜치를 보여줘");
-  console.log(route);
+  // console.log("현재 작업 중인 브랜치를 보여줘");
+  // console.log(route);
   const branch = runCommand(
     `git --git-dir=${route}\\.git branch --show-current `
   );
-  console.log("브랜치이이이", branch);
+  // console.log("브랜치이이이", branch);
   event.returnValue = branch;
 });
 
@@ -383,18 +383,18 @@ ipcMain.on("gitPull", (event, route, targetBranch) => {
 ipcMain.on("git-Push", (event, payload) => {
   console.log("repo입니다 : ", payload.repoRoot);
   console.log("브랜치입니다 : ", payload.branch);
-  
-  try{
+
+  try {
     runCommand(`cd "${payload.repoRoot}" && git push origin ${payload.branch}`);
     event.returnValue = "return";
-  }catch(exception){
+  } catch (exception) {
     console.log('오류가 발생했습니다.')
     console.log(exception)
     event.returnValue = "error";
   }
 
   console.log("완료되었습니다");
-  
+
 });
 
 ipcMain.on("call-committed-files", (event, root) => {

@@ -15,12 +15,12 @@ import "./StatusStyle.css";
  */
 
 const { ipcRenderer } = window.require("electron");
-const currentRepo = localStorage.getItem("currentRepo");
+let currentRepo = "";
 
 let gitStatus = ipcRenderer
-  .sendSync("gitStatus", currentRepo)
-  .split("\n")
-  .filter((element) => element !== "");
+.sendSync("gitStatus", currentRepo)
+.split("\n")
+.filter((element) => element !== "");
 
 let unstagedIds = [];
 let stagedIds = [];
@@ -31,14 +31,15 @@ function statusData() {
   //반쪽짜리
   //둘다 있을때 안사람짐 초기화 한번 해야됨
   let count = 0;
+  console.log("여기를 확인해보세요")
   console.log(gitStatus);
   const statusValue = ["M", "T", "A", "R", "C", "U", "D"];
   for (let status of gitStatus) {
     let type = "staged";
     let statusArray = status
-      .trim()
-      .split(" ")
-      .filter((element) => element !== "");
+    .trim()
+    .split(" ")
+    .filter((element) => element !== "");
     if (statusValue.findIndex((e) => e === status[0]) !== -1) {
       stagedIds.push(count.toString());
       changedFile.push({
@@ -63,24 +64,23 @@ function statusData() {
     }
   }
 }
-statusData();
 console.log(stagedIds);
 console.log(unstagedIds);
 console.log(changedFile);
 //수정 예정
 // function stagedIds(){
-//   for (let i in gitStatus) {
-//     console.log(i)
-//     unstagedIds.push(i.toString())
-//   }
-//   if(state) return unstagedIds
-//   else return stagedIds
-// }
-let entitiesMock = {
-  tasks: changedFile,
-  columnIds: ["unstaged", "staged"],
-  columns: {
-    unstaged: {
+  //   for (let i in gitStatus) {
+    //     console.log(i)
+    //     unstagedIds.push(i.toString())
+    //   }
+    //   if(state) return unstagedIds
+    //   else return stagedIds
+    // }
+    let entitiesMock = {
+      tasks: changedFile,
+      columnIds: ["unstaged", "staged"],
+      columns: {
+        unstaged: {
       id: "unstaged",
       title: "Unstaged",
       taskIds: unstagedIds,
@@ -110,9 +110,13 @@ function MultiTableDrag({ getFile, getDiff }) {
       dataIndex: "title",
     },
   ];
-
+  
   // unstaged 목록에서 클릭한 파일들에 대해 git diff 실행하는 함수
   useEffect(() => {
+    currentRepo = localStorage.getItem("currentRepo");
+    statusData();
+    console.log("바로바로바로바로 커렌트레포 입니당")
+    console.log(currentRepo)
     const showDiff = (arr) => {
       const { ipcRenderer } = window.require("electron");
       // console.log(arr);
