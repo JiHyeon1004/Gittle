@@ -211,10 +211,9 @@ app.on("window-all-closed", function () {
 ipcMain.on("gitStatus", (event, curRepo) => {
   gitDir = `--git-dir=${currentRepo}\\.git`;
   const data = (curRepo === null || curRepo === undefined) ? 
-    "" : 
+    "" :
     runCommand(`cd ${curRepo} && git status -u -s`)
   // const data = runCommand(`git status -u -s`);
-  console.log("data" +data)
   event.returnValue = data;
 });
 
@@ -241,7 +240,7 @@ ipcMain.on("WriteCommitConvention", (event, payload) => {
   event.returnValue = commitRules;
 });
 
-ipcMain.on("ReadCommitConvention", (event) => {
+ipcMain.on("ReadCommitConvention", (event, currentRepo) => {
   if (!fs.existsSync(`${currentRepo}/commitConvention.json`)) {
     fs.appendFileSync(`${currentRepo}/commitConvention.json`, "[]");
   }
@@ -411,7 +410,8 @@ ipcMain.on("call-committed-files", (event, root) => {
 
 
 
-ipcMain.on("gitbash", (event, currentRepo) => {
+ipcMain.on("openTerminal", (event, currentRepo) => {
+  console.log("asdf")
   child_process.exec(`cd ${currentRepo} && start "" "%PROGRAMFILES%\\Git\\bin\\sh.exe" --login`)
 })
 
