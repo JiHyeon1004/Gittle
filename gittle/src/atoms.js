@@ -33,9 +33,9 @@ export const mergingBranch = atom({
 });
 
 export const pushedData = atom({
-  key:"pushedData",
-  default:{},
-})
+  key: "pushedData",
+  default: {},
+});
 export const mergeRequest = atom({
   key: "mergeRequest",
   default: {},
@@ -54,4 +54,9 @@ export const allRequests = atom({
 export const mergedRequests = atom({
   key: "mergedRequests",
   default: [],
+});
+
+export const reviewModal = atom({
+  key: "reviewModal",
+  default: false,
 });

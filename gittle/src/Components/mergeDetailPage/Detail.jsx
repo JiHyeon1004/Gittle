@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
-import { mergeRequest, mergeCommit } from "../../atoms";
+import { useRecoilValue, useRecoilState } from "recoil";
+import { mergeRequest, mergeCommit, reviewModal } from "../../atoms";
 import styles from "./Detail.module.css";
 import { faCircleArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "../common/Button";
+import Modal from "../common/Modal";
 import { Octokit } from "octokit";
 import { useNavigate } from "react-router-dom";
+import Review from "../mergeDetailPage/Review";
 
 export default function Detail() {
   const mergeReqInfo = useRecoilValue(mergeRequest);
@@ -24,6 +26,7 @@ export default function Detail() {
   const [file, setFile] = useState("");
   // 설명 저장하기
   const [description, setDescription] = useState("");
+  const [modalOpen, setModalOpen] = useRecoilState(reviewModal);
 
   const navigate = useNavigate();
 
@@ -104,12 +107,23 @@ export default function Detail() {
   };
 
   const saveFile = (e) => {
-    setFile(e.target.value);
+    // setFile(e.target.value);
+    return e.target.value;
   };
   // 설명 저장하기
   const onDesChange = (e) => {
     console.log(11111111111111);
-    setDescription(e.target.value);
+    // setDescription(e.target.value);
+    return e.target.value;
+  };
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    console.log("dddddd");
+    setModalOpen(false);
   };
 
   async function saveReview(sha) {
@@ -131,6 +145,7 @@ export default function Detail() {
     );
 
     console.log(review);
+    setDescription("");
   }
 
   async function mergeAccept() {
@@ -159,6 +174,10 @@ export default function Detail() {
 
   const sendReview = async (sha) => {
     console.log("클릭", sha);
+    const file = await setFile(document.getElementById("filename").value);
+    const des = await setDescription(
+      document.getElementById("description").value
+    );
     const review = await saveReview(sha);
     // event.stopPropagation();
     navigate("/merge/request");
@@ -352,7 +371,7 @@ export default function Detail() {
                                 </div>
                               </div>
                             </div>
-                            <div className={styles.review}>
+                            {/* <div className={styles.review}>
                               <div className={styles.comment}>검토</div>
                               <div className={styles.commentbox}>
                                 <div className={styles.des}>
@@ -388,7 +407,7 @@ export default function Detail() {
                                 ></textarea>
                               </div>
                               <Button
-                                onClick={(event) => {
+                                action={(event) => {
                                   alert("1");
                                   event.stopImmediatePropagation();
                                   alert("2");
@@ -401,7 +420,32 @@ export default function Detail() {
                                   fontWeight: "600",
                                 }}
                               />
-                            </div>
+                            </div> */}
+                            <Button
+                              action={openModal}
+                              content={"review 작성하기"}
+                              style={{
+                                backgroundColor: "#6BCC78",
+                                border: "2px solid #6BCC78",
+                                fontWeight: "600",
+                              }}
+                            />
+                            {/* <Modal
+                              open={modalOpen}
+                              content={
+                                <Review
+                                  files={files}
+                                  sha={commit.sha}
+                                  pull={mergeReqInfo.number}
+                                ></Review>
+                              }
+                            >
+                            </Modal> */}
+                            <Review
+                              files={files}
+                              sha={commit.sha}
+                              pull={mergeReqInfo.number}
+                            ></Review>
                           </div>
                         ) : null}
                       </div>
