@@ -40,6 +40,10 @@ function PushPage() {
     let arr = cmd.slice()
     
     SetCmd(arr.push(`git push origin ${selBranch}`))
+    console.log('세팅완료 : ')
+    for(let i=0;i<cmd.length;i++){
+      console.log(cmd[i])
+    }
     setIsMerge(true);
     // console.log(value);
     // navigate("/merge/ready");
