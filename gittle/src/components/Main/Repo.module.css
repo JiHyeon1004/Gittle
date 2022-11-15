@@ -1,12 +1,16 @@
-.routes{
-    margin-top: 2vh;
-    margin-left: 2vw;
-    font-size: 2vh;
-    cursor: pointer;
+.routes {
+  margin-top: 2vh;
+  margin-left: 2vw;
+  font-size: 2vh;
+}
+.routes:hover {
+  background-color: rgb(255, 143, 143, 0.8);
+  border-radius: 10px;
+  cursor: pointer;
 }
 
-
-.folder{
-    width: 1.8vw;
-    margin-right: 1vw;
+.folder {
+  width: 1.3vw;
+  margin-left: 0.5vw;
+  margin-right: 1vw;
 }

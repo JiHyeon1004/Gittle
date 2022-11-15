@@ -14,27 +14,22 @@ import "./StatusStyle.css";
  * file:///C:/Program%20Files/Git/mingw64/share/doc/git-doc/git-status.html
  */
 
-const { ipcRenderer } = window.require("electron");
-const currentRepo = localStorage.getItem("currentRepo");
-
-let gitStatus = ipcRenderer
-  .sendSync("gitStatus", currentRepo)
-  .split("\n")
-  .filter((element) => element !== "");
 
 let unstagedIds = [];
 let stagedIds = [];
 let changedFile = [];
 
-function statusData() {
+function statusData(gitStatus) {
   //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   //반쪽짜리
   //둘다 있을때 안사람짐 초기화 한번 해야됨
+  unstagedIds = [];
+  stagedIds = [];
+  changedFile = [];
   let count = 0;
-  console.log(gitStatus);
+
   const statusValue = ["M", "T", "A", "R", "C", "U", "D"];
   for (let status of gitStatus) {
-    let type = "staged";
     let statusArray = status
       .trim()
       .split(" ")
@@ -43,7 +38,7 @@ function statusData() {
       stagedIds.push(count.toString());
       changedFile.push({
         id: count.toString(),
-        type: type,
+        type: status[0],
         title: statusArray[1],
       });
       count++;
@@ -52,30 +47,17 @@ function statusData() {
       statusValue.findIndex((e) => e === status[1]) !== -1 ||
       status[1] === "?"
     ) {
-      type = "unstaged";
       unstagedIds.push(count.toString());
       changedFile.push({
         id: count.toString(),
-        type: type,
+        type: status[1],
         title: statusArray[1],
       });
       count++;
     }
   }
 }
-statusData();
-console.log(stagedIds);
-console.log(unstagedIds);
-console.log(changedFile);
-//수정 예정
-// function stagedIds(){
-//   for (let i in gitStatus) {
-//     console.log(i)
-//     unstagedIds.push(i.toString())
-//   }
-//   if(state) return unstagedIds
-//   else return stagedIds
-// }
+
 let entitiesMock = {
   tasks: changedFile,
   columnIds: ["unstaged", "staged"],
@@ -98,12 +80,24 @@ const COLUMN_ID_DONE = "staged";
 const PRIMARY_BUTTON_NUMBER = 0;
 
 function MultiTableDrag({ getFile, getDiff }) {
+  const { ipcRenderer } = window.require("electron");
+  const currentRepo = localStorage.getItem("currentRepo");
+  const gitStatus = ipcRenderer
+      .sendSync("gitStatus", currentRepo)
+      .split("\n")
+      .filter((element) => element !== "");
+  statusData(gitStatus);
+  entitiesMock.tasks = changedFile
+  entitiesMock.columns.unstaged.taskIds = unstagedIds
+  entitiesMock.columns.staged.taskIds = stagedIds
+
   const [entities, setEntities] = useState(entitiesMock);
   const [selectedTaskIds, setSelectedTaskIds] = useState([]);
   const [draggingTaskId, setDraggingTaskId] = useState(null);
   const [selectedTaskTitles, setSelectedTaskTitles] = useState([]);
   const [selectedCodes, setSelectedCodes] = useState([]);
   const [filenames, setFilename] = useState([]);
+  console.log(entities)
   //이거가 테이블 헤더? 그거
   const tableColumns = [
     {
@@ -114,7 +108,15 @@ function MultiTableDrag({ getFile, getDiff }) {
   // unstaged 목록에서 클릭한 파일들에 대해 git diff 실행하는 함수
   useEffect(() => {
     const showDiff = (arr) => {
-      const { ipcRenderer } = window.require("electron");
+      //임시로 deleted 된거 선택하면 alert 주고 배열에서 삭제함
+      let test = entities.tasks.filter((t)=>arr.find((e)=>e===t.title))
+      for (let i in test){
+        if(test[i].type==='D'){
+          alert(`${test[i].title} is deleted!!!!!!!!!!!!!`)
+          arr.splice(i,1)
+        }
+      }
+      console.log(arr)
       // console.log(arr);
       if (arr.length) {
         const gitDiff = ipcRenderer.sendSync("gitDiff", arr);
@@ -131,6 +133,19 @@ function MultiTableDrag({ getFile, getDiff }) {
     // console.log("sc", selectedCodes);
     // getDiff(selectedCodes);
   }, [selectedTaskTitles]);
+  
+  useEffect(() => {
+    const gitStatus = ipcRenderer
+      .sendSync("gitStatus", currentRepo)
+      .split("\n")
+      .filter((element) => element !== "");
+    statusData(gitStatus);
+    entitiesMock.tasks = changedFile
+    entitiesMock.columns.unstaged.taskIds = unstagedIds
+    entitiesMock.columns.staged.taskIds = stagedIds
+
+    setEntities(entitiesMock)
+  },[entities]);
 
   /**
    * On window click

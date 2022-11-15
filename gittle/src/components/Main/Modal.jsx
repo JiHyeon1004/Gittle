@@ -30,9 +30,6 @@ function Modal(props){
     }
 
     const updateMyRepo= (folder)=>{
-            console.log("repo update 시작")
-            // localStorage.setItem('currentRepo',JSON.stringify([{branch:repoName, root:repoRoot+"\\"+repoName}]))
-            // ipcRenderer.send('update-my-repo',{branch:repoName,root:repoRoot+"\\"+repoName})
             let arr;
             if(localStorage.getItem('repoList')===null || localStorage.getItem('repoList')===""){
                 arr=[]
@@ -40,8 +37,6 @@ function Modal(props){
                 arr =JSON.parse(localStorage.getItem('repoList'))
             }
 
-            
-            
             if(props.setModalOpen.number===0){
 
                 arr.unshift({branch:repoName,root:repoRoot+"\\"+repoName})
@@ -54,13 +49,6 @@ function Modal(props){
             if(arr.length===4){
                 arr.pop()
             }
-            console.log("arr 테스트 ")
-            for(let i=0;i<arr.length;i++){
-                console.log(arr[i])
-            }
-            console.log("arr테스트 끝")
-        
-
             localStorage.setItem('repoList',JSON.stringify(arr))
 
             setRepoRoot(repoName+"\\"+repoName)
@@ -69,7 +57,6 @@ function Modal(props){
     const cloneMyRepo=()=>{
         
         const folderName=ipcRenderer.sendSync('git-Clone',{repoRoot:repoRoot,cloneRoot:cloneRoot})
-        console.log("folderName : ",folderName)
         setFolderName(folderName)
         return folderName
     }
@@ -115,6 +102,12 @@ function Modal(props){
             }}/>
         </div>
     )
+
+    //.git 폴더가 있는지 확인
+    const checkGitFolder=()=>{
+        const result = ipcRenderer.sendSync("check-git-folder",repoRoot)
+        return result
+    }
     
 
     //버튼 모음
@@ -130,6 +123,10 @@ function Modal(props){
                         navigate("/add",{state:{name:repoName,root:repoRoot}})
                     }else if(props.setModalOpen.number===1){
                         //폴더 바꿔주기
+                        if(checkGitFolder()==='false'){
+                            alert('git이 시작되지 않았습니다. 레포지토리를 생성하거나, 폴더 주소를 확인해주세요')
+                            return
+                        }
                         updateMyRepo('')
                         localStorage.setItem('currentRepo',repoRoot)
                         navigate("/add",{state:{name:repoName,root:repoRoot}})
