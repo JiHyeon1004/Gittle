@@ -1,7 +1,7 @@
 import React from "react";
-import Dropdown from 'react-bootstrap/Dropdown';
+import Dropdown from "react-bootstrap/Dropdown";
 
-const gitCommandExample =[
+const gitCommandExample = [
   "git help : git 명령어에 대한 도움을 받을 수 있습니다.",
   "git init : git을 사용한 버전 관리를 시작할 수 있습니다.",
   "git add : 작업 사항을 staging area로 올릴 수 있습니다.",
@@ -16,24 +16,19 @@ const gitCommandExample =[
   ""
 ]
 function GitHelp() {
-
   return (
-      <Dropdown drop="down"  >
-        <Dropdown.Toggle variant="secondary">
-          git 명령어 도움말
-        </Dropdown.Toggle>
-        <Dropdown.Menu variant="dark" >
+    <Dropdown drop="down">
+      <Dropdown.Toggle variant="secondary">git 명령어 도움말</Dropdown.Toggle>
+      <Dropdown.Menu variant="dark">
         {(() => {
-            const arr = [];
-            for (let i of gitCommandExample) {
-                arr.push(
-                    <Dropdown.Item >{i}</Dropdown.Item>
-                );
-            }
-            return arr;
-          })()}
-        </Dropdown.Menu>
-      </Dropdown>
+          const arr = [];
+          for (let i of gitCommandExample) {
+            arr.push(<Dropdown.Item>{i}</Dropdown.Item>);
+          }
+          return arr;
+        })()}
+      </Dropdown.Menu>
+    </Dropdown>
   );
 }
 

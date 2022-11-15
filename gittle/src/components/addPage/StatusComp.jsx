@@ -108,6 +108,14 @@ function MultiTableDrag({ getFile, getDiff }) {
   // unstaged 목록에서 클릭한 파일들에 대해 git diff 실행하는 함수
   useEffect(() => {
     const showDiff = (arr) => {
+      //임시로 deleted 된거 선택하면 alert 주고 배열에서 삭제함
+      let test = entities.tasks.filter((t)=>arr.find((e)=>e===t.title))
+      for (let i in test){
+        if(test[i].type==='D'){
+          alert(`${test[i].title} is deleted!!!!!!!!!!!!!`)
+          arr.splice(i,1)
+        }
+      }
       console.log(arr)
       // console.log(arr);
       if (arr.length) {
@@ -467,9 +475,7 @@ function MultiTableDrag({ getFile, getDiff }) {
   return (
     <>
       <Card className={`c-multi-drag-table`}>
-        <div>selectedTaskIds: {JSON.stringify(selectedTaskIds)}</div>
-        <div>selectedTaskTitles: {JSON.stringify(selectedTaskTitles)}</div>
-        <br />
+        <br/>
         <DragDropContext
           onBeforeCapture={onBeforeCapture}
           onDragEnd={onDragEnd}
@@ -478,7 +484,7 @@ function MultiTableDrag({ getFile, getDiff }) {
             <Col key="unstaged" span={12}>
               <div className="inner-col-unstaged">
                 <Row>
-                  <h2>Unstaged</h2>
+                  <h5>Unstaged</h5>
                 </Row>
                 <Table
                   dataSource={getTasks(entities, "unstaged")}
@@ -515,7 +521,7 @@ function MultiTableDrag({ getFile, getDiff }) {
             <Col key="Staged" span={12}>
               <div className="inner-col-staged">
                 <Row justify="space-between" align="middle">
-                  <h2>Staged</h2>
+                  <h5>Staged</h5>
                 </Row>
                 <Table
                   dataSource={getTasks(entities, "staged")}
@@ -550,8 +556,6 @@ function MultiTableDrag({ getFile, getDiff }) {
               </div>
             </Col>
           </Row>
-          <br />
-          <i>Multi select: Ctrl/Shift + Left Click</i>
         </DragDropContext>
       </Card>
     </>

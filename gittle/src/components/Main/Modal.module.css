@@ -25,18 +25,27 @@
   bottom: 0;
 }
 
-.button {
+.positiveButton {
   width: 11vw;
   height: 5vh;
-  border: 1px solid black;
+  border: 1px solid #6bcc78;
   background-color: #6bcc78;
   border-radius: 5px;
-  font-weight: bolder;
   color: white;
   font-size: 2.5vh;
-  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'  width='40' height='48' viewport='0 0 100 100' style='fill:black;font-size:24px;'><text y='50%'>🍎</text></svg>")
-      16 0,
-    auto;
+}
+.negativeButton {
+  width: 11vw;
+  height: 5vh;
+  border: 1px solid #7b7b7b;
+  background-color: #ffffff;
+  border-radius: 5px;
+  color: #7b7b7b;
+  font-size: 2.5vh;
+}
+
+.button:hover {
+  cursor: pointer;
 }
 
 .inputBlock {
@@ -51,6 +60,7 @@
 .noButton {
   width: 86%;
   height: 4vh;
+  border-radius: 5px;
 }
 
 .haveButton {
@@ -65,9 +75,7 @@
   height: 6vh;
   width: 4vw;
   font-size: 2.3vh;
-  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'  width='40' height='48' viewport='0 0 100 100' style='fill:black;font-size:24px;'><text y='50%'>🍎</text></svg>")
-      16 0,
-    auto;
+  cursor: pointer;
 }
 
 .folderImg {
@@ -79,11 +87,21 @@
   width: 35vw;
   height: 4vh;
   margin-right: 1vw;
+  border-radius: 5px;
+  
 }
 
 .pathButton {
-  height: 5vh;
-  background-color: #ecec27ab;
-  border: 1px solid black;
+  height: 4vh;
+  width: 5vh;
+  background-color: #ffffff;
+  border: 1px solid #6bcc78;
   border-radius: 5px;
+}
+.directoryImage{
+
+  width: 3vh;
+  height: 3vh;
+  bottom: 0.4vh;
+  position: relative;
 }

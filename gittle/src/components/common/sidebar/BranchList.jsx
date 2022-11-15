@@ -14,7 +14,7 @@ function BranchList() {
   const [selectedBranch, setSelectedBranch] = useRecoilState(selectBranch);
   const [localListOpen, setLocalListOpen] = useState(false);
   const [remoteListOpen, setRemoteListOpen] = useState(false);
-  const [stashModalOpen, setStashModalOpen] = useState(false);
+  const [errorModalOpen, setErrorModalOpen] = useState(false);
 
   const { ipcRenderer } = window.require("electron");
   const currentRepo = localStorage.getItem("currentRepo");
@@ -38,7 +38,7 @@ function BranchList() {
   // .map((branch) => branch.replace("origin/", ""));
   let gitStatus = ipcRenderer.sendSync("gitStatus", currentRepo);
 
-  let status = gitStatus.length > 1 ? true : false;
+  let status = gitStatus.length > 0 ? true : false;
 
   const showLocalBranches = () => {
     setLocalListOpen(!localListOpen);
@@ -50,36 +50,37 @@ function BranchList() {
   setCurBranch(ipcRenderer.sendSync("gitBranch", currentRepo));
 
   const changeBranch = (selectedBranch) => {
-    ipcRenderer.sendSync("change branch", currentRepo, selectedBranch);
+    return ipcRenderer.sendSync("change branch", currentRepo, selectedBranch);
   };
 
   const branchSelector = (e) => {
     let branch = e.target.dataset.branch;
     setSelectedBranch(branch);
-    console.log("select", selectedBranch);
-
-    console.log("statussss", branch, gitStatus, status);
   };
 
-  const branchChanger = (e) => {
+  const branchChanger = () => {
     // branchSelector(e);
-    status ? setStashModalOpen(true) : changeBranch(selectedBranch);
-    console.log("change", selectedBranch);
+    changeBranch(selectedBranch) === "error"
+      ? setErrorModalOpen(true)
+      : changeBranch(selectedBranch);
+
+    // status ? setStashModalOpen(true) : changeBranch(selectedBranch);
+    // console.log("change", changeBranch(selectedBranch));
     setCurBranch(selectedBranch);
   };
 
   const goCommit = () => {
-    setStashModalOpen(false);
+    setErrorModalOpen(false);
     navigate("/add");
   };
-  const gitStash = () => {
-    ipcRenderer.sendSync("gitStash", currentRepo);
-  };
+  // const gitStash = () => {
+  //   ipcRenderer.sendSync("gitStash", currentRepo);
+  // };
 
-  const goStash = () => {
-    gitStash();
-    setStashModalOpen(false);
-  };
+  // const goStash = () => {
+  //   gitStash();
+  //   setErrorModalOpen(false);
+  // };
 
   // useEffect(() => {
   //   branchChanger();
@@ -144,21 +145,16 @@ function BranchList() {
         <BranchManage />
       </div>
       <Modal
-        open={stashModalOpen}
+        open={errorModalOpen}
         content={
           <>
-            <p>변경사항이 있습니다</p>
-            <p>commit하거나 임시저장해주세요</p>
+            <p>변경사항이 있으면 branch 이동을 할 수 없습니다.</p>
+            <p>먼저 commit해주세요</p>
             <div className={styles.buttonContainer}>
               <Button
                 action={goCommit}
                 content={"commit하러 가기"}
                 style={{ backgroundColor: "#6BCC78" }}
-              />
-              <Button
-                action={goStash}
-                content={"stash"}
-                style={{ border: "1px solid #7B7B7B" }}
               />
             </div>
           </>

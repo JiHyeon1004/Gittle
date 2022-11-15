@@ -1,0 +1,31 @@
+.localBox{
+
+    border-radius: 10px;
+    background-color: rgb(0, 172, 0);
+    opacity: 50%;
+    width: 9vw;
+    height: 4.5vh;
+    text-align: center;
+    font-size: 2.5vh;
+    font-weight: bold;
+    color: white;
+    position: relative;
+    top: 1.5vh;
+    left: 22vw;
+}
+
+.remoteBox{
+
+    border-radius: 10px;
+    background-color: rgb(244, 5, 5);
+    opacity: 50%;
+    width: 9vw;
+    height: 4.5vh;
+    text-align: center;
+    font-size: 2.5vh;
+    font-weight: bold;
+    color: white;
+    position: relative;
+    top: 1.5vh;
+    left: 2vw;
+}

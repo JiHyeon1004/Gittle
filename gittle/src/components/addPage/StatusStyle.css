@@ -2,6 +2,9 @@
   padding : 0px;
   z-index: 1;
 }
+.ant-card {
+  border: 0px;
+}
 .c-multi-drag-table.is-dragging table {
   border: 1px solid #4285f4;
 }

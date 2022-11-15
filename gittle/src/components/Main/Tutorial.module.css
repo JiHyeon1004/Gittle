@@ -1,13 +1,18 @@
 .tutorial {
-  display: flex;
-  justify-content: center;
   color: #4d96ff;
-  font-size: 2.4vh;
+  position: absolute;
+  width: 260px;
+  text-align: center;
+  left: 50%;
+  top: 42%;
+  transform: translate(-50%, -50%);
+  font-size: 2.1vh;
   font-weight: bold;
 }
 
 .tutorial:hover {
-  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'  width='40' height='48' viewport='0 0 100 100' style='fill:black;font-size:24px;'><text y='50%'>🍎</text></svg>")
-      16 0,
-    auto;
+  background-color: #4d96ff;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
 }
