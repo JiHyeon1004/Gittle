@@ -3,15 +3,17 @@ import Button from "../Button";
 import Modal from "../Modal";
 import { useRecoilState } from "recoil";
 import { currentBranch } from "../../../atoms";
-// import BranchSelector from "../BranchSelector";
+import { useNavigate } from "react-router-dom";
 import styles from "./GitPull.module.css";
-import { pull } from "lodash";
 
-function GitPull(props) {
+function GitPull() {
+  const navigate = useNavigate();
   const [curBranch, setCurBranch] = useRecoilState(currentBranch);
   const [modalOpen, setModalOpen] = useState(false);
   const [listOpen, setListOpen] = useState(false);
   const [targetBranch, setTargetBranch] = useState("");
+  const [errorModalOpen, setErrorModalOpen] = useState(false);
+
   const { ipcRenderer } = window.require("electron");
   const pullRequest = (targetBranch) => {
     const pull = ipcRenderer.sendSync(
@@ -47,11 +49,18 @@ function GitPull(props) {
     let branch = e.target.firstChild.data;
     setTargetBranch(branch);
   };
-  console.log(targetBranch);
+  // console.log(targetBranch);
   const pullData = () => {
-    pullRequest(targetBranch);
-    console.log("target", pullRequest(targetBranch));
+    pullRequest(targetBranch) === "error"
+      ? setErrorModalOpen(true)
+      : pullRequest(targetBranch);
+
     closeModal();
+  };
+
+  const goCommit = () => {
+    setErrorModalOpen(false);
+    navigate("/add");
   };
 
   return (
@@ -94,6 +103,22 @@ function GitPull(props) {
                 action={closeModal}
                 content={"취소"}
                 style={{ border: "1px solid #7B7B7B" }}
+              />
+            </div>
+          </>
+        }
+      ></Modal>
+      <Modal
+        open={errorModalOpen}
+        content={
+          <>
+            <p>변경사항이 있으면 pull 받을 수 없습니다.</p>
+            <p>먼저 commit해주세요</p>
+            <div className={styles.buttonContainer}>
+              <Button
+                action={goCommit}
+                content={"commit하러 가기"}
+                style={{ backgroundColor: "#6BCC78" }}
               />
             </div>
           </>
