@@ -16,8 +16,7 @@ function PushPage() {
   const [committedList, setCommittedList] = useState([]);
   const [pushData, setPushData] = useRecoilState(pushedData);
   const [isMerge, setIsMerge] = useState(false);
-  // const [cmd , SetCmd] =useState([])
-  let cmd=[]
+  const [cmd , SetCmd] =useState([])
   // useEffect(()=>{
 
   // },[])
@@ -38,7 +37,9 @@ function PushPage() {
 
     const result = { branch: selBranch, commitList: committedList };
     setPushData(result);
-    cmd.push(`git push origin ${selBranch}`)
+    let arr = cmd.slice()
+    
+    SetCmd(arr.push(`git push origin ${selBranch}`))
     setIsMerge(true);
     // console.log(value);
     // navigate("/merge/ready");
