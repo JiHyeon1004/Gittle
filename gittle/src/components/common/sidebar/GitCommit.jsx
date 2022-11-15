@@ -56,7 +56,8 @@ function GitCommit() {
       alert("Commit 설명을 작성해주세요")
       return;
     }
-    const commitMessage = commitType + " : " + commitDescription
+    // const commitMessage = commitType + " : " + commitDescription
+    const commitMessage = commitType + commitDescription
     const data = ipcRenderer.sendSync("gitCommit",commitMessage)
     setCommitDescription('')
     setCommitType('')

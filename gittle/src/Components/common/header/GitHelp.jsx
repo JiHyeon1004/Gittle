@@ -11,9 +11,10 @@ const gitCommandExample = [
   "git push : 지역 저장소의 내용을 원격 저장소에 저장합니다.",
   "git fetch : 원격 저장소의 변경 내역을 불러와 지역 저장소에서 확인할 수 있습니다.",
   "git merge : 원격 저장소의 변경 사항을 지역 저장소에 병합합니다.",
-  "git pull : fetch와 merge 기능을 합친 기능입니다.(권장하지않음)",
-  "",
-];
+  // "git pull : fetch와 merge 기능을 합친 기능입니다.(권장하지않음)",
+  "git pull : fetch와 merge 기능을 합친 기능입니다.",
+  ""
+]
 function GitHelp() {
   return (
     <Dropdown drop="down">
