@@ -2,6 +2,8 @@ import React from "react";
 import styles from "./Command.module.css"
 
 function Command(props){
+
+    let cmd=props.cmd
     console.log('시작')
     console.log("결과2 : ",props.cmd)
     console.log("뿌에에에엥 : ",props.cmd[0])
@@ -14,12 +16,12 @@ function Command(props){
     return(
         <>
             <div className={styles.cmdBox}>
-                {arr.map((item, idx)=>(
-                    <div key={idx} className={styles.cmd}>
-                        {item}
-                    </div>
-                ))}
-            </div>
+            {cmd.split('\n').map((item, idx)=>(
+                <div key={idx} className={styles.cmd}>
+                    {item}
+                </div>
+            ))}
+        </div>
         </>
         
     )

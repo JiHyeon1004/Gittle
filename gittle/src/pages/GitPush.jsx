@@ -96,13 +96,14 @@ function PushPage() {
             Merge
           </button>}
         </div>
-        <div className={styles.cmdBox}>
+        {/* <div className={styles.cmdBox}>
             {cmd.split('\n').map((item, idx)=>(
                 <div key={idx} className={styles.cmd}>
                     {item}
                 </div>
             ))}
-        </div>
+        </div> */}
+        <Command cmd={cmd}></Command>
       </div>
     </>
   );
