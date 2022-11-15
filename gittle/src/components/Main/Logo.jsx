@@ -4,7 +4,7 @@ function logo() {
   return (
     <div className={styles.logo}>
       <img
-        className="gittle_logo"
+        class="gittle_logo"
         src={process.env.PUBLIC_URL + "/gittle_logo.png"}
         alt="gittle-Logo"
       />

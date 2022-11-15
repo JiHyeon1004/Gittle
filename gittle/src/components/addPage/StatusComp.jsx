@@ -14,25 +14,21 @@ import "./StatusStyle.css";
  * file:///C:/Program%20Files/Git/mingw64/share/doc/git-doc/git-status.html
  */
 
-const { ipcRenderer } = window.require("electron");
-let currentRepo = "";
-
-let gitStatus = ipcRenderer
-.sendSync("gitStatus", currentRepo)
-.split("\n")
-.filter((element) => element !== "");
 
 let unstagedIds = [];
 let stagedIds = [];
 let changedFile = [];
 
-function statusData() {
+function statusData(gitStatus) {
   //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   //반쪽짜리
   //둘다 있을때 안사람짐 초기화 한번 해야됨
+  unstagedIds = [];
+  stagedIds = [];
+  changedFile = [];
   let count = 0;
-  console.log("여기를 확인해보세요")
-  console.log(gitStatus);
+
+
   const statusValue = ["M", "T", "A", "R", "C", "U", "D"];
   for (let status of gitStatus) {
     let type = "staged";
@@ -64,23 +60,12 @@ function statusData() {
     }
   }
 }
-console.log(stagedIds);
-console.log(unstagedIds);
-console.log(changedFile);
-//수정 예정
-// function stagedIds(){
-  //   for (let i in gitStatus) {
-    //     console.log(i)
-    //     unstagedIds.push(i.toString())
-    //   }
-    //   if(state) return unstagedIds
-    //   else return stagedIds
-    // }
-    let entitiesMock = {
-      tasks: changedFile,
-      columnIds: ["unstaged", "staged"],
-      columns: {
-        unstaged: {
+
+let entitiesMock = {
+  tasks: changedFile,
+  columnIds: ["unstaged", "staged"],
+  columns: {
+    unstaged: {
       id: "unstaged",
       title: "Unstaged",
       taskIds: unstagedIds,
@@ -98,12 +83,24 @@ const COLUMN_ID_DONE = "staged";
 const PRIMARY_BUTTON_NUMBER = 0;
 
 function MultiTableDrag({ getFile, getDiff }) {
+  const { ipcRenderer } = window.require("electron");
+  const currentRepo = localStorage.getItem("currentRepo");
+  const gitStatus = ipcRenderer
+      .sendSync("gitStatus", currentRepo)
+      .split("\n")
+      .filter((element) => element !== "");
+  statusData(gitStatus);
+  entitiesMock.tasks = changedFile
+  entitiesMock.columns.unstaged.taskIds = unstagedIds
+  entitiesMock.columns.staged.taskIds = stagedIds
+
   const [entities, setEntities] = useState(entitiesMock);
   const [selectedTaskIds, setSelectedTaskIds] = useState([]);
   const [draggingTaskId, setDraggingTaskId] = useState(null);
   const [selectedTaskTitles, setSelectedTaskTitles] = useState([]);
   const [selectedCodes, setSelectedCodes] = useState([]);
   const [filenames, setFilename] = useState([]);
+  
   //이거가 테이블 헤더? 그거
   const tableColumns = [
     {
@@ -118,7 +115,6 @@ function MultiTableDrag({ getFile, getDiff }) {
     console.log("바로바로바로바로 커렌트레포 입니당")
     console.log(currentRepo)
     const showDiff = (arr) => {
-      const { ipcRenderer } = window.require("electron");
       // console.log(arr);
       if (arr.length) {
         const gitDiff = ipcRenderer.sendSync("gitDiff", arr);
@@ -135,6 +131,19 @@ function MultiTableDrag({ getFile, getDiff }) {
     // console.log("sc", selectedCodes);
     // getDiff(selectedCodes);
   }, [selectedTaskTitles]);
+  
+  useEffect(() => {
+    const gitStatus = ipcRenderer
+      .sendSync("gitStatus", currentRepo)
+      .split("\n")
+      .filter((element) => element !== "");
+    statusData(gitStatus);
+    entitiesMock.tasks = changedFile
+    entitiesMock.columns.unstaged.taskIds = unstagedIds
+    entitiesMock.columns.staged.taskIds = stagedIds
+
+    setEntities(entitiesMock)
+  },[entities]);
 
   /**
    * On window click

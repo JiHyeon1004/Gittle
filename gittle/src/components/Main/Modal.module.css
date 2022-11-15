@@ -1,85 +1,89 @@
-.modal{
-    z-index: 999;
-    position: absolute;
-    top: 25%;
-    left: 25%;
-    width: 50vw;
-    height: 40vh;
-    border: 2px solid black;
-    background-color: white;
-    border-radius: 10px;
+.modal {
+  z-index: 999;
+  position: absolute;
+  top: 25%;
+  left: 25%;
+  width: 50vw;
+  height: 40vh;
+  border: 2px solid black;
+  background-color: white;
+  border-radius: 10px;
 }
 
-.nameTag{
-    margin-top: 1vh;
-    text-align: center;
-    font-size: 3.5vh;
+.nameTag {
+  margin-top: 1vh;
+  text-align: center;
+  font-size: 3.5vh;
 }
 
-.buttonLayer{
-    margin-bottom: 1vh;
-    display: flex;
-    justify-content: space-evenly;
-    width: 100%;
-    position: absolute;
-    bottom: 0;
+.buttonLayer {
+  margin-bottom: 1vh;
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
 }
 
-.button{
-    width: 11vw;
-    height: 5vh;
-    border: 1px solid black;
-    background-color: #6BCC78 ;
-    border-radius: 5px;
-    font-weight: bolder;
-    color:white;
-    font-size: 2.5vh;
-    cursor: pointer;
+.button {
+  width: 11vw;
+  height: 5vh;
+  border: 1px solid black;
+  background-color: #6bcc78;
+  border-radius: 5px;
+  font-weight: bolder;
+  color: white;
+  font-size: 2.5vh;
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'  width='40' height='48' viewport='0 0 100 100' style='fill:black;font-size:24px;'><text y='50%'>🍎</text></svg>")
+      16 0,
+    auto;
 }
 
-.inputBlock{
-    margin-left: 3vw;
-    margin-top:  3vh;
+.inputBlock {
+  margin-left: 3vw;
+  margin-top: 3vh;
 }
 
-.names{
-    font-size:2.5vh
+.names {
+  font-size: 2.5vh;
 }
 
-.noButton{
-    width:86%;
-    height:4vh;
+.noButton {
+  width: 86%;
+  height: 4vh;
 }
 
-.haveButton{
-    width:74%;
-    height:4vh;
-    margin-right: 2%;
+.haveButton {
+  width: 74%;
+  height: 4vh;
+  margin-right: 2%;
 }
 
-.folderButton{
-    background-color: white;
-    border: none;
-    height: 6vh;
-    width:  4vw;
-    font-size: 2.3vh;
-    cursor: pointer;
+.folderButton {
+  background-color: white;
+  border: none;
+  height: 6vh;
+  width: 4vw;
+  font-size: 2.3vh;
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'  width='40' height='48' viewport='0 0 100 100' style='fill:black;font-size:24px;'><text y='50%'>🍎</text></svg>")
+      16 0,
+    auto;
 }
 
-.folderImg{
-    height: 3vh;
-    width:  2vw;
+.folderImg {
+  height: 3vh;
+  width: 2vw;
 }
 
-.localPath{
-    width: 35vw;
-    height: 4vh;
-    margin-right: 1vw;
+.localPath {
+  width: 35vw;
+  height: 4vh;
+  margin-right: 1vw;
 }
 
-.pathButton{
-    height: 5vh;
-    background-color: #ecec27ab;
-    border: 1px solid black;
-    border-radius: 5px;
+.pathButton {
+  height: 5vh;
+  background-color: #ecec27ab;
+  border: 1px solid black;
+  border-radius: 5px;
 }
