@@ -381,18 +381,18 @@ ipcMain.on("git-Branch", (event, payload) => {
 });
 
 ipcMain.on("gitBranch", (event, route) => {
-  console.log("현재 작업 중인 브랜치를 보여줘");
-  console.log(route);
+  // console.log("현재 작업 중인 브랜치를 보여줘");
+  //console.log(route);
   let branch = runCommand(
     `git --git-dir=${route}\\.git branch --show-current `
   );
-  console.log("브랜치이이이", branch);
+  //console.log("브랜치이이이", branch);
   event.returnValue = branch;
 });
 
 ipcMain.on("gitCommit", (event, commitMessage) => {
   let data = runCommand(`git -C ${currentRepo} commit -m ${commitMessage}`);
-  console.log(data);
+  //console.log(data);
   event.returnValue = data;
 });
 
