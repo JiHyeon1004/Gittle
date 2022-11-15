@@ -5,7 +5,6 @@ import styles from "./Detail.module.css";
 import { faCircleArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "../common/Button";
-import Modal from "../common/Modal";
 import { Octokit } from "octokit";
 import { useNavigate } from "react-router-dom";
 import Review from "../mergeDetailPage/Review";
@@ -106,47 +105,9 @@ export default function Detail() {
     setFileIdx(index);
   };
 
-  const saveFile = (e) => {
-    // setFile(e.target.value);
-    return e.target.value;
-  };
-  // 설명 저장하기
-  const onDesChange = (e) => {
-    console.log(11111111111111);
-    // setDescription(e.target.value);
-    return e.target.value;
-  };
-
   const openModal = () => {
     setModalOpen(true);
   };
-
-  const closeModal = () => {
-    console.log("dddddd");
-    setModalOpen(false);
-  };
-
-  async function saveReview(sha) {
-    const octokit = new Octokit({
-      auth: "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",
-    });
-
-    const review = await octokit.request(
-      "POST /repos/{owner}/{repo}/pulls/{pull_number}/comments",
-      {
-        owner: user,
-        repo: repo,
-        pull_number: mergeReqInfo.number,
-        body: description,
-        commit_id: sha,
-        path: file,
-        line: 1,
-      }
-    );
-
-    console.log(review);
-    setDescription("");
-  }
 
   async function mergeAccept() {
     const octokit = new Octokit({
@@ -169,17 +130,6 @@ export default function Detail() {
   }
 
   const goList = () => {
-    navigate("/merge/request");
-  };
-
-  const sendReview = async (sha) => {
-    console.log("클릭", sha);
-    const file = await setFile(document.getElementById("filename").value);
-    const des = await setDescription(
-      document.getElementById("description").value
-    );
-    const review = await saveReview(sha);
-    // event.stopPropagation();
     navigate("/merge/request");
   };
 
@@ -371,56 +321,6 @@ export default function Detail() {
                                 </div>
                               </div>
                             </div>
-                            {/* <div className={styles.review}>
-                              <div className={styles.comment}>검토</div>
-                              <div className={styles.commentbox}>
-                                <div className={styles.des}>
-                                  해당 commit에서 검토한 파일을 체크해주세요.
-                                </div>
-                                <div>
-                                  {files.map((file, index) => (
-                                    <div key={index}>
-                                      <label className={styles.label}>
-                                        <input
-                                          type="radio"
-                                          value={file.filename}
-                                          name={file.filename}
-                                          onChange={saveFile}
-                                        />
-                                        <div className={styles.radio}>
-                                          {file.filename}
-                                        </div>
-                                      </label>
-                                    </div>
-                                  ))}
-                                </div>
-                                <div className={styles.des}>
-                                  검토한 내용을 적어주세요.
-                                </div>
-                                <textarea
-                                  name="description"
-                                  cols="50"
-                                  rows="3"
-                                  onChange={onDesChange}
-                                  value={description}
-                                  className={styles.input}
-                                ></textarea>
-                              </div>
-                              <Button
-                                action={(event) => {
-                                  alert("1");
-                                  event.stopImmediatePropagation();
-                                  alert("2");
-                                  sendReview(commit.sha);
-                                }}
-                                content={"작성하기"}
-                                style={{
-                                  backgroundColor: "#6BCC78",
-                                  border: "2px solid #6BCC78",
-                                  fontWeight: "600",
-                                }}
-                              />
-                            </div> */}
                             <Button
                               action={openModal}
                               content={"review 작성하기"}
@@ -428,19 +328,10 @@ export default function Detail() {
                                 backgroundColor: "#6BCC78",
                                 border: "2px solid #6BCC78",
                                 fontWeight: "600",
+                                width: "9rem",
+                                marginTop: "1rem",
                               }}
                             />
-                            {/* <Modal
-                              open={modalOpen}
-                              content={
-                                <Review
-                                  files={files}
-                                  sha={commit.sha}
-                                  pull={mergeReqInfo.number}
-                                ></Review>
-                              }
-                            >
-                            </Modal> */}
                             <Review
                               files={files}
                               sha={commit.sha}

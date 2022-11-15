@@ -2,7 +2,7 @@ import React from "react";
 import Button from "../common/Button";
 import Modal from "../common/Modal";
 import { Octokit } from "octokit";
-import styles from "./Detail.module.css";
+import styles from "./Review.module.css";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue, useRecoilState } from "recoil";
@@ -99,20 +99,26 @@ export default function Review({ files, sha, pull }) {
               ></textarea>
             </div>
           </div>
-          <Button
-            action={saveReview}
-            content={"작성하기"}
-            style={{
-              backgroundColor: "#6BCC78",
-              border: "2px solid #6BCC78",
-              fontWeight: "600",
-            }}
-          />
-          <Button
-            action={closeModal}
-            content={"닫기"}
-            style={{ backgroundColor: "#6BCC78" }}
-          />
+          <div className={styles.buttons}>
+            <Button
+              action={saveReview}
+              content={"작성하기"}
+              style={{
+                backgroundColor: "#6BCC78",
+                border: "2px solid #6BCC78",
+                fontWeight: "600",
+              }}
+            />
+            <Button
+              action={closeModal}
+              content={"닫기"}
+              style={{
+                backgroundColor: "white",
+                border: "2px solid #6BCC78",
+                fontWeight: "600",
+              }}
+            />
+          </div>
         </div>
       }
     ></Modal>

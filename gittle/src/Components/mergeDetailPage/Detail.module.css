@@ -213,14 +213,12 @@
 }
 
 .active {
-  font-weight: 500;
+  font-weight: 600;
   font-size: 0.8rem;
-
-  color: #a66cff;
 }
 
 .code {
-  width: 90%;
+  width: 100%;
   display: flex;
   flex-direction: row;
 }
@@ -269,46 +267,6 @@
   font-family: "D2Coding";
   font-size: 0.9rem;
   margin-bottom: 0.1rem;
-}
-
-.review {
-  margin-top: 1rem;
-}
-
-.comment {
-  font-weight: 600;
-  color: #6bcc78;
-}
-
-.commentbox {
-  margin-top: 0.5rem;
-  margin-left: 0.5rem;
-}
-
-.des {
-  font-size: 0.8rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-}
-
-.label {
-  display: flex;
-  margin-bottom: 0.5rem;
-}
-
-.radio {
-  margin-left: 0.3rem;
-  font-size: 0.8rem;
-}
-
-.input {
-  width: 100%;
-  border-radius: 10px;
-  border-color: black;
-  border-width: 1.5px;
-  margin-bottom: 1rem;
-  outline-color: #6bcc78;
-  padding: 10px;
 }
 
 @font-face {
