@@ -11,9 +11,9 @@ function MainPage() {
   
   useEffect(()=>{
     
-    if(localStorage.getItem('currentRepo')!==''){
+    // if(localStorage.getItem('currentRepo')!==''){
       localStorage.removeItem('currentRepo')
-    }  
+    // }  
   },[])
 
   return (
