@@ -41,6 +41,7 @@ function GitPull() {
   };
   const closeModal = () => {
     setModalOpen(false);
+    showBranches();
   };
   const showBranches = () => {
     setListOpen(!listOpen);
@@ -54,13 +55,14 @@ function GitPull() {
     pullRequest(targetBranch) === "error"
       ? setErrorModalOpen(true)
       : pullRequest(targetBranch);
-
     closeModal();
+    showBranches();
   };
 
   const goCommit = () => {
     setErrorModalOpen(false);
     navigate("/add");
+    showBranches();
   };
 
   return (
@@ -72,23 +74,31 @@ function GitPull() {
       />
 
       <Modal
-        style={{ height: "300px" }}
+        style={{ height: "300px", width: "400px" }}
         open={modalOpen}
         content={
           <>
-            <div className={styles.selectorContainer}>
-              {/* <p className={styles.branch} onClick={showBranches}>
-                pull 받을 branch 선택
-              </p> */}
-              {/* <div
-                className={listOpen ? `${styles.openList}` : `${styles.list}`}
-              > */}
-              <div className={styles.selector}>
-                {remoteBranchList.map((branch, idx) => (
-                  <p onClick={getTargetBranch} key={idx}>
-                    {branch}
-                  </p>
-                ))}
+            <div className={styles.container}>
+              <div className={styles.selectorContainer}>
+                <p
+                  // className={!listOpen ? `${styles.openList}` : `${styles.list}`}
+                  onClick={showBranches}
+                >
+                  pull 받을 branch 선택
+                </p>
+                <div
+                  className={
+                    listOpen
+                      ? `${styles.selector} ${styles.openList}`
+                      : `${styles.list}`
+                  }
+                >
+                  {remoteBranchList.map((branch, idx) => (
+                    <p onClick={getTargetBranch} key={idx}>
+                      {branch}
+                    </p>
+                  ))}
+                </div>
               </div>
               <p>에서</p>
               <div className={styles.selector}>{curBranch}로</div>
