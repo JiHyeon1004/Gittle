@@ -3,6 +3,7 @@ import styles from "./GitPush.module.css";
 import Committed from "../components/pushPage/Committed";
 import Push from "../components/pushPage/Push";
 import CommentBox from "../components/pushPage/CommentBox"
+import Command from "../components/common/underbar/Command"
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
@@ -15,7 +16,7 @@ function PushPage() {
   const [committedList, setCommittedList] = useState([]);
   const [pushData, setPushData] = useRecoilState(pushedData);
   const [isMerge, setIsMerge] = useState(false);
-
+  const [cmd , SetCmd] =useState([])
   // useEffect(()=>{
 
   // },[])
@@ -36,6 +37,7 @@ function PushPage() {
 
     const result = { branch: selBranch, commitList: committedList };
     setPushData(result);
+    SetCmd(cmd.push(`git push origin ${selBranch}`))
     setIsMerge(true);
     // console.log(value);
     // navigate("/merge/ready");
@@ -87,6 +89,7 @@ function PushPage() {
             Merge
           </button>}
         </div>
+        <Command cmd={cmd}></Command>
       </div>
     </>
   );
