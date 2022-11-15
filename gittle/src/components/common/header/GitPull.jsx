@@ -5,26 +5,18 @@ import { useRecoilState } from "recoil";
 import { currentBranch } from "../../../atoms";
 // import BranchSelector from "../BranchSelector";
 import styles from "./GitPull.module.css";
-import { pull } from "lodash";
 
-function GitPull(props) {
+function GitPull() {
   const [curBranch, setCurBranch] = useRecoilState(currentBranch);
   const [modalOpen, setModalOpen] = useState(false);
   const [listOpen, setListOpen] = useState(false);
   const [targetBranch, setTargetBranch] = useState("");
   const { ipcRenderer } = window.require("electron");
-  const pullRequest = (targetBranch) => {
-    const pull = ipcRenderer.sendSync(
-      "gitPull",
-      localStorage.getItem("currentRepo"),
-      targetBranch
-    );
-    return pull;
+  const currentRepo = localStorage.getItem("currentRepo");
+  const gitPull = (targetBranch) => {
+    ipcRenderer.sendSync("gitPull", currentRepo, targetBranch);
   };
-  const remoteBranches = ipcRenderer.sendSync(
-    "remoteBranchList",
-    localStorage.getItem("currentRepo")
-  );
+  const remoteBranches = ipcRenderer.sendSync("remoteBranchList", currentRepo);
 
   const remoteBranchList = remoteBranches[0]
     .split("\n")
@@ -48,8 +40,8 @@ function GitPull(props) {
     setTargetBranch(branch);
   };
   console.log(targetBranch);
-  const pullData = () => {
-    pullRequest(targetBranch);
+  const pullRequest = () => {
+    gitPull(targetBranch);
     console.log("target", targetBranch);
     closeModal();
   };
@@ -86,7 +78,7 @@ function GitPull(props) {
             </div>
             <div className={styles.buttonContainer}>
               <Button
-                action={pullData}
+                action={pullRequest}
                 content={"pull 받기"}
                 style={{ backgroundColor: "#6BCC78" }}
               />

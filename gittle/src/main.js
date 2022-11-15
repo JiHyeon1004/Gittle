@@ -13,9 +13,6 @@ let runCommand = (command) => {
 let currentRepo;
 let gitDir;
 
-
-
-
 function createWindow() {
   const win = new BrowserWindow({
     width: 1024,
@@ -206,7 +203,6 @@ app.on("window-all-closed", function () {
 //   console.log("currentRepo : ", currentRepo);
 //   gitDir = `--git-dir=${currentRepo}\\.git`;
 
-
 //   const option = currentRepo !== null || currentRepo !== undefined ? `${gitDir} --work-tree=${currentRepo}` : ''
 //   const data = runCommand(`cd ${currentRepo} && git status -u -s`);
 //   event.returnValue = data;
@@ -214,14 +210,13 @@ app.on("window-all-closed", function () {
 
 ipcMain.on("gitStatus", (event, curRepo) => {
   gitDir = `--git-dir=${currentRepo}\\.git`;
-  const data = (curRepo === null || curRepo === undefined) ? 
-    "" :
-    runCommand(`cd ${curRepo} && git status -u -s`)
+  const data =
+    curRepo === null || curRepo === undefined
+      ? ""
+      : runCommand(`cd ${curRepo} && git status -u -s`);
   // const data = runCommand(`git status -u -s`);
   event.returnValue = data;
 });
-
-
 
 ipcMain.on("WriteCommitConvention", (event, payload) => {
   // if (!fs.existsSync(`${currentRepo}/commitConvention.json`)) {
@@ -373,28 +368,33 @@ ipcMain.on("lastCommitDescription", (event, command) => {
 
 ipcMain.on("gitPull", (event, route, targetBranch) => {
   console.log("gitPull");
-  const pull = runCommand(
-    `git --git-dir=${route}\\.git pull --set-upstream origin ${targetBranch}`
-  );
-  console.log("pull", pull);
+  let pull;
+  try {
+    pull = runCommand(
+      `git --git-dir=${route}\\.git pull origin ${targetBranch}`
+    );
+    console.log("pull", pull);
+  } catch (error) {
+    console.error("error", error);
+    pull = "";
+  }
   event.returnValue = pull;
 });
 
 ipcMain.on("git-Push", (event, payload) => {
   console.log("repo입니다 : ", payload.repoRoot);
   console.log("브랜치입니다 : ", payload.branch);
-  
-  try{
+
+  try {
     runCommand(`cd "${payload.repoRoot}" && git push origin ${payload.branch}`);
     event.returnValue = "return";
-  }catch(exception){
-    console.log('오류가 발생했습니다.')
-    console.log(exception)
+  } catch (exception) {
+    console.log("오류가 발생했습니다.");
+    console.log(exception);
     event.returnValue = "error";
   }
 
   console.log("완료되었습니다");
-  
 });
 
 ipcMain.on("call-committed-files", (event, root) => {
@@ -418,16 +418,12 @@ ipcMain.on("call-committed-files", (event, root) => {
   event.returnValue = returnArr;
 });
 
-
-
-
-
-
-
 ipcMain.on("openTerminal", (event, currentRepo) => {
-  console.log("asdf")
-  child_process.exec(`cd ${currentRepo} && start "" "%PROGRAMFILES%\\Git\\bin\\sh.exe" --login`)
-})
+  console.log("asdf");
+  child_process.exec(
+    `cd ${currentRepo} && start "" "%PROGRAMFILES%\\Git\\bin\\sh.exe" --login`
+  );
+});
 
 ipcMain.on("gitStash", (event, route) => {
   console.log("gitStash");
