@@ -40,6 +40,8 @@ function Committed(props){
                     key={idx}
                     className={styles.commitBox}
                 >
+
+                    
                         {item}
                 </div>
             ))}
