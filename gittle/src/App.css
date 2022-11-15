@@ -1,5 +1,25 @@
+.container-padding{
+  width: 100vw;
+}
+
 .App {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.sideBar {
+  width: 30vw;
+  display: flex;
+  align-items: top;
+  justify-content: center;
+  /* position: sticky; */
+  top: 0%;
+}
+
+.routes{
+    width: 70vw;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 }

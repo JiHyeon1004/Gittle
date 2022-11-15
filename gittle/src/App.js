@@ -24,20 +24,24 @@ function App() {
   return (
     <>
       <Header />
-      <div className="App">
-        <SideBar />
-        {/* <Routes location={location}> */}
-        <Routes>
-          <Route path="/" element={<Main />} />
-          <Route path="/add" element={<Add />} />
-          <Route path="/log" element={<Log />} />
-          <Route path="/push" element={<Push />} />
-          <Route path="/merge/ready" element={<MergeReady />} />
-          <Route path="/merge" element={<Merge />} />
-          <Route path="/merge/request" element={<MergeRequestList />} />
-          <Route path="/merge/detail" element={<MergeDetail />} />
-        </Routes>
-      </div>
+      <div className="container-padding">
+        <div className="App">
+          <div className="sideBar">
+            <SideBar />
+          </div>
+          {/* <Routes location={location}> */}
+          <div className="routes">
+            <Routes>
+              <Route path="/" element={<Main />} />
+              <Route path="/add" element={<Add />} />
+              <Route path="/log" element={<Log />} />
+              <Route path="/push" element={<Push />} />
+              <Route path="/merge/ready" element={<MergeReady />} />
+              <Route path="/merge" element={<Merge />} />
+              <Route path="/merge/request" element={<MergeRequestList />} />
+              <Route path="/merge/detail" element={<MergeDetail />} />
+            </Routes>
+          </div></div></div>
     </>
   );
 }
