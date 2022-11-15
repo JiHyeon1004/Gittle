@@ -3,7 +3,7 @@ import styles from "./Command.module.css"
 
 function Command(props){
 
-    
+    console.log(props.cmd)
 
     return(
         <>
