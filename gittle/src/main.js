@@ -83,7 +83,6 @@ ipcMain.on("update-my-repo", (event, arg) => {
 });
 
 ipcMain.on("call-my-repo", (event, arg) => {
-
   const Store = require("electron-store");
   const store = new Store();
 
@@ -132,11 +131,9 @@ ipcMain.on("remoteBranchList", (event, route) => {
 
   let remoteBranchList;
   try {
-
     remoteBranchList = runCommand(`git --git-dir=${route}\\.git branch -r`);
   } catch (e) {
-    remoteBranchList = []
-
+    remoteBranchList = [];
   }
   console.log("remoteBranchList : ", remoteBranchList);
 
@@ -384,19 +381,18 @@ ipcMain.on("git-Branch", (event, payload) => {
 });
 
 ipcMain.on("gitBranch", (event, route) => {
-
-  console.log("현재 작업 중인 브랜치를 보여줘");
-  console.log(route);
+  // console.log("현재 작업 중인 브랜치를 보여줘");
+  //console.log(route);
   let branch = runCommand(
     `git --git-dir=${route}\\.git branch --show-current `
   );
-  console.log("브랜치이이이", branch);
+  //console.log("브랜치이이이", branch);
   event.returnValue = branch;
 });
 
 ipcMain.on("gitCommit", (event, commitMessage) => {
   let data = runCommand(`git -C ${currentRepo} commit -m ${commitMessage}`);
-  console.log(data);
+  //console.log(data);
   event.returnValue = data;
 });
 
@@ -436,7 +432,6 @@ ipcMain.on("git-Push", (event, payload) => {
   }
 
   console.log("완료되었습니다");
-
 });
 
 ipcMain.on("call-committed-files", (event, root) => {
