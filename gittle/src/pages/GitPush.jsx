@@ -16,7 +16,7 @@ function PushPage() {
   const [committedList, setCommittedList] = useState([]);
   const [pushData, setPushData] = useRecoilState(pushedData);
   const [isMerge, setIsMerge] = useState(false);
-  const [cmd , SetCmd] =useState([])
+  const [cmd , SetCmd] =useState("")
   // useEffect(()=>{
 
   // },[])
@@ -37,9 +37,10 @@ function PushPage() {
 
     const result = { branch: selBranch, commitList: committedList };
     setPushData(result);
-    let arr = cmd.slice()
+    let text = cmd+'\n'+`git push origin ${selBranch}`
     
-    SetCmd(arr.push(`git push origin ${selBranch}`))
+    
+    SetCmd(text)
     console.log('세팅완료 : ')
     for(let i=0;i<cmd.length;i++){
       console.log(cmd[i])
@@ -95,7 +96,13 @@ function PushPage() {
             Merge
           </button>}
         </div>
-        <Command cmd={cmd}></Command>
+        <div className={styles.cmdBox}>
+            {cmd.split('\n').map((item, idx)=>(
+                <div key={idx} className={styles.cmd}>
+                    {item}
+                </div>
+            ))}
+        </div>
       </div>
     </>
   );
