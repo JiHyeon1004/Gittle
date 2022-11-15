@@ -3,7 +3,7 @@ import styles from "./Command.module.css"
 
 function Command(props){
 
-    console.log("뿌에에에엥",props.cmd)
+    console.log("뿌에에에엥 : ",props.cmd[0])
     let arr = props.cmd;
     for(let i=0;i<arr.length;i++){
         console.log(arr[i])
