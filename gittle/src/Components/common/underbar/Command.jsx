@@ -6,7 +6,7 @@ function Command(props){
     console.log("뿌에에에엥 : ",props.cmd[0])
     let arr = props.cmd;
     for(let i=0;i<arr.length;i++){
-        console.log(arr[i])
+        console.log(i +" : "+ arr[i])
     }
 
     return(
