@@ -89,7 +89,7 @@ function PushPage() {
             Merge
           </button>}
         </div>
-        <Command cmd={cmd}></Command>
+        <Command cmd={JSON.stringify(cmd)}></Command>
       </div>
     </>
   );
