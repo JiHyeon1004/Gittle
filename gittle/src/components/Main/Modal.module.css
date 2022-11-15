@@ -60,6 +60,7 @@
 .noButton {
   width: 86%;
   height: 4vh;
+  border-radius: 5px;
 }
 
 .haveButton {
@@ -86,6 +87,8 @@
   width: 35vw;
   height: 4vh;
   margin-right: 1vw;
+  border-radius: 5px;
+  
 }
 
 .pathButton {
@@ -95,8 +98,10 @@
   border: 1px solid #6bcc78;
   border-radius: 5px;
 }
-/* .directoryImage{
+.directoryImage{
 
-  width: 3vw;
+  width: 3vh;
   height: 3vh;
-} */
+  bottom: 0.4vh;
+  position: relative;
+}
