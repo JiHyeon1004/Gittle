@@ -96,6 +96,7 @@ function PushPage() {
             Merge
           </button>}
         </div>
+        
         <Command cmd={cmd}></Command>
       </div>
     </>
