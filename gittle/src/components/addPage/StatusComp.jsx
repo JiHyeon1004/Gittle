@@ -28,19 +28,17 @@ function statusData(gitStatus) {
   changedFile = [];
   let count = 0;
 
-
   const statusValue = ["M", "T", "A", "R", "C", "U", "D"];
   for (let status of gitStatus) {
-    let type = "staged";
     let statusArray = status
-    .trim()
-    .split(" ")
-    .filter((element) => element !== "");
+      .trim()
+      .split(" ")
+      .filter((element) => element !== "");
     if (statusValue.findIndex((e) => e === status[0]) !== -1) {
       stagedIds.push(count.toString());
       changedFile.push({
         id: count.toString(),
-        type: type,
+        type: status[0],
         title: statusArray[1],
       });
       count++;
@@ -49,11 +47,10 @@ function statusData(gitStatus) {
       statusValue.findIndex((e) => e === status[1]) !== -1 ||
       status[1] === "?"
     ) {
-      type = "unstaged";
       unstagedIds.push(count.toString());
       changedFile.push({
         id: count.toString(),
-        type: type,
+        type: status[1],
         title: statusArray[1],
       });
       count++;
@@ -100,21 +97,18 @@ function MultiTableDrag({ getFile, getDiff }) {
   const [selectedTaskTitles, setSelectedTaskTitles] = useState([]);
   const [selectedCodes, setSelectedCodes] = useState([]);
   const [filenames, setFilename] = useState([]);
-  
+  console.log(entities)
   //이거가 테이블 헤더? 그거
   const tableColumns = [
     {
       dataIndex: "title",
     },
   ];
-  
+
   // unstaged 목록에서 클릭한 파일들에 대해 git diff 실행하는 함수
   useEffect(() => {
-    currentRepo = localStorage.getItem("currentRepo");
-    statusData();
-    console.log("바로바로바로바로 커렌트레포 입니당")
-    console.log(currentRepo)
     const showDiff = (arr) => {
+      console.log(arr)
       // console.log(arr);
       if (arr.length) {
         const gitDiff = ipcRenderer.sendSync("gitDiff", arr);
