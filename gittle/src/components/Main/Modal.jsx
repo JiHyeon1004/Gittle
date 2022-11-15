@@ -88,7 +88,9 @@ function Modal(props){
                 <div className={styles.names}>Local 경로</div>
                 <div onClick={findDirectoryRoot}>
                     <input className={styles.localPath} type="text" readOnly value={repoRoot}/>
-                    <button className={styles.pathButton}>폴더선택</button>
+                    <button className={styles.pathButton}>
+                        <img className={styles.directoryImage} src={process.env.PUBLIC_URL + '/icons/directoryImage.png'}/>
+                        </button>
                 </div>
             </div>
         )
@@ -113,7 +115,7 @@ function Modal(props){
     //버튼 모음
     const buttonFooter=(
             <div className={styles.buttonLayer}>
-                <button className={styles.button} onClick={()=>{
+                <button className={styles.positiveButton} onClick={()=>{
                     if(props.setModalOpen.number===0){
                         //git init 
                         initMyRepo(repoName)
@@ -142,7 +144,7 @@ function Modal(props){
                 }}>
                     만들기
                 </button>
-                <button className={styles.button} onClick={()=>props.close()}>취소</button>
+                <button className={styles.negativeButton} onClick={()=>props.close()}>취소</button>
             </div>
         )
 
