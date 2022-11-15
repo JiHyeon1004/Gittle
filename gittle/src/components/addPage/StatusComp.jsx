@@ -116,6 +116,7 @@ function MultiTableDrag({ getFile, getDiff }) {
           arr.splice(i,1)
         }
       }
+      console.log(arr)
       // console.log(arr);
       if (arr.length) {
         const gitDiff = ipcRenderer.sendSync("gitDiff", arr);

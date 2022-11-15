@@ -67,7 +67,7 @@ function Repoes() {
             branch={item.branch}
             root={item.root}
             startGittle={() => {
-              console.log("item : ",item)
+              console.log("item : ", item)
               localStorage.setItem("currentRepo",item.root)
               ipcRenderer.send('setting-currentRepo',item.root)
               navigate("/add", {
