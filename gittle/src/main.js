@@ -228,22 +228,7 @@ ipcMain.on("gitStatus", (event, curRepo) => {
       ? `${gitDir} --work-tree=${currentRepo}`
       : "";
 
-
-  const list = runCommand(`cd ${a} && ls`).split('\n');
-  const flag=false
-  for(let i=0;i<list.length;i++){
-    console.log(list[i])
-    if(list[i]==='.git'){
-      flag=true;
-      break;
-    }
-  }
-  let data;
-  if(flag){
-    data = runCommand(`cd ${a} && git status -u -s`);
-  }else{
-    data = runCommand(`cd ./ && git status -u -s`)
-  }
+  const data = runCommand(`cd ${a} && git status -u -s`)
 
   // const data = runCommand(`git status -u -s`);
   event.returnValue = data;
