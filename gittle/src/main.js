@@ -133,7 +133,14 @@ ipcMain.on("remoteBranchList", (event, route) => {
   console.log("리모트 브랜치 리스트");
 
   const codes = [];
-  let remoteBranchList = runCommand(`git --git-dir=${route}\\.git branch -r`);
+  let remoteBranchList;
+  try{
+
+    remoteBranchList = runCommand(`git --git-dir=${route}\\.git branch -r`);
+  }catch(e){
+    remoteBranchList=[]
+    
+  }
   console.log("remoteBranchList : ", remoteBranchList);
   codes.push(remoteBranchList);
   event.returnValue = codes;
@@ -304,17 +311,24 @@ ipcMain.on("git-Init", (event, payload) => {
 });
 
 ipcMain.on("check-git-folder",(event,root)=>{
-  const arr=runCommand(`cd ${root} && ls`).split('\n')
+  // const arr=runCommand(`cd ${root} && ls`).split('\n')
 
-  let flag = false
-  for(let i=0;i<arr.length;i++){
-    if(arr[i]==='.git'){
-      flag=true;
-      break;
-    }
+  try{
+    runCommand(`cd ${root}\\.git`)
+    event.returnValue='true'
+  }catch(e){
+    event.returnValue='false'
   }
 
-  event.returnValue = flag
+  // let flag = false
+  // for(let i=0;i<arr.length;i++){
+  //   if(arr[i]==='.git'){
+  //     flag=true;
+  //     break;
+  //   }
+  // }
+
+  // event.returnValue = flag
 
 })
 
@@ -383,9 +397,9 @@ ipcMain.on("git-Branch", (event, payload) => {
 ipcMain.on("gitBranch", (event, route) => {
   console.log("현재 작업 중인 브랜치를 보여줘");
   console.log(route);
-  const branch = runCommand(
-    `git --git-dir=${route}\\.git branch --show-current `
-  );
+  let branch = runCommand(
+      `git --git-dir=${route}\\.git branch --show-current `
+    );
   console.log("브랜치이이이", branch);
   event.returnValue = branch;
 });
