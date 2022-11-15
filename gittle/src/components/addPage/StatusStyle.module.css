@@ -19,7 +19,6 @@
   position: relative;
   height: 100%;
   /* background: #fff; */
-  background: red;
   border: 4px solid #ff6b6b;
   padding: 10px;
   /* z_index: 2; */
@@ -28,7 +27,6 @@
   position: relative;
   height: 100%;
   background: #fff;
-  background: green;
   border: 4px solid #6bcc78;
   padding: 10px;
   /* z_index: 2; */

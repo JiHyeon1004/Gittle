@@ -51,7 +51,9 @@
   padding: 0.7rem 0.5rem;
   /* border-radius: 1rem; */
   border-width: 0 0 0.1rem 0;
-  cursor: pointer;
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'  width='40' height='48' viewport='0 0 100 100' style='fill:black;font-size:24px;'><text y='50%'>🍎</text></svg>")
+      16 0,
+    auto;
 }
 
 .commitprofile {
@@ -109,7 +111,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'  width='40' height='48' viewport='0 0 100 100' style='fill:black;font-size:24px;'><text y='50%'>🍎</text></svg>")
+      16 0,
+    auto;
 }
 
 .selected {
@@ -278,4 +282,3 @@
   font-weight: normal;
   font-style: normal;
 }
-
