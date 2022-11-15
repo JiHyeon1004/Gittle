@@ -108,6 +108,14 @@ function MultiTableDrag({ getFile, getDiff }) {
   // unstaged 목록에서 클릭한 파일들에 대해 git diff 실행하는 함수
   useEffect(() => {
     const showDiff = (arr) => {
+      //임시로 deleted 된거 선택하면 alert 주고 배열에서 삭제함
+      let test = entities.tasks.filter((t)=>arr.find((e)=>e===t.title))
+      for (let i in test){
+        if(test[i].type==='D'){
+          alert(`${test[i].title} is deleted!!!!!!!!!!!!!`)
+          arr.splice(i,1)
+        }
+      }
       console.log(arr)
       // console.log(arr);
       if (arr.length) {
