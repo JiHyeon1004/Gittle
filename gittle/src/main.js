@@ -86,11 +86,10 @@ ipcMain.on("update-my-repo", (event, arg) => {
 });
 
 ipcMain.on("call-my-repo", (event, arg) => {
-  console.log("가져오기 시작");
+  
   const Store = require("electron-store");
   const store = new Store();
 
-  // let arr = store.get("gittle-myRepo");
   let arr = localStorage.getItem("currentRepo");
 
   if (arr === undefined) {
