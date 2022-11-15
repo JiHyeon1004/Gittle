@@ -8,9 +8,9 @@ import { result } from "lodash";
 function Repoes() {
   // console.log('myRe : '+myRe)
   const navigate = useNavigate();
-  const {ipcRenderer} = window.require('electron')
+  const { ipcRenderer } = window.require("electron");
 
-  const [myRe, setMyRe] = useState([ ]);
+  const [myRe, setMyRe] = useState([]);
 
   useEffect(() => {
     const temp = callMyRepo();
@@ -20,42 +20,38 @@ function Repoes() {
   const callMyRepo = () => {
     console.log("start");
     // const temp = ipcRenderer.sendSync("call-my-repo");
-    
+
     let arr;
-    if(localStorage.getItem("repoList")===null || localStorage.getItem("repoList")===""){
-      arr=[]
-    }else{
-      arr = JSON.parse(localStorage.getItem("repoList"))
+    if (
+      localStorage.getItem("repoList") === null ||
+      localStorage.getItem("repoList") === ""
+    ) {
+      arr = [];
+    } else {
+      arr = JSON.parse(localStorage.getItem("repoList"));
     }
 
-  
     console.log("arr : " + arr);
-  
+
     let result = [];
-  
+
     for (let i = 0; i < arr.length; i++) {
-      if (arr[i] !== null || arr[i]==="") {
+      if (arr[i] !== null || arr[i] === "") {
         result.push(arr[i]);
-        console.log("branch : ",arr[i].branch)
-        console.log("root : ",arr[i].root)
+        console.log("branch : ", arr[i].branch);
+        console.log("root : ", arr[i].root);
       }
-  
+
       console.log(arr[i]);
     }
-  
+
     if (result.length !== arr.length) {
-      localStorage.setItem(JSON.stringify(result))
+      localStorage.setItem(JSON.stringify(result));
     }
-  
+
     console.log("end");
     return result;
   };
-
-
-
-
-
-
 
   const repoFiles = (
     <div>
@@ -67,28 +63,27 @@ function Repoes() {
             branch={item.branch}
             root={item.root}
             startGittle={() => {
-              console.log("item : ", item)
-              localStorage.setItem("currentRepo",item.root)
-              ipcRenderer.send('setting-currentRepo',item.root)
+              console.log("item : ", item);
+              localStorage.setItem("currentRepo", item.root);
+              ipcRenderer.send("setting-currentRepo", item.root);
               navigate("/add", {
                 state: { name: item.branch, root: item.root },
               });
-              let tempArr=JSON.parse(localStorage.getItem("repoList"))
+              let tempArr = JSON.parse(localStorage.getItem("repoList"));
               // tempArr.unshift({ name: item.branch, root: item.root })
 
-              let resultArr=[]
-              resultArr.push({ name: item.branch, root: item.root })
-              for(let i=0;i<tempArr.length;i++){
-                if(resultArr.length===3){
-                  break
+              let resultArr = [];
+              resultArr.push({ name: item.branch, root: item.root });
+              for (let i = 0; i < tempArr.length; i++) {
+                if (resultArr.length === 3) {
+                  break;
                 }
-                if(tempArr[i].root !== item.root){
-                  resultArr.push(tempArr[i])
+                if (tempArr[i].root !== item.root) {
+                  resultArr.push(tempArr[i]);
                 }
               }
 
-              localStorage.setItem("repoList",JSON.stringify(resultArr))
-
+              localStorage.setItem("repoList", JSON.stringify(resultArr));
             }}
           />
         </>
@@ -98,7 +93,7 @@ function Repoes() {
 
   return (
     <div className={styles.repo}>
-      최근 repo
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;최근 repo
       {repoFiles}
     </div>
   );
