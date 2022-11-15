@@ -41,7 +41,8 @@ function GitPull() {
   };
   const closeModal = () => {
     setModalOpen(false);
-    showBranches();
+    setListOpen(false);
+    setTargetBranch("");
   };
   const showBranches = () => {
     setListOpen(!listOpen);
@@ -56,13 +57,15 @@ function GitPull() {
       ? setErrorModalOpen(true)
       : pullRequest(targetBranch);
     closeModal();
-    showBranches();
+    setListOpen(false);
+    setTargetBranch("");
   };
 
   const goCommit = () => {
     setErrorModalOpen(false);
     navigate("/add");
-    showBranches();
+    setListOpen(false);
+    setTargetBranch("");
   };
 
   return (
@@ -74,34 +77,31 @@ function GitPull() {
       />
 
       <Modal
-        style={{ height: "300px", width: "400px" }}
+        style={{ height: "250px", width: "400px" }}
         open={modalOpen}
         content={
-          <>
+          <div className={styles.modal}>
             <div className={styles.container}>
               <div className={styles.selectorContainer}>
-                <p
-                  // className={!listOpen ? `${styles.openList}` : `${styles.list}`}
-                  onClick={showBranches}
-                >
-                  pull 받을 branch 선택
+                <p className={styles.targetBranch} onClick={showBranches}>
+                  {targetBranch ? targetBranch : "pull 받을 branch"}
+                  <div
+                    className={
+                      listOpen
+                        ? `${styles.selector} ${styles.openList}`
+                        : `${styles.list}`
+                    }
+                  >
+                    {remoteBranchList.map((branch, idx) => (
+                      <p onClick={getTargetBranch} key={idx}>
+                        {branch}
+                      </p>
+                    ))}
+                  </div>
                 </p>
-                <div
-                  className={
-                    listOpen
-                      ? `${styles.selector} ${styles.openList}`
-                      : `${styles.list}`
-                  }
-                >
-                  {remoteBranchList.map((branch, idx) => (
-                    <p onClick={getTargetBranch} key={idx}>
-                      {branch}
-                    </p>
-                  ))}
-                </div>
               </div>
-              <p>에서</p>
-              <div className={styles.selector}>{curBranch}로</div>
+              <p>➡️</p>
+              <div className={styles.selector}>{curBranch}</div>
             </div>
             <div className={styles.buttonContainer}>
               <Button
@@ -115,7 +115,7 @@ function GitPull() {
                 style={{ border: "1px solid #7B7B7B" }}
               />
             </div>
-          </>
+          </div>
         }
       ></Modal>
       <Modal
