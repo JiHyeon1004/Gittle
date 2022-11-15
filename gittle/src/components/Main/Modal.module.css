@@ -25,14 +25,22 @@
   bottom: 0;
 }
 
-.button {
+.positiveButton {
   width: 11vw;
   height: 5vh;
-  border: 1px solid black;
+  border: 1px solid #6bcc78;
   background-color: #6bcc78;
   border-radius: 5px;
-  font-weight: bolder;
   color: white;
+  font-size: 2.5vh;
+}
+.negativeButton {
+  width: 11vw;
+  height: 5vh;
+  border: 1px solid #7b7b7b;
+  background-color: #ffffff;
+  border-radius: 5px;
+  color: #7b7b7b;
   font-size: 2.5vh;
 }
 
@@ -81,8 +89,14 @@
 }
 
 .pathButton {
-  height: 5vh;
-  background-color: #ecec27ab;
-  border: 1px solid black;
+  height: 4vh;
+  width: 5vh;
+  background-color: #ffffff;
+  border: 1px solid #6bcc78;
   border-radius: 5px;
 }
+/* .directoryImage{
+
+  width: 3vw;
+  height: 3vh;
+} */

@@ -113,7 +113,7 @@ function Modal(props){
     //버튼 모음
     const buttonFooter=(
             <div className={styles.buttonLayer}>
-                <button className={styles.button} onClick={()=>{
+                <button className={styles.positiveButton} onClick={()=>{
                     if(props.setModalOpen.number===0){
                         //git init 
                         initMyRepo(repoName)
@@ -142,7 +142,7 @@ function Modal(props){
                 }}>
                     만들기
                 </button>
-                <button className={styles.button} onClick={()=>props.close()}>취소</button>
+                <button className={styles.negativeButton} onClick={()=>props.close()}>취소</button>
             </div>
         )
 
