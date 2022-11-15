@@ -112,7 +112,7 @@ function MultiTableDrag({ getFile, getDiff }) {
       let test = entities.tasks.filter((t)=>arr.find((e)=>e===t.title))
       for (let i in test){
         if(test[i].type==='D'){
-          alert(`${i.title} is deleted!!!!!!!!!!!!!`)
+          alert(`${test[i].title} is deleted!!!!!!!!!!!!!`)
           arr.splice(i,1)
         }
       }
