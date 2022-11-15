@@ -5,6 +5,9 @@ function Command(props){
 
     console.log("뿌에에에엥",props.cmd)
     let arr = props.cmd;
+    for(let i=0;i<arr.length;i++){
+        console.log(arr[i])
+    }
 
     return(
         <>
