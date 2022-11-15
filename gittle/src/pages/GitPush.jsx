@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styles from "./GitPush.module.css";
 import Committed from "../components/pushPage/Committed";
 import Push from "../components/pushPage/Push";
+import CommentBox from "../components/pushPage/CommentBox"
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
@@ -44,6 +45,7 @@ function PushPage() {
     <>
       <div className={styles.divide}>
         <div className={styles.committed}>
+          <CommentBox location="local"></CommentBox>
           <Committed
             settingCommittedData={(arg) => {
               setCommittedList(arg);
@@ -60,6 +62,7 @@ function PushPage() {
         </div>
 
         <div className={styles.push}>
+        <CommentBox location="remote"></CommentBox>
           <Push
             changeBranch={(arg) => {
               setSelBranch(arg);
