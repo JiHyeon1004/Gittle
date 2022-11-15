@@ -27,6 +27,8 @@ export default function Detail() {
   const [description, setDescription] = useState("");
   const [modalOpen, setModalOpen] = useRecoilState(reviewModal);
 
+  const [commitReview, setCommitReview] = useState([]);
+
   const navigate = useNavigate();
 
   const user = localStorage.getItem("userInfo");
@@ -40,11 +42,12 @@ export default function Detail() {
   }, []);
 
   useEffect(() => {
+    const user = localStorage.getItem("userInfo");
+    const location = localStorage.getItem("currentRepo").split("\\");
+    console.log(location);
+    const repo = location[location.length - 1];
+
     async function getCommit() {
-      const user = localStorage.getItem("userInfo");
-      const location = localStorage.getItem("currentRepo").split("\\");
-      console.log(location);
-      const repo = location[location.length - 1];
       const octokit = new Octokit({
         auth: "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",
       });
@@ -85,7 +88,32 @@ export default function Detail() {
       setCodeAfter(fileAfter);
       setFileIdx(0);
     }
+    async function getReview() {
+      const octokit = new Octokit({
+        auth: "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",
+      });
+
+      const reviews = await octokit.request(
+        "GET /repos/{owner}/{repo}/pulls/{pull_number}/comments",
+        {
+          owner: user,
+          repo: repo,
+          pull_number: mergeReqInfo.number,
+        }
+      );
+
+      const reviewArr = [];
+      reviews.data.map((review) => {
+        if (review.original_commit_id === commit) {
+          reviewArr.push(review);
+        }
+      });
+      console.log("리뷰", reviewArr);
+      // console.log("커밋", commit);
+      setCommitReview(reviewArr);
+    }
     getCommit();
+    getReview();
   }, [commit]);
 
   const showOverview = () => {
@@ -321,9 +349,29 @@ export default function Detail() {
                                 </div>
                               </div>
                             </div>
+
+                            <div>
+                              <div>comments</div>
+                              {/* <div>{files[fileIdx].file_name}</div> */}
+                              <div>
+                                {commitReview.map((review, index) => (
+                                  <div key={index}>
+                                    <img
+                                      src={review.user.avatar_url}
+                                      alt="avatar"
+                                    />
+                                    <div>{review.user.login}</div>
+                                    <div>{review.body}</div>
+                                    <div>{review.created_at}</div>
+                                    <div>{review.path}</div>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+
                             <Button
                               action={openModal}
-                              content={"review 작성하기"}
+                              content={"comment 작성하기"}
                               style={{
                                 backgroundColor: "#6BCC78",
                                 border: "2px solid #6BCC78",
