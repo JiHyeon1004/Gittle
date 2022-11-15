@@ -30,7 +30,6 @@ function statusData(gitStatus) {
 
   const statusValue = ["M", "T", "A", "R", "C", "U", "D"];
   for (let status of gitStatus) {
-    let type = "staged";
     let statusArray = status
       .trim()
       .split(" ")
@@ -39,7 +38,7 @@ function statusData(gitStatus) {
       stagedIds.push(count.toString());
       changedFile.push({
         id: count.toString(),
-        type: type,
+        type: status[0],
         title: statusArray[1],
       });
       count++;
@@ -48,11 +47,10 @@ function statusData(gitStatus) {
       statusValue.findIndex((e) => e === status[1]) !== -1 ||
       status[1] === "?"
     ) {
-      type = "unstaged";
       unstagedIds.push(count.toString());
       changedFile.push({
         id: count.toString(),
-        type: type,
+        type: status[1],
         title: statusArray[1],
       });
       count++;
@@ -99,7 +97,7 @@ function MultiTableDrag({ getFile, getDiff }) {
   const [selectedTaskTitles, setSelectedTaskTitles] = useState([]);
   const [selectedCodes, setSelectedCodes] = useState([]);
   const [filenames, setFilename] = useState([]);
-  
+  console.log(entities)
   //이거가 테이블 헤더? 그거
   const tableColumns = [
     {
@@ -110,6 +108,7 @@ function MultiTableDrag({ getFile, getDiff }) {
   // unstaged 목록에서 클릭한 파일들에 대해 git diff 실행하는 함수
   useEffect(() => {
     const showDiff = (arr) => {
+      console.log(arr)
       // console.log(arr);
       if (arr.length) {
         const gitDiff = ipcRenderer.sendSync("gitDiff", arr);
