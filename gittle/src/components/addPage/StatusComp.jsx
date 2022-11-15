@@ -79,7 +79,7 @@ const COLUMN_ID_DONE = "staged";
 // https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/button
 const PRIMARY_BUTTON_NUMBER = 0;
 
-function MultiTableDrag({ getFile, getDiff }) {
+function MultiTableDrag({ getFile, getDiff,cmd,updateCmd }) {
   const { ipcRenderer } = window.require("electron");
   const currentRepo = localStorage.getItem("currentRepo");
   const gitStatus = ipcRenderer
@@ -312,8 +312,16 @@ function MultiTableDrag({ getFile, getDiff }) {
     console.log(files);
     if (destination.droppableId === "staged") {
       ipcRenderer.send("gitAdd", files);
+      // let nextCmd=gitStatus.cmd + `\n` + files
+      console.log('add 완료')
+      let nextCmd = `${cmd} \n git add ${files}`
+      updateCmd(nextCmd)
     } else if (destination.droppableId === "unstaged") {
       ipcRenderer.send("gitReset", files);
+      console.log('reset 완료')
+      let nextCmd = `${cmd} \n git reset ${files}`
+      // let nextCmd=gitStatus.cmd + `\n` + `git add ${files}`
+      updateCmd(nextCmd)
     }
     const processed = mutliDragAwareReorder({
       entities,
