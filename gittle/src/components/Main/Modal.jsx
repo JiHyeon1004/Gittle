@@ -30,9 +30,6 @@ function Modal(props){
     }
 
     const updateMyRepo= (folder)=>{
-            console.log("repo update 시작")
-            // localStorage.setItem('currentRepo',JSON.stringify([{branch:repoName, root:repoRoot+"\\"+repoName}]))
-            // ipcRenderer.send('update-my-repo',{branch:repoName,root:repoRoot+"\\"+repoName})
             let arr;
             if(localStorage.getItem('repoList')===null || localStorage.getItem('repoList')===""){
                 arr=[]
@@ -40,8 +37,6 @@ function Modal(props){
                 arr =JSON.parse(localStorage.getItem('repoList'))
             }
 
-            
-            
             if(props.setModalOpen.number===0){
 
                 arr.unshift({branch:repoName,root:repoRoot+"\\"+repoName})
@@ -54,13 +49,6 @@ function Modal(props){
             if(arr.length===4){
                 arr.pop()
             }
-            console.log("arr 테스트 ")
-            for(let i=0;i<arr.length;i++){
-                console.log(arr[i])
-            }
-            console.log("arr테스트 끝")
-        
-
             localStorage.setItem('repoList',JSON.stringify(arr))
 
             setRepoRoot(repoName+"\\"+repoName)
@@ -69,7 +57,6 @@ function Modal(props){
     const cloneMyRepo=()=>{
         
         const folderName=ipcRenderer.sendSync('git-Clone',{repoRoot:repoRoot,cloneRoot:cloneRoot})
-        console.log("folderName : ",folderName)
         setFolderName(folderName)
         return folderName
     }
@@ -119,7 +106,6 @@ function Modal(props){
     //.git 폴더가 있는지 확인
     const checkGitFolder=()=>{
         const result = ipcRenderer.sendSync("check-git-folder",repoRoot)
-        console.log('check check : ',result)
         return result
     }
     

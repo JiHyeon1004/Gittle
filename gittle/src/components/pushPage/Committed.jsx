@@ -38,10 +38,7 @@ function Committed(props){
             {fileList.map((item,idx)=>(
                 <div
                     key={idx}
-                    className={styles.commitBox}
-                >
-
-                    
+                    className={styles.commitBox}>
                         {item}
                 </div>
             ))}
