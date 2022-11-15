@@ -60,8 +60,10 @@ function BranchList() {
 
   const branchChanger = () => {
     // branchSelector(e);
-    changeBranch(selectedBranch);
-    if (changeBranch(selectBranch) === "error") setErrorModalOpen(true);
+    changeBranch(selectedBranch) === "error"
+      ? setErrorModalOpen(true)
+      : changeBranch(selectedBranch);
+
     // status ? setStashModalOpen(true) : changeBranch(selectedBranch);
     // console.log("change", changeBranch(selectedBranch));
     setCurBranch(selectedBranch);
