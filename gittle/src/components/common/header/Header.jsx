@@ -20,13 +20,12 @@ function Header() {
         </Link>
       </h2>
       <div>
-        <Link to="/add">add</Link> | <Link to="/oauth">oauth</Link> |{" "}
-        <Link to="/log">log</Link> | <Link to="/merge/ready">merge</Link> |{" "}
-        <Link to="/push">push</Link> |{" "}
+        <Link to="/add">add</Link> | <Link to="/log">log</Link> |{" "}
+        <Link to="/merge/ready">merge</Link> | <Link to="/push">push</Link> |{" "}
         <Link to="/merge/request">merge request</Link>
       </div>
       <TerminalButton />
-      <GitHelp/>
+      <GitHelp />
       <GitPull />
     </div>
   );
