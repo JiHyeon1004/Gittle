@@ -3,12 +3,13 @@ import styles from "./Command.module.css"
 
 function Command(props){
 
-    console.log(props.cmd)
+    console.log("뿌에에에엥",props.cmd)
+    let arr = props.cmd;
 
     return(
         <>
             <div className={styles.cmdBox}>
-                {props.cmd.map((item, idx)=>(
+                {arr.map((item, idx)=>(
                     <div key={idx} className={styles.cmd}>
                         {item}
                     </div>
