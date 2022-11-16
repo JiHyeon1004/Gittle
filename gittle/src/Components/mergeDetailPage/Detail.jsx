@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { mergeRequest, mergeCommit, reviewModal } from "../../atoms";
 import styles from "./Detail.module.css";
-import { faCircleArrowRight } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCircleArrowRight,
+  faCaretDown,
+  faCaretUp,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "../common/Button";
 import { Octokit } from "octokit";
@@ -25,7 +29,9 @@ export default function Detail() {
   const [file, setFile] = useState("");
   // 설명 저장하기
   const [description, setDescription] = useState("");
+  const [clicked, setClicked] = useState("");
   const [modalOpen, setModalOpen] = useRecoilState(reviewModal);
+  const [comment, setComment] = useState(false);
 
   const [commitReview, setCommitReview] = useState([]);
 
@@ -127,10 +133,27 @@ export default function Detail() {
   const showDiff = (sha, index) => {
     setCommit(sha);
     setCommitIdx(index);
+    setClicked("");
+    setComment(false);
   };
 
   const showCode = (index) => {
     setFileIdx(index);
+  };
+
+  const showFile = (name) => {
+    // if (name.length) {
+    // setClicked("");
+    setClicked(name);
+    // }
+  };
+
+  const showComment = () => {
+    if (comment) {
+      setComment(false);
+    } else {
+      setComment(true);
+    }
   };
 
   const openModal = () => {
@@ -296,6 +319,7 @@ export default function Detail() {
                                     onClick={(event) => {
                                       event.stopPropagation();
                                       showCode(index);
+                                      showFile(file.filename);
                                     }}
                                   >
                                     {index === fileIdx ? (
@@ -351,22 +375,143 @@ export default function Detail() {
                             </div>
 
                             <div>
-                              <div>comments</div>
+                              <div
+                                className={styles.comments}
+                                onClick={showComment}
+                              >
+                                <div>comments</div>
+                                {comment ? (
+                                  <FontAwesomeIcon
+                                    icon={faCaretUp}
+                                    className={styles.dropicon}
+                                  />
+                                ) : (
+                                  <FontAwesomeIcon
+                                    icon={faCaretDown}
+                                    className={styles.dropicon}
+                                  />
+                                )}
+                              </div>
                               {/* <div>{files[fileIdx].file_name}</div> */}
-                              <div>
+                              {/* {clicked.length ? (
+                                <div>{clicked}</div>
+                              ) : (
+                                <div>{files[0].filename}</div>
+                              )} */}
+                              {comment ? (
+                                <>
+                                  {" "}
+                                  {clicked.length ? (
+                                    <div>
+                                      {commitReview.map((review, index) => (
+                                        <div key={index}>
+                                          {review.path === clicked ? (
+                                            <div className={styles.commentbox}>
+                                              <img
+                                                src={review.user.avatar_url}
+                                                alt="avatar"
+                                                className={styles.commentavatar}
+                                              />
+                                              <div className={styles.content}>
+                                                <div className={styles.comment}>
+                                                  <div
+                                                    className={
+                                                      styles.commentuser
+                                                    }
+                                                  >
+                                                    {review.user.login}
+                                                  </div>
+                                                  <div
+                                                    className={
+                                                      styles.commentdate
+                                                    }
+                                                  >
+                                                    {review.created_at
+                                                      .replace("T", " ")
+                                                      .replace("Z", "")
+                                                      .slice(0, 10)}
+                                                  </div>
+                                                </div>
+                                                <div>{review.body}</div>
+                                              </div>
+                                              {/* <div>{review.path}</div> */}
+                                            </div>
+                                          ) : null}
+                                        </div>
+                                      ))}
+                                    </div>
+                                  ) : (
+                                    <div>
+                                      {commitReview.map((review, index) => (
+                                        <div key={index}>
+                                          {review.path === files[0].filename ? (
+                                            <div className={styles.commentbox}>
+                                              <img
+                                                src={review.user.avatar_url}
+                                                alt="avatar"
+                                                className={styles.commentavatar}
+                                              />
+                                              <div className={styles.content}>
+                                                <div className={styles.comment}>
+                                                  <div
+                                                    className={
+                                                      styles.commentuser
+                                                    }
+                                                  >
+                                                    {review.user.login}
+                                                  </div>
+                                                  <div
+                                                    className={
+                                                      styles.commentdate
+                                                    }
+                                                  >
+                                                    {review.created_at
+                                                      .replace("T", " ")
+                                                      .replace("Z", "")
+                                                      .slice(0, 10)}
+                                                  </div>
+                                                </div>
+                                                <div>{review.body}</div>
+                                              </div>
+                                              {/* <div>{review.path}</div> */}
+                                            </div>
+                                          ) : null}
+                                        </div>
+                                      ))}
+                                    </div>
+                                  )}
+                                </>
+                              ) : null}
+
+                              {/* <div>
                                 {commitReview.map((review, index) => (
-                                  <div key={index}>
+                                  <div
+                                    key={index}
+                                    className={styles.commentbox}
+                                  >
                                     <img
                                       src={review.user.avatar_url}
                                       alt="avatar"
+                                      className={styles.commentavatar}
                                     />
-                                    <div>{review.user.login}</div>
-                                    <div>{review.body}</div>
-                                    <div>{review.created_at}</div>
+                                    <div className={styles.content}>
+                                      <div className={styles.comment}>
+                                        <div className={styles.commentuser}>
+                                          {review.user.login}
+                                        </div>
+                                        <div className={styles.commentdate}>
+                                          {review.created_at
+                                            .replace("T", " ")
+                                            .replace("Z", "")
+                                            .slice(0, 10)}
+                                        </div>
+                                      </div>
+                                      <div>{review.body}</div>
+                                    </div>
                                     <div>{review.path}</div>
                                   </div>
                                 ))}
-                              </div>
+                              </div> */}
                             </div>
 
                             <Button
