@@ -18,3 +18,38 @@ a {
   height: 8vh;
   width: 9vw;
 }
+
+.buttonBox{
+  display: flex;
+  align-items: center;
+  width: 35vw;
+  height: 10vh;
+}
+
+.localToRemote{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 75%;
+  height: 100%;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+
+.log{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10%;
+  width: 20%;
+  height: 100%;
+  /* border: 1px solid black;
+  border-radius: 10px; */
+}
+
+.arrow{
+  margin-left: 3%;
+  margin-right: 3%;
+  width: 10%;
+  height: 40%;
+}

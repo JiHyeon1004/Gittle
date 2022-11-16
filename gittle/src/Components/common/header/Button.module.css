@@ -1,0 +1,28 @@
+.text{
+    text-decoration: none;
+    color: red;
+}
+
+.selectedPage{
+    text-decoration: none;
+    width: 5vw;
+    height: 40%;
+    /* margin-left: 4%; */
+    text-align: center;
+    border: 2px solid rgb(244, 228, 7);
+    border-radius: 10px;
+
+    background-color: rgb(216, 244, 7);
+}
+
+.unSelectedPage{
+    text-decoration: none;
+    width: 5vw;
+    height: 40%;
+    /* margin-left: 4%; */
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 10px;
+
+    background-color: aqua;
+}
