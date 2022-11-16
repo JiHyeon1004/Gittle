@@ -3,3 +3,10 @@
   padding-left: 1.6rem;
   /* border-left: 1px solid #000000; */
 }
+
+
+.commitButton{
+  position: relative;
+  top: 80px;
+  right: 8%;
+}

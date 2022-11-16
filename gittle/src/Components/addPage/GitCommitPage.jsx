@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import Button from "../Button";
-import Modal from "../Modal";
+import Button from "../common/Button";
+import Modal from "../common/Modal";
 import Dropdown from 'react-bootstrap/Dropdown';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 
-const { ipcRenderer } = window.require("electron"); 
+const { ipcRenderer } = window.require("electron");
 const getCommitRules = () => {
   return JSON.parse(ipcRenderer.sendSync("ReadCommitConvention", localStorage.getItem("currentRepo")))
 }
@@ -85,25 +85,25 @@ function GitCommit() {
             return arr;
           })()}
         </Dropdown.Menu>
-        <Button 
+        <Button
           action={openModal}
           content={"추가"}
           style={{ backgroundColor: "#6BCC78", color: "white" }}
         />
       </Dropdown>
       <div>
-        <input 
+        <input
           type="text"
           placeholder={lastCommitDescription}
           onChange={onChangeCommitDescription}
           value={commitDescription}
         />
-        <Button 
+        <Button
           action={commit}
           content={"Commit"}
           style={{ backgroundColor: "#4D96FF", color: "white" }}
         />
-      </div>      
+      </div>
 
 
 
@@ -114,7 +114,7 @@ function GitCommit() {
           <>
             <div>
               <label>타입</label>
-              <input 
+              <input
                 type="text"
                 placeholder="Feat"
                 onChange={onChangeNewType}
@@ -124,21 +124,21 @@ function GitCommit() {
             <br/>
             <div>
               <label>설명</label>
-              <input 
+              <input
                 type="text"
                 placeholder="기능 변경"
                 onChange={onChangeNewExplanation}
-                value={newExplanation} 
+                value={newExplanation}
               />
             </div>
           </>
         }
       >
         <div>
-          <Button 
-            action={addCommitConvention}  
-            content={"추가"} 
-            style={{ backgroundColor: "#6BCC78" }} 
+          <Button
+            action={addCommitConvention}
+            content={"추가"}
+            style={{ backgroundColor: "#6BCC78" }}
           />
           <Button
             action={closeModal}
@@ -152,3 +152,48 @@ function GitCommit() {
 }
 
 export default GitCommit;
+
+
+
+// import React from "react";
+// import Button from "../common/Button";
+
+// function CommitRulePage(props) {
+//   return (
+//       <>
+//           <div><h1>요기는 깃 커밋 페이지 모달</h1></div>
+//       {/* <div>
+//         <h3>commit 규칙</h3>
+//       </div>
+//       <div>
+//         <h5>나의 규칙</h5>
+//         <div className={styles.myRuleListContainer}>
+//           <div className={styles.myRuleList}>
+//             <p>타입</p>
+//             <p>1</p>
+//           </div>
+//           <div className={styles.myRuleList}>
+//             <p>설명</p>
+//             <p>1</p>
+//           </div>
+//         </div>
+//       </div>
+//       <div>
+//         <h5>규칙 추가하기</h5>
+//         <div className={styles.newRuleInputContainer}>
+//           <div className={styles.newRuleInputType}>
+//             <label className={styles.newRuleInputLabel}>타입</label>
+//             <input type="text" />
+//           </div>
+//           <div className={styles.newRuleInputDesc}>
+//             <label className={styles.newRuleInputLabel}>설명</label>
+//             <input className={styles.newRuleInputDescInput} type="text" />
+//           </div>
+//         </div>
+//         <Button content={"추가하기"} />
+//       </div> */}
+//     </>
+//   );
+// }
+
+// export default CommitRulePage;
