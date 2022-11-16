@@ -7,7 +7,7 @@ import Tooltip from 'react-bootstrap/Tooltip';
 
 const { ipcRenderer } = window.require("electron"); 
 const getCommitRules = () => {
-  return JSON.parse(ipcRenderer.sendSync("ReadCommitConvention"))
+  return JSON.parse(ipcRenderer.sendSync("ReadCommitConvention", localStorage.getItem("currentRepo")))
 }
 
 function GitCommit() {
@@ -56,7 +56,8 @@ function GitCommit() {
       alert("Commit 설명을 작성해주세요")
       return;
     }
-    const commitMessage = commitType + " : " + commitDescription
+    // const commitMessage = commitType + " : " + commitDescription
+    const commitMessage = commitType + commitDescription
     const data = ipcRenderer.sendSync("gitCommit",commitMessage)
     setCommitDescription('')
     setCommitType('')

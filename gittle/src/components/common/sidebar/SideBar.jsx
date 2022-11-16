@@ -6,14 +6,13 @@ import GitCommit from "./GitCommit";
 import CommitRuleButton from "./CommitRuleButton";
 import LogCheck from "./LogCheck";
 import styles from "./SideBar.module.css";
-import GitHelp from "./GitHelp";
 
 function SideBar() {
   const location = useLocation();
   if (location.pathname === "/") return null;
   return (
     <div className={styles.container}>
-      {/* <GitCommit /> */}
+      <GitCommit />
       <div>
         <div className={styles.selector}>
           <BranchList />
@@ -23,7 +22,6 @@ function SideBar() {
       <div>
         <CommitRuleButton />
       </div>
-      <GitHelp/>
     </div>
   );
 }

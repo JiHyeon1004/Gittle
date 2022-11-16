@@ -1,3 +1,10 @@
+.ant-card-body {
+  padding : 0px;
+  z-index: 1;
+}
+.ant-card {
+  border: 0px;
+}
 .c-multi-drag-table.is-dragging table {
   border: 1px solid #4285f4;
 }
@@ -21,6 +28,7 @@
   background: #fff;
   border: 4px solid #FF6B6B;
   padding: 10px;
+  border-radius: 36px;
   /* z-index: 2; */
 }
 .c-multi-drag-table .inner-col-staged {
@@ -29,6 +37,7 @@
     background: #fff;
     border: 4px solid #6BCC78;
     padding: 10px;
+    border-radius: 36px;
     /* z-index: 2; */
 }
 .c-multi-drag-table .ant-table {
@@ -38,7 +47,7 @@
 .c-multi-drag-table .ant-table-tbody > tr > td,
 .c-multi-drag-table .ant-table tfoot > tr > th,
 .c-multi-drag-table .ant-table tfoot > tr > td {
-  padding: 6px 16px;
+  padding: 2px 2px;
 }
 .c-multi-drag-table .ant-table-tbody > tr.ant-table-placeholder > td,
 .c-multi-drag-table .ant-table-tbody > tr.ant-table-placeholder:hover > td {

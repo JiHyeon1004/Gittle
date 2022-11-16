@@ -2,14 +2,22 @@
   display: flex;
   flex-direction: column;
   /* justify-content: space-between; */
-  align-items: center;
+  /* align-items: top; */
   position: sticky;
-  top: 90px;
+  top: 0px;
   min-width: 256px;
-  height: calc(100vh - 140px);
+  height: calc(100vh - 80px);
   padding: 1rem 0.5rem;
+  z-index: 5;
+  border-right: 1px solid #000000;
 }
 
 .selector {
   display: flex;
+}
+
+
+.commitFriends{
+  display: flex;
+
 }

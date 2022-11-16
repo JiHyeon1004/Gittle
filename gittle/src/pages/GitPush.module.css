@@ -1,55 +1,81 @@
-.divide{
-    display: flex;
-    width: 80vw;
-    height: 80vh;
+.divide {
+  display: flex;
+  width: 80vw;
+  height: 80vh;
 }
 
-.committed{
-    /* background-color: brown; */
-    width: 40%;
-    height: 100%;
-    border-left: 1px solid black;
-    /* border-right: 1px dotted black; */
-}   
-
-.arrow{
-    position: relative;
-    top:40%;
-    left: 5%;
-    width: 8vw;
-    height: 8vw;
-    text-align: center;
-    font-size: larger;
+.committed {
+  /* background-color: brown; */
+  width: 40%;
+  height: 100%;
+  /* border-left: 1px solid black; */
+  /* border-right: 1px dotted black; */
 }
 
-.arrowImg{
-    width: 100%;
-    height: 100%;
+.arrow {
+  position: relative;
+  top: 40%;
+  left: 5%;
+  width: 8vw;
+  height: 8vw;
+  text-align: center;
+  font-size: larger;
 }
 
-
-
-.push{
-    /* background-color: bisque; */
-    width: 50%;
-    height:100%;
-    border-left: 1px dotted black;
+.arrowImg {
+  width: 100%;
+  height: 100%;
 }
 
-.buttonArea{
-    width:10%;
-    height: 100%;
-    margin-right: 5vw;
+.push {
+  /* background-color: bisque; */
+  width: 50%;
+  height: 100%;
+  border-left: 1px dotted black;
 }
 
-.button{
-    position: relative;
-    top:45%;
-    width:13vmin;
-    height: 13vmin;
-    border-radius: 50px;
-    cursor: pointer;
-    background-color: #1FA431;
-    color: white;
-    font-weight: bolder;
+.mergeButton {
+  position: relative;
+  top: 45%;
+  width: 13vmin;
+  height: 13vmin;
+  border-radius: 50px;
+  cursor: pointer;
+  background-color: #c7df27;
+  color: white;
+  font-weight: bolder;
+}
+.buttonArea {
+  width: 10%;
+  height: 100%;
+  margin-right: 5vw;
+}
+
+.button {
+  position: relative;
+  top: 45%;
+  width: 13vmin;
+  height: 13vmin;
+  border-radius: 50px;
+  cursor: pointer;
+  background-color: #1fa431;
+  color: white;
+  font-weight: bolder;
+}
+
+.cmdBox{
+    
+  background-color: black;
+  width: 100%;
+  height: 10vh;
+  /* left:18.3%; */
+  bottom: 0px;
+  position: absolute;
+}
+
+.cmd{
+  margin-left: 10%;
+  margin-bottom: 1vh;
+  background-color: black;
+  color:white;
 }

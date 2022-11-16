@@ -1,13 +1,13 @@
-.repo{
-    padding: 2px;
-    margin-top: 7vh;
-    margin-left: 17vw;
-    margin-right: 17vw;
-    height: 22vh;
-    font-family: var(--font-Inter);
-    font-weight: bolder;
-    font-size: 3vh;
-    border: 1px solid black;
-    border-radius: 10px;
-    
+.repo {
+  padding: 2px;
+  margin-top: 7vh;
+  margin-left: 17vw;
+  margin-right: 17vw;
+  height: 22vh;
+  width: 51vw;
+  font-family: var(--font-Inter);
+  font-weight: bolder;
+  font-size: 3vh;
+  border: 2px solid rgb(255, 143, 143);
+  border-radius: 10px;
 }

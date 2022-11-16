@@ -1,85 +1,107 @@
-.modal{
-    z-index: 999;
-    position: absolute;
-    top: 25%;
-    left: 25%;
-    width: 50vw;
-    height: 40vh;
-    border: 2px solid black;
-    background-color: white;
-    border-radius: 10px;
+.modal {
+  z-index: 999;
+  position: absolute;
+  top: 25%;
+  left: 25%;
+  width: 50vw;
+  height: 40vh;
+  border: 2px solid black;
+  background-color: white;
+  border-radius: 10px;
 }
 
-.nameTag{
-    margin-top: 1vh;
-    text-align: center;
-    font-size: 3.5vh;
+.nameTag {
+  margin-top: 1vh;
+  text-align: center;
+  font-size: 3.5vh;
 }
 
-.buttonLayer{
-    margin-bottom: 1vh;
-    display: flex;
-    justify-content: space-evenly;
-    width: 100%;
-    position: absolute;
-    bottom: 0;
+.buttonLayer {
+  margin-bottom: 1vh;
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
 }
 
-.button{
-    width: 11vw;
-    height: 5vh;
-    border: 1px solid black;
-    background-color: #6BCC78 ;
-    border-radius: 5px;
-    font-weight: bolder;
-    color:white;
-    font-size: 2.5vh;
-    cursor: pointer;
+.positiveButton {
+  width: 11vw;
+  height: 5vh;
+  border: 1px solid #6bcc78;
+  background-color: #6bcc78;
+  border-radius: 5px;
+  color: white;
+  font-size: 2.5vh;
+}
+.negativeButton {
+  width: 11vw;
+  height: 5vh;
+  border: 1px solid #7b7b7b;
+  background-color: #ffffff;
+  border-radius: 5px;
+  color: #7b7b7b;
+  font-size: 2.5vh;
 }
 
-.inputBlock{
-    margin-left: 3vw;
-    margin-top:  3vh;
+.button:hover {
+  cursor: pointer;
 }
 
-.names{
-    font-size:2.5vh
+.inputBlock {
+  margin-left: 3vw;
+  margin-top: 3vh;
 }
 
-.noButton{
-    width:86%;
-    height:4vh;
+.names {
+  font-size: 2.5vh;
 }
 
-.haveButton{
-    width:74%;
-    height:4vh;
-    margin-right: 2%;
+.noButton {
+  width: 86%;
+  height: 4vh;
+  border-radius: 5px;
 }
 
-.folderButton{
-    background-color: white;
-    border: none;
-    height: 6vh;
-    width:  4vw;
-    font-size: 2.3vh;
-    cursor: pointer;
+.haveButton {
+  width: 74%;
+  height: 4vh;
+  margin-right: 2%;
 }
 
-.folderImg{
-    height: 3vh;
-    width:  2vw;
+.folderButton {
+  background-color: white;
+  border: none;
+  height: 6vh;
+  width: 4vw;
+  font-size: 2.3vh;
+  cursor: pointer;
 }
 
-.localPath{
-    width: 35vw;
-    height: 4vh;
-    margin-right: 1vw;
+.folderImg {
+  height: 3vh;
+  width: 2vw;
 }
 
-.pathButton{
-    height: 5vh;
-    background-color: #ecec27ab;
-    border: 1px solid black;
-    border-radius: 5px;
+.localPath {
+  width: 35vw;
+  height: 4vh;
+  margin-right: 1vw;
+  border-radius: 5px;
+  
+}
+
+.pathButton {
+  height: 4vh;
+  width: 5vh;
+  background-color: #ffffff;
+  border: 1px solid #6bcc78;
+  border-radius: 5px;
+}
+.directoryImage{
+
+  width: 3vh;
+  height: 3vh;
+  bottom: 0.4vh;
+  position: relative;
 }

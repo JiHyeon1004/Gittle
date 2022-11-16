@@ -3,23 +3,24 @@ import { useRecoilState } from "recoil";
 import { currentBranch, selectBranch } from "../../../atoms";
 import BranchManage from "./BranchManage";
 import DeleteBranch from "./DeleteBranch";
+import Modal from "../Modal";
+import Button from "../Button";
+import { useNavigate } from "react-router-dom";
 import styles from "./BranchList.module.css";
 
 function BranchList() {
+  const navigate = useNavigate();
   const [curBranch, setCurBranch] = useRecoilState(currentBranch);
   const [selectedBranch, setSelectedBranch] = useRecoilState(selectBranch);
   const [localListOpen, setLocalListOpen] = useState(false);
   const [remoteListOpen, setRemoteListOpen] = useState(false);
+  const [errorModalOpen, setErrorModalOpen] = useState(false);
 
   const { ipcRenderer } = window.require("electron");
-  const localBranches = ipcRenderer.sendSync(
-    "localBranchList",
-    localStorage.getItem("currentRepo")
-  );
-  const remoteBranches = ipcRenderer.sendSync(
-    "remoteBranchList",
-    localStorage.getItem("currentRepo")
-  );
+  const currentRepo = localStorage.getItem("currentRepo");
+
+  const localBranches = ipcRenderer.sendSync("localBranchList", currentRepo);
+  const remoteBranches = ipcRenderer.sendSync("remoteBranchList", currentRepo);
 
   const localBranchList = localBranches[0]
     .split("\n")
@@ -35,6 +36,9 @@ function BranchList() {
     .map((branch) => (branch.includes("*") ? curBranch : branch));
 
   // .map((branch) => branch.replace("origin/", ""));
+  let gitStatus = ipcRenderer.sendSync("gitStatus", currentRepo);
+
+  let status = gitStatus.length > 0 ? true : false;
 
   const showLocalBranches = () => {
     setLocalListOpen(!localListOpen);
@@ -43,38 +47,45 @@ function BranchList() {
     setRemoteListOpen(!remoteListOpen);
   };
 
-  setCurBranch(
-    ipcRenderer.sendSync("gitBranch", localStorage.getItem("currentRepo"))
-  );
+  setCurBranch(ipcRenderer.sendSync("gitBranch", currentRepo));
 
   const changeBranch = (selectedBranch) => {
-    ipcRenderer.sendSync(
-      "change branch",
-      localStorage.getItem("currentRepo"),
-
-      selectedBranch
-    );
+    return ipcRenderer.sendSync("change branch", currentRepo, selectedBranch);
   };
 
   const branchSelector = (e) => {
     let branch = e.target.dataset.branch;
     setSelectedBranch(branch);
-    console.log("select", selectedBranch);
   };
 
-  const branchChanger = (e) => {
-    branchSelector(e);
-    changeBranch(selectedBranch);
-    console.log("change", selectedBranch);
+  const branchChanger = () => {
+    // branchSelector(e);
+    changeBranch(selectedBranch) === "error"
+      ? setErrorModalOpen(true)
+      : changeBranch(selectedBranch);
+
+    // status ? setStashModalOpen(true) : changeBranch(selectedBranch);
+    // console.log("change", changeBranch(selectedBranch));
     setCurBranch(selectedBranch);
   };
+
+  const goCommit = () => {
+    setErrorModalOpen(false);
+    navigate("/add");
+  };
+  // const gitStash = () => {
+  //   ipcRenderer.sendSync("gitStash", currentRepo);
+  // };
+
+  // const goStash = () => {
+  //   gitStash();
+  //   setErrorModalOpen(false);
+  // };
 
   // useEffect(() => {
   //   branchChanger();
   //   branchDeletor();
   // }, [selectedBranch]);
-
-  console.log("sel", selectedBranch, "cur", curBranch);
 
   //   useEffect(branchDeletor, [delBranch]);
 
@@ -95,10 +106,11 @@ function BranchList() {
               <div
                 key={idx}
                 className={
-                  selectedBranch && selectedBranch === branch
+                  curBranch === branch
                     ? `${styles.branch} ${styles.clicked}`
                     : `${styles.branch}`
                 }
+                onClick={branchSelector}
                 onDoubleClick={branchChanger}
                 data-branch={branch}
               >
@@ -132,6 +144,22 @@ function BranchList() {
         </div>
         <BranchManage />
       </div>
+      <Modal
+        open={errorModalOpen}
+        content={
+          <>
+            <p>변경사항이 있으면 branch 이동을 할 수 없습니다.</p>
+            <p>먼저 commit해주세요</p>
+            <div className={styles.buttonContainer}>
+              <Button
+                action={goCommit}
+                content={"commit하러 가기"}
+                style={{ backgroundColor: "#6BCC78" }}
+              />
+            </div>
+          </>
+        }
+      ></Modal>
     </div>
   );
 }
