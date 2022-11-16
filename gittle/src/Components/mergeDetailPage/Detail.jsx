@@ -188,7 +188,7 @@ export default function Detail() {
     <>
       <div className={styles.reqtitle}>{mergeReqInfo.title}</div>
       {mergeReqInfo.merged ? (
-        <div>merge 완료</div>
+        <div className={styles.merged}>merge 완료</div>
       ) : (
         <div className={styles.needmerge}>merge 대기</div>
       )}
