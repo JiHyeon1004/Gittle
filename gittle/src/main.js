@@ -411,11 +411,20 @@ ipcMain.on("lastCommitDescription", (event, command) => {
 
 ipcMain.on("gitPull", (event, route, targetBranch) => {
   console.log("gitPull");
-  const pull = runCommand(
-    `git --git-dir=${route}\\.git pull --set-upstream origin ${targetBranch}`
-  );
-  console.log("pull", pull);
-  event.returnValue = pull;
+
+  let pull;
+  try {
+    pull = runCommand(
+      // `git --git-dir=${route}\\.git pull origin ${targetBranch}`
+      `cd ${route} && git pull origin ${targetBranch}`
+    );
+    console.log("pull", pull);
+    event.returnValue = pull;
+  } catch (error) {
+    console.error("error", error);
+    pull = "";
+    event.returnValue = "error";
+  }
 });
 
 ipcMain.on("git-Push", (event, payload) => {
