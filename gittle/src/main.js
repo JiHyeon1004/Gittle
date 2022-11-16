@@ -178,27 +178,42 @@ ipcMain.on("create branch", (event, route, newBranch) => {
   event.returnValue = codes;
 });
 
-ipcMain.on("delete localBranch", (event, route, delBranch) => {
+ipcMain.on("deleteLocalBranch", (event, route, delBranch) => {
   console.log("로컬 브랜치 삭제");
   const codes = [];
-  let branch = runCommand(
-    `git --git-dir=${route}\\.git branch -d ${delBranch}`
-  );
-  console.log("delete branch : ", branch);
-  codes.push(branch);
-  event.returnValue = codes;
+  let deletebranch;
+  try {
+    deletebranch = runCommand(
+      `git --git-dir=${route}\\.git branch -d ${delBranch}`
+    );
+    codes.push(deletebranch);
+
+    event.returnValue = codes;
+  } catch (error) {
+    console.error(error);
+    deletebranch = "";
+    event.returnValue = "error";
+  }
+  console.log("delete branch : ", deletebranch);
 });
 
-ipcMain.on("delete remoteBranch", (event, route, delBranch) => {
+ipcMain.on("deleteRemoteBranch", (event, route, delBranch) => {
   console.log("리모트 브랜치 삭제");
-
   const codes = [];
-  let branch = runCommand(
-    `git --git-dir=${route}\\.git push origin -d ${delBranch}`
-  );
+  let branch;
+  try {
+    branch = runCommand(
+      `git --git-dir=${route}\\.git push origin -d ${delBranch}`
+    );
+    codes.push(branch);
+
+    event.returnValue = codes;
+  } catch (error) {
+    console.error(error);
+    branch = "";
+    event.returnValue = "error";
+  }
   console.log("delete branch : ", branch);
-  codes.push(branch);
-  event.returnValue = codes;
 });
 
 app.whenReady().then(() => {
@@ -411,11 +426,20 @@ ipcMain.on("lastCommitDescription", (event, command) => {
 
 ipcMain.on("gitPull", (event, route, targetBranch) => {
   console.log("gitPull");
-  const pull = runCommand(
-    `git --git-dir=${route}\\.git pull --set-upstream origin ${targetBranch}`
-  );
-  console.log("pull", pull);
-  event.returnValue = pull;
+
+  let pull;
+  try {
+    pull = runCommand(
+      // `git --git-dir=${route}\\.git pull origin ${targetBranch}`
+      `cd ${route} && git pull origin ${targetBranch}`
+    );
+    console.log("pull", pull);
+    event.returnValue = pull;
+  } catch (error) {
+    console.error("error", error);
+    pull = "";
+    event.returnValue = "error";
+  }
 });
 
 ipcMain.on("git-Push", (event, payload) => {
@@ -461,4 +485,10 @@ ipcMain.on("gitStash", (event, route) => {
   const stash = runCommand(`git --git-dir=${route}\\.git stash`);
   console.log("gitStash", stash);
   event.returnValue = stash;
+});
+ipcMain.on("gitGraph", (event) => {
+  const gitGraph = runCommand(
+    "git log --branches --decorate --graph --oneline"
+  );
+  event.returnValue = gitGraph;
 });

@@ -3,15 +3,17 @@ import Button from "../Button";
 import Modal from "../Modal";
 import { useRecoilState } from "recoil";
 import { currentBranch } from "../../../atoms";
-// import BranchSelector from "../BranchSelector";
+import { useNavigate } from "react-router-dom";
 import styles from "./GitPull.module.css";
-import { pull } from "lodash";
 
-function GitPull(props) {
+function GitPull() {
+  const navigate = useNavigate();
   const [curBranch, setCurBranch] = useRecoilState(currentBranch);
   const [modalOpen, setModalOpen] = useState(false);
   const [listOpen, setListOpen] = useState(false);
   const [targetBranch, setTargetBranch] = useState("");
+  const [errorModalOpen, setErrorModalOpen] = useState(false);
+
   const { ipcRenderer } = window.require("electron");
   const pullRequest = (targetBranch) => {
     const pull = ipcRenderer.sendSync(
@@ -39,6 +41,8 @@ function GitPull(props) {
   };
   const closeModal = () => {
     setModalOpen(false);
+    setListOpen(false);
+    setTargetBranch("");
   };
   const showBranches = () => {
     setListOpen(!listOpen);
@@ -47,11 +51,21 @@ function GitPull(props) {
     let branch = e.target.firstChild.data;
     setTargetBranch(branch);
   };
-  console.log(targetBranch);
+  // console.log(targetBranch);
   const pullData = () => {
-    pullRequest(targetBranch);
-    console.log("target", targetBranch);
+    pullRequest(targetBranch) === "error"
+      ? setErrorModalOpen(true)
+      : pullRequest(targetBranch);
     closeModal();
+    setListOpen(false);
+    setTargetBranch("");
+  };
+
+  const goCommit = () => {
+    setErrorModalOpen(false);
+    navigate("/add");
+    setListOpen(false);
+    setTargetBranch("");
   };
 
   return (
@@ -63,26 +77,31 @@ function GitPull(props) {
       />
 
       <Modal
-        style={{ height: "300px" }}
+        style={{ height: "250px", width: "400px" }}
         open={modalOpen}
         content={
-          <>
-            <div className={styles.selectorContainer}>
-              {/* <p className={styles.branch} onClick={showBranches}>
-                pull 받을 branch 선택
-              </p> */}
-              {/* <div
-                className={listOpen ? `${styles.openList}` : `${styles.list}`}
-              > */}
-              <div className={styles.selector}>
-                {remoteBranchList.map((branch, idx) => (
-                  <p onClick={getTargetBranch} key={idx}>
-                    {branch}
-                  </p>
-                ))}
+          <div className={styles.modal}>
+            <div className={styles.container}>
+              <div className={styles.selectorContainer}>
+                <p className={styles.targetBranch} onClick={showBranches}>
+                  {targetBranch ? targetBranch : "pull 받을 branch"}
+                  <div
+                    className={
+                      listOpen
+                        ? `${styles.selector} ${styles.openList}`
+                        : `${styles.list}`
+                    }
+                  >
+                    {remoteBranchList.map((branch, idx) => (
+                      <p onClick={getTargetBranch} key={idx}>
+                        {branch}
+                      </p>
+                    ))}
+                  </div>
+                </p>
               </div>
-              <p>에서</p>
-              <div className={styles.selector}>{curBranch}로</div>
+              <p>➡️</p>
+              <div className={styles.selector}>{curBranch}</div>
             </div>
             <div className={styles.buttonContainer}>
               <Button
@@ -94,6 +113,22 @@ function GitPull(props) {
                 action={closeModal}
                 content={"취소"}
                 style={{ border: "1px solid #7B7B7B" }}
+              />
+            </div>
+          </div>
+        }
+      ></Modal>
+      <Modal
+        open={errorModalOpen}
+        content={
+          <>
+            <p>변경사항이 있으면 pull 받을 수 없습니다.</p>
+            <p>먼저 commit해주세요</p>
+            <div className={styles.buttonContainer}>
+              <Button
+                action={goCommit}
+                content={"commit하러 가기"}
+                style={{ backgroundColor: "#6BCC78" }}
               />
             </div>
           </>

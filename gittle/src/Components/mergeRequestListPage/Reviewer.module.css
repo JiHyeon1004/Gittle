@@ -1,3 +1,16 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+}
+
+.assigned {
+  border: 0.7px solid #959595;
+  border-radius: 1rem;
+  padding: 10px 20px 15px 20px;
+  margin-top: 1rem;
+}
+
 .box {
   margin: 0.5rem 0 0.5rem 0;
   border-style: solid;
@@ -17,7 +30,7 @@
   margin: 0.5rem 0 0.5rem 0;
 }
 
-.person {
+.texttitle {
   font-size: 0.8rem;
   font-weight: 600;
   margin-right: 0.5rem;
@@ -27,10 +40,9 @@
   border-radius: 10rem;
   width: 1rem;
   height: 1rem;
-  margin-right: 0.3rem;
 }
 
 .text {
   font-size: 0.8rem;
-  margin-right: 0.5rem;
+  margin-left: 0.5rem;
 }

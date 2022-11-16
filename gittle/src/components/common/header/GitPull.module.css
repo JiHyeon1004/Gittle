@@ -1,15 +1,22 @@
-.selectorContainer {
+.container {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  padding: 20px;
 }
 
+.selectorContainer {
+  height: 100px;
+}
+.targetBranch {
+  min-width: 40px;
+  cursor: pointer;
+}
 .selector {
   overflow: scroll;
-  /* display: flex;
-  align-items: center; */
-  max-height: 250px;
-  padding: 10px;
+  max-height: 80px;
+}
+.selector > p {
+  margin: 0;
 }
 
 .list {
@@ -17,9 +24,11 @@
 }
 
 .openList {
-  display: "";
-  position: relative;
-  left: 0;
+  position: absolute;
+  display: block;
+  min-width: 100px;
+  margin-top: 10px;
+  cursor: pointer;
 }
 
 .buttonContainer {
