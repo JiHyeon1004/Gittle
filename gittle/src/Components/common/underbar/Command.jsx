@@ -1,17 +1,16 @@
 import React,{useState,useEffect} from "react";
+import { useRecoilState } from "recoil";
+import {commandBranch,commandLine} from "../../../atoms"
 import styles from "./Command.module.css"
+
 
 function Command(props){
 
-    const [cmd,setCmd]=useState(props.cmd)
+    const [cmd,setCmd] = useRecoilState(commandLine)
     let arr =cmd.split('\n')
     const [isActive,SetIsActive] = useState(false)
-    const [branch, setBranch] = useState(props.cmdBranch)
 
-    useEffect(()=>{
-        // 
-        arr.push(`git checkout ${props.cmdBranch}`)
-    },[arr,props.cmdBranch])
+    
 
     return(
         <>

@@ -60,3 +60,8 @@ export const commandBranch = atom({
   key:"commandBranch",
   default:"",
 })
+
+export const commandLine = atom({
+  key:"commandLine",
+  default:`cd ${localStorage.getItem("currentRepo")}`,
+})

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useRecoilState } from "recoil";
-import { currentBranch, selectBranch, commandBranch } from "../../../atoms";
+import { currentBranch, selectBranch, commandLine } from "../../../atoms";
 import BranchManage from "./BranchManage";
 import DeleteBranch from "./DeleteBranch";
 import Modal from "../Modal";
@@ -12,7 +12,7 @@ function BranchList() {
   const navigate = useNavigate();
   const [curBranch, setCurBranch] = useRecoilState(currentBranch);
   const [selectedBranch, setSelectedBranch] = useRecoilState(selectBranch);
-  const [cmdBranch,SetCmdBranch] = useRecoilState(commandBranch);
+  const [cmd,SetCmd]=useRecoilState(commandLine)
   const [localListOpen, setLocalListOpen] = useState(false);
   const [remoteListOpen, setRemoteListOpen] = useState(false);
   const [errorModalOpen, setErrorModalOpen] = useState(false);
@@ -70,7 +70,10 @@ function BranchList() {
     // console.log("change", changeBranch(selectedBranch));
 
     setCurBranch(selectedBranch);
-    if(changeBranch(selectedBranch) !== "error") SetCmdBranch(selectedBranch)
+    if(changeBranch(selectedBranch) !== "error"){
+      SetCmd(`${cmd} \n git switch ${selectedBranch}`)
+    }
+      
   };
 
   const goCommit = () => {
