@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { currentBranch, selectBranch, commandLine } from "../../../atoms";
-import BranchManage from "./BranchManage";
+import CreateBranch from "./CreateBranch";
 import DeleteBranch from "./DeleteBranch";
 import Modal from "../Modal";
 import Button from "../Button";
@@ -12,7 +12,8 @@ function BranchList() {
   const navigate = useNavigate();
   const [curBranch, setCurBranch] = useRecoilState(currentBranch);
   const [selectedBranch, setSelectedBranch] = useRecoilState(selectBranch);
-  const [cmd,SetCmd]=useRecoilState(commandLine)
+  const [cmd, SetCmd] = useRecoilState(commandLine);
+  const [localBranches, setLocalBranches] = useState([]);
   const [localListOpen, setLocalListOpen] = useState(false);
   const [remoteListOpen, setRemoteListOpen] = useState(false);
   const [errorModalOpen, setErrorModalOpen] = useState(false);
@@ -20,15 +21,29 @@ function BranchList() {
   const { ipcRenderer } = window.require("electron");
   const currentRepo = localStorage.getItem("currentRepo");
 
-  const localBranches = ipcRenderer.sendSync("localBranchList", currentRepo);
+  // const localBranches = ipcRenderer.sendSync("localBranchList", currentRepo);
+
+  useEffect(() => {
+    const local = ipcRenderer
+      .sendSync("localBranchList", currentRepo)[0]
+      .split("\n")
+      .filter((branch) => branch)
+      .map((branch) => branch.trim())
+      .map((branch) => (branch.includes("*") ? curBranch : branch));
+
+    setLocalBranches(local);
+    // }, [localBranches]);
+  }, []);
+
+  console.log(localBranches);
+
   const remoteBranches = ipcRenderer.sendSync("remoteBranchList", currentRepo);
 
-
-  const localBranchList = localBranches[0]
-    .split("\n")
-    .filter((branch) => branch)
-    .map((branch) => branch.trim())
-    .map((branch) => (branch.includes("*") ? curBranch : branch));
+  // const localBranchList = localBranches[0];
+  // .split("\n")
+  // .filter((branch) => branch)
+  // .map((branch) => branch.trim())
+  // .map((branch) => (branch.includes("*") ? curBranch : branch));
 
   const remoteBranchList = remoteBranches[0]
     .split("\n")
@@ -64,16 +79,15 @@ function BranchList() {
     // branchSelector(e);
     changeBranch(selectedBranch) === "error"
       ? setErrorModalOpen(true)
-      : changeBranch(selectedBranch); 
-    
+      : changeBranch(selectedBranch);
+
     // status ? setStashModalOpen(true) : changeBranch(selectedBranch);
     // console.log("change", changeBranch(selectedBranch));
 
     setCurBranch(selectedBranch);
-    if(changeBranch(selectedBranch) !== "error"){
-      SetCmd(`${cmd} \n git switch ${selectedBranch}`)
+    if (changeBranch(selectedBranch) !== "error") {
+      SetCmd(`${cmd} \n git switch ${selectedBranch}`);
     }
-      
   };
 
   const goCommit = () => {
@@ -104,7 +118,7 @@ function BranchList() {
       <div>
         <div className={styles.branchList}>
           <div onClick={showLocalBranches}>local</div>
-          {localBranchList.map((branch, idx) => (
+          {localBranches.map((branch, idx) => (
             <div
               className={
                 localListOpen ? `${styles.openList}` : `${styles.list}`
@@ -149,7 +163,7 @@ function BranchList() {
             </div>
           ))}
         </div>
-        <BranchManage />
+        <CreateBranch />
       </div>
       <Modal
         open={errorModalOpen}
