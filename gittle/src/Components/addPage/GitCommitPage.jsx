@@ -18,7 +18,7 @@ function GitCommit() {
   const [newType, setNewType] = useState('')
   const [newExplanation, setNewExplanation] = useState('')
   const [commitDescription, setCommitDescription] = useState('')
-  let lastCommitDescription = ipcRenderer.sendSync("lastCommitDescription","git log --pretty=format:'%s' --no-merges -n 1")
+  // let lastCommitDescription = ipcRenderer.sendSync("lastCommitDescription","git log --pretty=format:'%s' --no-merges -n 1")
   const onChangeNewType = (e) => {
     setNewType(e.target.value)
   };
@@ -92,9 +92,9 @@ function GitCommit() {
         />
       </Dropdown>
       <div>
-        <input
+        <textarea
           type="text"
-          placeholder={lastCommitDescription}
+          placeholder={"커밋메시지를 입력해주세요."}
           onChange={onChangeCommitDescription}
           value={commitDescription}
         />
