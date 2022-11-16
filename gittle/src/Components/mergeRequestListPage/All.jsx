@@ -2,11 +2,15 @@ import React from "react";
 import { Octokit } from "octokit";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { allRequests } from "../../atoms";
+import { allRequests, mergeRequest, mergeCommit } from "../../atoms";
 import styles from "./All.module.css";
+import { useNavigate } from "react-router-dom";
 
 export default function All() {
   const [allReq, setAllReq] = useRecoilState(allRequests);
+  const [detail, setDetail] = useRecoilState(mergeRequest);
+  const [commits, setCommits] = useRecoilState(mergeCommit);
+  const navigate = useNavigate();
 
   const user = localStorage.getItem("userInfo");
   const location = localStorage.getItem("currentRepo");
@@ -30,11 +34,55 @@ export default function All() {
     }
     getAll();
   }, []);
+
+  const reqDetail = async (number) => {
+    const result = await showRequest(number);
+    navigate("/merge/detail");
+  };
+
+  async function showRequest(number) {
+    const user = localStorage.getItem("userInfo");
+    const location = localStorage.getItem("currentRepo").split("\\");
+    console.log(location);
+    const repo = location[location.length - 1];
+
+    const octokit = new Octokit({
+      auth: "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",
+    });
+
+    const info = await octokit.request(
+      "GET /repos/{owner}/{repo}/pulls/{pull_number}",
+      {
+        owner: user,
+        repo: repo,
+        pull_number: number,
+      }
+    );
+
+    const commit = await octokit.request(
+      "GET /repos/{owner}/{repo}/pulls/{pull_number}/commits",
+      {
+        owner: user,
+        repo: repo,
+        pull_number: number,
+      }
+    );
+    console.log(info.data);
+    console.log(commit);
+
+    setDetail(info.data);
+    setCommits(commit.data);
+  }
+
   return (
     <>
       <div>
         {allReq.map((req, index) => (
-          <div key={index} className={styles.box}>
+          <div
+            key={index}
+            className={styles.box}
+            onClick={() => reqDetail(req.number)}
+          >
             <div className={styles.titletag}>
               <div className={styles.title}>{req.title}</div>
               {req.merged_at ? (
