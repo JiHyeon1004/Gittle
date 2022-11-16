@@ -7,7 +7,7 @@ import Command from "../components/common/underbar/Command"
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { pushedData } from "../atoms";
+import { pushedData, commandLine } from "../atoms";
 
 function PushPage() {
   const [selBranch, setSelBranch] = useState("");
@@ -16,7 +16,8 @@ function PushPage() {
   const [committedList, setCommittedList] = useState([]);
   const [pushData, setPushData] = useRecoilState(pushedData);
   const [isMerge, setIsMerge] = useState(false);
-  const [cmd , SetCmd] =useState("")
+  // const [cmd , SetCmd] =useState("")
+  const [cmd, SetCmd] = useRecoilState(commandLine)
   // useEffect(()=>{
 
   // },[])
@@ -41,10 +42,7 @@ function PushPage() {
     
     
     SetCmd(text)
-    console.log('세팅완료 : ')
-    for(let i=0;i<cmd.length;i++){
-      console.log(cmd[i])
-    }
+    
     setIsMerge(true);
     // console.log(value);
     // navigate("/merge/ready");
