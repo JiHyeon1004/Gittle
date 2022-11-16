@@ -178,27 +178,42 @@ ipcMain.on("create branch", (event, route, newBranch) => {
   event.returnValue = codes;
 });
 
-ipcMain.on("delete localBranch", (event, route, delBranch) => {
+ipcMain.on("deleteLocalBranch", (event, route, delBranch) => {
   console.log("로컬 브랜치 삭제");
   const codes = [];
-  let branch = runCommand(
-    `git --git-dir=${route}\\.git branch -d ${delBranch}`
-  );
-  console.log("delete branch : ", branch);
-  codes.push(branch);
-  event.returnValue = codes;
+  let deletebranch;
+  try {
+    deletebranch = runCommand(
+      `git --git-dir=${route}\\.git branch -d ${delBranch}`
+    );
+    codes.push(deletebranch);
+
+    event.returnValue = codes;
+  } catch (error) {
+    console.error(error);
+    deletebranch = "";
+    event.returnValue = "error";
+  }
+  console.log("delete branch : ", deletebranch);
 });
 
-ipcMain.on("delete remoteBranch", (event, route, delBranch) => {
+ipcMain.on("deleteRemoteBranch", (event, route, delBranch) => {
   console.log("리모트 브랜치 삭제");
-
   const codes = [];
-  let branch = runCommand(
-    `git --git-dir=${route}\\.git push origin -d ${delBranch}`
-  );
+  let branch;
+  try {
+    branch = runCommand(
+      `git --git-dir=${route}\\.git push origin -d ${delBranch}`
+    );
+    codes.push(branch);
+
+    event.returnValue = codes;
+  } catch (error) {
+    console.error(error);
+    branch = "";
+    event.returnValue = "error";
+  }
   console.log("delete branch : ", branch);
-  codes.push(branch);
-  event.returnValue = codes;
 });
 
 app.whenReady().then(() => {
