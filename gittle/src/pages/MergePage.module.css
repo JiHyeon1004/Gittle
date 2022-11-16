@@ -1,4 +1,14 @@
-.main {
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: calc(100vh - 80px);
+  padding: 1.6rem;
+  border-left: 1px solid #000000;
+  /* margin: 0 auto; */
+}
+/* .main {
   width: 1000px;
   display: flex;
   flex-direction: column;
@@ -104,4 +114,4 @@
 
 .option {
   /* background: rgba(107, 204, 120, 0.5); */
-}
+/* } */

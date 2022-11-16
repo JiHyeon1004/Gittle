@@ -1,29 +1,18 @@
-.container-padding{
-  width: 100vw;
-}
-
 .App {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
 }
-
-.sideBar {
-  width: 30vw;
-  display: flex;
-  align-items: top;
-  justify-content: center;
-  /* position: sticky; */
-  top: 0%;
+.sidebar {
+  width: 25vw;
 }
-
-.routes{
-    width: 70vw;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+.routes {
+  width: 75vw;
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
 }

@@ -1,3 +1,10 @@
+.container {
+  width: 55vw;
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* justify-content: center; */
+  /* align-items: center; */
+}
 .logbox {
   display: flex;
   flex-direction: column;

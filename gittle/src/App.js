@@ -24,10 +24,10 @@ function App() {
 
   return (
     <>
-      <Header />
       <div className="container-padding">
+        <Header />
         <div className="App">
-          <div className="sideBar">
+          <div className="sidebar">
             <SideBar />
           </div>
           {/* <Routes location={location}> */}

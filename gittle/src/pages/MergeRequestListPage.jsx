@@ -29,7 +29,7 @@ export default function MergeRequestListPage() {
     setAll(true);
   };
   return (
-    <div>
+    <div className={styles.container}>
       <div>Merge 요청 목록</div>
       <div className={styles.tabs}>
         {assignee && !merged && !all ? (
