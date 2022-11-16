@@ -471,3 +471,9 @@ ipcMain.on("gitStash", (event, route) => {
   console.log("gitStash", stash);
   event.returnValue = stash;
 });
+ipcMain.on("gitGraph", (event) => {
+  const gitGraph = runCommand(
+    "git log --branches --decorate --graph --oneline"
+  );
+  event.returnValue = gitGraph;
+});
