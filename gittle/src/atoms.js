@@ -55,3 +55,8 @@ export const mergedRequests = atom({
   key: "mergedRequests",
   default: [],
 });
+
+export const commandBranch = atom({
+  key:"commandBranch",
+  default:"",
+})

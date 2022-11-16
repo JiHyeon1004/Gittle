@@ -1,11 +1,17 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import styles from "./Command.module.css"
 
 function Command(props){
 
-    let cmd=props.cmd
+    const [cmd,setCmd]=useState(props.cmd)
     let arr =cmd.split('\n')
     const [isActive,SetIsActive] = useState(false)
+    const [branch, setBranch] = useState(props.cmdBranch)
+
+    useEffect(()=>{
+        // 
+        arr.push(`git checkout ${props.cmdBranch}`)
+    },[arr,props.cmdBranch])
 
     return(
         <>

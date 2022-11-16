@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useRecoilState } from "recoil";
-import { currentBranch, selectBranch } from "../../../atoms";
+import { currentBranch, selectBranch, commandBranch } from "../../../atoms";
 import BranchManage from "./BranchManage";
 import DeleteBranch from "./DeleteBranch";
 import Modal from "../Modal";
@@ -12,6 +12,7 @@ function BranchList() {
   const navigate = useNavigate();
   const [curBranch, setCurBranch] = useRecoilState(currentBranch);
   const [selectedBranch, setSelectedBranch] = useRecoilState(selectBranch);
+  const [cmdBranch,SetCmdBranch] = useRecoilState(commandBranch);
   const [localListOpen, setLocalListOpen] = useState(false);
   const [remoteListOpen, setRemoteListOpen] = useState(false);
   const [errorModalOpen, setErrorModalOpen] = useState(false);
@@ -21,6 +22,7 @@ function BranchList() {
 
   const localBranches = ipcRenderer.sendSync("localBranchList", currentRepo);
   const remoteBranches = ipcRenderer.sendSync("remoteBranchList", currentRepo);
+
 
   const localBranchList = localBranches[0]
     .split("\n")
@@ -62,11 +64,13 @@ function BranchList() {
     // branchSelector(e);
     changeBranch(selectedBranch) === "error"
       ? setErrorModalOpen(true)
-      : changeBranch(selectedBranch);
-
+      : changeBranch(selectedBranch); 
+    
     // status ? setStashModalOpen(true) : changeBranch(selectedBranch);
     // console.log("change", changeBranch(selectedBranch));
+
     setCurBranch(selectedBranch);
+    if(changeBranch(selectedBranch) !== "error") SetCmdBranch(selectedBranch)
   };
 
   const goCommit = () => {
