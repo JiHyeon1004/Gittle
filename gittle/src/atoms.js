@@ -56,6 +56,12 @@ export const mergedRequests = atom({
   default: [],
 });
 
+
+
+export const commandLine = atom({
+  key:"commandLine",
+  default:`cd ${localStorage.getItem("currentRepo")}`,
+})
 export const reviewModal = atom({
   key: "reviewModal",
   default: false,
