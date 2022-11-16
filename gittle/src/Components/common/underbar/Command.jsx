@@ -1,8 +1,13 @@
 import React,{useState,useEffect} from "react";
 import { useRecoilState } from "recoil";
 import {commandBranch,commandLine} from "../../../atoms"
-import styles from "./Command.module.css"
 
+import {
+    faCaretDown,
+    faCaretUp,
+  } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import styles from "./Command.module.css"
 
 function Command(props){
 
@@ -19,8 +24,14 @@ function Command(props){
                     
                     SetIsActive(!isActive)
                 }}>
-                    {!isActive && '^'}
-                    {isActive && 'V'}
+                    {!isActive && <FontAwesomeIcon
+                                    icon={faCaretUp}
+                                    className={styles.dropicon}
+                                  />}
+                    {isActive && <FontAwesomeIcon
+                                    icon={faCaretDown}
+                                    className={styles.dropicon}
+                                  />}
                 </div>
                 <div className={styles.wordBox}>
                     {!isActive && 
