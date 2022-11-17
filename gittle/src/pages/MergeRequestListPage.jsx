@@ -30,7 +30,6 @@ export default function MergeRequestListPage() {
   };
   return (
     <div className={styles.container}>
-      <div>Merge 요청 목록</div>
       <div className={styles.tabs}>
         {assignee && !merged && !all ? (
           <div className={styles.actiontab} onClick={showAssignee}>

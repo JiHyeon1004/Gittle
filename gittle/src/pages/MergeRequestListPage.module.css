@@ -18,7 +18,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-weight: 600;
+  font-weight: bold;
   cursor: pointer;
 }
 
@@ -38,5 +38,4 @@
   border: 1px solid #959595;
   border-radius: 0 0.8rem 0.8rem 0.8rem;
   padding: 20px;
-  width: 50rem;
 }
