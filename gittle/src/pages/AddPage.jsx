@@ -25,18 +25,17 @@ function AddPage() {
   }
   return (
     <div className={styles.container}>
+      <div className={styles.commitButton}>
+      <GitCommitButton/></div>
       <GitDiff diffFiles={files} diff={codes} />
       {/* <div>{codes}</div> */}
       <StatusComp getFile={getFile} getDiff={getDiff} cmd={cmd} updateCmd={updateCmd}/>
-      <div className={styles.commitButton}>
-      <GitCommitButton/>
       <br />
       <br /><br /><br />
 
       <div className={styles.cmdDiv}>
         <Command></Command>
       </div></div>
-    </div>
   );
 }
 
