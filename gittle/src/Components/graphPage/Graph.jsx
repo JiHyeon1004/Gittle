@@ -1,30 +1,14 @@
-import React, { useState } from "react";
-import { useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { Octokit } from "octokit";
+import { useRecoilValue } from "recoil";
+import { logsList } from "../../atoms";
 import styles from "./Graph.module.css";
 
 export default function Graph() {
-  const [graph, setGraph] = useState("");
-  const [lines, setLines] = useState([]);
+  const logs = useRecoilValue(logsList);
   useEffect(() => {
-    const { ipcRenderer } = window.require("electron");
-    const result = ipcRenderer.sendSync("gitGraph");
-    console.log(result);
-    setGraph(result);
-    setLines(result.split("\n"));
+    console.log("aaaaaaaaaaaa", logs);
   }, []);
-  return (
-    <>
-      <div className={styles.graph}>
-        {graph
-          .replaceAll(" ", "  ")
-          .replaceAll("*", "🍎")
-          .replaceAll("|", "⬆")
-          .replaceAll("/", "↗")
-          .replaceAll("\\", "↖")}
-      </div>
-      {/* {lines.map((line, index) => (
-      <div key={index}>{line.replace("*", "")}</div>
-    ))} */}
-    </>
-  );
+
+  return <>{/* <div>{logs[0].commit}</div> */}</>;
 }
