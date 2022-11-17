@@ -459,17 +459,23 @@ ipcMain.on("git-Push", (event, payload) => {
 });
 
 ipcMain.on("call-committed-files", (event, root) => {
-  const commitIdList = runCommand(`cd "${root}" && git log -1`);
-  let temp1 = commitIdList.split("\n")[0];
-  let tempArr = temp1.split(" ");
+  let commitIdList;
+  try{
+    commitIdList = runCommand(`cd "${root}" && git log -1`);
+    let temp1 = commitIdList.split("\n")[0];
+    let tempArr = temp1.split(" ");
 
-  let commitId = tempArr[1];
+    let commitId = tempArr[1];
 
-  //실행
-  const returnArr = runCommand(
-    `cd "${root}" && git show --pretty="" --name-only ${commitId}`
-  );
-  event.returnValue = returnArr;
+    //실행
+    const returnArr = runCommand(
+      `cd "${root}" && git show --pretty="" --name-only ${commitId}`
+    );
+    event.returnValue = returnArr;
+  }catch(e){
+    event.returnValue='no'
+  }
+  
 });
 
 ipcMain.on("openTerminal", (event, currentRepo) => {

@@ -1,5 +1,10 @@
 .container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100vw;
   min-height: calc(100vh - 80px);
-  padding-left: 1.6rem;
-  /* border-left: 1px solid #000000; */
+  padding: 1.6rem;
+  /* margin: 0 auto; */
 }
