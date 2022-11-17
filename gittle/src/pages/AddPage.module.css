@@ -6,7 +6,7 @@
 
 
 .commitButton{
-  position: relative;
-  top: 80px;
-  right: 8%;
+        position: fixed;
+          top: 90px;
+          right: 3%;
 }

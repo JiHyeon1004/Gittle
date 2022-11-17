@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import Button from "../common/Button";
 import Modal from "../common/Modal";
 import Dropdown from 'react-bootstrap/Dropdown';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
+import styles from './GitCommitPage.module.css';
 
 const { ipcRenderer } = window.require("electron");
 const getCommitRules = () => {
@@ -18,6 +18,7 @@ function GitCommit() {
   const [newType, setNewType] = useState('')
   const [newExplanation, setNewExplanation] = useState('')
   const [commitDescription, setCommitDescription] = useState('')
+  const [commitMessage, setCommitMessage] = useState('')
   // let lastCommitDescription = ipcRenderer.sendSync("lastCommitDescription","git log --pretty=format:'%s' --no-merges -n 1")
   const onChangeNewType = (e) => {
     setNewType(e.target.value)
@@ -64,45 +65,57 @@ function GitCommit() {
   }
   return (
     <>
-      <Dropdown>
-        <Dropdown.Toggle id="commit-rule">
-          {commitType === '' ? <>Commit 타입</> : <>{commitType}</>}
-        </Dropdown.Toggle>
-        <Dropdown.Menu>
-          {(() => {
-            const arr = [];
-            for (let i of commitRules) {
-                arr.push(
-                  <OverlayTrigger
-                    placement="right"
-                    delay={{ show: 250, hide: 400 }}
-                    overlay={renderTooltip(i.explanation)}
-                  >
-                    <Dropdown.Item value={i.type} onClick={() =>{setCommitType(i.type)}}>{i.type}</Dropdown.Item>
-                  </OverlayTrigger>
-                );
-            }
-            return arr;
-          })()}
-        </Dropdown.Menu>
-        <Button
-          action={openModal}
-          content={"추가"}
-          style={{ backgroundColor: "#6BCC78", color: "white" }}
-        />
-      </Dropdown>
+
+        <Dropdown>
+          <Dropdown.Toggle id="commit-rule" style={{backgroundColor: "#DCDCDC", border:"0", color:"#525252", margintBottm: '1px'}}>
+            {commitType === '' ? <>Commit 타입</> : <>{commitType}</>}
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            {(() => {
+              const arr = [];
+              for (let i of commitRules) {
+                  arr.push(
+                    <OverlayTrigger
+                      placement="right"
+                      delay={{ show: 250, hide: 400 }}
+                      overlay={renderTooltip(i.explanation)}
+                    >
+                      <Dropdown.Item value={i.type} onClick={() =>{setCommitType(i.type)}}>{i.type}</Dropdown.Item>
+                    </OverlayTrigger>
+                  );
+              }
+              return arr;
+            })()}
+          </Dropdown.Menu>
+          <button className={styles.rulePlusBtn1}
+            onClick={openModal}
+            style={{ backgroundColor: "#6BCC78", color: "white"}}
+          >추가</button>
+        </Dropdown>
+
       <div>
         <textarea
           type="text"
           placeholder={"커밋메시지를 입력해주세요."}
           onChange={onChangeCommitDescription}
           value={commitDescription}
+          style={{width: "98%", height:"10rem", marginTop:"2%", marginBottom:"2%", borderRadius:"0.3rem"}}
         />
-        <Button
-          action={commit}
-          content={"Commit"}
-          style={{ backgroundColor: "#4D96FF", color: "white" }}
-        />
+      </div>
+      
+      <div>
+
+        <div style={{marginBottom : "1%"}}><span style={{color: "#FF8B8B", fontSize:"14.5px"}}>&nbsp;커밋메시지 미리보기</span></div>
+        <span style={{fontSize:"14.5px"}}>&nbsp;{commitType}</span><span style={{fontSize:"14.5px"}}>{commitDescription}</span>
+
+      </div>
+
+
+        <div className={styles.toRight}>
+        <button className={styles.commitBtn}
+        onClick={commit}
+          style={{ backgroundColor: "#FF6B6B", color: "white" }}
+          >Commit</button>
       </div>
 
 
@@ -112,21 +125,23 @@ function GitCommit() {
         open={modalOpen}
         content={
           <>
-            <div>
+            <div className={styles.forMargin}>
               <label>타입</label>
-              <input
+              <input className={styles.commitPlusInput}
                 type="text"
-                placeholder="Feat"
+                placeholder="Feat : "
                 onChange={onChangeNewType}
                 value={newType}
+              style={{margin:"1%", width:"98%"}}
+
               />
             </div>
-            <br/>
             <div>
               <label>설명</label>
-              <input
+              <input className={styles.commitPlusInput}
+                style={{ margin: "1%", width: "98%" }}
                 type="text"
-                placeholder="기능 변경"
+                placeholder="새로운 기능을 추가한 경우"
                 onChange={onChangeNewExplanation}
                 value={newExplanation}
               />
@@ -134,17 +149,17 @@ function GitCommit() {
           </>
         }
       >
-        <div>
-          <Button
-            action={addCommitConvention}
-            content={"추가"}
+
+        <div className={styles.btnSet}>
+          <button className={styles.rulePlusBtn2}
+            onClick={addCommitConvention}
             style={{ backgroundColor: "#6BCC78" }}
-          />
-          <Button
-            action={closeModal}
-            content={"취소"}
-            style={{ border: "1px solid #7B7B7B" }}
-          />
+          >추가</button>
+          <button className={styles.rulePlusBtn2}
+            onClick={closeModal}
+            style={{
+              backgroundColor: "#DCDCDC" }}
+          >취소</button>
         </div>
       </Modal>
     </>
