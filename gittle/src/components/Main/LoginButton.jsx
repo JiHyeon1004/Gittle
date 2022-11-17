@@ -9,8 +9,12 @@ const USER_DATA_API_URL = `${process.env.REACT_APP_SERVER_BASE_URL}/getUserData`
 
 
 function Login(){
+  const { ipcRenderer } = window.require("electron");
+  ipcRenderer.on("asdf", (event, data) => {
+    console.log(data);
+  });
 
-    const [rerender, setRerender] = useState(false);
+  const [rerender, setRerender] = useState(false);
   const [isHover, setIsHover] = useState(false);
   const [userData, setUserData] = useState({});
   

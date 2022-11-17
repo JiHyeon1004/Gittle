@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styles from "./Modal.module.css"
 import { useNavigate } from "react-router";
-import {CLICK} from '../../constants'
 
 
 
@@ -26,7 +25,7 @@ function Modal(props){
 
     //폴더 위치 가져오는 함수
     const findDirectoryRoot = ()=>{
-        setRepoRoot(ipcRenderer.sendSync(CLICK,'start'))
+        setRepoRoot(ipcRenderer.sendSync("click",'start'))
     }
 
     const updateMyRepo= (folder)=>{
