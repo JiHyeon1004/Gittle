@@ -35,13 +35,13 @@ function Command(props){
                 </div>
                 <div className={styles.wordBox}>
                     {!isActive && 
-                        <div className={styles.cmd}>
+                        <div className={styles.lastWord}>
                         {arr[arr.length-1]}
                     </div> }
                     
                     {isActive && 
                         arr.map((item, idx)=>(
-                            <div key={idx} className={styles.cmd}>
+                            <div key={idx} className={idx===arr.length-1 ? styles.lastWord : styles.cmd}>
                                 {item}
                             </div>
                         ))
