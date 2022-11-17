@@ -24,15 +24,20 @@ function AddPage() {
     SetCmd(arg)
   }
   return (
+    <div>
     <div className={styles.container}>
+      {/* 깃커밋버튼 */}
       <div className={styles.commitButton}>
-      <GitCommitButton/></div>
+        <GitCommitButton /></div>
+      
       <GitDiff diffFiles={files} diff={codes} />
       {/* <div>{codes}</div> */}
       <StatusComp getFile={getFile} getDiff={getDiff} cmd={cmd} updateCmd={updateCmd}/>
       <br />
       <br /><br /><br />
 
+      
+      </div>
       <div className={styles.cmdDiv}>
         <Command></Command>
       </div></div>

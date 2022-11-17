@@ -13,7 +13,7 @@ function GitCommitButton(props) {
     setModalOpen(false);
   };
   return (
-    <div>
+    <div style={{zIndex: 99}}>
       <button
         className={styles.toCommitBtn}
         onClick={openModal}
