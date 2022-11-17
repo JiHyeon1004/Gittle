@@ -34,6 +34,12 @@
   animation: modal-bg-show 0.3s;
 }
 
+.modalCloseBtn {
+  position: sticky;
+  right: 0;
+}
+
+
 @keyframes modal-show {
   from {
     opacity: 0;

@@ -1,8 +1,7 @@
-.container-padding{
-  width: 100vw;
-}
 
-.App {
+
+
+.app {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -13,18 +12,18 @@
 }
 
 .sideBar {
-  width: 30vw;
+  width: 20vw;
   display: flex;
-  align-items: top;
+  align-items: flex-start;
   justify-content: center;
   /* position: fixed;
   left: 0%; */
   top: 0%;
 }
 
-.routes{
-    width: 70vw;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+.main {
+    width: 80vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
