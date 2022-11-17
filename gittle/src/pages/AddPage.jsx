@@ -27,7 +27,12 @@ function AddPage() {
       <GitDiff diffFiles={files} diff={codes} />
       {/* <div>{codes}</div> */}
       <StatusComp getFile={getFile} getDiff={getDiff} cmd={cmd} updateCmd={updateCmd}/>
-      <Command></Command>
+      <br />
+      <br /><br /><br />
+
+      <div className={styles.cmdDiv}>
+        <Command></Command>
+      </div>
     </div>
   );
 }

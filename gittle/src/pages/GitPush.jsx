@@ -7,7 +7,7 @@ import Command from "../components/common/underbar/Command"
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { pushedData, commandLine } from "../atoms";
+import { pushedData, commandLine, isLoading } from "../atoms";
 
 function PushPage() {
   const [selBranch, setSelBranch] = useState("");
@@ -18,12 +18,13 @@ function PushPage() {
   const [isMerge, setIsMerge] = useState(false);
   // const [cmd , SetCmd] =useState("")
   const [cmd, SetCmd] = useRecoilState(commandLine)
-  // useEffect(()=>{
-
-  // },[])
+  const [isLoad , SetIsLoad] = useRecoilState(isLoading)
+  
   const pushStart = () => {
+    SetIsLoad(true)
     if (selBranch === "") {
       alert("브랜치를 선택해주세요!");
+      SetIsLoad(false)
       return;
     }
     const value = ipcRenderer.sendSync("git-Push", {
@@ -33,6 +34,7 @@ function PushPage() {
 
     if(value==='error'){
       alert("해당 브랜치에 푸시할 수 없습니다. 먼저 풀을 당겨서 원격 브랜치와 로컬 브린치의 버전을 맞춰주세요")
+      SetIsLoad(false)
       return;
     }
 
@@ -44,8 +46,7 @@ function PushPage() {
     SetCmd(text)
     
     setIsMerge(true);
-    // console.log(value);
-    // navigate("/merge/ready");
+    SetIsLoad(false)
   };
 
   return (
