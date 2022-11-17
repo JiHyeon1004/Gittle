@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useRecoilState } from "recoil";
+import { commandLine } from "../../atoms";
 import Modal from "../common/Modal";
 import Dropdown from 'react-bootstrap/Dropdown';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
@@ -19,6 +21,7 @@ function GitCommit() {
   const [newExplanation, setNewExplanation] = useState('')
   const [commitDescription, setCommitDescription] = useState('')
   const [commitMessage, setCommitMessage] = useState('')
+  const [cmd , SetCmd] = useRecoilState(commandLine)
   // let lastCommitDescription = ipcRenderer.sendSync("lastCommitDescription","git log --pretty=format:'%s' --no-merges -n 1")
   const onChangeNewType = (e) => {
     setNewType(e.target.value)
@@ -61,6 +64,7 @@ function GitCommit() {
     const commitMessage = commitType + commitDescription
     const data = ipcRenderer.sendSync("gitCommit",commitMessage)
     closeModal()
+    SetCmd(`${cmd} \n git commit -m "${commitMessage}"`)
     setCommitDescription('')
     setCommitType('')
   }
