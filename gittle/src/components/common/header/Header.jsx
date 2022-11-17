@@ -43,6 +43,7 @@ function Header() {
           <Button page="merge" whenClick={changeSelectedPage} selPage={selectedPage}></Button>
         </div>
         <div className={styles.log}>
+          <Button  page="merge/request" whenClick={changeSelectedPage} selPage={selectedPage}></Button>
           <Button  page="log" whenClick={changeSelectedPage} selPage={selectedPage}></Button>
         </div>
 {/*         

@@ -4,27 +4,41 @@
 }
 
 .selectedPage{
-    text-decoration: none;
-    width: 5vw;
-    height: 40%;
-    /* margin-left: 4%; */
+    width: 7vw;
+    height: 50%;
+    font-family: 'Roboto', sans-serif;
     text-align: center;
-    border: 2px solid rgb(244, 228, 7);
     border-radius: 10px;
     cursor: pointer;
+    transition: 0.5s;
 
-    background-color: rgb(216, 244, 7);
+    background-color: rgb(255, 251, 0);
+    color: blueviolet;
+    font-weight: bolder;
 }
 
 .unSelectedPage{
-    text-decoration: none;
-    width: 5vw;
-    height: 40%;
-    /* margin-left: 4%; */
+    width: 7vw;
+    height: 50%;
     text-align: center;
-    border: 1px solid black;
+    font-family: 'Roboto', sans-serif;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: #000;
+    background-color: #fff;
+    border: none;
     border-radius: 10px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
     cursor: pointer;
-
-    background-color: aqua;
+    outline: none;
 }
+
+.unSelectedPage:hover {
+    background-color: #2EE59D;
+    box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+    color: #fff;
+    transform: translateY(-7px);
+  }

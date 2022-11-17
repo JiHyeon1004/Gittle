@@ -66,3 +66,8 @@ export const reviewModal = atom({
   key: "reviewModal",
   default: false,
 });
+
+export const isLoading = atom({
+  key:"isLoading",
+  default: false
+})

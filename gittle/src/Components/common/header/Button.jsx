@@ -7,6 +7,12 @@ import styles from "./Button.module.css"
 function Buttons(props){
     const navigate = useNavigate()
     const root ="/"+props.page;
+    let page;
+    if(props.page==='merge/request'){
+        page=`merge \n request`
+    }else{
+        page=props.page
+    } 
     
     return(
         <div 
@@ -14,10 +20,8 @@ function Buttons(props){
             onClick={()=>{
                 props.whenClick(props.page)
                 navigate(root)
-
-                
             }}>
-            <div className={styles.text}>{props.page}</div>
+            {page}
         </div>
     )
 
