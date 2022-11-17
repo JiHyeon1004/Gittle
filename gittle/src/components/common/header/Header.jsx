@@ -4,12 +4,16 @@ import GitHelp from "./GitHelp";
 import GitPull from "./GitPull";
 import Button from "./Button"
 import styles from "./Header.module.css";
+import { useRecoilState } from "recoil";
+import {pushBtn  } from "../../../atoms";
 import TerminalButton from "./TerminalButton";
 
 function Header() {
   const location = useLocation();
   
-  const [selectedPage,SetSelectedPage]= useState("add")
+  // const [selectedPage,SetSelectedPage]= useState("add")
+  const [selectedPage,SetSelectedPage]= useRecoilState(pushBtn)
+  
   const changeSelectedPage=(arg)=>{
     SetSelectedPage(arg)
   }
