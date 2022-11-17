@@ -1,52 +1,46 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import styles from './Committed.module.css'
+import styles from "./Committed.module.css";
+import { committedFiles } from "../../atoms";
+import { useRecoilState } from "recoil";
 
+function Committed(props) {
+  const repoRoot = localStorage.getItem("currentRepo");
+  const { ipcRenderer } = window.require("electron");
+  const [fileList, setFileList] = useRecoilState(committedFiles);
 
-function Committed(props){
+  const callFiles = () => {
+    const returnValue = ipcRenderer.sendSync("call-committed-files", repoRoot);
+    const tempArr = returnValue.split("\n");
 
-    const repoRoot=localStorage.getItem('currentRepo');
-    const {ipcRenderer} = window.require('electron') 
-    const [fileList,setFileList]=useState([])
+    const resultArr = [];
 
-    const callFiles=()=>{
-        const returnValue=ipcRenderer.sendSync('call-committed-files',repoRoot)
-        const tempArr = returnValue.split('\n')
-
-        const resultArr=[]
-
-        for(let i=0;i<tempArr.length;i++){
-            if(tempArr[i]!==''){
-                resultArr.push(tempArr[i])
-            }
-        }
-
-        setFileList(resultArr)
+    for (let i = 0; i < tempArr.length; i++) {
+      if (tempArr[i] !== "") {
+        resultArr.push(tempArr[i]);
+      }
     }
 
-    useEffect(()=>{
-        callFiles()
-        props.settingCommittedData(fileList)
-    },[])
+    setFileList(resultArr);
+  };
 
+  useEffect(() => {
+    callFiles();
+    props.settingCommittedData(fileList);
+  }, []);
 
-    return(
-        <>
-        <div className={styles.commit}>
-            
-            {fileList.map((item,idx)=>(
-                <div
-                    key={idx}
-                    className={styles.commitBox}>
-                        {item}
-                </div>
-            ))}
-
-        </div>
-        </>
-    )
+  return (
+    <>
+      <div className={styles.commit}>
+        {fileList.map((item, idx) => (
+          <div key={idx} className={styles.commitBox}>
+            {item}
+          </div>
+        ))}
+      </div>
+    </>
+  );
 }
 
-
-export default Committed
+export default Committed;

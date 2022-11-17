@@ -406,7 +406,7 @@ ipcMain.on("gitBranch", (event, route) => {
 });
 
 ipcMain.on("gitCommit", (event, commitMessage) => {
-  let data = runCommand(`git -C ${currentRepo} commit -m ${commitMessage}`);
+  let data = runCommand(`git -C ${currentRepo} commit -m "${commitMessage}"`);
   //console.log(data);
   event.returnValue = data;
 });

@@ -60,3 +60,13 @@ export const reviewModal = atom({
   key: "reviewModal",
   default: false,
 });
+
+export const committedFiles = atom({
+  key: "committedFiles",
+  default: [],
+});
+
+export const logsList = atom({
+  key: "logsList",
+  default: [],
+});
