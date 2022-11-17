@@ -93,7 +93,7 @@ function Repoes() {
 
   return (
     <div className={styles.repo}>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;최근 repo
+      최근 repo
       {repoFiles}
     </div>
   );

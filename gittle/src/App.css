@@ -1,29 +1,17 @@
-
-
-
-.app {
+.App {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  /* align-items: center; */
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
 }
-
-.sideBar {
-  width: 20vw;
+/* .sidebar {
+  width: 25vw;
+} */
+.routes {
   display: flex;
-  align-items: flex-start;
   justify-content: center;
-  /* position: fixed;
-  left: 0%; */
-  top: 0%;
-}
-
-.main {
-    width: 80vw;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  align-items: center;
 }

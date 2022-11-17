@@ -1,5 +1,5 @@
 .repo {
-  padding: 2px;
+  padding: 2vh 2vw;
   margin-top: 7vh;
   margin-left: 17vw;
   margin-right: 17vw;
@@ -7,7 +7,6 @@
   width: 51vw;
   font-family: var(--font-Inter);
   font-weight: bolder;
-  font-size: 3vh;
   border: 2px solid rgb(255, 143, 143);
   border-radius: 10px;
 }

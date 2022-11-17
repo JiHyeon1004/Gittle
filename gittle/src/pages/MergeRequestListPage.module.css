@@ -1,3 +1,10 @@
+.container {
+  width: calc(100vw - 256px);
+  min-height: calc(100vh - 80px);
+  padding: 1.6rem;
+  border-left: 1px solid #000000;
+}
+
 .tabs {
   display: flex;
 }
@@ -11,7 +18,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-weight: 600;
+  font-weight: bold;
   cursor: pointer;
 }
 
@@ -31,5 +38,4 @@
   border: 1px solid #959595;
   border-radius: 0 0.8rem 0.8rem 0.8rem;
   padding: 20px;
-  width: 50rem;
 }
