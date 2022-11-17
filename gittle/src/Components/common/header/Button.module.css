@@ -11,6 +11,7 @@
     text-align: center;
     border: 2px solid rgb(244, 228, 7);
     border-radius: 10px;
+    cursor: pointer;
 
     background-color: rgb(216, 244, 7);
 }
@@ -23,6 +24,7 @@
     text-align: center;
     border: 1px solid black;
     border-radius: 10px;
+    cursor: pointer;
 
     background-color: aqua;
 }
