@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Button from "../common/Button";
 import Modal from "../common/Modal";
 import GitCommitPage from "./GitCommitPage";
 import styles from "./GitCommitPage.module.css"
