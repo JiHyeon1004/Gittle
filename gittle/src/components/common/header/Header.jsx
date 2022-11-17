@@ -40,7 +40,7 @@ function Header() {
             src={process.env.PUBLIC_URL + "/right-arrow.png"}
             alt="right-arrow"
           />
-          <Button page="merge" whenClick={changeSelectedPage} selPage={selectedPage}></Button>
+          <Button page="merge/ready" whenClick={changeSelectedPage} selPage={selectedPage}></Button>
         </div>
         <div className={styles.log}>
           <Button  page="merge/request" whenClick={changeSelectedPage} selPage={selectedPage}></Button>

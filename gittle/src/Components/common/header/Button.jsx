@@ -10,6 +10,8 @@ function Buttons(props){
     let page;
     if(props.page==='merge/request'){
         page=`merge \n request`
+    }else if(props.page==='merge/ready'){
+        page=`merge`
     }else{
         page=props.page
     } 
