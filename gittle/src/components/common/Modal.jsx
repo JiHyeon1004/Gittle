@@ -3,6 +3,9 @@ import styles from "./Modal.module.css";
 
 function Modal(props) {
   const { open, style, content } = props;
+
+
+
   return (
     <div
       className={
