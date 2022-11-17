@@ -24,6 +24,7 @@ function AddPage() {
     SetCmd(arg)
   }
   return (
+    <div>
     <div className={styles.container}>
       {/* 깃커밋버튼 */}
       <div className={styles.commitButton}>
@@ -35,10 +36,11 @@ function AddPage() {
       <br />
       <br /><br /><br />
 
+      
+      </div>
       <div className={styles.cmdDiv}>
         <Command></Command>
-      </div>
-    </div>
+      </div></div>
   );
 }
 
