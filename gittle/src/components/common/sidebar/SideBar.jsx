@@ -12,15 +12,12 @@ function SideBar() {
   if (location.pathname === "/") return null;
   return (
     <div className={styles.container}>
-      <div>
-        <div className={styles.selector}>
-          <BranchList />
-          {/* <LogCheck /> */}
-        </div>
+      {/* <GitCommit /> */}
+      <div className={styles.selector}>
+        <BranchList />
+        <LogCheck />
       </div>
-      <div>
-        <CommitRuleButton />
-      </div>
+      <CommitRuleButton />
     </div>
   );
 }

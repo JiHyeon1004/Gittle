@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import styles from "./GitPush.module.css";
 import Committed from "../components/pushPage/Committed";
 import Push from "../components/pushPage/Push";
-import CommentBox from "../components/pushPage/CommentBox"
-import Command from "../components/common/underbar/Command"
+import CommentBox from "../components/pushPage/CommentBox";
+import Command from "../components/common/underbar/Command";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
@@ -44,17 +44,16 @@ function PushPage() {
 
     const result = { branch: selBranch, commitList: committedList };
     setPushData(result);
-    let text = cmd+'\n'+`git push origin ${selBranch}`
-    
-    
-    SetCmd(text)
-    
+    let text = cmd + "\n" + `git push origin ${selBranch}`;
+
+    SetCmd(text);
+
     setIsMerge(true);
     SetIsLoad(false)
   };
 
   return (
-    <>
+    <div className={styles.container}>
       <div className={styles.divide}>
         <div className={styles.committed}>
           <CommentBox location="local"></CommentBox>
@@ -78,7 +77,7 @@ function PushPage() {
         </div>
 
         <div className={styles.push}>
-        <CommentBox location="remote"></CommentBox>
+          <CommentBox location="remote"></CommentBox>
           <Push
             changeBranch={(arg) => {
               setSelBranch(arg);
@@ -86,6 +85,7 @@ function PushPage() {
           />
         </div>
         <div className={styles.buttonArea}>
+
           {!isMerge && <button
             className={styles.button}
             onClick={() => {
@@ -103,11 +103,12 @@ function PushPage() {
           >
             Merge
           </button>}
+
         </div>
-        
+
         <Command cmd={cmd}></Command>
       </div>
-    </>
+    </div>
   );
 }
 
