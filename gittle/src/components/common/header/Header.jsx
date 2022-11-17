@@ -51,9 +51,11 @@ function Header() {
         <Link to="/merge/ready">merge</Link> | <Link to="/push">push</Link> |{" "}
         <Link to="/merge/request">merge request</Link> | <Link to="/graph">graph</Link> */}
       </div>
-      <TerminalButton />
-      <GitHelp />
-      <GitPull />
+      <div className={styles.box}>
+        <TerminalButton /> 
+        <GitHelp />
+        <GitPull />
+      </div>
     </div>
   );
 }

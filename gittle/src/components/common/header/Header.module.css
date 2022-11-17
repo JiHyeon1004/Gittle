@@ -55,3 +55,9 @@ a {
   width: 10%;
   height: 40%;
 }
+
+.box {
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+}
