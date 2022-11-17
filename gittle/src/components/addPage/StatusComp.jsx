@@ -148,7 +148,7 @@ function MultiTableDrag({ getFile, getDiff,cmd,updateCmd }) {
     entitiesMock.columns.staged.taskIds = stagedIds
 
     setEntities(entitiesMock)
-  },[entities]);
+  },[entities, setEntities]);
 
   /**
    * On window click
@@ -569,6 +569,10 @@ function MultiTableDrag({ getFile, getDiff,cmd,updateCmd }) {
           </Row>
         </DragDropContext>
       </Card>
+
+      <button onClick={()=>{
+        ipcRenderer.send("gitAdd", ".")
+      }}>전체 add</button>
     </>
   );
 }
