@@ -7,7 +7,7 @@ import Command from "../components/common/underbar/Command"
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { pushedData, commandLine, isLoading } from "../atoms";
+import { pushedData, commandLine, isLoading, pushBtn } from "../atoms";
 
 function PushPage() {
   const [selBranch, setSelBranch] = useState("");
@@ -19,6 +19,7 @@ function PushPage() {
   // const [cmd , SetCmd] =useState("")
   const [cmd, SetCmd] = useRecoilState(commandLine)
   const [isLoad , SetIsLoad] = useRecoilState(isLoading)
+  const [selButton, SetSelButton] = useRecoilState(pushBtn)
   
   const pushStart = () => {
     SetIsLoad(true)
@@ -97,6 +98,7 @@ function PushPage() {
             className={styles.mergeButton}
             onClick={() => {
               navigate("/merge/ready");
+              SetSelButton("merge/ready")
             }}
           >
             Merge
