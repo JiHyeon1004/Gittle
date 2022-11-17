@@ -1,5 +1,6 @@
 import React from "react";
 import Dropdown from "react-bootstrap/Dropdown";
+import styles from "./GitHelp.module.css";
 
 const gitCommandExample = [
   "git help : git 명령어에 대한 도움을 받을 수 있습니다.",
@@ -17,8 +18,11 @@ const gitCommandExample = [
 ]
 function GitHelp() {
   return (
-    <Dropdown drop="down">
-      <Dropdown.Toggle variant="secondary">git 명령어 도움말</Dropdown.Toggle>
+    <Dropdown drop="down" size="sm">
+      <Dropdown.Toggle variant="white" size="sm" className={styles.question}>
+        <img style={{ width: "40px", height: "40px" }} src={process.env.PUBLIC_URL + '/icons/question.png'} ></img>
+        <br/>도움말
+      </Dropdown.Toggle>
       <Dropdown.Menu variant="dark">
         {(() => {
           const arr = [];

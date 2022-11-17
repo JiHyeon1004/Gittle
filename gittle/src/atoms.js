@@ -33,9 +33,9 @@ export const mergingBranch = atom({
 });
 
 export const pushedData = atom({
-  key:"pushedData",
-  default:{},
-})
+  key: "pushedData",
+  default: {},
+});
 export const mergeRequest = atom({
   key: "mergeRequest",
   default: {},
@@ -55,3 +55,19 @@ export const mergedRequests = atom({
   key: "mergedRequests",
   default: [],
 });
+
+
+
+export const commandLine = atom({
+  key:"commandLine",
+  default:`cd "${localStorage.getItem("currentRepo")}"`,
+})
+export const reviewModal = atom({
+  key: "reviewModal",
+  default: false,
+});
+
+export const isLoading = atom({
+  key:"isLoading",
+  default: false
+})

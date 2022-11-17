@@ -105,6 +105,7 @@ export default function Request() {
         each.value = member.login;
         each.name = member.login;
         members.push(each);
+        // 테스트하느라 주석 처리 => 나중에 꼭 해제해(109, 111번 줄)
         if (each.name !== user) {
           exceptMe.push(each);
         }

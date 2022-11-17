@@ -1,4 +1,6 @@
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import {isLoading} from "./atoms"
 
 import Main from "./pages/MainPage";
 import Add from "./pages/AddPage";
@@ -11,6 +13,8 @@ import Header from "./components/common/header/Header";
 import SideBar from "./components/common/sidebar/SideBar";
 import MergeRequestList from "./pages/MergeRequestListPage";
 import MergeDetail from "./pages/MergeDetailPage";
+import Graph from "./pages/GraphPage";
+import Loading from "./components/common/loading/Loading"
 
 import "./App.css";
 import "bootstrap";
@@ -20,27 +24,33 @@ import Popper from "popper.js";
 
 function App() {
   // const location = useLocation();
+  const [isLoad, SetIsLoad] = useRecoilState(isLoading)
 
   return (
     <>
+      {isLoad && <Loading/>}
       <Header />
-      <div className="app">
-        <div className="sideBar">
-          <SideBar />
+      <div className="container-padding">
+        <div className="App">
+          <div className="sideBar">
+            <SideBar />
+          </div>
+          {/* <Routes location={location}> */}
+          <div className="routes">
+            <Routes>
+              <Route path="/" element={<Main />} />
+              <Route path="/add" element={<Add />} />
+              <Route path="/log" element={<Log />} />
+              <Route path="/push" element={<Push />} />
+              <Route path="/merge/ready" element={<MergeReady />} />
+              <Route path="/merge" element={<Merge />} />
+              <Route path="/merge/request" element={<MergeRequestList />} />
+              <Route path="/merge/detail" element={<MergeDetail />} />
+              <Route path="/graph" element={<Graph />} />
+            </Routes>
+          </div>
         </div>
-        {/* <Routes location={location}> */}
-        <div className="main">
-          <Routes>
-            <Route path="/" element={<Main />} />
-            <Route path="/add" element={<Add />} />
-            <Route path="/log" element={<Log />} />
-            <Route path="/push" element={<Push />} />
-            <Route path="/merge/ready" element={<MergeReady />} />
-            <Route path="/merge" element={<Merge />} />
-            <Route path="/merge/request" element={<MergeRequestList />} />
-            <Route path="/merge/detail" element={<MergeDetail />} />
-          </Routes>
-        </div></div>
+      </div>
     </>
   );
 }

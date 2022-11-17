@@ -4,6 +4,18 @@
   margin-bottom: 0.5rem;
 }
 
+.merged {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #6bcc78;
+  width: 5.5rem;
+  height: 1.5rem;
+  color: white;
+  border-radius: 1rem;
+  font-size: 0.8rem;
+}
+
 .needmerge {
   display: flex;
   justify-content: center;
@@ -51,13 +63,13 @@
   padding: 0.7rem 0.5rem;
   /* border-radius: 1rem; */
   border-width: 0 0 0.1rem 0;
-  cursor: pointer;
 }
 
 .commitprofile {
   display: flex;
   flex-direction: row;
   align-items: center;
+  cursor: pointer;
 }
 
 .avatar {
@@ -213,14 +225,12 @@
 }
 
 .active {
-  font-weight: 500;
+  font-weight: 600;
   font-size: 0.8rem;
-
-  color: #a66cff;
 }
 
 .code {
-  width: 90%;
+  width: 100%;
   display: flex;
   flex-direction: row;
 }
@@ -269,6 +279,56 @@
   font-family: "D2Coding";
   font-size: 0.9rem;
   margin-bottom: 0.1rem;
+}
+
+.comments {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  font-weight: 600;
+  color: #6bcc78;
+  cursor: pointer;
+}
+
+.dropicon {
+  margin-left: 0.5rem;
+}
+
+.commentbox {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 0.8rem;
+  border: 0.1rem solid rgba(107, 204, 120, 0.5);
+  border-radius: 1rem;
+  padding: 0.5rem;
+}
+
+.commentavatar {
+  border-radius: 10rem;
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.content {
+  margin-left: 0.6rem;
+}
+
+.comment {
+  display: flex;
+  flex-direction: row;
+}
+
+.commentuser {
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.commentdate {
+  font-size: 0.7rem;
+  color: #959595;
+  margin-left: 0.5rem;
 }
 
 @font-face {

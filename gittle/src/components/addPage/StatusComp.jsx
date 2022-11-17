@@ -1,4 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
+import {commandLine} from "../../atoms"
 import { Table, Row, Col, Card, Empty } from "antd";
 import "antd/dist/antd.css";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
@@ -18,8 +20,8 @@ import "./StatusStyle.css";
 let unstagedIds = [];
 let stagedIds = [];
 let changedFile = [];
-
 function statusData(gitStatus) {
+ 
   //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   //반쪽짜리
   //둘다 있을때 안사람짐 초기화 한번 해야됨
@@ -79,9 +81,10 @@ const COLUMN_ID_DONE = "staged";
 // https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/button
 const PRIMARY_BUTTON_NUMBER = 0;
 
-function MultiTableDrag({ getFile, getDiff }) {
+function MultiTableDrag({ getFile, getDiff,cmd,updateCmd }) {
   const { ipcRenderer } = window.require("electron");
   const currentRepo = localStorage.getItem("currentRepo");
+  const [cmdLine, SetCmdLine] = useRecoilState(commandLine)
   const gitStatus = ipcRenderer
       .sendSync("gitStatus", currentRepo)
       .split("\n")
@@ -145,7 +148,7 @@ function MultiTableDrag({ getFile, getDiff }) {
     entitiesMock.columns.staged.taskIds = stagedIds
 
     setEntities(entitiesMock)
-  },[entities]);
+  },[entities, setEntities]);
 
   /**
    * On window click
@@ -312,8 +315,16 @@ function MultiTableDrag({ getFile, getDiff }) {
     console.log(files);
     if (destination.droppableId === "staged") {
       ipcRenderer.send("gitAdd", files);
+      // let nextCmd=gitStatus.cmd + `\n` + files
+      console.log('add 완료')
+      let nextCmd = `${cmdLine} \n git add ${files}`
+      SetCmdLine(nextCmd)
     } else if (destination.droppableId === "unstaged") {
       ipcRenderer.send("gitReset", files);
+      console.log('reset 완료')
+      let nextCmd = `${cmdLine} \n git reset ${files}`
+      // let nextCmd=gitStatus.cmd + `\n` + `git add ${files}`
+      SetCmdLine(nextCmd)
     }
     const processed = mutliDragAwareReorder({
       entities,
@@ -558,6 +569,10 @@ function MultiTableDrag({ getFile, getDiff }) {
           </Row>
         </DragDropContext>
       </Card>
+
+      <button onClick={()=>{
+        ipcRenderer.send("gitAdd", ".")
+      }}>전체 add</button>
     </>
   );
 }
