@@ -14,6 +14,8 @@ function Buttons(props){
             onClick={()=>{
                 props.whenClick(props.page)
                 navigate(root)
+
+                
             }}>
             <div className={styles.text}>{props.page}</div>
         </div>
