@@ -7,7 +7,7 @@ import Command from "../components/common/underbar/Command";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { pushedData, commandLine, isLoading } from "../atoms";
+import { pushedData, commandLine, isLoading, pushBtn } from "../atoms";
 
 function PushPage() {
   const [selBranch, setSelBranch] = useState("");
@@ -19,6 +19,7 @@ function PushPage() {
   // const [cmd , SetCmd] =useState("")
   const [cmd, SetCmd] = useRecoilState(commandLine)
   const [isLoad , SetIsLoad] = useRecoilState(isLoading)
+  const [selButton, SetSelButton] = useRecoilState(pushBtn)
   
   const pushStart = () => {
     SetIsLoad(true)
@@ -52,63 +53,68 @@ function PushPage() {
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.divide}>
-        <div className={styles.committed}>
-          <CommentBox location="local"></CommentBox>
-          {/* <button onClick={()=>{
-            SetIsLoad(true)
-            setTimeout(()=>{SetIsLoad(false)},2000)
-          }}>test</button> */}
-          <Committed
-            settingCommittedData={(arg) => {
-              setCommittedList(arg);
-            }}
-          />
-        </div>
-        <div className={styles.arrow}>
-          <img
-            src={process.env.PUBLIC_URL + "/right-arrow.png"}
-            alt="arrow"
-            className={styles.arrowImg}
-          />
-          Push
-        </div>
+    <>
+    <div>
+      <div className={styles.container}>
+        <div className={styles.divide}>
+          <div className={styles.committed}>
+            <CommentBox location="local"></CommentBox>
+            {/* <button onClick={()=>{
+              SetIsLoad(true)
+              setTimeout(()=>{SetIsLoad(false)},2000)
+            }}>test</button> */}
+            <Committed
+              settingCommittedData={(arg) => {
+                setCommittedList(arg);
+              }}
+            />
+          </div>
+          <div className={styles.arrow}>
+            <img
+              src={process.env.PUBLIC_URL + "/right-arrow.png"}
+              alt="arrow"
+              className={styles.arrowImg}
+            />
+            Push
+          </div>
 
-        <div className={styles.push}>
-          <CommentBox location="remote"></CommentBox>
-          <Push
-            changeBranch={(arg) => {
-              setSelBranch(arg);
-            }}
-          />
-        </div>
-        <div className={styles.buttonArea}>
-          {!isMerge && (
-            <button
+          <div className={styles.push}>
+            <CommentBox location="remote"></CommentBox>
+            <Push
+              changeBranch={(arg) => {
+                setSelBranch(arg);
+              }}
+            />
+          </div>
+          <div className={styles.buttonArea}>
+
+            {!isMerge && <button
               className={styles.button}
               onClick={() => {
                 pushStart();
               }}
             >
               Push
-            </button>
-          )}
-          {isMerge && (
-            <button
+            </button>}
+            {isMerge && <button
               className={styles.mergeButton}
               onClick={() => {
                 navigate("/merge/ready");
+                SetSelButton("merge/ready")
               }}
             >
               Merge
-            </button>
-          )}
-        </div>
+            </button>}
 
-        <Command cmd={cmd}></Command>
+          </div>
+        </div>
+        
       </div>
+      <footer className={styles.cmdDiv}>
+        <Command></Command>
+      </footer>
     </div>
+    </>
   );
 }
 

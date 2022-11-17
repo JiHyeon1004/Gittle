@@ -38,9 +38,13 @@ function AddPage() {
 
       
       </div>
-      <div className={styles.cmdDiv}>
+      {/* <div className={styles.cmdDiv}>
         <Command></Command>
-      </div></div>
+      </div> */}
+      <footer className={styles.cmdDiv}>
+        <Command></Command>
+      </footer>
+    </div>
   );
 }
 

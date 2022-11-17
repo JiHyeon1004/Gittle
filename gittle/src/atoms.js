@@ -71,3 +71,8 @@ export const isLoading = atom({
   key:"isLoading",
   default: false
 })
+
+export const pushBtn = atom({
+  key: "pushBtn",
+  default:"add"
+})
