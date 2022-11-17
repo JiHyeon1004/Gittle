@@ -53,62 +53,68 @@ function PushPage() {
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.divide}>
-        <div className={styles.committed}>
-          <CommentBox location="local"></CommentBox>
-          {/* <button onClick={()=>{
-            SetIsLoad(true)
-            setTimeout(()=>{SetIsLoad(false)},2000)
-          }}>test</button> */}
-          <Committed
-            settingCommittedData={(arg) => {
-              setCommittedList(arg);
-            }}
-          />
-        </div>
-        <div className={styles.arrow}>
-          <img
-            src={process.env.PUBLIC_URL + "/right-arrow.png"}
-            alt="arrow"
-            className={styles.arrowImg}
-          />
-          Push
-        </div>
-
-        <div className={styles.push}>
-          <CommentBox location="remote"></CommentBox>
-          <Push
-            changeBranch={(arg) => {
-              setSelBranch(arg);
-            }}
-          />
-        </div>
-        <div className={styles.buttonArea}>
-
-          {!isMerge && <button
-            className={styles.button}
-            onClick={() => {
-              pushStart();
-            }}
-          >
+    <>
+    <div>
+      <div className={styles.container}>
+        <div className={styles.divide}>
+          <div className={styles.committed}>
+            <CommentBox location="local"></CommentBox>
+            {/* <button onClick={()=>{
+              SetIsLoad(true)
+              setTimeout(()=>{SetIsLoad(false)},2000)
+            }}>test</button> */}
+            <Committed
+              settingCommittedData={(arg) => {
+                setCommittedList(arg);
+              }}
+            />
+          </div>
+          <div className={styles.arrow}>
+            <img
+              src={process.env.PUBLIC_URL + "/right-arrow.png"}
+              alt="arrow"
+              className={styles.arrowImg}
+            />
             Push
-          </button>}
-          {isMerge && <button
-            className={styles.mergeButton}
-            onClick={() => {
-              navigate("/merge/ready");
-              SetSelButton("merge/ready")
-            }}
-          >
-            Merge
-          </button>}
+          </div>
 
+          <div className={styles.push}>
+            <CommentBox location="remote"></CommentBox>
+            <Push
+              changeBranch={(arg) => {
+                setSelBranch(arg);
+              }}
+            />
+          </div>
+          <div className={styles.buttonArea}>
+
+            {!isMerge && <button
+              className={styles.button}
+              onClick={() => {
+                pushStart();
+              }}
+            >
+              Push
+            </button>}
+            {isMerge && <button
+              className={styles.mergeButton}
+              onClick={() => {
+                navigate("/merge/ready");
+                SetSelButton("merge/ready")
+              }}
+            >
+              Merge
+            </button>}
+
+          </div>
         </div>
-
-        <Command cmd={cmd}></Command>
+        
       </div>
+      <footer className={styles.cmdDiv}>
+        <Command></Command>
+      </footer>
     </div>
+    </>
   );
 }
 

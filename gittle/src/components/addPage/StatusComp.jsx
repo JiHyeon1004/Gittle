@@ -572,6 +572,7 @@ function MultiTableDrag({ getFile, getDiff,cmd,updateCmd }) {
 
       <button onClick={()=>{
         ipcRenderer.send("gitAdd", ".")
+        SetCmdLine(`${cmd} \n git add .`)
       }}>전체 add</button>
     </>
   );
