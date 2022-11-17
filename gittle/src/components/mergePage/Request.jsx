@@ -152,7 +152,6 @@ export default function Request() {
 
   return (
     <div className={styles.main}>
-      <p>merge</p>
       <div className={styles.merge}>
         <div className={styles.text}>
           <p className={styles.pushedbranch}>{pushed}</p>

@@ -5,8 +5,7 @@ import styles from "./MergeReadyPage.module.css";
 
 function MergeReadyPage() {
   return (
-    <div>
-      <p>merge</p>
+    <div className={styles.container}>
       <div className={styles.box}>
         <Local />
         <Remote />
