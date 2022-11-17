@@ -6,16 +6,12 @@
   position: fixed;
   left: 0;
   top: 80px;
-  min-width: 256px;
+  width: 256px;
   height: calc(100vh - 80px);
   padding: 1rem 0.5rem;
   z-index: 5;
 }
 
 .selector {
-  display: flex;
-}
-
-.commitFriends {
   display: flex;
 }
