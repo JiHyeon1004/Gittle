@@ -1,3 +1,4 @@
+import GitCommitButton from "../components/addPage/GitCommitButton";
 import React, { useState,useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { commandLine} from "../atoms"
@@ -27,7 +28,14 @@ function AddPage() {
       <GitDiff diffFiles={files} diff={codes} />
       {/* <div>{codes}</div> */}
       <StatusComp getFile={getFile} getDiff={getDiff} cmd={cmd} updateCmd={updateCmd}/>
-      <Command></Command>
+      <div className={styles.commitButton}>
+      <GitCommitButton/>
+      <br />
+      <br /><br /><br />
+
+      <div className={styles.cmdDiv}>
+        <Command></Command>
+      </div></div>
     </div>
   );
 }

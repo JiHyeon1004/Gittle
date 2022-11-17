@@ -7,7 +7,7 @@ import Command from "../components/common/underbar/Command";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { pushedData, commandLine } from "../atoms";
+import { pushedData, commandLine, isLoading } from "../atoms";
 
 function PushPage() {
   const [selBranch, setSelBranch] = useState("");
@@ -17,12 +17,13 @@ function PushPage() {
   const [pushData, setPushData] = useRecoilState(pushedData);
   const [isMerge, setIsMerge] = useState(false);
   // const [cmd , SetCmd] =useState("")
-  const [cmd, SetCmd] = useRecoilState(commandLine);
-  // useEffect(()=>{
-
-  // },[])
+  const [cmd, SetCmd] = useRecoilState(commandLine)
+  const [isLoad , SetIsLoad] = useRecoilState(isLoading)
+  
   const pushStart = () => {
+    SetIsLoad(true)
     if (selBranch === "") {
+      SetIsLoad(false)
       alert("브랜치를 선택해주세요!");
       return;
     }
@@ -31,11 +32,13 @@ function PushPage() {
       branch: selBranch,
     });
 
-    if (value === "error") {
-      alert(
-        "해당 브랜치에 푸시할 수 없습니다. 먼저 풀을 당겨서 원격 브랜치와 로컬 브린치의 버전을 맞춰주세요"
-      );
+    if(value==='error'){
+      SetIsLoad(false)
+      alert("해당 브랜치에 푸시할 수 없습니다. 먼저 풀을 당겨서 원격 브랜치와 로컬 브린치의 버전을 맞춰주세요")
       return;
+
+
+
     }
 
     const result = { branch: selBranch, commitList: committedList };
@@ -45,8 +48,7 @@ function PushPage() {
     SetCmd(text);
 
     setIsMerge(true);
-    // console.log(value);
-    // navigate("/merge/ready");
+    SetIsLoad(false)
   };
 
   return (
@@ -54,6 +56,10 @@ function PushPage() {
       <div className={styles.divide}>
         <div className={styles.committed}>
           <CommentBox location="local"></CommentBox>
+          {/* <button onClick={()=>{
+            SetIsLoad(true)
+            setTimeout(()=>{SetIsLoad(false)},2000)
+          }}>test</button> */}
           <Committed
             settingCommittedData={(arg) => {
               setCommittedList(arg);

@@ -1,4 +1,6 @@
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import {isLoading} from "./atoms"
 
 import Main from "./pages/MainPage";
 import Add from "./pages/AddPage";
@@ -12,6 +14,7 @@ import SideBar from "./components/common/sidebar/SideBar";
 import MergeRequestList from "./pages/MergeRequestListPage";
 import MergeDetail from "./pages/MergeDetailPage";
 import Graph from "./pages/GraphPage";
+import Loading from "./components/common/loading/Loading"
 
 import "./App.css";
 import "bootstrap";
@@ -21,9 +24,12 @@ import Popper from "popper.js";
 
 function App() {
   // const location = useLocation();
+  const [isLoad, SetIsLoad] = useRecoilState(isLoading)
 
   return (
     <>
+      {isLoad && <Loading/>}
+      <Header />
       <div className="container-padding">
         <Header />
         <div className="App">
