@@ -2,8 +2,8 @@
   display: flex;
   flex-direction: column;
   /* justify-content: space-between; */
-  /* align-items: top; */
-  position: sticky;
+  /* align-items: flex-start; */
+  /* position: sticky; */
   top: 0px;
   min-width: 256px;
   height: calc(100vh - 80px);
@@ -16,8 +16,3 @@
   display: flex;
 }
 
-
-.commitFriends{
-  display: flex;
-
-}

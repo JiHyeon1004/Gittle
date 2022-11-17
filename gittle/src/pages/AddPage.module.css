@@ -4,6 +4,12 @@
   /* border-left: 1px solid #000000; */
 }
 
+.commitButton{
+        position: fixed;
+          top: 90px;
+          right: 3%;
+}
+
 .cmdDiv{
   position: sticky;
   bottom: 0%;
