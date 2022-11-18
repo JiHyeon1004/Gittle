@@ -7,7 +7,7 @@ import Command from "../components/common/underbar/Command";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { pushedData, commandLine, isLoading, pushBtn } from "../atoms";
+import { pushedData, commandLine, isLoading, pushBtn,cmtList } from "../atoms";
 
 function PushPage() {
   const [selBranch, setSelBranch] = useState("");
@@ -20,7 +20,8 @@ function PushPage() {
   const [cmd, SetCmd] = useRecoilState(commandLine)
   const [isLoad , SetIsLoad] = useRecoilState(isLoading)
   const [selButton, SetSelButton] = useRecoilState(pushBtn)
-  const [isPush , SetIsPush] = useState(false)
+  // const [isPush , SetIsPush] = useState(false)
+  const [commitList, SetCommitList]= useRecoilState(cmtList)
   
   const pushStart = () => {
     SetIsLoad(true)
@@ -64,8 +65,6 @@ function PushPage() {
               settingCommittedData={(arg) => {
                 setCommittedList(arg);
               }}
-
-              isPush={isPush}
             />
           </div>
           <div className={styles.arrow}>
@@ -91,10 +90,11 @@ function PushPage() {
               className={styles.button}
               onClick={() => {
                 pushStart();
-                SetIsPush(true)
+                // SetIsPush(true)
+                SetCommitList([])
               }}
 
-              disabled={isPush ? false : true}
+              disabled={commitList.length===0 ? true : false}
               
             >
               Push
@@ -105,6 +105,8 @@ function PushPage() {
                 navigate("/merge/ready");
                 SetSelButton("merge/ready")
               }}
+
+              // disabled={isPush ? false : true}
             >
               Merge
             </button>

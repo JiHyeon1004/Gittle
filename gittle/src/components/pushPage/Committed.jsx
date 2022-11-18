@@ -3,16 +3,17 @@ import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useNavigate } from "react-router";
 import styles from "./Committed.module.css";
-import { committedFiles, isLoading,pushBtn } from "../../atoms";
+import { committedFiles, isLoading,pushBtn, cmtList } from "../../atoms";
 import { useRecoilState } from "recoil";
 
 function Committed(props) {
   
   const repoRoot=localStorage.getItem('currentRepo');
   const {ipcRenderer} = window.require('electron') 
-  const [fileList,setFileList]=useState([])
+  // const [fileList,setFileList]=useState([])
   const [isLoad, SetIsLoad] = useRecoilState(isLoading)
   const [selectedPage,SetSelectedPage]= useRecoilState(pushBtn)
+  const [commitList , SetCommitList] = useRecoilState(cmtList)
   const returnValue = ipcRenderer.sendSync("call-committed-files", repoRoot);
   const tempArr = returnValue.split("\n");
     const navigate = useNavigate()
@@ -32,24 +33,29 @@ function Committed(props) {
 
         for(let i=0;i<tempArr.length;i++){
             if(tempArr[i]!==''){
-              console.log(`${i} 번째 : `)
-              console.log(tempArr[i])
                 resultArr.push(tempArr[i])
             }
         }
 
-        setFileList(resultArr)
+        SetCommitList(resultArr)
         SetIsLoad(false)
     }
 
     useEffect(()=>{
         callFiles()
-        props.settingCommittedData(fileList)
+        props.settingCommittedData(commitList)
     },[])
 
     return (
       <>
-        {!props.isPush &&<div className={styles.commit}>
+        <div className={styles.commit}>
+          {commitList.map((item, idx) => (
+            <div key={idx} className={styles.commitBox}>
+              {item}
+            </div>
+          ))}
+        </div>
+        {/* {!props.isPush &&<div className={styles.commit}>
           {fileList.map((item, idx) => (
             <div key={idx} className={styles.commitBox}>
               {item}
@@ -58,7 +64,7 @@ function Committed(props) {
         </div>}
         {props.isPush &&<div className={styles.commit}>
           
-        </div>}
+        </div>} */}
       </>
     );
   
