@@ -41,6 +41,7 @@ export default function Detail() {
   const location = localStorage.getItem("currentRepo");
   const repoArr = location.split("\\");
   const repo = repoArr[repoArr.length - 1];
+  const owner = localStorage.getItem("owner")
 
   useEffect(() => {
     console.log("!!!!", mergeReqInfo);
@@ -52,6 +53,7 @@ export default function Detail() {
     const location = localStorage.getItem("currentRepo").split("\\");
     console.log(location);
     const repo = location[location.length - 1];
+    const owner = localStorage.getItem("owner")
 
     async function getCommit() {
       const octokit = new Octokit({
@@ -61,7 +63,7 @@ export default function Detail() {
       const commitInfo = await octokit.request(
         "GET /repos/{owner}/{repo}/commits/{ref}",
         {
-          owner: user,
+          owner: owner,
           repo: repo,
           ref: commit,
         }
@@ -102,7 +104,7 @@ export default function Detail() {
       const reviews = await octokit.request(
         "GET /repos/{owner}/{repo}/pulls/{pull_number}/comments",
         {
-          owner: user,
+          owner: owner,
           repo: repo,
           pull_number: mergeReqInfo.number,
         }
@@ -168,7 +170,7 @@ export default function Detail() {
     const merge = await octokit.request(
       "PUT /repos/{owner}/{repo}/pulls/{pull_number}/merge",
       {
-        owner: user,
+        owner: owner,
         repo: repo,
         pull_number: mergeReqInfo.number,
         // commit_title: 'Expand enum',
