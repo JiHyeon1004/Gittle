@@ -38,6 +38,8 @@ function Committed(props) {
           }
         }
 
+        
+
         SetCommitList(resultArr)
         SetIsLoad(false)
     }
