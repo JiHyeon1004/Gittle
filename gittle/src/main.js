@@ -471,9 +471,11 @@ ipcMain.on("call-committed-files", (event, root) => {
     console.log('피망?')
     // commitIdList = runCommand(`cd "${root}" && git log -1`);
     commitIdList=runCommand(`cd ${root} && git log --branches --not --remotes`)
-    if(commitIdList === ''){
+    if(commitIdList.trim() === ''){
+      console.log('업으')
       event.returnValue=[]
     }else{
+      console.log('있으')
       let temp1 = commitIdList.split("\n")[0];
       let tempArr = temp1.split(" ");
 
