@@ -92,6 +92,10 @@ function PushPage() {
               className={styles.button}
               onClick={() => {
                 pushStart();
+                console.log('test시이이이작!')
+                for(let i=0;i<committedList.length;i++){
+                  console.log(committedList[i])
+                }
                 setCommittedList([])
               }}
 
