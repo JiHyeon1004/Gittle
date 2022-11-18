@@ -83,3 +83,8 @@ export const logsList = atom({
   key: "logsList",
   default: [],
 });
+
+export const cmtList = atom({
+  key:"committedList",
+  default:[]
+})
