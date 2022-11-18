@@ -16,7 +16,6 @@ function PushPage() {
   const [committedList, setCommittedList] = useState([]);
   const [pushData, setPushData] = useRecoilState(pushedData);
   const [isMerge, setIsMerge] = useState(false);
-  // const [cmd , SetCmd] =useState("")
   const [cmd, SetCmd] = useRecoilState(commandLine)
   const [isLoad , SetIsLoad] = useRecoilState(isLoading)
   const [selButton, SetSelButton] = useRecoilState(pushBtn)
