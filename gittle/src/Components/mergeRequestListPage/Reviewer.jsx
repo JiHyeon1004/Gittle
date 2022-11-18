@@ -111,7 +111,11 @@ export default function Reviewer() {
             </div>
           ))}
         </div>
-      ) : null}
+      ) : (
+        <div>
+          아직 요청된 내역이 없습니다!
+        </div>
+      )}
     </div>
   );
 }

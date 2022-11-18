@@ -75,39 +75,43 @@ export default function Merged() {
 
   return (
     <>
+    {mergedReq.length ? (
       <div>
-        {mergedReq.map((req, index) => (
-          <div
-            key={index}
-            className={styles.box}
-            onClick={() => reqDetail(req.number)}
-          >
-            <div className={styles.title}>{req.title}</div>
-            <div className={styles.body}>
-              <div className={styles.person}>요청자</div>
-              <img
-                className={styles.image}
-                src={req.user.avatar_url}
-                alt="avatar"
-              />
-              <div className={styles.text}>{req.user.login}</div>
-              <div className={styles.text}>|</div>
-              <div className={styles.person}>담당자</div>
-              <img
-                className={styles.image}
-                src={req.assignee.avatar_url}
-                alt="avatar"
-              />
+      {mergedReq.map((req, index) => (
+        <div
+          key={index}
+          className={styles.box}
+          onClick={() => reqDetail(req.number)}
+        >
+          <div className={styles.title}>{req.title}</div>
+          <div className={styles.body}>
+            <div className={styles.person}>요청자</div>
+            <img
+              className={styles.image}
+              src={req.user.avatar_url}
+              alt="avatar"
+            />
+            <div className={styles.text}>{req.user.login}</div>
+            <div className={styles.text}>|</div>
+            <div className={styles.person}>담당자</div>
+            <img
+              className={styles.image}
+              src={req.assignee.avatar_url}
+              alt="avatar"
+            />
 
-              <div className={styles.text}>{req.assignee.login}</div>
-              <div className={styles.text}>|</div>
-              <div className={styles.text}>
-                {req.merged_at.replace("T", " ").replace("Z", "")} 에 merge 완료
-              </div>
+            <div className={styles.text}>{req.assignee.login}</div>
+            <div className={styles.text}>|</div>
+            <div className={styles.text}>
+              {req.merged_at.replace("T", " ").replace("Z", "")} 에 merge 완료
             </div>
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
+    </div>
+    ) : (
+      <div>아직 merge 된 요청이 없습니다!</div>
+    )}
     </>
   );
 }

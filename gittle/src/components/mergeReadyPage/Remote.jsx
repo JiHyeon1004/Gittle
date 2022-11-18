@@ -51,7 +51,11 @@ export default function Remote() {
   };
 
   const openModal = () => {
-    setModalOpen(true);
+    if (merge) {
+      setModalOpen(true);
+    } else {
+      alert("merge 할 branch를 선택해주세요!")
+    }
   };
   const closeModal = () => {
     setModalOpen(false);
