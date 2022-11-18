@@ -11,13 +11,13 @@ function Committed(props) {
   const { ipcRenderer } = window.require("electron");
   const [fileList, setFileList] = useRecoilState(committedFiles);
 
-  const callFiles = () => {
-    const returnValue = ipcRenderer.sendSync("call-committed-files", repoRoot);
-    const tempArr = returnValue.split("\n");
+  // const callFiles = () => {
+    // const returnValue = ipcRenderer.sendSync("call-committed-files", repoRoot);
+    // const tempArr = returnValue.split("\n");
 
-    const repoRoot=localStorage.getItem('currentRepo');
-    const {ipcRenderer} = window.require('electron') 
-    const [fileList,setFileList]=useState([])
+    // const repoRoot=localStorage.getItem('currentRepo');
+    // const {ipcRenderer} = window.require('electron') 
+    // const [fileList,setFileList]=useState([])
     const [isLoad, SetIsLoad] = useRecoilState(isLoading)
     const [selectedPage,SetSelectedPage]= useRecoilState(pushBtn)
     const navigate = useNavigate()
