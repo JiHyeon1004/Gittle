@@ -461,6 +461,10 @@ ipcMain.on("git-Push", (event, payload) => {
 ipcMain.on("call-committed-files", (event, root) => {
   let commitIdList;
   try{
+    if(runCommand(`cd ${root} && git log --branches --not --remotes`).length ===0){
+      event.returnValue = []
+      return
+    }
     commitIdList = runCommand(`cd "${root}" && git log -1`);
     let temp1 = commitIdList.split("\n")[0];
     let tempArr = temp1.split(" ");
