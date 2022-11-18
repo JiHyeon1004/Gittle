@@ -13,6 +13,8 @@ export default function Review({ files, sha, pull }) {
   const location = localStorage.getItem("currentRepo");
   const repoArr = location.split("\\");
   const repo = repoArr[repoArr.length - 1];
+  const owner = localStorage.getItem("owner")
+
   const [file, setFile] = useState("");
   // 설명 저장하기
   const [description, setDescription] = useState("");
@@ -45,7 +47,7 @@ export default function Review({ files, sha, pull }) {
     const review = await octokit.request(
       "POST /repos/{owner}/{repo}/pulls/{pull_number}/comments",
       {
-        owner: user,
+        owner: owner,
         repo: repo,
         pull_number: pull,
         body: description,
