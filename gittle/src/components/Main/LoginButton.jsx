@@ -48,7 +48,6 @@ function Login(){
               return response.json();
             })
             .then((data) => {
-              //데이터를 object로
               setUserData(data);
               localStorage.setItem("userInfo", data.login);
             });
