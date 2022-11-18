@@ -9,7 +9,7 @@ import styles from './GitCommitPage.module.css';
 
 const { ipcRenderer } = window.require("electron");
 const getCommitRules = () => {
-  return JSON.parse(ipcRenderer.sendSync("ReadCommitConvention", localStorage.getItem("currentRepo")))
+  return JSON.parse(ipcRenderer.sendSync("ReadCommitRules", localStorage.getItem("currentRepo")))
 }
 
 function GitCommit() {
@@ -36,8 +36,8 @@ function GitCommit() {
   const closeModal = () => {
     setModalOpen(false);
   };
-  const addCommitConvention = () => {
-    const commitRules = ipcRenderer.sendSync("WriteCommitConvention",{type:newType,explanation:newExplanation})
+  const addCommitRules = () => {
+    const commitRules = ipcRenderer.sendSync("WriteCommitRules",{type:newType,explanation:newExplanation})
     setNewType('')
     setNewExplanation('')
     setCommitRules(commitRules)
@@ -159,7 +159,7 @@ function GitCommit() {
 
         <div className={styles.btnSet}>
           <button className={styles.rulePlusBtn2}
-            onClick={addCommitConvention}
+            onClick={addCommitRules}
             style={{ backgroundColor: "#6BCC78", color: "white"}}
           >추가</button>
           <button className={styles.rulePlusBtn2}

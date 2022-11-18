@@ -13,8 +13,6 @@ function Committed(props) {
   const [isLoad, SetIsLoad] = useRecoilState(isLoading)
   const [selectedPage,SetSelectedPage]= useRecoilState(pushBtn)
   const [commitList , SetCommitList] = useRecoilState(cmtList)
- 
-  // const tempArr = returnValue.split("\n");
   const navigate = useNavigate()
 
     const callFiles=()=>{
@@ -38,7 +36,7 @@ function Committed(props) {
           }
         }
 
-        
+
 
         SetCommitList(resultArr)
         SetIsLoad(false)
@@ -58,16 +56,7 @@ function Committed(props) {
             </div>
           ))}
         </div>
-        {/* {!props.isPush &&<div className={styles.commit}>
-          {fileList.map((item, idx) => (
-            <div key={idx} className={styles.commitBox}>
-              {item}
-            </div>
-          ))}
-        </div>}
-        {props.isPush &&<div className={styles.commit}>
-          
-        </div>} */}
+        
       </>
     );
   

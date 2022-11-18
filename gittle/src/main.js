@@ -171,7 +171,7 @@ ipcMain.on("create branch", (event, route, newBranch) => {
   const codes = [];
   // let branch = runCommand(`git checkout -b ${newBranch} ${baseBranch}`);
   let branch = runCommand(
-    `git --git-dir=${route}\\.git checkout -b ${newBranch}`
+    `git --git-dir=${route}\\.git checkout -b ${newBranch} && git --git-dir=${route}\\.git push origin ${newBranch}`
   );
   console.log("add branch : ", branch);
   codes.push(branch);
@@ -254,38 +254,45 @@ ipcMain.on("gitStatus", (event, curRepo) => {
   event.returnValue = data;
 });
 
-ipcMain.on("WriteCommitConvention", (event, payload) => {
-  // if (!fs.existsSync(`${currentRepo}/commitConvention.json`)) {
-  //   console.log("does not exist")
-  //   fs.appendFileSync(
-  //     `${currentRepo}/commitConvention.json`,
-  //     "[" + JSON.stringify(payload) + "]"
-  //   );
-  //   const commitRules = JSON.parse(
-  //     fs.readFileSync(`${currentRepo}/commitConvention.json`).toString()
-  //   );
-  //   event.returnValue = commitRules;
-  // }
-  const commitRules = JSON.parse(
-    fs.readFileSync(`${currentRepo}/commitConvention.json`).toString()
-  );
-  commitRules.push(payload);
-  fs.writeFileSync(
-    `${currentRepo}/commitConvention.json`,
-    JSON.stringify(commitRules)
-  );
+ipcMain.on("WriteCommitRules", (event, payload) => {
+  if (!fs.existsSync(`${currentRepo}/commitRules.json`)) {
+    console.log("does not exist")
+    fs.appendFileSync(
+      `${currentRepo}/commitRules.json`,
+      "[" + JSON.stringify(payload) + "]"
+    );
+    const commitRules = JSON.parse(
+      fs.readFileSync(`${currentRepo}/commitRules.json`).toString()
+    );
+    event.returnValue = commitRules;
+  }
+  else{
+    const commitRules = JSON.parse(
+      fs.readFileSync(`${currentRepo}/commitRules.json`).toString()
+    );
+    commitRules.push(payload);
+    fs.writeFileSync(
+      `${currentRepo}/commitRules.json`,
+      JSON.stringify(commitRules)
+    );
+    event.returnValue = commitRules;
+
+  }
+});
+
+ipcMain.on("ReadCommitRules", (event, currentRepo) => {
+  let commitRules = "[]";
+  if (!fs.existsSync(`${currentRepo}/commitRules.json`)) {
+    commitRules = "[]";
+  }
+  else{
+    commitRules = fs
+      .readFileSync(`${currentRepo}/commitRules.json`)
+      .toString();
+  }
   event.returnValue = commitRules;
 });
 
-ipcMain.on("ReadCommitConvention", (event, currentRepo) => {
-  if (!fs.existsSync(`${currentRepo}/commitConvention.json`)) {
-    fs.appendFileSync(`${currentRepo}/commitConvention.json`, "[]");
-  }
-  const commitRules = fs
-    .readFileSync(`${currentRepo}/commitConvention.json`)
-    .toString();
-  event.returnValue = commitRules;
-});
 
 ipcMain.on("git-Clone", (event, payload) => {
   console.log("도착했습니다");
