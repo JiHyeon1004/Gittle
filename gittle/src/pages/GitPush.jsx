@@ -87,15 +87,16 @@ function PushPage() {
             />
           </div>
           <div className={styles.buttonArea}>
-
+              
              <button
               className={styles.button}
               onClick={() => {
                 pushStart();
+                setCommittedList([])
               }}
 
+              disabled={committedList.length===0 ? true : false}
               
-              // disabled={committedList.length===0 ? "disabled" : ""}
             >
               Push
             </button>
