@@ -255,37 +255,44 @@ ipcMain.on("gitStatus", (event, curRepo) => {
 });
 
 ipcMain.on("WriteCommitConvention", (event, payload) => {
-  // if (!fs.existsSync(`${currentRepo}/commitConvention.json`)) {
-  //   console.log("does not exist")
-  //   fs.appendFileSync(
-  //     `${currentRepo}/commitConvention.json`,
-  //     "[" + JSON.stringify(payload) + "]"
-  //   );
-  //   const commitRules = JSON.parse(
-  //     fs.readFileSync(`${currentRepo}/commitConvention.json`).toString()
-  //   );
-  //   event.returnValue = commitRules;
-  // }
-  const commitRules = JSON.parse(
-    fs.readFileSync(`${currentRepo}/commitConvention.json`).toString()
-  );
-  commitRules.push(payload);
-  fs.writeFileSync(
-    `${currentRepo}/commitConvention.json`,
-    JSON.stringify(commitRules)
-  );
-  event.returnValue = commitRules;
+  if (!fs.existsSync(`${currentRepo}/commitConvention.json`)) {
+    console.log("does not exist")
+    fs.appendFileSync(
+      `${currentRepo}/commitConvention.json`,
+      "[" + JSON.stringify(payload) + "]"
+    );
+    const commitRules = JSON.parse(
+      fs.readFileSync(`${currentRepo}/commitConvention.json`).toString()
+    );
+    event.returnValue = commitRules;
+  }
+  else{
+    const commitRules = JSON.parse(
+      fs.readFileSync(`${currentRepo}/commitConvention.json`).toString()
+    );
+    commitRules.push(payload);
+    fs.writeFileSync(
+      `${currentRepo}/commitConvention.json`,
+      JSON.stringify(commitRules)
+    );
+    event.returnValue = commitRules;
+
+  }
 });
 
 ipcMain.on("ReadCommitConvention", (event, currentRepo) => {
+  let commitRules = "[]";
   if (!fs.existsSync(`${currentRepo}/commitConvention.json`)) {
-    fs.appendFileSync(`${currentRepo}/commitConvention.json`, "[]");
+    commitRules = "[]";
   }
-  const commitRules = fs
-    .readFileSync(`${currentRepo}/commitConvention.json`)
-    .toString();
+  else{
+    commitRules = fs
+      .readFileSync(`${currentRepo}/commitConvention.json`)
+      .toString();
+  }
   event.returnValue = commitRules;
 });
+
 
 ipcMain.on("git-Clone", (event, payload) => {
   console.log("도착했습니다");
