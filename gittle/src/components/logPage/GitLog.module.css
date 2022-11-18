@@ -1,3 +1,9 @@
+.container {
+  /* width: 55vw; */
+  /* flex-direction: column; */
+  /* justify-content: center; */
+  /* align-items: center; */
+}
 .logbox {
   display: flex;
   flex-direction: column;
@@ -74,25 +80,24 @@
 .active {
   font-weight: 500;
   font-size: 0.8rem;
-
-  color: #a66cff;
+  font-weight: bold;
 }
 
 .code {
-  width: 90%;
+  width: 100%;
   display: flex;
   flex-direction: row;
 }
 
 .codebefore {
-  width: 45%;
+  width: 50%;
   border-style: solid;
   border-width: 0.1rem 0 0.1rem 0.1rem;
   border-color: black;
 }
 
 .codeafter {
-  width: 45%;
+  width: 50%;
   border-style: solid;
   border-width: 0.1rem;
   border-color: black;

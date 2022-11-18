@@ -1,3 +1,4 @@
+import GitCommitButton from "../components/addPage/GitCommitButton";
 import React, { useState,useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { commandLine} from "../atoms"
@@ -23,11 +24,26 @@ function AddPage() {
     SetCmd(arg)
   }
   return (
+    <div>
     <div className={styles.container}>
+      {/* 깃커밋버튼 */}
+      <div className={styles.commitButton}>
+        <GitCommitButton /></div>
+      
       <GitDiff diffFiles={files} diff={codes} />
       {/* <div>{codes}</div> */}
       <StatusComp getFile={getFile} getDiff={getDiff} cmd={cmd} updateCmd={updateCmd}/>
-      <Command></Command>
+      <br />
+      <br /><br /><br />
+
+      
+      </div>
+      {/* <div className={styles.cmdDiv}>
+        <Command></Command>
+      </div> */}
+      <footer className={styles.cmdDiv}>
+        <Command></Command>
+      </footer>
     </div>
   );
 }

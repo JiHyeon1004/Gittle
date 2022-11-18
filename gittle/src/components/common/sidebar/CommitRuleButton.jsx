@@ -29,7 +29,7 @@ function CommitRuleButton(props) {
             <CommitRulePage style={{ width: "500px" }} />
           </>
         }
-        style={{ width: "500px" }}
+        style={{ width: "500px", zIndex: "99" }}
       ></Modal>
     </div>
   );

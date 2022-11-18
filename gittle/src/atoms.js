@@ -56,13 +56,30 @@ export const mergedRequests = atom({
   default: [],
 });
 
-
-
 export const commandLine = atom({
-  key:"commandLine",
-  default:`cd ${localStorage.getItem("currentRepo")}`,
-})
+  key: "commandLine",
+  default: `cd "${localStorage.getItem("currentRepo")}"`,
+});
 export const reviewModal = atom({
   key: "reviewModal",
   default: false,
+});
+
+export const isLoading = atom({
+  key: "isLoading",
+  default: false,
+});
+
+export const pushBtn = atom({
+  key: "pushBtn",
+  default: "add",
+});
+export const committedFiles = atom({
+  key: "committedFiles",
+  default: [],
+});
+
+export const logsList = atom({
+  key: "logsList",
+  default: [],
 });

@@ -5,7 +5,6 @@ import styles from "./LogPage.module.css";
 function LogPage() {
   return (
     <div className={styles.container}>
-      <p>log</p>
       <GitLog />
     </div>
   );
