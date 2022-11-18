@@ -462,6 +462,7 @@ ipcMain.on("call-committed-files", (event, root) => {
   let commitIdList;
   try{
     console.log('뭘까요? 피 피카츄!')
+    
     console.log(runCommand(`cd ${root} && git log --branches --not --remotes`))
     // if(runCommand(`cd ${root} && git log --branches --not --remotes`).length ===0){
     //   event.returnValue = []
