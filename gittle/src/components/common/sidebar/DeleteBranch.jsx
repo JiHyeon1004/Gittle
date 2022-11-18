@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useRecoilState } from "recoil";
 import Button from "../Button";
 import Modal from "../Modal";
-import { currentBranch } from "../../../atoms";
+import { currentBranch, deleteBranch } from "../../../atoms";
 import { useNavigate } from "react-router-dom";
 import styles from "./DeleteBranch.module.css";
 
@@ -15,44 +15,28 @@ function DeleteBranch(props) {
   const [commitErrorModalOpen, setCommitErrorModalOpen] = useState(false);
 
   const { ipcRenderer } = window.require("electron");
-
-  // const remoteRepository = ipcRenderer.sendSync(
-  //   "remoteRepository",
-  //   localStorage.getItem("currentRepo")
-  // )[0];
+  const currentRepo = localStorage.getItem("currentRepo");
 
   const deleteLocalBranches = (branch) => {
     const deletebranch = ipcRenderer.sendSync(
       "deleteLocalBranch",
-      localStorage.getItem("currentRepo"),
+      currentRepo,
       branch
     );
     return deletebranch;
   };
 
   const deleteRemoteBranches = (branch) => {
-    ipcRenderer.sendSync(
-      "deleteRemoteBranch",
-      localStorage.getItem("currentRepo"),
-      branch
-    );
+    ipcRenderer.sendSync("deleteRemoteBranch", currentRepo, branch);
   };
 
   const openModal = () => {
-    console.log("branch", branch, curBranch);
-    console.log("de", deleteLocalBranches(branch));
-    branch === curBranch
-      ? setCurrentErrorModalOpen(true)
-      : deleteLocalBranches(branch) === "error"
-      ? setCommitErrorModalOpen(true)
-      : setModalOpen(true);
+    branch === curBranch ? setCurrentErrorModalOpen(true) : setModalOpen(true);
   };
 
   const closeModal = () => {
     branch === curBranch
       ? setCurrentErrorModalOpen(false)
-      : deleteLocalBranches(branch) === "error"
-      ? setCommitErrorModalOpen(false)
       : setModalOpen(false);
   };
 
@@ -114,28 +98,6 @@ function DeleteBranch(props) {
             action={closeModal}
             content={"돌아가기"}
             style={{ backgroundColor: "#6BCC78" }}
-          />
-        </div>
-      </Modal>
-      <Modal
-        open={commitErrorModalOpen}
-        content={
-          <>
-            <p>commit된 파일이 있어 브랜치를 삭제할 수 없습니다.</p>
-            <p>push를 완료해주세요</p>
-          </>
-        }
-      >
-        <div className={styles.buttonContainer}>
-          <Button
-            action={goPush}
-            content={"push하러 가기"}
-            style={{ backgroundColor: "#6BCC78" }}
-          />
-          <Button
-            action={closeModal}
-            content={"돌아가기"}
-            style={{ border: "1px solid #7B7B7B" }}
           />
         </div>
       </Modal>
