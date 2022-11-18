@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useRecoilState } from "recoil";
 import { currentBranch, selectBranch, commandLine } from "../../../atoms";
-import BranchManage from "./BranchManage";
+// import BranchManage from "./BranchManage";
+import CreateBranch from "./CreateBranch";
 import DeleteBranch from "./DeleteBranch";
 import Modal from "../Modal";
 import Button from "../Button";
@@ -12,7 +13,7 @@ function BranchList() {
   const navigate = useNavigate();
   const [curBranch, setCurBranch] = useRecoilState(currentBranch);
   const [selectedBranch, setSelectedBranch] = useRecoilState(selectBranch);
-  const [cmd,SetCmd]=useRecoilState(commandLine)
+  const [cmd, SetCmd] = useRecoilState(commandLine);
   const [localListOpen, setLocalListOpen] = useState(false);
   const [remoteListOpen, setRemoteListOpen] = useState(false);
   const [errorModalOpen, setErrorModalOpen] = useState(false);
@@ -22,7 +23,6 @@ function BranchList() {
 
   const localBranches = ipcRenderer.sendSync("localBranchList", currentRepo);
   const remoteBranches = ipcRenderer.sendSync("remoteBranchList", currentRepo);
-
 
   const localBranchList = localBranches[0]
     .split("\n")
@@ -64,16 +64,15 @@ function BranchList() {
     // branchSelector(e);
     changeBranch(selectedBranch) === "error"
       ? setErrorModalOpen(true)
-      : changeBranch(selectedBranch); 
-    
+      : changeBranch(selectedBranch);
+
     // status ? setStashModalOpen(true) : changeBranch(selectedBranch);
     // console.log("change", changeBranch(selectedBranch));
 
     setCurBranch(selectedBranch);
-    if(changeBranch(selectedBranch) !== "error"){
-      SetCmd(`${cmd} \n git switch ${selectedBranch}`)
+    if (changeBranch(selectedBranch) !== "error") {
+      SetCmd(`${cmd} \n git switch ${selectedBranch}`);
     }
-      
   };
 
   const goCommit = () => {
@@ -98,58 +97,60 @@ function BranchList() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.curBranch}>
-        현재 branch <p>{curBranch}</p>
-      </div>
-      <div>
+      <div className={styles.branchManage}>
+        <div className={styles.curBranch}>
+          현재 branch <p>{curBranch}</p>
+        </div>
         <div className={styles.branchList}>
-          <div onClick={showLocalBranches}>local</div>
-          {localBranchList.map((branch, idx) => (
-            <div
-              className={
-                localListOpen ? `${styles.openList}` : `${styles.list}`
-              }
-            >
+          <div className={styles.branches}>
+            <div onClick={showLocalBranches}>local</div>
+            {localBranchList.map((branch, idx) => (
               <div
-                key={idx}
                 className={
-                  curBranch === branch
-                    ? `${styles.branch} ${styles.clicked}`
-                    : `${styles.branch}`
+                  localListOpen ? `${styles.openList}` : `${styles.list}`
                 }
-                onClick={branchSelector}
-                onDoubleClick={branchChanger}
-                data-branch={branch}
               >
-                {branch}
+                <div
+                  key={idx}
+                  className={
+                    curBranch === branch
+                      ? `${styles.branch} ${styles.clicked}`
+                      : `${styles.branch}`
+                  }
+                  onClick={branchSelector}
+                  onDoubleClick={branchChanger}
+                  data-branch={branch}
+                >
+                  {branch}
 
-                <DeleteBranch branch={branch} />
+                  <DeleteBranch branch={branch} />
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-        <div className={styles.branchList}>
-          <div onClick={showRemoteBranches}>remote</div>
-          {remoteBranchList.map((branch, idx) => (
-            <div
-              className={
-                remoteListOpen ? `${styles.openList}` : `${styles.list}`
-              }
-            >
+            ))}
+          </div>
+          <div className={styles.branchList}>
+            <div onClick={showRemoteBranches}>remote</div>
+            {remoteBranchList.map((branch, idx) => (
               <div
-                key={idx}
-                className={styles.branch}
-                onDoubleClick={branchChanger}
-                data-branch={branch}
+                className={
+                  remoteListOpen ? `${styles.openList}` : `${styles.list}`
+                }
               >
-                {branch}
+                <div
+                  key={idx}
+                  className={styles.branch}
+                  onDoubleClick={branchChanger}
+                  data-branch={branch}
+                >
+                  {branch}
 
-                <DeleteBranch branch={branch} />
+                  <DeleteBranch branch={branch} />
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-        <BranchManage />
+        <CreateBranch />
       </div>
       <Modal
         open={errorModalOpen}
