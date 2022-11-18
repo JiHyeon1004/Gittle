@@ -88,23 +88,6 @@ function PushPage() {
           </div>
           <div className={styles.buttonArea}>
 
-            {/* {!isMerge && <button
-              className={styles.button}
-              onClick={() => {
-                pushStart();
-              }}
-            >
-              Push
-            </button>}
-            {isMerge && <button
-              className={styles.mergeButton}
-              onClick={() => {
-                navigate("/merge/ready");
-                SetSelButton("merge/ready")
-              }}
-            >
-              Merge
-            </button>} */}
              <button
               className={styles.button}
               onClick={() => {
