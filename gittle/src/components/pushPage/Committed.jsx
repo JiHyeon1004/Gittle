@@ -49,19 +49,20 @@ function Committed(props) {
         callFiles()
         props.settingCommittedData(fileList)
     },[])
+  }  
 
-
-  return (
-    <>
-      <div className={styles.commit}>
-        {fileList.map((item, idx) => (
-          <div key={idx} className={styles.commitBox}>
-            {item}
-          </div>
-        ))}
-      </div>
-    </>
-  );
+    return (
+      <>
+        <div className={styles.commit}>
+          {fileList.map((item, idx) => (
+            <div key={idx} className={styles.commitBox}>
+              {item}
+            </div>
+          ))}
+        </div>
+      </>
+    );
+  
 }
 
 export default Committed;
