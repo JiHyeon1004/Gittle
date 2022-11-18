@@ -63,6 +63,7 @@ function GitCommit() {
     // const commitMessage = commitType + " : " + commitDescription
     const commitMessage = commitType + commitDescription
     const data = ipcRenderer.sendSync("gitCommit",commitMessage)
+    closeModal()
     SetCmd(`${cmd} \n git commit -m "${commitMessage}"`)
 
     
