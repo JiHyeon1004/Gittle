@@ -10,31 +10,32 @@ function Committed(props) {
   
   const repoRoot=localStorage.getItem('currentRepo');
   const {ipcRenderer} = window.require('electron') 
-  // const [fileList,setFileList]=useState([])
   const [isLoad, SetIsLoad] = useRecoilState(isLoading)
   const [selectedPage,SetSelectedPage]= useRecoilState(pushBtn)
   const [commitList , SetCommitList] = useRecoilState(cmtList)
-  const returnValue = ipcRenderer.sendSync("call-committed-files", repoRoot);
-  const tempArr = returnValue.split("\n");
-    const navigate = useNavigate()
+ 
+  // const tempArr = returnValue.split("\n");
+  const navigate = useNavigate()
 
     const callFiles=()=>{
         SetIsLoad(true)
-        const returnValue=ipcRenderer.sendSync('call-committed-files',repoRoot)
+        // const returnValue=ipcRenderer.sendSync('call-committed-files',repoRoot)
+        const returnValue = ipcRenderer.sendSync("call-committed-files", repoRoot);
+
+        const resultArr=[]
         if(returnValue==='no'){
             alert("커밋된 것이 없습니다.")
             navigate("/add")
             SetSelectedPage("add")
             SetIsLoad(false)
-        }
-        const tempArr = returnValue.split('\n')
+        }else if(returnValue.length!==0){
+          const tempArr = returnValue.split('\n')
 
-        const resultArr=[]
-
-        for(let i=0;i<tempArr.length;i++){
-            if(tempArr[i]!==''){
-                resultArr.push(tempArr[i])
-            }
+          for(let i=0;i<tempArr.length;i++){
+              if(tempArr[i]!==''){
+                  resultArr.push(tempArr[i])
+              }
+          }
         }
 
         SetCommitList(resultArr)
