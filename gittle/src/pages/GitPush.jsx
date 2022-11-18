@@ -94,7 +94,8 @@ function PushPage() {
                 pushStart();
               }}
 
-              disabled={committedList.length===0 ? "disabled" : ""}
+              
+              // disabled={committedList.length===0 ? "disabled" : ""}
             >
               Push
             </button>

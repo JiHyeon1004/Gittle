@@ -7,19 +7,14 @@ import { committedFiles, isLoading,pushBtn } from "../../atoms";
 import { useRecoilState } from "recoil";
 
 function Committed(props) {
-  const repoRoot = localStorage.getItem("currentRepo");
-  const { ipcRenderer } = window.require("electron");
-  const [fileList, setFileList] = useRecoilState(committedFiles);
-
-  const callFiles = () => {
-    const returnValue = ipcRenderer.sendSync("call-committed-files", repoRoot);
-    const tempArr = returnValue.split("\n");
-
-    const repoRoot=localStorage.getItem('currentRepo');
-    const {ipcRenderer} = window.require('electron') 
-    const [fileList,setFileList]=useState([])
-    const [isLoad, SetIsLoad] = useRecoilState(isLoading)
-    const [selectedPage,SetSelectedPage]= useRecoilState(pushBtn)
+  
+  const repoRoot=localStorage.getItem('currentRepo');
+  const {ipcRenderer} = window.require('electron') 
+  const [fileList,setFileList]=useState([])
+  const [isLoad, SetIsLoad] = useRecoilState(isLoading)
+  const [selectedPage,SetSelectedPage]= useRecoilState(pushBtn)
+  const returnValue = ipcRenderer.sendSync("call-committed-files", repoRoot);
+  const tempArr = returnValue.split("\n");
     const navigate = useNavigate()
 
     const callFiles=()=>{
@@ -37,6 +32,8 @@ function Committed(props) {
 
         for(let i=0;i<tempArr.length;i++){
             if(tempArr[i]!==''){
+              console.log(`${i} 번째 : `)
+              console.log(tempArr[i])
                 resultArr.push(tempArr[i])
             }
         }
@@ -49,7 +46,6 @@ function Committed(props) {
         callFiles()
         props.settingCommittedData(fileList)
     },[])
-  }  
 
     return (
       <>
