@@ -254,25 +254,25 @@ ipcMain.on("gitStatus", (event, curRepo) => {
   event.returnValue = data;
 });
 
-ipcMain.on("WriteCommitConvention", (event, payload) => {
-  if (!fs.existsSync(`${currentRepo}/commitConvention.json`)) {
+ipcMain.on("WriteCommitRules", (event, payload) => {
+  if (!fs.existsSync(`${currentRepo}/commitRules.json`)) {
     console.log("does not exist")
     fs.appendFileSync(
-      `${currentRepo}/commitConvention.json`,
+      `${currentRepo}/commitRules.json`,
       "[" + JSON.stringify(payload) + "]"
     );
     const commitRules = JSON.parse(
-      fs.readFileSync(`${currentRepo}/commitConvention.json`).toString()
+      fs.readFileSync(`${currentRepo}/commitRules.json`).toString()
     );
     event.returnValue = commitRules;
   }
   else{
     const commitRules = JSON.parse(
-      fs.readFileSync(`${currentRepo}/commitConvention.json`).toString()
+      fs.readFileSync(`${currentRepo}/commitRules.json`).toString()
     );
     commitRules.push(payload);
     fs.writeFileSync(
-      `${currentRepo}/commitConvention.json`,
+      `${currentRepo}/commitRules.json`,
       JSON.stringify(commitRules)
     );
     event.returnValue = commitRules;
@@ -280,14 +280,14 @@ ipcMain.on("WriteCommitConvention", (event, payload) => {
   }
 });
 
-ipcMain.on("ReadCommitConvention", (event, currentRepo) => {
+ipcMain.on("ReadCommitRules", (event, currentRepo) => {
   let commitRules = "[]";
-  if (!fs.existsSync(`${currentRepo}/commitConvention.json`)) {
+  if (!fs.existsSync(`${currentRepo}/commitRules.json`)) {
     commitRules = "[]";
   }
   else{
     commitRules = fs
-      .readFileSync(`${currentRepo}/commitConvention.json`)
+      .readFileSync(`${currentRepo}/commitRules.json`)
       .toString();
   }
   event.returnValue = commitRules;
