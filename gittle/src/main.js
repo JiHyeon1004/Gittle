@@ -171,7 +171,7 @@ ipcMain.on("create branch", (event, route, newBranch) => {
   const codes = [];
   // let branch = runCommand(`git checkout -b ${newBranch} ${baseBranch}`);
   let branch = runCommand(
-    `git --git-dir=${route}\\.git checkout -b ${newBranch}`
+    `git --git-dir=${route}\\.git checkout -b ${newBranch} && git --git-dir=${route}\\.git push origin ${newBranch}`
   );
   console.log("add branch : ", branch);
   codes.push(branch);
