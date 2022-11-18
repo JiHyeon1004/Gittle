@@ -7,10 +7,10 @@ import Tooltip from 'react-bootstrap/Tooltip';
 
 const { ipcRenderer } = window.require("electron"); 
 const getCommitRules = () => {
-  return JSON.parse(ipcRenderer.sendSync("ReadCommitConvention"))
+  return JSON.parse(ipcRenderer.sendSync("ReadCommitRules"))
 }
 
-function AddCommitConvention() {
+function AddCommitRules() {
   const [modalOpen, setModalOpen] = useState(false);
   const [commitType, setCommitType] = useState('')
   const [commitExplanation, setCommitExplanation] = useState('')
@@ -33,8 +33,8 @@ function AddCommitConvention() {
   const closeModal = () => {
     setModalOpen(false);
   };
-  const addCommitConvention = () => {
-    const commitRules = ipcRenderer.sendSync("WriteCommitConvention",{type:newType,explanation:newExplanation})
+  const addCommitRules = () => {
+    const commitRules = ipcRenderer.sendSync("WriteCommitRules",{type:newType,explanation:newExplanation})
     setNewType('')
     setNewExplanation('')
     setCommitRules(commitRules)
@@ -138,7 +138,7 @@ function AddCommitConvention() {
       >
         <div>
           <Button 
-            action={addCommitConvention}  
+            action={addCommitRules}  
             content={"추가"} 
             style={{ backgroundColor: "#6BCC78" }} 
           />
@@ -153,4 +153,4 @@ function AddCommitConvention() {
   );
 }
 
-export default AddCommitConvention;
+export default AddCommitRules;
