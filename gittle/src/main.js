@@ -468,21 +468,10 @@ ipcMain.on("git-Push", (event, payload) => {
 ipcMain.on("call-committed-files", (event, root) => {
   let commitIdList;
   try{
-    console.log('뭘까요? 피 피카츄!')
-    console.log('오잉?')
-    console.log(runCommand(`cd ${root} && git log --branches --not --remotes`))
-    // if(runCommand(`cd ${root} && git log --branches --not --remotes`).length ===0){
-    //   event.returnValue = []
-    //   return
-    // }
-    console.log('피망?')
-    // commitIdList = runCommand(`cd "${root}" && git log -1`);
     commitIdList=runCommand(`cd ${root} && git log --branches --not --remotes`)
     if(commitIdList.trim() === ''){
-      console.log('업으')
       event.returnValue=[]
     }else{
-      console.log('있으')
       let temp1 = commitIdList.split("\n")[0];
       let tempArr = temp1.split(" ");
 

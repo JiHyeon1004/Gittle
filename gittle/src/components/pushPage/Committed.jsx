@@ -17,7 +17,7 @@ function Committed(props) {
 
     const callFiles=()=>{
         SetIsLoad(true)
-        // const returnValue=ipcRenderer.sendSync('call-committed-files',repoRoot)
+       
         const returnValue = ipcRenderer.sendSync("call-committed-files", repoRoot);
 
         const resultArr=[]
