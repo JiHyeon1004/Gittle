@@ -20,7 +20,6 @@ function PushPage() {
   const [cmd, SetCmd] = useRecoilState(commandLine)
   const [isLoad , SetIsLoad] = useRecoilState(isLoading)
   const [selButton, SetSelButton] = useRecoilState(pushBtn)
-  // const [isPush , SetIsPush] = useState(false)
   const [commitList, SetCommitList]= useRecoilState(cmtList)
   
   const pushStart = () => {
