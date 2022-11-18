@@ -95,7 +95,7 @@ function PushPage() {
                 setCommittedList([])
               }}
 
-              disabled={committedList.length===0 ? true : false}
+              disabled={committedList.length!==0 ? true : false}
               
             >
               Push
