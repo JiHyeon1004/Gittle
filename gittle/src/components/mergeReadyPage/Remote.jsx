@@ -24,6 +24,7 @@ export default function Remote() {
     const location = localStorage.getItem("currentRepo").split("\\");
     console.log(location);
     const repo = location[location.length - 1];
+    const owner = localStorage.getItem("owner")
 
     async function getBranches() {
       const octokit = new Octokit({
@@ -33,7 +34,7 @@ export default function Remote() {
       const branch = await octokit.request(
         "GET /repos/{owner}/{repo}/branches",
         {
-          owner: user,
+          owner: owner,
           repo: repo,
         }
       );

@@ -35,8 +35,10 @@ export default function GitDiff({ diffFiles, diff }) {
     const currentBranch = ipcRenderer.sendSync("gitBranch", location);
     setCurrBranch(currentBranch);
     console.log("브랜치", currentBranch);
+
     async function getBranch() {
       const user = localStorage.getItem("userInfo");
+      const owner = localStorage.getItem("owner")
       const octokit = new Octokit({
         auth: "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",
       });
@@ -44,7 +46,7 @@ export default function GitDiff({ diffFiles, diff }) {
       const branch = await octokit.request(
         "GET /repos/{owner}/{repo}/branches/{branch}",
         {
-          owner: user,
+          owner: owner,
           repo: repo,
           branch: currentBranch.replace(/\n/g, ""),
         }
@@ -59,6 +61,21 @@ export default function GitDiff({ diffFiles, diff }) {
       setMessage(branch.data.commit.commit.message);
       // setCommit(branch.data.commit.sha);
     }
+
+    async function saveOwner() {
+      const octokit = new Octokit({
+        auth: "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"
+      })
+      
+      const myRepos = await octokit.request('GET /user/repos', {})
+
+      myRepos.data.map((myRepo) => {
+        if (myRepo.name === repo) {
+          localStorage.setItem('owner', myRepo.owner.login)
+        }
+      })
+    }
+    saveOwner()
     getBranch();
   }, []);
 
