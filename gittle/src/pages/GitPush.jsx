@@ -20,6 +20,7 @@ function PushPage() {
   const [cmd, SetCmd] = useRecoilState(commandLine)
   const [isLoad , SetIsLoad] = useRecoilState(isLoading)
   const [selButton, SetSelButton] = useRecoilState(pushBtn)
+  const [isPush , SetIsPush] = useState(false)
   
   const pushStart = () => {
     SetIsLoad(true)
@@ -59,14 +60,12 @@ function PushPage() {
         <div className={styles.divide}>
           <div className={styles.committed}>
             <CommentBox location="local"></CommentBox>
-            {/* <button onClick={()=>{
-              SetIsLoad(true)
-              setTimeout(()=>{SetIsLoad(false)},2000)
-            }}>test</button> */}
             <Committed
               settingCommittedData={(arg) => {
                 setCommittedList(arg);
               }}
+
+              isPush={isPush}
             />
           </div>
           <div className={styles.arrow}>
@@ -92,14 +91,10 @@ function PushPage() {
               className={styles.button}
               onClick={() => {
                 pushStart();
-                console.log('test시이이이작!')
-                for(let i=0;i<committedList.length;i++){
-                  console.log(committedList[i])
-                }
-                setCommittedList([])
+                SetIsPush(true)
               }}
 
-              disabled={committedList.length!==0 ? true : false}
+              disabled={isPush ? false : true}
               
             >
               Push

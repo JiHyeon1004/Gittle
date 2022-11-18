@@ -49,13 +49,16 @@ function Committed(props) {
 
     return (
       <>
-        <div className={styles.commit}>
+        {!props.isPush &&<div className={styles.commit}>
           {fileList.map((item, idx) => (
             <div key={idx} className={styles.commitBox}>
               {item}
             </div>
           ))}
-        </div>
+        </div>}
+        {props.isPush &&<div className={styles.commit}>
+          
+        </div>}
       </>
     );
   
