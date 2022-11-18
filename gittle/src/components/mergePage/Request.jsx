@@ -45,7 +45,7 @@ export default function Request() {
       repo: repo,
       title: title,
       body: description,
-      head: pushed,
+      head: `${user}:${pushed}`,
       base: merging,
     });
 
