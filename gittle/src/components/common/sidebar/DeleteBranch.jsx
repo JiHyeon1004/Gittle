@@ -4,6 +4,8 @@ import Button from "../Button";
 import Modal from "../Modal";
 import { currentBranch, deleteBtn } from "../../../atoms";
 import styles from "./DeleteBranch.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 function DeleteBranch(props) {
   const { branch } = props;
@@ -50,11 +52,7 @@ function DeleteBranch(props) {
 
   return (
     <>
-      <Button
-        action={openModal}
-        content={"branch 삭제"}
-        style={{ border: "1px solid #7B7B7B" }}
-      />
+      <FontAwesomeIcon icon={faTrash} onClick={openModal} />
 
       <Modal
         open={modalOpen}
@@ -72,7 +70,7 @@ function DeleteBranch(props) {
           <Button
             action={branchDeleter}
             content={"예"}
-            style={{ backgroundColor: "#6BCC78" }}
+            // style={{ backgroundColor: "#6BCC78" }}
           />
           <Button
             action={closeModal}

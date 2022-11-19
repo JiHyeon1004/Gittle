@@ -1,7 +1,7 @@
 .container {
   display: flex;
   flex-direction: column;
-  /* justify-content: space-around; */
+  justify-content: space-between;
   align-items: center;
   position: fixed;
   left: 0;
@@ -12,6 +12,6 @@
   z-index: 5;
 }
 
-.selector {
+.infoContainer {
   display: flex;
 }

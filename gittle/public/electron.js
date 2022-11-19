@@ -124,6 +124,7 @@ ipcMain.on("localBranchList", (event, route) => {
 
   const codes = [];
   let localBranchList = runCommand(`git --git-dir=${route}\\.git branch -l`);
+  console.log("localBranchList : ", localBranchList);
   codes.push(localBranchList);
   event.returnValue = codes;
 });
@@ -149,7 +150,8 @@ ipcMain.on("change branch", (event, route, selectedBranch) => {
   let branch;
   try {
     branch = runCommand(
-      `cd "${route}" && git init && git checkout ${selectedBranch}`
+      // `cd "${route}" && git init && git checkout ${selectedBranch}`
+      `git --git-dir=${route}\\.git checkout ${selectedBranch} `
     );
     codes.push(branch);
     event.returnValue = codes;
@@ -430,17 +432,27 @@ ipcMain.on("git-Push", (event, payload) => {
 });
 
 ipcMain.on("call-committed-files", (event, root) => {
-  const commitIdList = runCommand(`cd "${root}" && git log -1`);
-  let temp1 = commitIdList.split("\n")[0];
-  let tempArr = temp1.split(" ");
+  let commitIdList;
+  try {
+    commitIdList = runCommand(
+      `cd ${root} && git log --branches --not --remotes`
+    );
+    if (commitIdList.trim() === "") {
+      event.returnValue = [];
+    } else {
+      let temp1 = commitIdList.split("\n")[0];
+      let tempArr = temp1.split(" ");
 
-  let commitId = tempArr[1];
-
-  //실행
-  const returnArr = runCommand(
-    `cd "${root}" && git show --pretty="" --name-only ${commitId}`
-  );
-  event.returnValue = returnArr;
+      let commitId = tempArr[1];
+      //실행
+      const returnArr = runCommand(
+        `cd "${root}" && git show --pretty="" --name-only ${commitId}`
+      );
+      event.returnValue = returnArr;
+    }
+  } catch (e) {
+    event.returnValue = "no";
+  }
 });
 
 ipcMain.on("openTerminal", (event, currentRepo) => {
