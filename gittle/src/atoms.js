@@ -74,6 +74,7 @@ export const pushBtn = atom({
   key: "pushBtn",
   default: "add",
 });
+
 export const committedFiles = atom({
   key: "committedFiles",
   default: [],
@@ -98,4 +99,3 @@ export const cmtList = atom({
   key:"committedList",
   default:[]
 })
-

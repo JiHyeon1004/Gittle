@@ -90,7 +90,7 @@ export default function Assignee() {
 
   return (
     <div className={styles.main}>
-      <div className={styles.title}>나에게 할당된 내역</div>
+      <div className={styles.title}>나에게 merge가 할당된 내역</div>
       <div className={styles.assigned}>
         {requests.length ? (
           <div>
