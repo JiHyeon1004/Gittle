@@ -13,8 +13,12 @@ const DEVICE_FLOW_TOKEN = `${process.env.REACT_APP_SERVER_BASE_URL}/getDeviceAcc
 
 
 function Login(){
+  const { ipcRenderer } = window.require("electron");
+  ipcRenderer.on("asdf", (event, data) => {
+    console.log(data);
+  });
 
-    const [rerender, setRerender] = useState(false);
+  const [rerender, setRerender] = useState(false);
   const [isHover, setIsHover] = useState(false);
   const [userData, setUserData] = useState({});
   const [modalOpen, setModalOpen] = useState(false);
