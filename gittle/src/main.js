@@ -5,6 +5,7 @@ const { CLICK } = require("./constants");
 
 let child_process = require("child_process");
 const { check } = require("yargs");
+const { response } = require("express");
 
 let runCommand = (command) => {
   return child_process.execSync(command).toString();
@@ -484,6 +485,27 @@ ipcMain.on("call-committed-files", (event, root) => {
   }
   
 });
+
+
+//open dialog
+ipcMain.on('show-open-dialog', (event, userCode)=> {
+
+  const options = {
+    type: 'question',
+    buttons: ['입력완료'],
+    defaultId: 2,
+    title: 'Github UserCode',
+    message: '아래 코드를 입력해주세요.',
+    detail: userCode,
+    };
+
+    dialog.showMessageBox(null, options, () => {
+      event.returnValue = response;
+    });
+})
+
+
+
 
 ipcMain.on("openTerminal", (event, currentRepo) => {
   console.log("asdf");
