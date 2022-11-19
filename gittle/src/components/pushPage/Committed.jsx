@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useNavigate } from "react-router";
 import styles from "./Committed.module.css";
-import { committedFiles, isLoading,pushBtn, cmtList } from "../../atoms";
+import { committedFiles, isLoading, pushBtn, cmtList } from "../../atoms";
 import { useRecoilState } from "recoil";
 
 function Committed(props) {
@@ -13,6 +13,7 @@ function Committed(props) {
   const [isLoad, SetIsLoad] = useRecoilState(isLoading)
   const [selectedPage,SetSelectedPage]= useRecoilState(pushBtn)
   const [commitList , SetCommitList] = useRecoilState(cmtList)
+  const [willPush, SetWillPush] = useRecoilState(committedFiles)
   const navigate = useNavigate()
 
     const callFiles=()=>{
@@ -36,9 +37,8 @@ function Committed(props) {
           }
         }
 
-
-
         SetCommitList(resultArr)
+        SetWillPush(resultArr)
         SetIsLoad(false)
     }
 

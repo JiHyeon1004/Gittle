@@ -9,6 +9,7 @@ import { useRecoilValue, useRecoilState } from "recoil";
 import { reviewModal } from "../../atoms";
 
 export default function Review({ files, sha, pull }) {
+  console.log(files, '1111111111')
   const user = localStorage.getItem("userInfo");
   const location = localStorage.getItem("currentRepo");
   const repoArr = location.split("\\");
@@ -16,6 +17,7 @@ export default function Review({ files, sha, pull }) {
   const owner = localStorage.getItem("owner")
 
   const [file, setFile] = useState("");
+  const [line, setLine] = useState(0)
   // 설명 저장하기
   const [description, setDescription] = useState("");
   const [modal, setModal] = useRecoilState(reviewModal);
@@ -25,6 +27,18 @@ export default function Review({ files, sha, pull }) {
 
   const saveFile = (e) => {
     setFile(e.target.value);
+    console.log(files)
+    files.map((each) => {
+      if (each.filename === e.target.value) {
+        const index = files.indexOf(each)
+        const patch = files[index].patch
+        const minus = patch.indexOf('-') + 1
+        const comma = patch.indexOf(',')
+        console.log(patch.substring(minus, comma).replace(" ", ""))
+        setLine(Number(patch.substring(minus, comma).replace(" ", "")))
+      }
+    })
+    // console.log(Number(patch.substring(comma, plus).replace(" ", "")))
     // return e.target.value;
   };
   // 설명 저장하기
@@ -40,6 +54,17 @@ export default function Review({ files, sha, pull }) {
   };
 
   async function saveReview() {
+    console.log(
+      {
+        owner: owner,
+        repo: repo,
+        pull_number: pull,
+        body: description,
+        commit_id: sha,
+        path: file,
+        line: line,
+      }
+    )
     const octokit = new Octokit({
       auth: "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",
     });
@@ -53,10 +78,11 @@ export default function Review({ files, sha, pull }) {
         body: description,
         commit_id: sha,
         path: file,
-        line: 1,
+        line: line,
       }
     );
-
+    
+    
     console.log(review);
     setDescription("");
     setModal(false);
