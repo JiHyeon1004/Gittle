@@ -24,6 +24,7 @@ export default function Remote() {
     const location = localStorage.getItem("currentRepo").split("\\");
     console.log(location);
     const repo = location[location.length - 1];
+    const owner = localStorage.getItem("owner")
 
     async function getBranches() {
       const octokit = new Octokit({
@@ -33,7 +34,7 @@ export default function Remote() {
       const branch = await octokit.request(
         "GET /repos/{owner}/{repo}/branches",
         {
-          owner: user,
+          owner: owner,
           repo: repo,
         }
       );
@@ -42,8 +43,8 @@ export default function Remote() {
     }
     getBranches();
     // push된 branch 받아오기
-    // setPush(pushed.branch);
-    setPush("test9");
+    setPush(pushed.branch);
+    // setPush("test9");
   }, []);
 
   const selectBranch = (branch) => {
@@ -51,7 +52,11 @@ export default function Remote() {
   };
 
   const openModal = () => {
-    setModalOpen(true);
+    if (merge) {
+      setModalOpen(true);
+    } else {
+      alert("merge 할 branch를 선택해주세요!")
+    }
   };
   const closeModal = () => {
     setModalOpen(false);

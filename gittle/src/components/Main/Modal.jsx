@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import styles from "./Modal.module.css"
 import { useNavigate } from "react-router";
+import { useRecoilState } from "recoil";
+import {commandLine} from "../../atoms"
 
 
 
@@ -19,7 +21,7 @@ function Modal(props){
     //폴더 위치 가져오기 위한 변수선언
     const {ipcRenderer} = window.require('electron')
 
-    
+    const [cmd , SetCmd] = useRecoilState(commandLine)
 
     
 
@@ -61,10 +63,8 @@ function Modal(props){
     }
 
     const initMyRepo=()=>{
-        console.log('init 시작!!!!!!!!!!!!!!!!!!!!!!!!')
         ipcRenderer.sendSync('git-Init',{repoName:repoName ,repoRoot:repoRoot})
         const temp=repoRoot
-        console.log(temp+"\\"+repoName)
         
     }
 
@@ -119,8 +119,8 @@ function Modal(props){
                         //git init 
                         initMyRepo(repoName)
                         updateMyRepo('')
-                        console.log("생성 로컬 확인 : ",repoRoot+"\\"+repoName)
                         localStorage.setItem('currentRepo',repoRoot+"\\"+repoName)
+                        SetCmd(repoRoot+"\\"+repoName+"\n"+"git init")
                         navigate("/add",{state:{name:repoName,root:repoRoot}})
                     }else if(props.setModalOpen.number===1){
                         //폴더 바꿔주기
@@ -135,8 +135,8 @@ function Modal(props){
                         const folder=cloneMyRepo()
                         updateMyRepo(folder)
                         const result=repoRoot+"\\"+folder
-                        console.log("result : ",result)
                         localStorage.setItem('currentRepo',result)
+                        SetCmd(`git clone ${cloneRoot} \n cd "${result}"`)
                         navigate("/add",{state:{name:repoName,root:result}})
                     }
                     

@@ -4,12 +4,16 @@ import GitHelp from "./GitHelp";
 import GitPull from "./GitPull";
 import Button from "./Button"
 import styles from "./Header.module.css";
+import { useRecoilState } from "recoil";
+import {pushBtn  } from "../../../atoms";
 import TerminalButton from "./TerminalButton";
 
 function Header() {
   const location = useLocation();
   
-  const [selectedPage,SetSelectedPage]= useState("add")
+  // const [selectedPage,SetSelectedPage]= useState("add")
+  const [selectedPage,SetSelectedPage]= useRecoilState(pushBtn)
+  
   const changeSelectedPage=(arg)=>{
     SetSelectedPage(arg)
   }
@@ -29,27 +33,15 @@ function Header() {
       <div className={styles.buttonBox}>
         <div className={styles.localToRemote}>
           <Button page="add" whenClick={changeSelectedPage} selPage={selectedPage}></Button>
-          <img
-            className={styles.arrow}
-            src={process.env.PUBLIC_URL + "/right-arrow.png"}
-            alt="right-arrow"
-          />
+          
           <Button page="push" whenClick={changeSelectedPage} selPage={selectedPage}></Button>
-          <img
-            className={styles.arrow}
-            src={process.env.PUBLIC_URL + "/right-arrow.png"}
-            alt="right-arrow"
-          />
+          
           <Button page="merge/ready" whenClick={changeSelectedPage} selPage={selectedPage}></Button>
         </div>
         <div className={styles.log}>
           <Button  page="merge/request" whenClick={changeSelectedPage} selPage={selectedPage}></Button>
           <Button  page="log" whenClick={changeSelectedPage} selPage={selectedPage}></Button>
         </div>
-{/*         
-        <Link to="/add">add</Link> | <Link to="/log">log</Link> |{" "}
-        <Link to="/merge/ready">merge</Link> | <Link to="/push">push</Link> |{" "}
-        <Link to="/merge/request">merge request</Link> | <Link to="/graph">graph</Link> */}
       </div>
       <div className={styles.box}>
         <TerminalButton /> 

@@ -25,6 +25,8 @@ export default function GitLog() {
       const location = localStorage.getItem("currentRepo").split("\\");
       console.log(location);
       const repo = location[location.length - 1];
+      const owner = localStorage.getItem("owner")
+
       const octokit = new Octokit({
         auth: "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",
       });
@@ -34,7 +36,7 @@ export default function GitLog() {
       const result = await octokit.request(
         "GET /repos/{owner}/{repo}/commits",
         {
-          owner: user,
+          owner: owner,
           repo: repo,
           sha: branch,
         }
@@ -53,6 +55,8 @@ export default function GitLog() {
       const location = localStorage.getItem("currentRepo").split("\\");
       console.log(location);
       const repo = location[location.length - 1];
+      const owner = localStorage.getItem("owner")
+
       const octokit = new Octokit({
         auth: "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",
       });
@@ -60,7 +64,7 @@ export default function GitLog() {
       const commitInfo = await octokit.request(
         "GET /repos/{owner}/{repo}/commits/{ref}",
         {
-          owner: user,
+          owner: owner,
           repo: repo,
           ref: commit,
         }
@@ -104,88 +108,86 @@ export default function GitLog() {
     setFileIdx(index);
   };
   return (
-    <>
-      <div>
-        {branch}
-        {logs.map((log, index) => (
-          <div
-            className={styles.logbox}
-            key={index}
-            onClick={() => showDiff(log.sha, index)}
-          >
-            <div className={styles.profile}>
-              <img
-                src={log.committer.avatar_url}
-                alt="avatar"
-                className={styles.avatar}
-              />
-              <div className={styles.textbox}>
-                <div className={styles.message}>{log.commit.message}</div>
-                <div className={styles.authortime}>
-                  <div className={styles.name}>{log.committer.login}</div>
-                  <div className={styles.time}>
-                    {log.commit.author.date.replace("T", " ").replace("Z", "")}
-                  </div>
+    <div className={styles.container}>
+      {branch}
+      {logs.map((log, index) => (
+        <div
+          className={styles.logbox}
+          key={index}
+          onClick={() => showDiff(log.sha, index)}
+        >
+          <div className={styles.profile}>
+            <img
+              src={log.committer.avatar_url}
+              alt="avatar"
+              className={styles.avatar}
+            />
+            <div className={styles.textbox}>
+              <div className={styles.message}>{log.commit.message}</div>
+              <div className={styles.authortime}>
+                <div className={styles.name}>{log.committer.login}</div>
+                <div className={styles.time}>
+                  {log.commit.author.date.replace("T", " ").replace("Z", "")}
                 </div>
               </div>
             </div>
-            <div>
-              {files.length &&
-              codeBefore.length &&
-              codeAfter.length &&
-              log.sha === commitId ? (
-                <div className={styles.codearea}>
-                  <div className={styles.codebox}>
-                    {files.map((file, index) => (
-                      <div
-                        key={index}
-                        className={styles.file}
-                        onClick={() => showCode(index)}
-                      >
-                        {index === fileIdx ? (
-                          <div className={styles.active}>{file.filename}</div>
-                        ) : (
-                          <div className={styles.filename}>{file.filename}</div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                  <div className={styles.code}>
-                    <div className={styles.codebefore}>
-                      <div className={styles.title}>변경 전</div>
-                      <div className={styles.box}>
-                        {codeBefore[fileIdx].map((code, index) => (
-                          <div key={index}>
-                            {code[0] === "-" ? (
-                              <div className={styles.minus}>{code}</div>
-                            ) : (
-                              <div className={styles.zero}>{code}</div>
-                            )}
-                          </div>
-                        ))}
-                      </div>
+          </div>
+          <div>
+            {files.length &&
+            codeBefore.length &&
+            codeAfter.length &&
+            log.sha === commitId ? (
+              <div className={styles.codearea}>
+                <div className={styles.codebox}>
+                  {files.map((file, index) => (
+                    <div
+                      key={index}
+                      className={styles.file}
+                      onClick={() => showCode(index)}
+                    >
+                      {index === fileIdx ? (
+                        <div className={styles.active}>{file.filename}</div>
+                      ) : (
+                        <div className={styles.filename}>{file.filename}</div>
+                      )}
                     </div>
-                    <div className={styles.codeafter}>
-                      <div className={styles.title}>변경 후</div>
-                      <div className={styles.box}>
-                        {codeAfter[fileIdx].map((code, index) => (
-                          <div key={index}>
-                            {code[0] === "+" ? (
-                              <div className={styles.plus}>{code}</div>
-                            ) : (
-                              <div className={styles.zero}>{code}</div>
-                            )}
-                          </div>
-                        ))}
-                      </div>
+                  ))}
+                </div>
+                <div className={styles.code}>
+                  <div className={styles.codebefore}>
+                    <div className={styles.title}>변경 전</div>
+                    <div className={styles.box}>
+                      {codeBefore[fileIdx].map((code, index) => (
+                        <div key={index}>
+                          {code[0] === "-" ? (
+                            <div className={styles.minus}>{code}</div>
+                          ) : (
+                            <div className={styles.zero}>{code}</div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className={styles.codeafter}>
+                    <div className={styles.title}>변경 후</div>
+                    <div className={styles.box}>
+                      {codeAfter[fileIdx].map((code, index) => (
+                        <div key={index}>
+                          {code[0] === "+" ? (
+                            <div className={styles.plus}>{code}</div>
+                          ) : (
+                            <div className={styles.zero}>{code}</div>
+                          )}
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
-              ) : null}
-            </div>
+              </div>
+            ) : null}
           </div>
-        ))}
-      </div>
-    </>
+        </div>
+      ))}
+    </div>
   );
 }

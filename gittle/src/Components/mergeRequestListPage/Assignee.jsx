@@ -13,20 +13,25 @@ export default function Assignee() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const user = localStorage.getItem("userInfo");
     const location = localStorage.getItem("currentRepo").split("\\");
     console.log(location);
     const repo = location[location.length - 1];
+    const owner = localStorage.getItem("owner")
 
     async function getAssigned() {
       const octokit = new Octokit({
         auth: "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",
       });
-      const assigned = await octokit.request("GET /issues", {});
+      const assigned = await octokit.request('GET /repos/{owner}/{repo}/pulls', {
+        owner: owner,
+        repo: repo
+      })
       const issues = [];
       console.log(assigned);
       assigned.data.map((each) => {
         const issue = {};
-        if (each.repository.name === repo) {
+        if (each.assignee.login === user) {
           issue.number = each.number;
           issue.title = each.title;
           issue.body = each.body;
@@ -34,11 +39,11 @@ export default function Assignee() {
           issue.avatar = each.user.avatar_url;
           issue.created = each.created_at;
           issue.updated = each.updated_at;
+          issues.push(issue);
         }
-        issues.push(issue);
         console.log(issues);
-        setRequests(issues);
       });
+      setRequests(issues);
     }
     getAssigned();
   }, []);
@@ -53,6 +58,7 @@ export default function Assignee() {
     const location = localStorage.getItem("currentRepo").split("\\");
     console.log(location);
     const repo = location[location.length - 1];
+    const owner = localStorage.getItem("owner")
 
     const octokit = new Octokit({
       auth: "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",
@@ -61,7 +67,7 @@ export default function Assignee() {
     const info = await octokit.request(
       "GET /repos/{owner}/{repo}/pulls/{pull_number}",
       {
-        owner: user,
+        owner: owner,
         repo: repo,
         pull_number: number,
       }
@@ -70,7 +76,7 @@ export default function Assignee() {
     const commit = await octokit.request(
       "GET /repos/{owner}/{repo}/pulls/{pull_number}/commits",
       {
-        owner: user,
+        owner: owner,
         repo: repo,
         pull_number: number,
       }
@@ -84,9 +90,11 @@ export default function Assignee() {
 
   return (
     <div className={styles.main}>
-      <div className={styles.title}>나에게 할당된 내역</div>
+      <div className={styles.title}>나에게 merge가 할당된 내역</div>
       <div className={styles.assigned}>
-        {requests.map((request, index) => (
+        {requests.length ? (
+          <div>
+            {requests.map((request, index) => (
           <div
             key={index}
             className={styles.box}
@@ -104,30 +112,13 @@ export default function Assignee() {
             </div>
           </div>
         ))}
+          </div>
+        ) : (
+          <div>아직 할당된 내역이 없습니다!</div>
+        )}
+        
       </div>
-      {/* <Modal
-        open={modalOpen}
-        content={
-          <>
-            <div>
-              <div>{modal.title}</div>
-              <div>
-                <div>{modal.avatar_url}</div>
-                <div>{modal.login}</div>
-                <div>{modal.created_at}</div>
-              </div>
-              <div>push 완료된 branch : {modal.push}</div>
-              <div>merge 할 branch : {modal.merge}</div>
-              <div>{modal.body}</div>
-            </div>
-            <Button
-              action={closeModal}
-              content={"닫기"}
-              style={{ border: "1px solid #7B7B7B" }}
-            />
-          </>
-        }
-      ></Modal> */}
+      
     </div>
   );
 }

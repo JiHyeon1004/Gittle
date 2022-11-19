@@ -1,6 +1,6 @@
 import React from "react";
 import CreateBranch from "./CreateBranch";
-import AddCommitConvention from "./AddCommitConvention";
+import AddCommitRules from "./AddCommitRules";
 
 import styles from "./BranchManage.module.css";
 
