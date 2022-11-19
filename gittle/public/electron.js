@@ -499,24 +499,6 @@ ipcMain.on("call-committed-files", (event, root) => {
 });
 
 
-//open dialog
-ipcMain.on('show-open-dialog', (event, userCode)=> {
-
-  const options = {
-    type: 'question',
-    buttons: ['입력완료'],
-    defaultId: 2,
-    title: 'Github UserCode',
-    message: '아래 코드를 입력해주세요.',
-    detail: userCode,
-    };
-
-    dialog.showMessageBox(null, options, (response) => {
-      console.log(response);
-    });
-})
-
-
 
 
 ipcMain.on("openTerminal", (event, currentRepo) => {
