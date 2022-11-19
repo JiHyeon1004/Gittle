@@ -1,3 +1,0 @@
-one,C:\Users\SSAFY\Desktop\2nd_project\3rd_project\S07P31A503\gittle
-two,C:\Users\SSAFY\Desktop\2nd_project\2nd_project\S07P22A702
-third,C:\Users\SSAFY\Desktop\2nd_project\1st_project\S07P12A608\S07P12A608

@@ -301,7 +301,7 @@ ipcMain.on("git-Clone", (event, payload) => {
   let folderName = temp.substr(0, temp.length - 4);
   console.log("folderName : ", folderName);
   runCommand(`cd "${payload.repoRoot}" && git clone ${payload.cloneRoot}`);
-
+  runCommand(`cd "${payload.repoRoot}" && git config --global core.quotepath false `);
   console.log("돌아갑니다");
   event.returnValue = folderName;
 });
@@ -312,6 +312,7 @@ ipcMain.on("git-Init", (event, payload) => {
   runCommand(
     `cd "${payload.repoRoot}" && mkdir ${payload.repoName}  && cd ${payload.repoName}  && git init`
   );
+  runCommand(`cd "${payload.repoRoot}" && git config --global core.quotepath false `);
   event.returnValue = payload.repoName + "\\" + payload.repoRoot;
 });
 

@@ -4,7 +4,7 @@ import {commandLine} from "../../atoms"
 import { Table, Row, Col, Card, Empty } from "antd";
 import "antd/dist/antd.css";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-
+import Button from "../common/Button";
 import {
   mutliDragAwareReorder,
   multiSelectTo as multiSelect,
@@ -570,10 +570,14 @@ function MultiTableDrag({ getFile, getDiff,cmd,updateCmd }) {
         </DragDropContext>
       </Card>
 
-      <button onClick={()=>{
-        ipcRenderer.send("gitAdd", ".")
-        SetCmdLine(`${cmd} \n git add .`)
-      }}>전체 add</button>
+      <Button 
+        style={{ border: "1px solid #7B7B7B", textAlign: "center"  }}
+        content={"전체 add"}
+        action={() => {
+          ipcRenderer.send("gitAdd", ".")
+          SetCmdLine(`${cmd} \n git add .`)
+        }}
+        ></Button>
     </>
   );
 }

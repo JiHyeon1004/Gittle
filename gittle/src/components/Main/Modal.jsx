@@ -64,10 +64,8 @@ function Modal(props){
     }
 
     const initMyRepo=()=>{
-        console.log('init 시작!!!!!!!!!!!!!!!!!!!!!!!!')
         ipcRenderer.sendSync('git-Init',{repoName:repoName ,repoRoot:repoRoot})
         const temp=repoRoot
-        console.log(temp+"\\"+repoName)
         
     }
 
