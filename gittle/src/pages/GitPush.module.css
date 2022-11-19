@@ -78,6 +78,10 @@
   font-weight: bolder;
 }
 
+.button:disabled {
+  cursor: auto;
+}
+
 .cmdBox {
   background-color: black;
   width: 100%;
