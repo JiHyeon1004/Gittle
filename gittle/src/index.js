@@ -6,6 +6,11 @@ import reportWebVitals from "./reportWebVitals";
 import { HashRouter } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 
+if (!process.env.NODE_ENV === "production") {
+  console.log("asdfasfsafsdfsdfas\nasdfn\n\n\n\n\nasdfsdf")
+console.log = function no_console() {};
+console.warn = function no_console() {};
+}
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <HashRouter>
