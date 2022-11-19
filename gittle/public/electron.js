@@ -1,13 +1,12 @@
 const { app, BrowserWindow, ipcMain, dialog } = require("electron");
 const path = require("path");
 const fs = require("fs");
-
+const url = require("url");
 const isDev = require('electron-is-dev');
 
 
 let child_process = require("child_process");
 const { check } = require("yargs");
-const { response } = require("express");
 
 let runCommand = (command) => {
   return child_process.execSync(command).toString();
@@ -32,21 +31,30 @@ function createWindow() {
     .then((result) => {
       currentRepo = result;
       gitDir = `--git-dir=${result}\\.git`;
-    });
+  });
 
-    if (isDev) {
-      win.loadURL("http://localhost:3000");
-    } else {
-      win.loadURL(url.format({
-        pathname: path.join(__dirname, 'index.html'),
-        protocol: 'file:',
-        slashes: true
-      }));
-    }
+  var authUrl = 'http://localhost/callback';
+  win.loadURL(authUrl);
+  win.show();
+// 'will-navigate' is an event emitted when the window.location changes
+// newUrl should contain the tokens you need
+  win.webContents.on('will-navigate', function (event, newUrl) {
+    console.log(newUrl);
+    win.webContents.send("asdf", "asdf");
+    // More complex code to handle tokens goes here
+});
+
+  if (isDev) {
+    win.loadURL("http://localhost:3000");
+  } else {
+    win.loadURL(url.format({
+      pathname: path.join(__dirname, 'index.html'),
+      protocol: 'file:',
+      slashes: true
+    }));
+  }
+    
   
-  // win.loadURL("http://localhost:3000");
-  // currentRepo = localStorage.getItem("currentRepo");
-  // console.log(currentRepo)
 }
 
 app.on("window-all-closed", function () {
@@ -57,8 +65,6 @@ ipcMain.on("click", (event, arg) => {
   dialog
     .showOpenDialog({ properties: ["openDirectory"] })
     .then((result) => {
-      console.log(result.filePaths[0]);
-
       event.returnValue = result.filePaths[0];
     })
     .catch((err) => {
@@ -67,12 +73,10 @@ ipcMain.on("click", (event, arg) => {
 });
 
 ipcMain.on("setting-currentRepo", (event, arg) => {
-  console.log(arg);
   currentRepo = arg;
 });
 
 ipcMain.on("update-my-repo", (event, arg) => {
-  console.log("변화시작");
   const Store = require("electron-store");
   const store = new Store();
 
@@ -88,10 +92,6 @@ ipcMain.on("update-my-repo", (event, arg) => {
   if (arr.length === 4) {
     arr.pop();
   }
-
-  for (let i = 0; i < arr.length; i++) {
-    console.log(arr[i]);
-  }
   store.set("gittle-myRepo", arr);
 });
 
@@ -105,30 +105,21 @@ ipcMain.on("call-my-repo", (event, arg) => {
     arr = [];
   }
 
-  console.log("arr : " + arr);
-
   let result = [];
 
   for (let i = 0; i < arr.length; i++) {
     if (arr[i] !== null) {
       result.push(arr[i]);
     }
-
-    console.log(arr[i]);
   }
 
   if (result.length !== arr.length) {
     localStorage.setItem(result);
   }
-
-  console.log(result.length);
-  console.log(result);
-  console.log("돌아갑니다");
   event.returnValue = result;
 });
 
 ipcMain.on("localBranchList", (event, route) => {
-  // console.log("로컬 브랜치 리스트");
 
   const codes = [];
   let localBranchList = runCommand(`git --git-dir=${route}\\.git branch -l`);
@@ -138,7 +129,6 @@ ipcMain.on("localBranchList", (event, route) => {
 });
 
 ipcMain.on("remoteBranchList", (event, route) => {
-  // console.log("리모트 브랜치 리스트");
 
   const codes = [];
 
@@ -148,15 +138,12 @@ ipcMain.on("remoteBranchList", (event, route) => {
   } catch (e) {
     remoteBranchList = [];
   }
-  // console.log("remoteBranchList : ", remoteBranchList);
 
   codes.push(remoteBranchList);
   event.returnValue = codes;
 });
 
 ipcMain.on("change branch", (event, route, selectedBranch) => {
-  console.log("브랜치 이동");
-  console.log("selectedBranch : ", selectedBranch);
 
   const codes = [];
   let branch;
@@ -175,30 +162,26 @@ ipcMain.on("change branch", (event, route, selectedBranch) => {
     branch = "";
     event.returnValue = "error";
   }
-  console.log("change branch : ", branch);
 });
 
 // ipcMain.on("gitBranch", (event, newBranch, baseBranch) => {
 ipcMain.on("create branch", (event, route, newBranch) => {
-  console.log("브랜치 생성");
 
   const codes = [];
   // let branch = runCommand(`git checkout -b ${newBranch} ${baseBranch}`);
   let branch = runCommand(
-    `git --git-dir=${route}\\.git checkout -b ${newBranch} && git --git-dir=${route}\\.git push origin ${newBranch}`
+    `git --git-dir=${route}\\.git checkout -b ${newBranch}`
   );
-  console.log("add branch : ", branch);
   codes.push(branch);
   event.returnValue = codes;
 });
 
 ipcMain.on("deleteLocalBranch", (event, route, delBranch) => {
-  console.log("로컬 브랜치 삭제");
   const codes = [];
   let deletebranch;
   try {
     deletebranch = runCommand(
-      `git --git-dir=${route}\\.git branch -D ${delBranch}`
+      `git --git-dir=${route}\\.git branch -d ${delBranch}`
     );
     codes.push(deletebranch);
 
@@ -208,11 +191,9 @@ ipcMain.on("deleteLocalBranch", (event, route, delBranch) => {
     deletebranch = "";
     event.returnValue = "error";
   }
-  console.log("delete branch : ", deletebranch);
 });
 
 ipcMain.on("deleteRemoteBranch", (event, route, delBranch) => {
-  console.log("리모트 브랜치 삭제");
   const codes = [];
   let branch;
   try {
@@ -227,7 +208,6 @@ ipcMain.on("deleteRemoteBranch", (event, route, delBranch) => {
     branch = "";
     event.returnValue = "error";
   }
-  console.log("delete branch : ", branch);
 });
 
 app.whenReady().then(() => {
@@ -253,7 +233,6 @@ app.on("window-all-closed", function () {
 
 ipcMain.on("gitStatus", (event, curRepo) => {
   currentRepo = curRepo;
-  console.log("currentRepo : ", currentRepo);
   gitDir = `--git-dir=${currentRepo}\\.git`;
 
   const a = curRepo === null ? "./" : curRepo;
@@ -268,65 +247,54 @@ ipcMain.on("gitStatus", (event, curRepo) => {
   event.returnValue = data;
 });
 
-ipcMain.on("WriteCommitRules", (event, payload) => {
-  if (!fs.existsSync(`${currentRepo}/commitRules.json`)) {
-    console.log("does not exist");
-    fs.appendFileSync(
-      `${currentRepo}/commitRules.json`,
-      "[" + JSON.stringify(payload) + "]"
-    );
-    const commitRules = JSON.parse(
-      fs.readFileSync(`${currentRepo}/commitRules.json`).toString()
-    );
-    event.returnValue = commitRules;
-  } else {
-    const commitRules = JSON.parse(
-      fs.readFileSync(`${currentRepo}/commitRules.json`).toString()
-    );
-    commitRules.push(payload);
-    fs.writeFileSync(
-      `${currentRepo}/commitRules.json`,
-      JSON.stringify(commitRules)
-    );
-    event.returnValue = commitRules;
-  }
+ipcMain.on("WriteCommitConvention", (event, payload) => {
+  // if (!fs.existsSync(`${currentRepo}/commitConvention.json`)) {
+  //   console.log("does not exist")
+  //   fs.appendFileSync(
+  //     `${currentRepo}/commitConvention.json`,
+  //     "[" + JSON.stringify(payload) + "]"
+  //   );
+  //   const commitRules = JSON.parse(
+  //     fs.readFileSync(`${currentRepo}/commitConvention.json`).toString()
+  //   );
+  //   event.returnValue = commitRules;
+  // }
+  const commitRules = JSON.parse(
+    fs.readFileSync(`${currentRepo}/commitConvention.json`).toString()
+  );
+  commitRules.push(payload);
+  fs.writeFileSync(
+    `${currentRepo}/commitConvention.json`,
+    JSON.stringify(commitRules)
+  );
+  event.returnValue = commitRules;
 });
 
-ipcMain.on("ReadCommitRules", (event, currentRepo) => {
-  let commitRules = "[]";
-  if (!fs.existsSync(`${currentRepo}/commitRules.json`)) {
-    commitRules = "[]";
-  } else {
-    commitRules = fs.readFileSync(`${currentRepo}/commitRules.json`).toString();
+ipcMain.on("ReadCommitConvention", (event, currentRepo) => {
+  if (!fs.existsSync(`${currentRepo}/commitConvention.json`)) {
+    fs.appendFileSync(`${currentRepo}/commitConvention.json`, "[]");
   }
+  const commitRules = fs
+    .readFileSync(`${currentRepo}/commitConvention.json`)
+    .toString();
   event.returnValue = commitRules;
 });
 
 ipcMain.on("git-Clone", (event, payload) => {
-  console.log("도착했습니다");
-  console.log("저장소 루트 : " + payload.cloneRoot);
-  console.log("폴더 루트 : " + payload.repoRoot);
   let stringArr = payload.cloneRoot.split("/");
-  for (let i = 0; i < stringArr.length; i++) {
-    console.log(i, "번째 : ", stringArr[i]);
-  }
+
 
   let temp = stringArr[stringArr.length - 1];
   let folderName = temp.substr(0, temp.length - 4);
-  console.log("folderName : ", folderName);
   runCommand(`cd "${payload.repoRoot}" && git clone ${payload.cloneRoot}`);
-  runCommand(`cd "${payload.repoRoot}" && git config --global core.quotepath false `);
-  console.log("돌아갑니다");
+
   event.returnValue = folderName;
 });
 
 ipcMain.on("git-Init", (event, payload) => {
-  console.log("repoName : " + payload.repoName);
-  console.log("repoRoot : " + payload.repoRoot);
   runCommand(
     `cd "${payload.repoRoot}" && mkdir ${payload.repoName}  && cd ${payload.repoName}  && git init`
   );
-  runCommand(`cd "${payload.repoRoot}" && git config --global core.quotepath false `);
   event.returnValue = payload.repoName + "\\" + payload.repoRoot;
 });
 
@@ -352,14 +320,11 @@ ipcMain.on("check-git-folder", (event, root) => {
 });
 
 ipcMain.on("gitDiff", (event, arg) => {
-  console.log("코드 전후 비교해볼래");
-  console.log(arg);
   const codes = [];
   arg.map((file) => {
     // const name = file.split("/");
     // const fileName = name[name.length - 1];
     let diff = runCommand(`git -C ${currentRepo} diff ${file}`);
-    console.log("git diff : ", diff);
     codes.push(diff);
   });
 
@@ -378,12 +343,10 @@ ipcMain.on("gitDiff", (event, arg) => {
 });
 ipcMain.on("gitAdd", (event, files) => {
   let data = runCommand(`cd ${currentRepo} && git add ${files}`);
-  console.log(data);
 });
 
 ipcMain.on("gitReset", (event, files) => {
   let data = runCommand(`git -C ${currentRepo} reset ${files}`);
-  console.log(data);
 });
 
 ipcMain.on("git-Branch", (event, payload) => {
@@ -422,7 +385,7 @@ ipcMain.on("gitBranch", (event, route) => {
 });
 
 ipcMain.on("gitCommit", (event, commitMessage) => {
-  let data = runCommand(`git -C ${currentRepo} commit -m "${commitMessage}"`);
+  let data = runCommand(`git -C ${currentRepo} commit -m ${commitMessage}`);
   //console.log(data);
   event.returnValue = data;
 });
@@ -441,7 +404,6 @@ ipcMain.on("lastCommitDescription", (event, command) => {
 });
 
 ipcMain.on("gitPull", (event, route, targetBranch) => {
-  console.log("gitPull");
 
   let pull;
   try {
@@ -449,7 +411,6 @@ ipcMain.on("gitPull", (event, route, targetBranch) => {
       // `git --git-dir=${route}\\.git pull origin ${targetBranch}`
       `cd ${route} && git pull origin ${targetBranch}`
     );
-    console.log("pull", pull);
     event.returnValue = pull;
   } catch (error) {
     console.error("error", error);
@@ -459,19 +420,14 @@ ipcMain.on("gitPull", (event, route, targetBranch) => {
 });
 
 ipcMain.on("git-Push", (event, payload) => {
-  console.log("repo입니다 : ", payload.repoRoot);
-  console.log("브랜치입니다 : ", payload.branch);
 
   try {
     runCommand(`cd "${payload.repoRoot}" && git push origin ${payload.branch}`);
     event.returnValue = "return";
   } catch (exception) {
-    console.log("오류가 발생했습니다.");
     console.log(exception);
     event.returnValue = "error";
   }
-
-  console.log("완료되었습니다");
 });
 
 ipcMain.on("call-committed-files", (event, root) => {
@@ -498,21 +454,14 @@ ipcMain.on("call-committed-files", (event, root) => {
   }
 });
 
-
-
-
 ipcMain.on("openTerminal", (event, currentRepo) => {
-  console.log("asdf");
   child_process.exec(
     `cd ${currentRepo} && start "" "%PROGRAMFILES%\\Git\\bin\\sh.exe" --login`
   );
 });
 
 ipcMain.on("gitStash", (event, route) => {
-  console.log("gitStash");
-  console.log("cur", route);
   const stash = runCommand(`git --git-dir=${route}\\.git stash`);
-  console.log("gitStash", stash);
   event.returnValue = stash;
 });
 ipcMain.on("gitGraph", (event) => {
