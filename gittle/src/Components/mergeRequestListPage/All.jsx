@@ -76,60 +76,65 @@ export default function All() {
 
   return (
     <>
+    {allReq.length ? (
       <div>
-        {allReq.map((req, index) => (
-          <div
-            key={index}
-            className={styles.box}
-            onClick={() => reqDetail(req.number)}
-          >
-            <div className={styles.titletag}>
-              <div className={styles.title}>{req.title}</div>
-              {req.merged_at ? (
-                <div className={styles.mergetag}>
-                  <div>merge 완료</div>
-                </div>
-              ) : (
-                <div className={styles.needmergetag}>
-                  <div>merge 대기</div>
-                </div>
-              )}
-            </div>
-            <div className={styles.body}>
-              <div className={styles.person}>요청자</div>
-              <img
-                className={styles.image}
-                src={req.user.avatar_url}
-                alt="avatar"
-              />
-              <div className={styles.text}>{req.user.login}</div>
-              <div className={styles.text}>|</div>
-              {req.assignee ? (
-                <div className={styles.assignee}>
-                  <div className={styles.person}>담당자</div>
-                  <img
-                    className={styles.image}
-                    src={req.assignee.avatar_url}
-                    alt="avatar"
-                  />
-                  <div className={styles.text}>{req.assignee.login}</div>
-                  <div className={styles.text}>|</div>
-                </div>
-              ) : null}
-              {req.merged_at ? (
-                <div className={styles.text}>
-                  {req.merged_at.replace("T", " ").replace("Z", "")} 에 merge
-                  완료
-                </div>
-              ) : (
-                <div className={styles.text}>
-                  {req.created_at.replace("T", " ").replace("Z", "")} 에 요청됨
-                </div>
-              )}
-            </div>
+      {allReq.map((req, index) => (
+        <div
+          key={index}
+          className={styles.box}
+          onClick={() => reqDetail(req.number)}
+        >
+          <div className={styles.titletag}>
+            <div className={styles.title}>{req.title}</div>
+            {req.merged_at ? (
+              <div className={styles.mergetag}>
+                <div>merge 완료</div>
+              </div>
+            ) : (
+              <div className={styles.needmergetag}>
+                <div>merge 대기</div>
+              </div>
+            )}
           </div>
-        ))}
-      </div>
+          <div className={styles.body}>
+            <div className={styles.person}>요청자</div>
+            <img
+              className={styles.image}
+              src={req.user.avatar_url}
+              alt="avatar"
+            />
+            <div className={styles.text}>{req.user.login}</div>
+            <div className={styles.text}>|</div>
+            {req.assignee ? (
+              <div className={styles.assignee}>
+                <div className={styles.person}>담당자</div>
+                <img
+                  className={styles.image}
+                  src={req.assignee.avatar_url}
+                  alt="avatar"
+                />
+                <div className={styles.text}>{req.assignee.login}</div>
+                <div className={styles.text}>|</div>
+              </div>
+            ) : null}
+            {req.merged_at ? (
+              <div className={styles.text}>
+                {req.merged_at.replace("T", " ").replace("Z", "")} 에 merge
+                완료
+              </div>
+            ) : (
+              <div className={styles.text}>
+                {req.created_at.replace("T", " ").replace("Z", "")} 에 요청됨
+              </div>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+    ) : (
+      <div>아직 요청이 없습니다!</div>
+    )}
+      
     </>
   );
 }
