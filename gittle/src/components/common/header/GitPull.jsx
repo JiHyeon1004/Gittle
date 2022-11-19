@@ -51,7 +51,7 @@ function GitPull() {
     let branch = e.target.firstChild.data;
     setTargetBranch(branch);
   };
-  // console.log(targetBranch);
+
   const pullData = () => {
     pullRequest(targetBranch) === "error"
       ? setErrorModalOpen(true)
@@ -73,7 +73,10 @@ function GitPull() {
       <Button
         action={openModal}
         content={"pull"}
-        style={{ backgroundColor: "#FF6B6B" }}
+        style={{
+          border: "2px solid #ff6b6b",
+        }}
+        // onMouseEnter={{}}
       />
 
       <Modal
