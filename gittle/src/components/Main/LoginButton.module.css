@@ -27,3 +27,22 @@
   background-color: white;
   /* transition: all 0.1s ease-in; */
 }
+
+.userCodeBtn {
+  border-radius: 0.3rem;
+  border-width: 2px;
+  background-color: white;
+  margin: 1%;
+  margin-top: 5%;
+  height: 35px;
+  width: 30%;
+}
+
+.rulePlusBtn2 {
+  border-radius: 0.3rem;
+  border: 0;
+  margin: 1%;
+  margin-top: 5%;
+  height: 35px;
+  width: 30%;
+}
