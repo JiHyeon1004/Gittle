@@ -7,6 +7,7 @@ const isDev = require('electron-is-dev');
 
 let child_process = require("child_process");
 const { check } = require("yargs");
+const { response } = require("express");
 
 let runCommand = (command) => {
   return child_process.execSync(command).toString();
@@ -14,7 +15,6 @@ let runCommand = (command) => {
 
 let currentRepo;
 let gitDir;
-const callbackUrl = "http://localhost/callback"
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -32,30 +32,21 @@ function createWindow() {
     .then((result) => {
       currentRepo = result;
       gitDir = `--git-dir=${result}\\.git`;
-  });
+    });
 
-  var authUrl = 'http://localhost/callback';
-  win.loadURL(authUrl);
-  win.show();
-// 'will-navigate' is an event emitted when the window.location changes
-// newUrl should contain the tokens you need
-  win.webContents.on('will-navigate', function (event, newUrl) {
-    console.log(newUrl);
-    win.webContents.send("asdf", "asdf");
-    // More complex code to handle tokens goes here
-});
-
-  if (isDev) {
-    win.loadURL("http://localhost:3000");
-  } else {
-    win.loadURL(url.format({
-      pathname: path.join(__dirname, 'index.html'),
-      protocol: 'file:',
-      slashes: true
-    }));
-  }
-    
+    if (isDev) {
+      win.loadURL("http://localhost:3000");
+    } else {
+      win.loadURL(url.format({
+        pathname: path.join(__dirname, 'index.html'),
+        protocol: 'file:',
+        slashes: true
+      }));
+    }
   
+  // win.loadURL("http://localhost:3000");
+  // currentRepo = localStorage.getItem("currentRepo");
+  // console.log(currentRepo)
 }
 
 app.on("window-all-closed", function () {
@@ -171,7 +162,7 @@ ipcMain.on("create branch", (event, route, newBranch) => {
   const codes = [];
   // let branch = runCommand(`git checkout -b ${newBranch} ${baseBranch}`);
   let branch = runCommand(
-    `git --git-dir=${route}\\.git checkout -b ${newBranch}`
+    `git --git-dir=${route}\\.git checkout -b ${newBranch} && git --git-dir=${route}\\.git push origin ${newBranch}`
   );
   codes.push(branch);
   event.returnValue = codes;
@@ -182,7 +173,7 @@ ipcMain.on("deleteLocalBranch", (event, route, delBranch) => {
   let deletebranch;
   try {
     deletebranch = runCommand(
-      `git --git-dir=${route}\\.git branch -d ${delBranch}`
+      `git --git-dir=${route}\\.git branch -D ${delBranch}`
     );
     codes.push(deletebranch);
 
@@ -248,47 +239,47 @@ ipcMain.on("gitStatus", (event, curRepo) => {
   event.returnValue = data;
 });
 
-ipcMain.on("WriteCommitConvention", (event, payload) => {
-  // if (!fs.existsSync(`${currentRepo}/commitConvention.json`)) {
-  //   console.log("does not exist")
-  //   fs.appendFileSync(
-  //     `${currentRepo}/commitConvention.json`,
-  //     "[" + JSON.stringify(payload) + "]"
-  //   );
-  //   const commitRules = JSON.parse(
-  //     fs.readFileSync(`${currentRepo}/commitConvention.json`).toString()
-  //   );
-  //   event.returnValue = commitRules;
-  // }
-  const commitRules = JSON.parse(
-    fs.readFileSync(`${currentRepo}/commitConvention.json`).toString()
-  );
-  commitRules.push(payload);
-  fs.writeFileSync(
-    `${currentRepo}/commitConvention.json`,
-    JSON.stringify(commitRules)
-  );
-  event.returnValue = commitRules;
+ipcMain.on("WriteCommitRules", (event, payload) => {
+  if (!fs.existsSync(`${currentRepo}/commitRules.json`)) {
+    console.log("does not exist");
+    fs.appendFileSync(
+      `${currentRepo}/commitRules.json`,
+      "[" + JSON.stringify(payload) + "]"
+    );
+    const commitRules = JSON.parse(
+      fs.readFileSync(`${currentRepo}/commitRules.json`).toString()
+    );
+    event.returnValue = commitRules;
+  } else {
+    const commitRules = JSON.parse(
+      fs.readFileSync(`${currentRepo}/commitRules.json`).toString()
+    );
+    commitRules.push(payload);
+    fs.writeFileSync(
+      `${currentRepo}/commitRules.json`,
+      JSON.stringify(commitRules)
+    );
+    event.returnValue = commitRules;
+  }
 });
 
-ipcMain.on("ReadCommitConvention", (event, currentRepo) => {
-  if (!fs.existsSync(`${currentRepo}/commitConvention.json`)) {
-    fs.appendFileSync(`${currentRepo}/commitConvention.json`, "[]");
+ipcMain.on("ReadCommitRules", (event, currentRepo) => {
+  let commitRules = "[]";
+  if (!fs.existsSync(`${currentRepo}/commitRules.json`)) {
+    commitRules = "[]";
+  } else {
+    commitRules = fs.readFileSync(`${currentRepo}/commitRules.json`).toString();
   }
-  const commitRules = fs
-    .readFileSync(`${currentRepo}/commitConvention.json`)
-    .toString();
   event.returnValue = commitRules;
 });
 
 ipcMain.on("git-Clone", (event, payload) => {
   let stringArr = payload.cloneRoot.split("/");
 
-
   let temp = stringArr[stringArr.length - 1];
   let folderName = temp.substr(0, temp.length - 4);
   runCommand(`cd "${payload.repoRoot}" && git clone ${payload.cloneRoot}`);
-
+  runCommand(`cd "${payload.repoRoot}" && git config --global core.quotepath false `);
   event.returnValue = folderName;
 });
 
@@ -296,6 +287,7 @@ ipcMain.on("git-Init", (event, payload) => {
   runCommand(
     `cd "${payload.repoRoot}" && mkdir ${payload.repoName}  && cd ${payload.repoName}  && git init`
   );
+  runCommand(`cd "${payload.repoRoot}" && git config --global core.quotepath false `);
   event.returnValue = payload.repoName + "\\" + payload.repoRoot;
 });
 
@@ -386,7 +378,7 @@ ipcMain.on("gitBranch", (event, route) => {
 });
 
 ipcMain.on("gitCommit", (event, commitMessage) => {
-  let data = runCommand(`git -C ${currentRepo} commit -m ${commitMessage}`);
+  let data = runCommand(`git -C ${currentRepo} commit -m "${commitMessage}"`);
   //console.log(data);
   event.returnValue = data;
 });
@@ -426,6 +418,7 @@ ipcMain.on("git-Push", (event, payload) => {
     runCommand(`cd "${payload.repoRoot}" && git push origin ${payload.branch}`);
     event.returnValue = "return";
   } catch (exception) {
+    console.log("오류가 발생했습니다.");
     console.log(exception);
     event.returnValue = "error";
   }
