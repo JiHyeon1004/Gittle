@@ -18,6 +18,8 @@ export default function Request() {
   const location = localStorage.getItem("currentRepo");
   const repoArr = location.split("\\");
   const repo = repoArr[repoArr.length - 1];
+  const owner = localStorage.getItem("owner")
+
   // collaborator 저장하기
   const [collab, setCollab] = useState([]);
   // reviewer 저장하기
@@ -39,11 +41,11 @@ export default function Request() {
     });
 
     const merge = await octokit.request("POST /repos/{owner}/{repo}/pulls", {
-      owner: user,
+      owner: owner,
       repo: repo,
       title: title,
       body: description,
-      head: pushed,
+      head: `${user}:${pushed}`,
       base: merging,
     });
 
@@ -61,7 +63,7 @@ export default function Request() {
     const assignee = await octokit.request(
       "POST /repos/{owner}/{repo}/issues/{issue_number}/assignees",
       {
-        owner: user,
+        owner: owner,
         repo: repo,
         issue_number: pullNum,
         assignees: [assignees],
@@ -71,7 +73,7 @@ export default function Request() {
     const review = await octokit.request(
       "POST /repos/{owner}/{repo}/pulls/{pull_number}/requested_reviewers",
       {
-        owner: user,
+        owner: owner,
         repo: repo,
         pull_number: pullNum,
         reviewers: [reviewers],
@@ -93,7 +95,7 @@ export default function Request() {
       const collaborator = await octokit.request(
         "GET /repos/{owner}/{repo}/collaborators",
         {
-          owner: user,
+          owner: owner,
           repo: repo,
         }
       );

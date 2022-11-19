@@ -12,7 +12,9 @@ function AddPage() {
   const [codes, setCodes] = useState([]);
   const [cmd, SetCmd] = useRecoilState(commandLine)
   
-
+  useEffect(()=>{
+    SetCmd(`cd "${localStorage.getItem("currentRepo")}"`)
+  },[])
 
   const getFile = (file) => {
     setFiles(file);

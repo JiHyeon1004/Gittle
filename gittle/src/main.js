@@ -171,7 +171,7 @@ ipcMain.on("create branch", (event, route, newBranch) => {
   const codes = [];
   // let branch = runCommand(`git checkout -b ${newBranch} ${baseBranch}`);
   let branch = runCommand(
-    `git --git-dir=${route}\\.git checkout -b ${newBranch}`
+    `git --git-dir=${route}\\.git checkout -b ${newBranch} && git --git-dir=${route}\\.git push origin ${newBranch}`
   );
   console.log("add branch : ", branch);
   codes.push(branch);
@@ -461,20 +461,23 @@ ipcMain.on("git-Push", (event, payload) => {
 
 ipcMain.on("call-committed-files", (event, root) => {
   let commitIdList;
-  try {
-    commitIdList = runCommand(`cd "${root}" && git log -1`);
-    let temp1 = commitIdList.split("\n")[0];
-    let tempArr = temp1.split(" ");
+  try{
+    commitIdList=runCommand(`cd ${root} && git log --branches --not --remotes`)
+    if(commitIdList.trim() === ''){
+      event.returnValue=[]
+    }else{
+      let temp1 = commitIdList.split("\n")[0];
+      let tempArr = temp1.split(" ");
 
-    let commitId = tempArr[1];
-
-    //실행
-    const returnArr = runCommand(
-      `cd "${root}" && git show --pretty="" --name-only ${commitId}`
-    );
-    event.returnValue = returnArr;
-  } catch (e) {
-    event.returnValue = "no";
+      let commitId = tempArr[1];
+      //실행
+      const returnArr = runCommand(
+        `cd "${root}" && git show --pretty="" --name-only ${commitId}`
+      );
+      event.returnValue = returnArr;
+    }
+  }catch(e){
+    event.returnValue='no'
   }
 });
 
