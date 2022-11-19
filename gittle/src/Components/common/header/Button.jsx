@@ -9,7 +9,8 @@ function Buttons(props){
     const root ="/"+props.page;
     let page;
     if(props.page==='merge/request'){
-        page=`merge \n request`
+        // page=`merge \n request`
+        page=`merge request`
     }else if(props.page==='merge/ready'){
         page=`merge`
     }else{
