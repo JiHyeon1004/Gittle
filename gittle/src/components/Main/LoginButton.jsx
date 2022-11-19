@@ -3,11 +3,6 @@ import styles from "./LoginButton.module.css"
 import Modal from "../common/Modal";
 
 
-const { ipcRenderer } = window.require("electron");
-
-
-
-
 
 // const CLIENT_ID = process.env.REACT_APP_GITHUB_CLIENT_ID
 
@@ -28,11 +23,6 @@ function Login(){
     const  nonHover= <span><img className={styles.logo} src={process.env.PUBLIC_URL + '/icons/github-logo-silhouette-in-a-square.png'} alt="gittle-Logo" /></span>
     const  hovered = <span><img className={styles.logo} src={process.env.PUBLIC_URL + '/icons/github3.png'} alt="gittle-Logo" /></span>
     
-
-    const openModal = () => {
-      setModalOpen(true);
-    };
-
 
     //기존방식 (web flow github oauth)
 
@@ -127,6 +117,8 @@ function Login(){
           //데이터를 object로
           setUserData(data);
           localStorage.setItem("userInfo", data.login);
+          localStorage.removeItem("userCode");
+          localStorage.removeItem("deviceCode");
         });
     }
     
