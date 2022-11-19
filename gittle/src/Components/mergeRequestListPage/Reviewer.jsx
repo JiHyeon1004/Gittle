@@ -12,11 +12,13 @@ export default function Reviewer() {
   const [detail, setDetail] = useRecoilState(mergeRequest);
   const [commits, setCommits] = useRecoilState(mergeCommit);
   const navigate = useNavigate();
+  
   useEffect(() => {
     const user = localStorage.getItem("userInfo");
     const location = localStorage.getItem("currentRepo").split("\\");
     console.log(location);
     const repo = location[location.length - 1];
+    const owner = localStorage.getItem("owner")
 
     async function getReview() {
       const octokit = new Octokit({
@@ -24,7 +26,7 @@ export default function Reviewer() {
       });
 
       const result = await octokit.request("GET /repos/{owner}/{repo}/pulls", {
-        owner: user,
+        owner: owner,
         repo: repo,
         state: "open",
       });
@@ -53,6 +55,7 @@ export default function Reviewer() {
     const location = localStorage.getItem("currentRepo").split("\\");
     console.log(location);
     const repo = location[location.length - 1];
+    const owner = localStorage.getItem("owner")
 
     const octokit = new Octokit({
       auth: "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",
@@ -61,7 +64,7 @@ export default function Reviewer() {
     const info = await octokit.request(
       "GET /repos/{owner}/{repo}/pulls/{pull_number}",
       {
-        owner: user,
+        owner: owner,
         repo: repo,
         pull_number: number,
       }
@@ -70,7 +73,7 @@ export default function Reviewer() {
     const commit = await octokit.request(
       "GET /repos/{owner}/{repo}/pulls/{pull_number}/commits",
       {
-        owner: user,
+        owner: owner,
         repo: repo,
         pull_number: number,
       }
@@ -84,9 +87,10 @@ export default function Reviewer() {
 
   return (
     <div className={styles.main}>
-      <div className={styles.title}>나에게 검토가 요청된 내역</div>
+      <div className={styles.title}>나에게 merge 검토가 요청된 내역</div>
+      <div className={styles.assigned}>
       {reviews.length ? (
-        <div className={styles.assigned}>
+        <div>
           {reviews.map((review, index) => (
             <div
               key={index}
@@ -116,6 +120,8 @@ export default function Reviewer() {
           아직 요청된 내역이 없습니다!
         </div>
       )}
+      </div>
+      
     </div>
   );
 }

@@ -1,12 +1,14 @@
 import React, { useState } from "react";
+import { useRecoilState } from "recoil";
 import Button from "../Button";
 import Modal from "../Modal";
+import { createBtn } from "../../../atoms";
 import styles from "./CreateBranch.module.css";
 
 function CreateBranch() {
+  const [isCreate, setIsCreate] = useRecoilState(createBtn);
   const [modalOpen, setModalOpen] = useState(false);
   const [newBranches, setNewBranches] = useState("");
-
   const { ipcRenderer } = window.require("electron");
 
   const createNewBranches = (newBranch) => {
@@ -34,7 +36,9 @@ function CreateBranch() {
     createNewBranches(newBranches);
     setNewBranches("");
     closeModal();
+    setIsCreate(true);
   };
+  setIsCreate(false);
 
   return (
     <>
@@ -60,10 +64,6 @@ function CreateBranch() {
                 />
               </div>
 
-              <div>
-                <label>상위 브랜치</label>
-                {/* <BranchSelector /> */}
-              </div>
               <div className={styles.buttonContainer}>
                 <Button
                   content={"branch 생성"}

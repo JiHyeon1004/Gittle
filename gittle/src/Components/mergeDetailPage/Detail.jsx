@@ -13,6 +13,7 @@ import { Octokit } from "octokit";
 import { useNavigate } from "react-router-dom";
 import Review from "../mergeDetailPage/Review";
 
+
 export default function Detail() {
   const mergeReqInfo = useRecoilValue(mergeRequest);
   const mergeCommitInfo = useRecoilValue(mergeCommit);
@@ -34,6 +35,7 @@ export default function Detail() {
   const [comment, setComment] = useState(false);
 
   const [commitReview, setCommitReview] = useState([]);
+  const isOpen = useRecoilValue(reviewModal);
 
   const navigate = useNavigate();
 
@@ -41,6 +43,7 @@ export default function Detail() {
   const location = localStorage.getItem("currentRepo");
   const repoArr = location.split("\\");
   const repo = repoArr[repoArr.length - 1];
+  const owner = localStorage.getItem("owner")
 
   useEffect(() => {
     console.log("!!!!", mergeReqInfo);
@@ -52,6 +55,7 @@ export default function Detail() {
     const location = localStorage.getItem("currentRepo").split("\\");
     console.log(location);
     const repo = location[location.length - 1];
+    const owner = localStorage.getItem("owner")
 
     async function getCommit() {
       const octokit = new Octokit({
@@ -61,7 +65,7 @@ export default function Detail() {
       const commitInfo = await octokit.request(
         "GET /repos/{owner}/{repo}/commits/{ref}",
         {
-          owner: user,
+          owner: owner,
           repo: repo,
           ref: commit,
         }
@@ -102,7 +106,7 @@ export default function Detail() {
       const reviews = await octokit.request(
         "GET /repos/{owner}/{repo}/pulls/{pull_number}/comments",
         {
-          owner: user,
+          owner: owner,
           repo: repo,
           pull_number: mergeReqInfo.number,
         }
@@ -120,7 +124,7 @@ export default function Detail() {
     }
     getCommit();
     getReview();
-  }, [commit]);
+  }, [commit, isOpen]);
 
   const showOverview = () => {
     setOverview(true);
@@ -168,7 +172,7 @@ export default function Detail() {
     const merge = await octokit.request(
       "PUT /repos/{owner}/{repo}/pulls/{pull_number}/merge",
       {
-        owner: user,
+        owner: owner,
         repo: repo,
         pull_number: mergeReqInfo.number,
         // commit_title: 'Expand enum',
@@ -544,7 +548,8 @@ export default function Detail() {
       <div className={styles.buttons}>
         {!mergeReqInfo.merged ? (
           mergeReqInfo.mergeable ? (
-            <Button
+            mergeReqInfo.assignee.login === user ? (
+              <Button
               action={mergeAccept}
               content={"merge"}
               style={{
@@ -553,6 +558,7 @@ export default function Detail() {
                 fontWeight: "600",
               }}
             />
+            ) : (null)
           ) : (
             <Button
               content={"conflict를 해결해주세요"}

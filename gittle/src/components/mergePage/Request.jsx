@@ -18,6 +18,8 @@ export default function Request() {
   const location = localStorage.getItem("currentRepo");
   const repoArr = location.split("\\");
   const repo = repoArr[repoArr.length - 1];
+  const owner = localStorage.getItem("owner")
+
   // collaborator 저장하기
   const [collab, setCollab] = useState([]);
   // reviewer 저장하기
@@ -34,21 +36,37 @@ export default function Request() {
 
   // merge request 보내는 함수
   async function mergeRequest() {
-    const octokit = new Octokit({
-      auth: "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",
-    });
-
-    const merge = await octokit.request("POST /repos/{owner}/{repo}/pulls", {
-      owner: user,
-      repo: repo,
-      title: title,
-      body: description,
-      head: pushed,
-      base: merging,
-    });
-
-    console.log("숫자", merge.data.number);
-    return merge.data.number;
+    try {
+      console.log(
+        {
+          owner: owner,
+          repo: repo,
+          title: title,
+          body: description,
+          head: `${user}:${pushed}`,
+          base: merging,
+        }
+      )
+  
+      const octokit = new Octokit({
+        auth: "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",
+      });
+  
+      const merge = await octokit.request("POST /repos/{owner}/{repo}/pulls", {
+        owner: owner,
+        repo: repo,
+        title: title,
+        body: description,
+        head: `${user}:${pushed}`,
+        base: merging,
+      });
+  
+      console.log("숫자", merge.data.number);
+      return merge.data.number;
+    } catch (error) {
+      console.log(error)
+      alert(`merge 요청을 보낼 수 없습니다.\n\n에러 메세지 : ${error.message}`)
+    }
   }
 
   // assignee 등록하고, review 요청 보내는 함수
@@ -61,7 +79,7 @@ export default function Request() {
     const assignee = await octokit.request(
       "POST /repos/{owner}/{repo}/issues/{issue_number}/assignees",
       {
-        owner: user,
+        owner: owner,
         repo: repo,
         issue_number: pullNum,
         assignees: [assignees],
@@ -71,7 +89,7 @@ export default function Request() {
     const review = await octokit.request(
       "POST /repos/{owner}/{repo}/pulls/{pull_number}/requested_reviewers",
       {
-        owner: user,
+        owner: owner,
         repo: repo,
         pull_number: pullNum,
         reviewers: [reviewers],
@@ -93,7 +111,7 @@ export default function Request() {
       const collaborator = await octokit.request(
         "GET /repos/{owner}/{repo}/collaborators",
         {
-          owner: user,
+          owner: owner,
           repo: repo,
         }
       );
