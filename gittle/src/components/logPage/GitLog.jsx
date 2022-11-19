@@ -25,6 +25,8 @@ export default function GitLog() {
       const location = localStorage.getItem("currentRepo").split("\\");
       console.log(location);
       const repo = location[location.length - 1];
+      const owner = localStorage.getItem("owner")
+
       const octokit = new Octokit({
         auth: "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",
       });
@@ -34,7 +36,7 @@ export default function GitLog() {
       const result = await octokit.request(
         "GET /repos/{owner}/{repo}/commits",
         {
-          owner: user,
+          owner: owner,
           repo: repo,
           sha: branch,
         }
@@ -53,6 +55,8 @@ export default function GitLog() {
       const location = localStorage.getItem("currentRepo").split("\\");
       console.log(location);
       const repo = location[location.length - 1];
+      const owner = localStorage.getItem("owner")
+
       const octokit = new Octokit({
         auth: "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",
       });
@@ -60,7 +64,7 @@ export default function GitLog() {
       const commitInfo = await octokit.request(
         "GET /repos/{owner}/{repo}/commits/{ref}",
         {
-          owner: user,
+          owner: owner,
           repo: repo,
           ref: commit,
         }

@@ -171,7 +171,7 @@ ipcMain.on("create branch", (event, route, newBranch) => {
   const codes = [];
   // let branch = runCommand(`git checkout -b ${newBranch} ${baseBranch}`);
   let branch = runCommand(
-    `git --git-dir=${route}\\.git checkout -b ${newBranch}`
+    `git --git-dir=${route}\\.git checkout -b ${newBranch} && git --git-dir=${route}\\.git push origin ${newBranch}`
   );
   console.log("add branch : ", branch);
   codes.push(branch);
@@ -184,7 +184,7 @@ ipcMain.on("deleteLocalBranch", (event, route, delBranch) => {
   let deletebranch;
   try {
     deletebranch = runCommand(
-      `git --git-dir=${route}\\.git branch -d ${delBranch}`
+      `git --git-dir=${route}\\.git branch -D ${delBranch}`
     );
     codes.push(deletebranch);
 
@@ -256,7 +256,7 @@ ipcMain.on("gitStatus", (event, curRepo) => {
 
 ipcMain.on("WriteCommitRules", (event, payload) => {
   if (!fs.existsSync(`${currentRepo}/commitRules.json`)) {
-    console.log("does not exist")
+    console.log("does not exist");
     fs.appendFileSync(
       `${currentRepo}/commitRules.json`,
       "[" + JSON.stringify(payload) + "]"
@@ -265,8 +265,7 @@ ipcMain.on("WriteCommitRules", (event, payload) => {
       fs.readFileSync(`${currentRepo}/commitRules.json`).toString()
     );
     event.returnValue = commitRules;
-  }
-  else{
+  } else {
     const commitRules = JSON.parse(
       fs.readFileSync(`${currentRepo}/commitRules.json`).toString()
     );
@@ -276,7 +275,6 @@ ipcMain.on("WriteCommitRules", (event, payload) => {
       JSON.stringify(commitRules)
     );
     event.returnValue = commitRules;
-
   }
 });
 
@@ -284,15 +282,11 @@ ipcMain.on("ReadCommitRules", (event, currentRepo) => {
   let commitRules = "[]";
   if (!fs.existsSync(`${currentRepo}/commitRules.json`)) {
     commitRules = "[]";
-  }
-  else{
-    commitRules = fs
-      .readFileSync(`${currentRepo}/commitRules.json`)
-      .toString();
+  } else {
+    commitRules = fs.readFileSync(`${currentRepo}/commitRules.json`).toString();
   }
   event.returnValue = commitRules;
 });
-
 
 ipcMain.on("git-Clone", (event, payload) => {
   console.log("도착했습니다");
@@ -468,21 +462,23 @@ ipcMain.on("git-Push", (event, payload) => {
 ipcMain.on("call-committed-files", (event, root) => {
   let commitIdList;
   try{
-    commitIdList = runCommand(`cd "${root}" && git log -1`);
-    let temp1 = commitIdList.split("\n")[0];
-    let tempArr = temp1.split(" ");
+    commitIdList=runCommand(`cd ${root} && git log --branches --not --remotes`)
+    if(commitIdList.trim() === ''){
+      event.returnValue=[]
+    }else{
+      let temp1 = commitIdList.split("\n")[0];
+      let tempArr = temp1.split(" ");
 
-    let commitId = tempArr[1];
-
-    //실행
-    const returnArr = runCommand(
-      `cd "${root}" && git show --pretty="" --name-only ${commitId}`
-    );
-    event.returnValue = returnArr;
+      let commitId = tempArr[1];
+      //실행
+      const returnArr = runCommand(
+        `cd "${root}" && git show --pretty="" --name-only ${commitId}`
+      );
+      event.returnValue = returnArr;
+    }
   }catch(e){
     event.returnValue='no'
   }
-  
 });
 
 ipcMain.on("openTerminal", (event, currentRepo) => {

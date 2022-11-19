@@ -13,20 +13,25 @@ export default function Assignee() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const user = localStorage.getItem("userInfo");
     const location = localStorage.getItem("currentRepo").split("\\");
     console.log(location);
     const repo = location[location.length - 1];
+    const owner = localStorage.getItem("owner")
 
     async function getAssigned() {
       const octokit = new Octokit({
         auth: "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",
       });
-      const assigned = await octokit.request("GET /issues", {});
+      const assigned = await octokit.request('GET /repos/{owner}/{repo}/pulls', {
+        owner: owner,
+        repo: repo
+      })
       const issues = [];
       console.log(assigned);
       assigned.data.map((each) => {
         const issue = {};
-        if (each.repository.name === repo) {
+        if (each.assignee.login === user) {
           issue.number = each.number;
           issue.title = each.title;
           issue.body = each.body;
@@ -53,6 +58,7 @@ export default function Assignee() {
     const location = localStorage.getItem("currentRepo").split("\\");
     console.log(location);
     const repo = location[location.length - 1];
+    const owner = localStorage.getItem("owner")
 
     const octokit = new Octokit({
       auth: "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",
@@ -61,7 +67,7 @@ export default function Assignee() {
     const info = await octokit.request(
       "GET /repos/{owner}/{repo}/pulls/{pull_number}",
       {
-        owner: user,
+        owner: owner,
         repo: repo,
         pull_number: number,
       }
@@ -70,7 +76,7 @@ export default function Assignee() {
     const commit = await octokit.request(
       "GET /repos/{owner}/{repo}/pulls/{pull_number}/commits",
       {
-        owner: user,
+        owner: owner,
         repo: repo,
         pull_number: number,
       }

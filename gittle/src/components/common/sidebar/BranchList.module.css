@@ -37,13 +37,6 @@
   position: fixed;
 }
 
-.branches {
-  margin-bottom: 10px;
-  position: sticky;
-  left: 0;
-  overflow: scroll;
-}
-
 .branch {
   display: flex;
   justify-content: space-between;
