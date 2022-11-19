@@ -364,7 +364,6 @@ ipcMain.on("gitPull", (event, route, targetBranch) => {
   let pull;
   try {
     pull = runCommand(
-      // `git --git-dir=${route}\\.git pull origin ${targetBranch}`
       `cd ${route} && git pull origin ${targetBranch}`
     );
     event.returnValue = pull;

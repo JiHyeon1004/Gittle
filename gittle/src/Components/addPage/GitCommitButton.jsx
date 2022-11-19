@@ -27,7 +27,7 @@ function GitCommitButton(props) {
               cursor: "pointer", position: "relative", right: "3px"}}>
               x
             </div>
-            <GitCommitPage style={{ width: "500px" }} />
+            <GitCommitPage style={{ width: "500px" }} modalClose={closeModal}/>
           </>
         }
         style={{ width: "500px" }}
