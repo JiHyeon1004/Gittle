@@ -84,7 +84,18 @@ export const logsList = atom({
   default: [],
 });
 
+export const deleteBtn = atom({
+  key: "deleteBtn",
+  default: false,
+});
+
+export const createBtn = atom({
+  key: "createBtn",
+  default: false,
+});
+
 export const cmtList = atom({
   key:"committedList",
   default:[]
 })
+

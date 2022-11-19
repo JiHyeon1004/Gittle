@@ -159,7 +159,7 @@ ipcMain.on("deleteLocalBranch", (event, route, delBranch) => {
   let deletebranch;
   try {
     deletebranch = runCommand(
-      `git --git-dir=${route}\\.git branch -d ${delBranch}`
+      `git --git-dir=${route}\\.git branch -D ${delBranch}`
     );
     codes.push(deletebranch);
 
@@ -225,6 +225,7 @@ ipcMain.on("gitStatus", (event, curRepo) => {
 
 ipcMain.on("WriteCommitRules", (event, payload) => {
   if (!fs.existsSync(`${currentRepo}/commitRules.json`)) {
+    console.log("does not exist");
     fs.appendFileSync(
       `${currentRepo}/commitRules.json`,
       "[" + JSON.stringify(payload) + "]"
@@ -233,8 +234,7 @@ ipcMain.on("WriteCommitRules", (event, payload) => {
       fs.readFileSync(`${currentRepo}/commitRules.json`).toString()
     );
     event.returnValue = commitRules;
-  }
-  else{
+  } else {
     const commitRules = JSON.parse(
       fs.readFileSync(`${currentRepo}/commitRules.json`).toString()
     );
@@ -244,7 +244,6 @@ ipcMain.on("WriteCommitRules", (event, payload) => {
       JSON.stringify(commitRules)
     );
     event.returnValue = commitRules;
-
   }
 });
 
@@ -252,15 +251,11 @@ ipcMain.on("ReadCommitRules", (event, currentRepo) => {
   let commitRules = "[]";
   if (!fs.existsSync(`${currentRepo}/commitRules.json`)) {
     commitRules = "[]";
-  }
-  else{
-    commitRules = fs
-      .readFileSync(`${currentRepo}/commitRules.json`)
-      .toString();
+  } else {
+    commitRules = fs.readFileSync(`${currentRepo}/commitRules.json`).toString();
   }
   event.returnValue = commitRules;
 });
-
 
 ipcMain.on("git-Clone", (event, payload) => {
   let stringArr = payload.cloneRoot.split("/");
@@ -268,6 +263,8 @@ ipcMain.on("git-Clone", (event, payload) => {
   let temp = stringArr[stringArr.length - 1];
   let folderName = temp.substr(0, temp.length - 4);
   runCommand(`cd "${payload.repoRoot}" && git clone ${payload.cloneRoot}`);
+  runCommand(`cd "${payload.repoRoot}" && git config --global core.quotepath false `);
+  console.log("돌아갑니다");
   event.returnValue = folderName;
 });
 
@@ -275,6 +272,7 @@ ipcMain.on("git-Init", (event, payload) => {
   runCommand(
     `cd "${payload.repoRoot}" && mkdir ${payload.repoName}  && cd ${payload.repoName}  && git init`
   );
+  runCommand(`cd "${payload.repoRoot}" && git config --global core.quotepath false `);
   event.returnValue = payload.repoName + "\\" + payload.repoRoot;
 });
 
@@ -404,7 +402,6 @@ ipcMain.on("call-committed-files", (event, root) => {
   }catch(e){
     event.returnValue='no'
   }
-  
 });
 
 ipcMain.on("openTerminal", (event, currentRepo) => {

@@ -12,6 +12,7 @@ export default function Reviewer() {
   const [detail, setDetail] = useRecoilState(mergeRequest);
   const [commits, setCommits] = useRecoilState(mergeCommit);
   const navigate = useNavigate();
+  
   useEffect(() => {
     const user = localStorage.getItem("userInfo");
     const location = localStorage.getItem("currentRepo").split("\\");
