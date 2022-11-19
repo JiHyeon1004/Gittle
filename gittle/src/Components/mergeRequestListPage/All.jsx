@@ -16,6 +16,7 @@ export default function All() {
   const location = localStorage.getItem("currentRepo");
   const repoArr = location.split("\\");
   const repo = repoArr[repoArr.length - 1];
+  const owner = localStorage.getItem("owner")
 
   useEffect(() => {
     async function getAll() {
@@ -24,7 +25,7 @@ export default function All() {
       });
 
       const result = await octokit.request("GET /repos/{owner}/{repo}/pulls", {
-        owner: user,
+        owner: owner,
         repo: repo,
         state: "all",
       });
@@ -53,7 +54,7 @@ export default function All() {
     const info = await octokit.request(
       "GET /repos/{owner}/{repo}/pulls/{pull_number}",
       {
-        owner: user,
+        owner: owner,
         repo: repo,
         pull_number: number,
       }
@@ -62,7 +63,7 @@ export default function All() {
     const commit = await octokit.request(
       "GET /repos/{owner}/{repo}/pulls/{pull_number}/commits",
       {
-        owner: user,
+        owner: owner,
         repo: repo,
         pull_number: number,
       }

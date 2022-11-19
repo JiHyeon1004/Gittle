@@ -14,6 +14,8 @@ export default function Merged() {
   const location = localStorage.getItem("currentRepo");
   const repoArr = location.split("\\");
   const repo = repoArr[repoArr.length - 1];
+  const owner = localStorage.getItem("owner")
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,7 +25,7 @@ export default function Merged() {
       });
 
       const result = await octokit.request("GET /repos/{owner}/{repo}/pulls", {
-        owner: user,
+        owner: owner,
         repo: repo,
         state: "closed",
       });
@@ -52,7 +54,7 @@ export default function Merged() {
     const info = await octokit.request(
       "GET /repos/{owner}/{repo}/pulls/{pull_number}",
       {
-        owner: user,
+        owner: owner,
         repo: repo,
         pull_number: number,
       }
@@ -61,7 +63,7 @@ export default function Merged() {
     const commit = await octokit.request(
       "GET /repos/{owner}/{repo}/pulls/{pull_number}/commits",
       {
-        owner: user,
+        owner: owner,
         repo: repo,
         pull_number: number,
       }

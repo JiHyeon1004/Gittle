@@ -20,13 +20,15 @@ function BranchSelector(props) {
   useEffect(() => {
     async function getBranchList() {
       const user = localStorage.getItem("userInfo");
+      const owner = localStorage.getItem("owner")
+
       const octokit = new Octokit({
         auth: "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",
       });
       const branches = await octokit.request(
         "GET /repos/{owner}/{repo}/branches",
         {
-          owner: user,
+          owner: owner,
           repo: repo,
         }
       );

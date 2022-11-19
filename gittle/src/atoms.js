@@ -93,3 +93,9 @@ export const createBtn = atom({
   key: "createBtn",
   default: false,
 });
+
+export const cmtList = atom({
+  key:"committedList",
+  default:[]
+})
+
