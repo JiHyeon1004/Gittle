@@ -15,8 +15,7 @@ a {
   cursor: pointer;
 }
 .gittleLogo {
-  height: 8vh;
-  width: 9vw;
+  height: 40px;
 }
 
 .buttonBox{
@@ -31,7 +30,7 @@ a {
   align-items: center;
   justify-content: space-around;
   width: 60%;
-  height: 70%;
+  height: 65%;
   border: 1px solid black;
   border-radius: 10px;
 }

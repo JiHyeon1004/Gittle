@@ -1,10 +1,9 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 import BranchList from "./BranchList";
-
-// import GitCommit from "./GitCommit";
-import CommitRuleButton from "./CommitRuleButton";
-import LogCheck from "./LogCheck";
+import CreateBranch from "./CreateBranch";
+import GitHelp from "./GitHelp";
+import TerminalButton from "./TerminalButton";
 import styles from "./SideBar.module.css";
 
 function SideBar() {
@@ -12,12 +11,14 @@ function SideBar() {
   if (location.pathname === "/") return null;
   return (
     <div className={styles.container}>
-      {/* <GitCommit /> */}
-      <div className={styles.selector}>
+      <div>
         <BranchList />
-        <LogCheck />
+        <CreateBranch />
       </div>
-      <CommitRuleButton />
+      <div className={styles.infoContainer}>
+        <TerminalButton />
+        <GitHelp />
+      </div>
     </div>
   );
 }

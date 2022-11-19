@@ -13,6 +13,7 @@ import { Octokit } from "octokit";
 import { useNavigate } from "react-router-dom";
 import Review from "../mergeDetailPage/Review";
 
+
 export default function Detail() {
   const mergeReqInfo = useRecoilValue(mergeRequest);
   const mergeCommitInfo = useRecoilValue(mergeCommit);
@@ -34,6 +35,7 @@ export default function Detail() {
   const [comment, setComment] = useState(false);
 
   const [commitReview, setCommitReview] = useState([]);
+  const isOpen = useRecoilValue(reviewModal);
 
   const navigate = useNavigate();
 
@@ -122,7 +124,7 @@ export default function Detail() {
     }
     getCommit();
     getReview();
-  }, [commit]);
+  }, [commit, isOpen]);
 
   const showOverview = () => {
     setOverview(true);
@@ -546,7 +548,8 @@ export default function Detail() {
       <div className={styles.buttons}>
         {!mergeReqInfo.merged ? (
           mergeReqInfo.mergeable ? (
-            <Button
+            mergeReqInfo.assignee.login === user ? (
+              <Button
               action={mergeAccept}
               content={"merge"}
               style={{
@@ -555,6 +558,7 @@ export default function Detail() {
                 fontWeight: "600",
               }}
             />
+            ) : (null)
           ) : (
             <Button
               content={"conflict를 해결해주세요"}

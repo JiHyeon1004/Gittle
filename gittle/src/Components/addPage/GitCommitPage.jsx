@@ -12,7 +12,7 @@ const getCommitRules = () => {
   return JSON.parse(ipcRenderer.sendSync("ReadCommitRules", localStorage.getItem("currentRepo")))
 }
 
-function GitCommit() {
+function GitCommit(props) {
   const [modalOpen, setModalOpen] = useState(false);
   const [commitType, setCommitType] = useState('')
   const [commitExplanation, setCommitExplanation] = useState('')
@@ -120,7 +120,10 @@ function GitCommit() {
 
         <div className={styles.toRight}>
         <button className={styles.commitBtn}
-        onClick={commit}
+        onClick={()=>{
+          commit()
+          props.modalClose();
+        }}
           style={{ backgroundColor: "#FF6B6B", color: "white" }}
           >Commit</button>
       </div>

@@ -21,7 +21,7 @@ function GitHelp() {
     <Dropdown drop="down" size="sm">
       <Dropdown.Toggle variant="white" size="sm" className={styles.question}>
         <img style={{ width: "40px", height: "40px" }} src={process.env.PUBLIC_URL + '/icons/question.png'} ></img>
-        <br/>도움말
+        <br/><span>도움말</span>
       </Dropdown.Toggle>
       <Dropdown.Menu variant="dark">
         {(() => {

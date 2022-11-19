@@ -1,10 +1,13 @@
 const { app, BrowserWindow, ipcMain, dialog } = require("electron");
 const path = require("path");
 const fs = require("fs");
-const { CLICK } = require("./constants");
+
+const isDev = require('electron-is-dev');
+
 
 let child_process = require("child_process");
 const { check } = require("yargs");
+const { response } = require("express");
 
 let runCommand = (command) => {
   return child_process.execSync(command).toString();
@@ -31,7 +34,17 @@ function createWindow() {
       gitDir = `--git-dir=${result}\\.git`;
     });
 
-  win.loadURL("http://localhost:3000");
+    if (isDev) {
+      win.loadURL("http://localhost:3000");
+    } else {
+      win.loadURL(url.format({
+        pathname: path.join(__dirname, 'index.html'),
+        protocol: 'file:',
+        slashes: true
+      }));
+    }
+  
+  // win.loadURL("http://localhost:3000");
   // currentRepo = localStorage.getItem("currentRepo");
   // console.log(currentRepo)
 }
@@ -40,7 +53,7 @@ app.on("window-all-closed", function () {
   if (process.platform !== "darwin") app.quit();
 });
 
-ipcMain.on(CLICK, (event, arg) => {
+ipcMain.on("click", (event, arg) => {
   dialog
     .showOpenDialog({ properties: ["openDirectory"] })
     .then((result) => {
@@ -119,7 +132,7 @@ ipcMain.on("localBranchList", (event, route) => {
 
   const codes = [];
   let localBranchList = runCommand(`git --git-dir=${route}\\.git branch -l`);
-  // console.log("localBranchList : ", localBranchList);
+  console.log("localBranchList : ", localBranchList);
   codes.push(localBranchList);
   event.returnValue = codes;
 });
@@ -135,7 +148,7 @@ ipcMain.on("remoteBranchList", (event, route) => {
   } catch (e) {
     remoteBranchList = [];
   }
-  console.log("remoteBranchList : ", remoteBranchList);
+  // console.log("remoteBranchList : ", remoteBranchList);
 
   codes.push(remoteBranchList);
   event.returnValue = codes;
@@ -149,7 +162,8 @@ ipcMain.on("change branch", (event, route, selectedBranch) => {
   let branch;
   try {
     branch = runCommand(
-      `cd "${route}" && git init && git checkout ${selectedBranch}`
+      // `cd "${route}" && git init && git checkout ${selectedBranch}`
+      `git --git-dir=${route}\\.git checkout ${selectedBranch} `
     );
     codes.push(branch);
     event.returnValue = codes;
@@ -301,7 +315,7 @@ ipcMain.on("git-Clone", (event, payload) => {
   let folderName = temp.substr(0, temp.length - 4);
   console.log("folderName : ", folderName);
   runCommand(`cd "${payload.repoRoot}" && git clone ${payload.cloneRoot}`);
-
+  runCommand(`cd "${payload.repoRoot}" && git config --global core.quotepath false `);
   console.log("돌아갑니다");
   event.returnValue = folderName;
 });
@@ -312,6 +326,7 @@ ipcMain.on("git-Init", (event, payload) => {
   runCommand(
     `cd "${payload.repoRoot}" && mkdir ${payload.repoName}  && cd ${payload.repoName}  && git init`
   );
+  runCommand(`cd "${payload.repoRoot}" && git config --global core.quotepath false `);
   event.returnValue = payload.repoName + "\\" + payload.repoRoot;
 });
 
@@ -461,11 +476,13 @@ ipcMain.on("git-Push", (event, payload) => {
 
 ipcMain.on("call-committed-files", (event, root) => {
   let commitIdList;
-  try{
-    commitIdList=runCommand(`cd ${root} && git log --branches --not --remotes`)
-    if(commitIdList.trim() === ''){
-      event.returnValue=[]
-    }else{
+  try {
+    commitIdList = runCommand(
+      `cd ${root} && git log --branches --not --remotes`
+    );
+    if (commitIdList.trim() === "") {
+      event.returnValue = [];
+    } else {
       let temp1 = commitIdList.split("\n")[0];
       let tempArr = temp1.split(" ");
 
@@ -476,10 +493,31 @@ ipcMain.on("call-committed-files", (event, root) => {
       );
       event.returnValue = returnArr;
     }
-  }catch(e){
-    event.returnValue='no'
+  } catch (e) {
+    event.returnValue = "no";
   }
 });
+
+
+//open dialog
+ipcMain.on('show-open-dialog', (event, userCode)=> {
+
+  const options = {
+    type: 'question',
+    buttons: ['입력완료'],
+    defaultId: 2,
+    title: 'Github UserCode',
+    message: '아래 코드를 입력해주세요.',
+    detail: userCode,
+    };
+
+    dialog.showMessageBox(null, options, (response) => {
+      console.log(response);
+    });
+})
+
+
+
 
 ipcMain.on("openTerminal", (event, currentRepo) => {
   console.log("asdf");
