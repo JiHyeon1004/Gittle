@@ -39,7 +39,7 @@
     "web-vitals": "^2.1.4",
     "yarn": "^1.22.19"
   },
-  "main": "src/main.js",
+  "main": "public/electron.js",
   "scripts": {
     "start": "concurrently \"yarn react-scripts start\" \"yarn electron\" \"node server.js\"",
     "build": "react-scripts build",
@@ -48,7 +48,8 @@
     "electron": "wait-on http://localhost:3000 && electron .",
     "bd": "cross-env NODE_ENV=production webpack --config webpack.build.config.js --mode production",
     "package": "npm run build",
-    "postpackage": "electron-packager ./ --out=./release_builds"
+    "postpackage": "electron-packager ./ --out=./release_builds",
+    "dist": "electron-builder"
   },
   "eslintConfig": {
     "extends": [
@@ -73,8 +74,35 @@
     "child_process": "^1.0.2",
     "concurrently": "^7.5.0",
     "electron": "^21.2.0",
+    "electron-builder": "^23.6.0",
     "electron-packager": "^17.1.1",
     "react-beautiful-dnd": "^13.1.1",
     "wait-on": "^6.0.1"
+  },
+  "build": {
+    "asar": false,
+    "extends": null,
+    "appId": "com.project",
+    "productName": "Gittle",
+    "extraMetadata": {
+      "main": "build/electron.js"
+    },
+    "files": [
+      "build/**/*",
+      "node_modules/**/*"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis"
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "createDesktopShortcut": true
+    }
   }
+
 }

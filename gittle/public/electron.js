@@ -1,7 +1,9 @@
 const { app, BrowserWindow, ipcMain, dialog } = require("electron");
 const path = require("path");
 const fs = require("fs");
-const { CLICK } = require("./constants");
+
+const isDev = require('electron-is-dev');
+
 
 let child_process = require("child_process");
 const { check } = require("yargs");
@@ -32,7 +34,17 @@ function createWindow() {
       gitDir = `--git-dir=${result}\\.git`;
     });
 
-  win.loadURL("http://localhost:3000");
+    if (isDev) {
+      win.loadURL("http://localhost:3000");
+    } else {
+      win.loadURL(url.format({
+        pathname: path.join(__dirname, 'index.html'),
+        protocol: 'file:',
+        slashes: true
+      }));
+    }
+  
+  // win.loadURL("http://localhost:3000");
   // currentRepo = localStorage.getItem("currentRepo");
   // console.log(currentRepo)
 }
@@ -41,7 +53,7 @@ app.on("window-all-closed", function () {
   if (process.platform !== "darwin") app.quit();
 });
 
-ipcMain.on(CLICK, (event, arg) => {
+ipcMain.on("click", (event, arg) => {
   dialog
     .showOpenDialog({ properties: ["openDirectory"] })
     .then((result) => {
@@ -499,8 +511,8 @@ ipcMain.on('show-open-dialog', (event, userCode)=> {
     detail: userCode,
     };
 
-    dialog.showMessageBox(null, options, () => {
-      event.returnValue = response;
+    dialog.showMessageBox(null, options, (response) => {
+      console.log(response);
     });
 })
 

@@ -89,10 +89,10 @@ function Login(){
         localStorage.setItem("userCode", data.user_code);
         localStorage.setItem("deviceCode", data.device_code);
         console.log("데이터 출력 완료")
-        window.open("https://github.com/login/device");
-        alert(data.user_code);
-        // const theDialog = ipcRenderer.sendSync("show-open-dialog", data.user_code)
-        // console.log(theDialog);
+        window.open("https://github.com/login/device", "github", "left=0");
+        // alert(data.user_code);
+        const theDialog = ipcRenderer.sendSync("show-open-dialog", data.user_code)
+        console.log(theDialog);
         console.log('제발요한번만요');
 
         console.log("이건 방금 받은 데이터 : " + data.device_code);
