@@ -2,17 +2,16 @@ import React, { useState } from "react";
 import { useRecoilState } from "recoil";
 import Button from "../Button";
 import Modal from "../Modal";
-import { currentBranch, deleteBranch } from "../../../atoms";
-import { useNavigate } from "react-router-dom";
+import { currentBranch, deleteBtn } from "../../../atoms";
 import styles from "./DeleteBranch.module.css";
 
 function DeleteBranch(props) {
   const { branch } = props;
-  const navigate = useNavigate();
+
   const [curBranch, setCurBranch] = useRecoilState(currentBranch);
+  const [isDelete, setIsDelete] = useRecoilState(deleteBtn);
   const [modalOpen, setModalOpen] = useState(false);
   const [currentErrorModalOpen, setCurrentErrorModalOpen] = useState(false);
-  const [commitErrorModalOpen, setCommitErrorModalOpen] = useState(false);
 
   const { ipcRenderer } = window.require("electron");
   const currentRepo = localStorage.getItem("currentRepo");
@@ -44,13 +43,10 @@ function DeleteBranch(props) {
     branch.includes("origin/")
       ? deleteRemoteBranches(branch.replace("origin/", ""))
       : deleteLocalBranches(branch);
+    setIsDelete(true);
     closeModal();
   };
-
-  const goPush = () => {
-    setCommitErrorModalOpen(false);
-    navigate("/push");
-  };
+  setIsDelete(false);
 
   return (
     <>

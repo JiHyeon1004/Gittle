@@ -83,3 +83,13 @@ export const logsList = atom({
   key: "logsList",
   default: [],
 });
+
+export const deleteBtn = atom({
+  key: "deleteBtn",
+  default: false,
+});
+
+export const createBtn = atom({
+  key: "createBtn",
+  default: false,
+});
