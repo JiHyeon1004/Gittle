@@ -45,7 +45,7 @@ function CreateBranch() {
       <Button
         action={openModal}
         content={"새 branch"}
-        style={{ backgroundColor: "#6BCC78" }}
+        style={{ width: "200px" }}
       />
 
       <Modal

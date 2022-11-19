@@ -1,22 +1,21 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import GitHelp from "./GitHelp";
 import GitPull from "./GitPull";
-import Button from "./Button"
+import HelpGuide from "./HelpGuide";
+import Button from "./Button";
 import styles from "./Header.module.css";
 import { useRecoilState } from "recoil";
-import {pushBtn  } from "../../../atoms";
-import TerminalButton from "./TerminalButton";
+import { pushBtn } from "../../../atoms";
 
 function Header() {
   const location = useLocation();
-  
+
   // const [selectedPage,SetSelectedPage]= useState("add")
-  const [selectedPage,SetSelectedPage]= useRecoilState(pushBtn)
-  
-  const changeSelectedPage=(arg)=>{
-    SetSelectedPage(arg)
-  }
+  const [selectedPage, SetSelectedPage] = useRecoilState(pushBtn);
+
+  const changeSelectedPage = (arg) => {
+    SetSelectedPage(arg);
+  };
 
   if (location.pathname === "/") return null;
   return (
@@ -32,21 +31,40 @@ function Header() {
       </h2>
       <div className={styles.buttonBox}>
         <div className={styles.localToRemote}>
-          <Button page="add" whenClick={changeSelectedPage} selPage={selectedPage}></Button>
-          
-          <Button page="push" whenClick={changeSelectedPage} selPage={selectedPage}></Button>
-          
-          <Button page="merge/ready" whenClick={changeSelectedPage} selPage={selectedPage}></Button>
+          <Button
+            page="add"
+            whenClick={changeSelectedPage}
+            selPage={selectedPage}
+          ></Button>
+
+          <Button
+            page="push"
+            whenClick={changeSelectedPage}
+            selPage={selectedPage}
+          ></Button>
+
+          <Button
+            page="merge/ready"
+            whenClick={changeSelectedPage}
+            selPage={selectedPage}
+          ></Button>
         </div>
         <div className={styles.log}>
-          <Button  page="merge/request" whenClick={changeSelectedPage} selPage={selectedPage}></Button>
-          <Button  page="log" whenClick={changeSelectedPage} selPage={selectedPage}></Button>
+          <Button
+            page="merge/request"
+            whenClick={changeSelectedPage}
+            selPage={selectedPage}
+          ></Button>
+          <Button
+            page="log"
+            whenClick={changeSelectedPage}
+            selPage={selectedPage}
+          ></Button>
         </div>
       </div>
       <div className={styles.box}>
-        <TerminalButton /> 
-        <GitHelp />
         <GitPull />
+        <HelpGuide />
       </div>
     </div>
   );
