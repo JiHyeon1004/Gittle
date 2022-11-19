@@ -23,9 +23,6 @@ app.get('/getUserCode', async function (req, res) {
         }
     });
     res.send(resi.data);
-    console.log("여기를 보시오(유저코드받는부분)------------------------------");
-    console.log(resi.data);
-    console.log("끝ㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌ");
 });
 
 
@@ -41,9 +38,6 @@ app.get('/getDeviceAccessToken', async function (req, res) {
         }
     });
     res.send(resi.data);
-    console.log("여기를 보시오(accesstoken받는부분)------------------------------");
-    console.log(resi.data);
-    console.log("끝ㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌ");
 });
 
 

@@ -2,6 +2,8 @@
   "name": "gittle",
   "version": "0.1.0",
   "private": true,
+  "author": "Solgit",
+  "homepage": "./",
   "dependencies": {
     "@electron/remote": "^2.0.8",
     "@fortawesome/fontawesome-svg-core": "^6.2.0",
