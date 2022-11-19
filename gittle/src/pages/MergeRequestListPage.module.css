@@ -35,7 +35,9 @@
 }
 
 .tabbox {
+  height: 83vh;
   border: 1px solid #959595;
   border-radius: 0 0.8rem 0.8rem 0.8rem;
   padding: 20px;
+  overflow: scroll;
 }
