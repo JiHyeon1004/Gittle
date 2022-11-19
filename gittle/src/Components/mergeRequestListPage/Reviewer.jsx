@@ -87,9 +87,10 @@ export default function Reviewer() {
 
   return (
     <div className={styles.main}>
-      <div className={styles.title}>나에게 검토가 요청된 내역</div>
+      <div className={styles.title}>나에게 merge 검토가 요청된 내역</div>
+      <div className={styles.assigned}>
       {reviews.length ? (
-        <div className={styles.assigned}>
+        <div>
           {reviews.map((review, index) => (
             <div
               key={index}
@@ -119,6 +120,8 @@ export default function Reviewer() {
           아직 요청된 내역이 없습니다!
         </div>
       )}
+      </div>
+      
     </div>
   );
 }
