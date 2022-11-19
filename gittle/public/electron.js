@@ -132,7 +132,7 @@ ipcMain.on("localBranchList", (event, route) => {
 
   const codes = [];
   let localBranchList = runCommand(`git --git-dir=${route}\\.git branch -l`);
-  // console.log("localBranchList : ", localBranchList);
+  console.log("localBranchList : ", localBranchList);
   codes.push(localBranchList);
   event.returnValue = codes;
 });
@@ -148,7 +148,7 @@ ipcMain.on("remoteBranchList", (event, route) => {
   } catch (e) {
     remoteBranchList = [];
   }
-  console.log("remoteBranchList : ", remoteBranchList);
+  // console.log("remoteBranchList : ", remoteBranchList);
 
   codes.push(remoteBranchList);
   event.returnValue = codes;
@@ -162,7 +162,8 @@ ipcMain.on("change branch", (event, route, selectedBranch) => {
   let branch;
   try {
     branch = runCommand(
-      `cd "${route}" && git init && git checkout ${selectedBranch}`
+      // `cd "${route}" && git init && git checkout ${selectedBranch}`
+      `git --git-dir=${route}\\.git checkout ${selectedBranch} `
     );
     codes.push(branch);
     event.returnValue = codes;
@@ -475,11 +476,13 @@ ipcMain.on("git-Push", (event, payload) => {
 
 ipcMain.on("call-committed-files", (event, root) => {
   let commitIdList;
-  try{
-    commitIdList=runCommand(`cd ${root} && git log --branches --not --remotes`)
-    if(commitIdList.trim() === ''){
-      event.returnValue=[]
-    }else{
+  try {
+    commitIdList = runCommand(
+      `cd ${root} && git log --branches --not --remotes`
+    );
+    if (commitIdList.trim() === "") {
+      event.returnValue = [];
+    } else {
       let temp1 = commitIdList.split("\n")[0];
       let tempArr = temp1.split(" ");
 
@@ -490,8 +493,8 @@ ipcMain.on("call-committed-files", (event, root) => {
       );
       event.returnValue = returnArr;
     }
-  }catch(e){
-    event.returnValue='no'
+  } catch (e) {
+    event.returnValue = "no";
   }
 });
 

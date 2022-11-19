@@ -9,11 +9,7 @@ function LogCheck(props) {
   };
   return (
     <div>
-      <Button
-        action={goLog}
-        content={"로그 확인"}
-        style={{ backgroundColor: "#6BCC78" }}
-      />
+      <Button action={goLog} content={"로그 확인"} />
     </div>
   );
 }

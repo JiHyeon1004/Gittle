@@ -7,11 +7,18 @@ import {
   createBtn,
   deleteBtn,
 } from "../../../atoms";
-import CreateBranch from "./CreateBranch";
+import LogCheck from "./LogCheck";
+
 import DeleteBranch from "./DeleteBranch";
 import Modal from "../Modal";
 import Button from "../Button";
 import { useNavigate } from "react-router-dom";
+import {
+  faCodeBranch,
+  faCaretDown,
+  faCaretUp,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "./BranchList.module.css";
 
 function BranchList() {
@@ -41,7 +48,9 @@ function BranchList() {
       .split("\n")
       .filter((branch) => branch)
       .map((branch) => branch.trim())
-      .map((branch) => (branch.includes("*") ? curBranch : branch));
+      .map((branch) =>
+        branch.includes("*") ? branch.replace("* ", "") : branch
+      );
     setLocalBranches(local);
   };
 
@@ -51,7 +60,7 @@ function BranchList() {
   useEffect(() => {
     getLocalBranches();
   }, [isDelete, isCreate]);
-
+  console.log(localBranches);
   const remoteBranches = ipcRenderer.sendSync("remoteBranchList", currentRepo);
 
   const remoteBranchList = remoteBranches[0]
@@ -94,12 +103,22 @@ function BranchList() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.curBranch}>
-        현재 branch <p>{curBranch}</p>
+      <div className={styles.curStatus}>
+        <div className={styles.curBranch}>
+          현재 branch <p>{curBranch}</p>
+        </div>
+        <LogCheck />
       </div>
-      <div>
+      <div className={styles.branchContainer}>
         <div className={styles.branchList}>
-          <div onClick={showLocalBranches}>local</div>
+          <div className={styles.branchMenu} onClick={showLocalBranches}>
+            branch{" "}
+            {localListOpen ? (
+              <FontAwesomeIcon icon={faCaretUp} />
+            ) : (
+              <FontAwesomeIcon icon={faCaretDown} />
+            )}
+          </div>
           <div
             className={localListOpen ? `${styles.openList}` : `${styles.list}`}
           >
@@ -115,7 +134,13 @@ function BranchList() {
                 onDoubleClick={branchChanger}
                 data-branch={branch}
               >
-                {branch}
+                <div>
+                  <FontAwesomeIcon
+                    icon={faCodeBranch}
+                    className={styles.icon}
+                  />
+                  {branch}
+                </div>
                 <DeleteBranch branch={branch} />
               </div>
             ))}
@@ -123,26 +148,18 @@ function BranchList() {
         </div>
         <div className={styles.branchList}>
           <div onClick={showRemoteBranches}>remote</div>
-          {remoteBranchList.map((branch, idx) => (
-            <div
-              className={
-                remoteListOpen ? `${styles.openList}` : `${styles.list}`
-              }
-            >
-              <div
-                key={idx}
-                className={styles.branch}
-                onDoubleClick={branchChanger}
-                data-branch={branch}
-              >
+          <div
+            className={remoteListOpen ? `${styles.openList}` : `${styles.list}`}
+          >
+            {remoteBranchList.map((branch, idx) => (
+              <div key={idx} className={styles.branch} data-branch={branch}>
                 {branch}
 
                 <DeleteBranch branch={branch} />
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-        <CreateBranch />
       </div>
       <Modal
         open={errorModalOpen}
