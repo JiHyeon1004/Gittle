@@ -31,7 +31,10 @@ function BranchList() {
 
   const localBranchList = ipcRenderer.sendSync("localBranchList", currentRepo);
 
-  setCurBranch(ipcRenderer.sendSync("gitBranch", currentRepo));
+  // setCurBranch(ipcRenderer.sendSync("gitBranch", currentRepo));
+  const getCurBranch = () => {
+    setCurBranch(ipcRenderer.sendSync("gitBranch", currentRepo));
+  };
 
   const getLocalBranches = () => {
     const local = localBranchList[0]
@@ -42,6 +45,9 @@ function BranchList() {
     setLocalBranches(local);
   };
 
+  useEffect(() => {
+    getCurBranch();
+  }, [localBranches]);
   useEffect(() => {
     getLocalBranches();
   }, [isDelete, isCreate]);
@@ -72,20 +78,19 @@ function BranchList() {
   };
 
   const branchChanger = () => {
+    setCurBranch(selectedBranch);
     changeBranch(selectedBranch) === "error"
       ? setErrorModalOpen(true)
-      : changeBranch(selectedBranch);
-
-    setCurBranch(selectedBranch);
-    if (changeBranch(selectedBranch) !== "error") {
-      SetCmd(`${cmd} \n git switch ${selectedBranch}`);
-    }
+      : changeBranch(selectedBranch) &&
+        SetCmd(`${cmd} \n git switch ${selectedBranch}`);
   };
 
   const goCommit = () => {
     setErrorModalOpen(false);
     navigate("/add");
   };
+
+  console.log("here", curBranch, selectedBranch);
 
   return (
     <div className={styles.container}>
@@ -95,12 +100,10 @@ function BranchList() {
       <div>
         <div className={styles.branchList}>
           <div onClick={showLocalBranches}>local</div>
-          {localBranches.map((branch, idx) => (
-            <div
-              className={
-                localListOpen ? `${styles.openList}` : `${styles.list}`
-              }
-            >
+          <div
+            className={localListOpen ? `${styles.openList}` : `${styles.list}`}
+          >
+            {localBranches.map((branch, idx) => (
               <div
                 key={idx}
                 className={
@@ -113,11 +116,10 @@ function BranchList() {
                 data-branch={branch}
               >
                 {branch}
-
                 <DeleteBranch branch={branch} />
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
         <div className={styles.branchList}>
           <div onClick={showRemoteBranches}>remote</div>
