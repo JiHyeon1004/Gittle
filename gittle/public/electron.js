@@ -233,7 +233,7 @@ ipcMain.on("gitStatus", (event, curRepo) => {
       ? `${gitDir} --work-tree=${currentRepo}`
       : "";
 
-  const data = runCommand(`cd ${a} && git status -u -s`);
+  const data = runCommand(`cd "${a}" && git status -u -s`);
 
   // const data = runCommand(`git status -u -s`);
   event.returnValue = data;
@@ -295,7 +295,7 @@ ipcMain.on("check-git-folder", (event, root) => {
   // const arr=runCommand(`cd ${root} && ls`).split('\n')
 
   try {
-    runCommand(`cd ${root}\\.git`);
+    runCommand(`cd "${root}"\\.git`);
     event.returnValue = "true";
   } catch (e) {
     event.returnValue = "false";
