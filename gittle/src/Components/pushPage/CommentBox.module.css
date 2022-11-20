@@ -26,6 +26,8 @@
   color: white;
   font-size: 1.2rem;
   font-weight: bold;
+
+  margin-left: 34rem;
 }
 
 .remoteBox {
@@ -53,4 +55,6 @@
   color: white;
   font-size: 1.2rem;
   font-weight: bold;
+  margin-left: 1.3rem;
+
 }
