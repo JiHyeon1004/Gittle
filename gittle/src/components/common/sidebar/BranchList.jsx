@@ -60,7 +60,6 @@ function BranchList() {
   useEffect(() => {
     getLocalBranches();
   }, [isDelete, isCreate]);
-  console.log(localBranches);
   const remoteBranches = ipcRenderer.sendSync("remoteBranchList", currentRepo);
 
   const remoteBranchList = remoteBranches[0]
@@ -98,8 +97,6 @@ function BranchList() {
     setErrorModalOpen(false);
     navigate("/add");
   };
-
-  console.log("here", curBranch, selectedBranch);
 
   return (
     <div className={styles.container}>

@@ -129,6 +129,7 @@ function Modal(props){
                             return
                         }
                         updateMyRepo('')
+                        ipcRenderer.send("create-localStorage",repoRoot)
                         localStorage.setItem('currentRepo',repoRoot)
                         navigate("/add",{state:{name:repoName,root:repoRoot}})
                     }else{
@@ -141,7 +142,7 @@ function Modal(props){
                     }
                     
                 }}>
-                    만들기
+                    {props.setModalOpen.number===1 ? "열기":"만들기"}
                 </button>
                 <button className={styles.negativeButton} onClick={()=>props.close()}>취소</button>
             </div>

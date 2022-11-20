@@ -15,20 +15,20 @@ export default function Assignee() {
   useEffect(() => {
     const user = localStorage.getItem("userInfo");
     const location = localStorage.getItem("currentRepo").split("\\");
-    console.log(location);
     const repo = location[location.length - 1];
     const owner = localStorage.getItem("owner")
+    const token = localStorage.getItem("accessToken");
+
 
     async function getAssigned() {
       const octokit = new Octokit({
-        auth: "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",
+        auth: token,
       });
       const assigned = await octokit.request('GET /repos/{owner}/{repo}/pulls', {
         owner: owner,
         repo: repo
       })
       const issues = [];
-      console.log(assigned);
       assigned.data.map((each) => {
         const issue = {};
         if (each.assignee.login === user) {
@@ -41,7 +41,6 @@ export default function Assignee() {
           issue.updated = each.updated_at;
           issues.push(issue);
         }
-        console.log(issues);
       });
       setRequests(issues);
     }
@@ -56,12 +55,13 @@ export default function Assignee() {
   async function showRequest(number) {
     const user = localStorage.getItem("userInfo");
     const location = localStorage.getItem("currentRepo").split("\\");
-    console.log(location);
     const repo = location[location.length - 1];
     const owner = localStorage.getItem("owner")
+    const token = localStorage.getItem("accessToken");
+
 
     const octokit = new Octokit({
-      auth: "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",
+      auth: token,
     });
 
     const info = await octokit.request(
@@ -81,8 +81,6 @@ export default function Assignee() {
         pull_number: number,
       }
     );
-    console.log(info.data);
-    console.log(commit);
 
     setDetail(info.data);
     setCommits(commit.data);

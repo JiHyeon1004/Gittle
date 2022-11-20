@@ -8,6 +8,7 @@ const isDev = require('electron-is-dev');
 let child_process = require("child_process");
 const { check } = require("yargs");
 const { response } = require("express");
+const { event } = require("jquery");
 
 let runCommand = (command) => {
   return child_process.execSync(command).toString();
@@ -115,7 +116,6 @@ ipcMain.on("localBranchList", (event, route) => {
 
   const codes = [];
   let localBranchList = runCommand(`git --git-dir=${route}\\.git branch -l`);
-  console.log("localBranchList : ", localBranchList);
   codes.push(localBranchList);
   event.returnValue = codes;
 });
@@ -225,7 +225,7 @@ app.on("window-all-closed", function () {
 
 ipcMain.on("gitStatus", (event, curRepo) => {
   const currentRepo = curRepo === null ? "./" : curRepo;
-  const data = runCommand(`cd ${currentRepo} && git status -u -s`);
+  const data = runCommand(`cd "${currentRepo}" && git status -u -s`);
   event.returnValue = data;
 });
 
@@ -275,17 +275,21 @@ ipcMain.on("git-Clone", (event, payload) => {
 
 ipcMain.on("git-Init", (event, payload) => {
   runCommand(
-    `cd "${payload.repoRoot}" && mkdir ${payload.repoName}  && cd ${payload.repoName}  && git init`
+    `cd "${payload.repoRoot}" && mkdir ${payload.repoName}  && cd "${payload.repoName}"  && git init`
   );
   runCommand(`cd "${payload.repoRoot}" && git config --global core.quotepath false `);
   event.returnValue = payload.repoName + "\\" + payload.repoRoot;
 });
 
+ipcMain.on("create-localStorage",(event, cur)=>{
+  currentRepo = cur
+})
+
 ipcMain.on("check-git-folder", (event, root) => {
   // const arr=runCommand(`cd ${root} && ls`).split('\n')
 
   try {
-    runCommand(`cd ${root}\\.git`);
+    runCommand(`cd "${root}"\\.git`);
     event.returnValue = "true";
   } catch (e) {
     event.returnValue = "false";
@@ -307,7 +311,7 @@ ipcMain.on("gitDiff", (event, arg) => {
   arg.map((file) => {
     // const name = file.split("/");
     // const fileName = name[name.length - 1];
-    let diff = runCommand(`cd ${currentRepo} && git diff ${file}`);
+    let diff = runCommand(`cd "${currentRepo}" && git diff ${file}`);
     codes.push(diff);
   });
 
@@ -325,11 +329,11 @@ ipcMain.on("gitDiff", (event, arg) => {
   // event.sender.send('return-2',arr)
 });
 ipcMain.on("gitAdd", (event, files) => {
-  let data = runCommand(`cd ${currentRepo} && git add ${files}`);
+  let data = runCommand(`cd "${currentRepo}" && git add ${files}`);
 });
 
 ipcMain.on("gitReset", (event, files) => {
-  let data = runCommand(`cd ${currentRepo} && git reset ${files}`);
+  let data = runCommand(`cd "${currentRepo}" && git reset ${files}`);
 });
 
 ipcMain.on("git-Branch", (event, payload) => {
@@ -358,18 +362,14 @@ ipcMain.on("git-Branch", (event, payload) => {
 });
 
 ipcMain.on("gitBranch", (event, route) => {
-  // console.log("현재 작업 중인 브랜치를 보여줘");
-  //console.log(route);
   let branch = runCommand(
     `git --git-dir=${route}\\.git branch --show-current `
   );
-  //console.log("브랜치이이이", branch);
   event.returnValue = branch;
 });
 
 ipcMain.on("gitCommit", (event, commitMessage) => {
-  let data = runCommand(`cd ${currentRepo} && git commit -m "${commitMessage}"`);
-  //console.log(data);
+  let data = runCommand(`cd "${currentRepo}" && git commit -m "${commitMessage}"`);
   event.returnValue = data;
 });
 
@@ -392,7 +392,7 @@ ipcMain.on("gitPull", (event, route, targetBranch) => {
   try {
     pull = runCommand(
       // `git --git-dir=${route}\\.git pull origin ${targetBranch}`
-      `cd ${route} && git pull origin ${targetBranch}`
+      `cd "${route}" && git pull origin ${targetBranch}`
     );
     event.returnValue = pull;
   } catch (error) {
@@ -418,7 +418,7 @@ ipcMain.on("call-committed-files", (event, root) => {
   let commitIdList;
   try {
     commitIdList = runCommand(
-      `cd ${root} && git log --branches --not --remotes`
+      `cd "${root}" && git log --branches --not --remotes`
     );
     if (commitIdList.trim() === "") {
       event.returnValue = [];
@@ -440,7 +440,7 @@ ipcMain.on("call-committed-files", (event, root) => {
 
 ipcMain.on("openTerminal", (event, currentRepo) => {
   child_process.exec(
-    `cd ${currentRepo} && start "" "%PROGRAMFILES%\\Git\\bin\\sh.exe" --login`
+    `cd "${currentRepo}" && start "" "%PROGRAMFILES%\\Git\\bin\\sh.exe" --login`
   );
 });
 

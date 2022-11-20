@@ -15,13 +15,14 @@ export default function Merged() {
   const repoArr = location.split("\\");
   const repo = repoArr[repoArr.length - 1];
   const owner = localStorage.getItem("owner")
+  const token = localStorage.getItem("accessToken");
 
   const navigate = useNavigate();
 
   useEffect(() => {
     async function getRequest() {
       const octokit = new Octokit({
-        auth: "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",
+        auth: token,
       });
 
       const result = await octokit.request("GET /repos/{owner}/{repo}/pulls", {
@@ -30,7 +31,6 @@ export default function Merged() {
         state: "closed",
       });
 
-      console.log("닫힘", result.data);
       setMergedReq(result.data);
     }
     getRequest();
@@ -44,11 +44,11 @@ export default function Merged() {
   async function showRequest(number) {
     const user = localStorage.getItem("userInfo");
     const location = localStorage.getItem("currentRepo").split("\\");
-    console.log(location);
     const repo = location[location.length - 1];
+    const token = localStorage.getItem("accessToken");
 
     const octokit = new Octokit({
-      auth: "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",
+      auth: token,
     });
 
     const info = await octokit.request(
@@ -68,8 +68,6 @@ export default function Merged() {
         pull_number: number,
       }
     );
-    console.log(info.data);
-    console.log(commit);
 
     setDetail(info.data);
     setCommits(commit.data);

@@ -7,7 +7,6 @@ import { committedFiles } from "../../atoms";
 
 export default function Local() {
   const pushed = useRecoilValue(committedFiles);
-  console.log("pushed", pushed);
 
   return (
     <>

@@ -19,13 +19,12 @@ export default function GitDiff({ diffFiles, diff }) {
   const [fileIdx, setFileIdx] = useState(0);
   // 레포지토리 주소 받아오기
   const location = localStorage.getItem("currentRepo");
-  console.log(location);
   // 레포지토리 주소에서 이름 저장하기
   const repoArr = location.split("\\");
   const repo = repoArr[repoArr.length - 1];
-  console.log(repo);
   // 현재 작업 중인 브랜치 저장
   const [currBranch, setCurrBranch] = useState("");
+  const token = localStorage.getItem("accessToken");
 
   useEffect(() => {
     // 해당 branch 정보 가져오기
@@ -34,13 +33,12 @@ export default function GitDiff({ diffFiles, diff }) {
     const { ipcRenderer } = window.require("electron");
     const currentBranch = ipcRenderer.sendSync("gitBranch", location);
     setCurrBranch(currentBranch);
-    console.log("브랜치", currentBranch);
 
     async function getBranch() {
       const user = localStorage.getItem("userInfo");
       const owner = localStorage.getItem("owner")
       const octokit = new Octokit({
-        auth: "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",
+        auth: token,
       });
 
       const branch = await octokit.request(
@@ -52,8 +50,6 @@ export default function GitDiff({ diffFiles, diff }) {
         }
       );
 
-      // console.log(branch);
-      // console.log(branch.data.commit.commit.author);
       setDate(
         branch.data.commit.commit.author.date.replace("T", " ").replace("Z", "")
       );
@@ -64,7 +60,7 @@ export default function GitDiff({ diffFiles, diff }) {
 
     async function saveOwner() {
       const octokit = new Octokit({
-        auth: "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"
+        auth: token
       })
       
       const myRepos = await octokit.request('GET /user/repos', {})
@@ -116,12 +112,7 @@ export default function GitDiff({ diffFiles, diff }) {
         });
         fileBefore.push(before);
         fileAfter.push(after);
-        console.log("before", before);
-        console.log("after", after);
-        console.log("files", files);
       });
-      console.log("fileBefore", fileBefore);
-      console.log("fileAfter", fileAfter);
       setCodeBefore(fileBefore);
       setCodeAfter(fileAfter);
     }

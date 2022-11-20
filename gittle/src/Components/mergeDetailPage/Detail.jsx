@@ -43,22 +43,22 @@ export default function Detail() {
   const repoArr = location.split("\\");
   const repo = repoArr[repoArr.length - 1];
   const owner = localStorage.getItem("owner");
+  const token = localStorage.getItem("accessToken");
+
 
   useEffect(() => {
-    console.log("!!!!", mergeReqInfo);
-    console.log("~~~~~~~~~~", mergeCommitInfo);
   }, []);
 
   useEffect(() => {
     const user = localStorage.getItem("userInfo");
     const location = localStorage.getItem("currentRepo").split("\\");
-    console.log(location);
     const repo = location[location.length - 1];
     const owner = localStorage.getItem("owner");
+    const token = localStorage.getItem("accessToken");
 
     async function getCommit() {
       const octokit = new Octokit({
-        auth: "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",
+        auth: token,
       });
 
       const commitInfo = await octokit.request(
@@ -70,7 +70,6 @@ export default function Detail() {
         }
       );
 
-      console.log("lalalal", commitInfo);
       setFiles(commitInfo.data.files);
       setCommitId(commitInfo.data.sha);
       let fileBefore = [];
@@ -99,7 +98,7 @@ export default function Detail() {
     }
     async function getReview() {
       const octokit = new Octokit({
-        auth: "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",
+        auth: token,
       });
 
       const reviews = await octokit.request(
@@ -117,7 +116,6 @@ export default function Detail() {
           reviewArr.push(review);
         }
       });
-      console.log("리뷰", reviewArr);
       // console.log("커밋", commit);
       setCommitReview(reviewArr);
     }
@@ -163,23 +161,24 @@ export default function Detail() {
     setModalOpen(true);
   };
 
-  async function mergeAccept() {
-    const octokit = new Octokit({
-      auth: "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",
-    });
+  const mergeAccept = () => {
+    // const octokit = new Octokit({
+    //   auth: "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",
+    // });
 
-    const merge = await octokit.request(
-      "PUT /repos/{owner}/{repo}/pulls/{pull_number}/merge",
-      {
-        owner: owner,
-        repo: repo,
-        pull_number: mergeReqInfo.number,
-        // commit_title: 'Expand enum',
-        // commit_message: 'Add a new value to the merge_method enum'
-      }
-    );
+    // const merge = await octokit.request(
+    //   "PUT /repos/{owner}/{repo}/pulls/{pull_number}/merge",
+    //   {
+    //     owner: owner,
+    //     repo: repo,
+    //     pull_number: mergeReqInfo.number,
+    //     // commit_title: 'Expand enum',
+    //     // commit_message: 'Add a new value to the merge_method enum'
+    //   }
+    // );
 
-    console.log(merge);
+    // console.log(merge);
+    window.open(`https://github.com/${owner}/${repo}/pull/${mergeReqInfo.number}`, '_blank')
     navigate("/merge/request");
   }
 
@@ -519,7 +518,7 @@ export default function Detail() {
                               </div> */}
                             </div>
 
-                            <Button
+                            {/* <Button
                               action={openModal}
                               content={"comment 작성하기"}
                               style={{
@@ -529,7 +528,7 @@ export default function Detail() {
                                 width: "9rem",
                                 marginTop: "1rem",
                               }}
-                            />
+                            /> */}
                             <Review
                               files={files}
                               sha={commit.sha}
@@ -549,7 +548,7 @@ export default function Detail() {
       <div className={styles.buttons}>
         {!mergeReqInfo.merged ? (
           mergeReqInfo.mergeable ? (
-            mergeReqInfo.assignee.login === user ? (
+            // mergeReqInfo.assignee.login === user ? (
               <Button
                 action={mergeAccept}
                 content={"merge"}
@@ -559,7 +558,7 @@ export default function Detail() {
                   fontWeight: "600",
                 }}
               />
-            ) : null
+            // ) : mergeReqInfo.requested_reviewers
           ) : (
             <Button
               content={"conflict를 해결해주세요"}

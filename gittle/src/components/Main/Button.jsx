@@ -9,7 +9,7 @@ function button(props) {
         props.callModal();
       }}
     >
-      <p>Repo {props.comment}</p>
+      <p>저장소 {props.comment}</p>
     </div>
   );
 }

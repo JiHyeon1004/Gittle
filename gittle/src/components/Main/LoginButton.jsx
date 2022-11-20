@@ -13,10 +13,6 @@ const DEVICE_FLOW_TOKEN = `${process.env.REACT_APP_SERVER_BASE_URL}/getDeviceAcc
 
 
 function Login(){
-  const { ipcRenderer } = window.require("electron");
-  ipcRenderer.on("asdf", (event, data) => {
-    console.log(data);
-  });
 
   const [rerender, setRerender] = useState(false);
   const [isHover, setIsHover] = useState(false);
@@ -74,23 +70,25 @@ function Login(){
 
  //device flow github oauth
 
-  async function loginWithGithub() {
+ async function loginWithGithub() {
 
-    //user_code 받기
-    await fetch (`${DEVICE_FLOW_START}`, {
-      method: "GET",
+  //user_code 받기
+  await fetch (`${DEVICE_FLOW_START}`, {
+    method: "GET",
+  })
+    .then((response) => {
+      return response.json();
+
     })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        localStorage.removeItem("userCode");
-        localStorage.removeItem("deviceCode");
-        localStorage.setItem("userCode", data.user_code);
-        localStorage.setItem("deviceCode", data.device_code);
-        window.open("https://github.com/login/device", "github", "top=200");
-        setModalOpen(true);
-      });
+    .then((data) => {
+
+      localStorage.removeItem("userCode");
+      localStorage.removeItem("deviceCode");
+      localStorage.setItem("userCode", data.user_code);
+
+      window.open("https://github.com/login/device", "github", "top=200");
+      setModalOpen(true);
+    });
 
     }
     
