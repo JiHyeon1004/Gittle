@@ -60,7 +60,6 @@ function AddCommitRules() {
     const commitMessage = commitType + " : " + commitDescription
     const command = `git commit -m "${commitMessage}"`
     const data = ipcRenderer.sendSync("gitCommit",command)
-    console.log(data)
     setCommitDescription('')
     setCommitType('')
   }

@@ -16,7 +16,6 @@ export default function Reviewer() {
   useEffect(() => {
     const user = localStorage.getItem("userInfo");
     const location = localStorage.getItem("currentRepo").split("\\");
-    console.log(location);
     const repo = location[location.length - 1];
     const owner = localStorage.getItem("owner")
     const token = localStorage.getItem("accessToken");
@@ -33,7 +32,6 @@ export default function Reviewer() {
         state: "open",
       });
 
-      console.log(result.data);
       const myReview = [];
       result.data.map((each) => {
         each.requested_reviewers.map((reviewer) => {
@@ -55,7 +53,6 @@ export default function Reviewer() {
   async function showRequest(number) {
     const user = localStorage.getItem("userInfo");
     const location = localStorage.getItem("currentRepo").split("\\");
-    console.log(location);
     const repo = location[location.length - 1];
     const owner = localStorage.getItem("owner")
     const token = localStorage.getItem("accessToken");
@@ -81,8 +78,6 @@ export default function Reviewer() {
         pull_number: number,
       }
     );
-    console.log(info.data);
-    console.log(commit);
 
     setDetail(info.data);
     setCommits(commit.data);

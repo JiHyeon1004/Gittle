@@ -38,16 +38,6 @@ export default function Request() {
   // merge request 보내는 함수
   async function mergeRequest() {
     try {
-      console.log(
-        {
-          owner: owner,
-          repo: repo,
-          title: title,
-          body: description,
-          head: pushed,
-          base: merging,
-        }
-      )
   
       const octokit = new Octokit({
         auth: token,
@@ -62,7 +52,6 @@ export default function Request() {
         base: merging,
       });
   
-      console.log("숫자", merge.data.number);
       return merge.data.number;
     } catch (error) {
       console.log(error)
@@ -72,7 +61,6 @@ export default function Request() {
 
   // assignee 등록하고, review 요청 보내는 함수
   async function reviewRequest(pullNum) {
-    console.log("들어오라고고고", pullNum);
     const octokit = new Octokit({
       auth: token,
     });
@@ -97,8 +85,6 @@ export default function Request() {
       }
     );
 
-    console.log(assignee);
-    console.log(review);
     return { assignee, review };
   }
 
@@ -116,7 +102,6 @@ export default function Request() {
           repo: repo,
         }
       );
-      console.log(collaborator);
       const members = [{ value: "null", name: "선택 안 함" }];
       const exceptMe = [{ value: "null", name: "선택 안 함" }];
       collaborator.data.map((member) => {
@@ -129,7 +114,6 @@ export default function Request() {
           exceptMe.push(each);
         }
       });
-      console.log(members);
       setCollab(members);
       setReviewer(exceptMe);
     }

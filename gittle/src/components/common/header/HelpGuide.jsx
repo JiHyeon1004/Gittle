@@ -11,7 +11,6 @@ function HelpGuide(props) {
   const [pathname, setPathName] = useState("/add");
 
   const showInfo = () => {
-    console.log(location.pathname);
     setPathName(location.pathname);
     setModalOpen(true);
   };

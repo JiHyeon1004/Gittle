@@ -17,13 +17,11 @@ export default function GitLog() {
   const [fileIdx, setFileIdx] = useState(0);
   const branch = useRecoilValue(currentBranch);
 
-  console.log("1111", branch);
 
   useEffect(() => {
     async function getLog() {
       const user = localStorage.getItem("userInfo");
       const location = localStorage.getItem("currentRepo").split("\\");
-      console.log(location);
       const repo = location[location.length - 1];
       const owner = localStorage.getItem("owner")
       const token = localStorage.getItem("accessToken");
@@ -32,8 +30,6 @@ export default function GitLog() {
       const octokit = new Octokit({
         auth: token,
       });
-
-      console.log(branch);
 
       const result = await octokit.request(
         "GET /repos/{owner}/{repo}/commits",
@@ -44,8 +40,6 @@ export default function GitLog() {
         }
       );
 
-      console.log(result);
-
       setLogs(result.data);
     }
     getLog();
@@ -55,7 +49,6 @@ export default function GitLog() {
     async function getCommit() {
       const user = localStorage.getItem("userInfo");
       const location = localStorage.getItem("currentRepo").split("\\");
-      console.log(location);
       const repo = location[location.length - 1];
       const owner = localStorage.getItem("owner")
       const token = localStorage.getItem("accessToken");
@@ -74,7 +67,6 @@ export default function GitLog() {
         }
       );
 
-      console.log("lalalal", commitInfo);
       setFiles(commitInfo.data.files);
       setCommitId(commitInfo.data.sha);
       let fileBefore = [];

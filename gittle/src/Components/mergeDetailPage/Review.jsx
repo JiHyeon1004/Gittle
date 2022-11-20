@@ -9,7 +9,6 @@ import { useRecoilValue, useRecoilState } from "recoil";
 import { reviewModal } from "../../atoms";
 
 export default function Review({ files, sha, pull }) {
-  console.log(files, '1111111111')
   const user = localStorage.getItem("userInfo");
   const location = localStorage.getItem("currentRepo");
   const repoArr = location.split("\\");
@@ -28,14 +27,12 @@ export default function Review({ files, sha, pull }) {
 
   const saveFile = (e) => {
     setFile(e.target.value);
-    console.log(files)
     files.map((each) => {
       if (each.filename === e.target.value) {
         const index = files.indexOf(each)
         const patch = files[index].patch
         const minus = patch.indexOf('-') + 1
         const comma = patch.indexOf(',')
-        console.log(patch.substring(minus, comma).replace(" ", ""))
         setLine(Number(patch.substring(minus, comma).replace(" ", "")))
       }
     })
@@ -44,28 +41,15 @@ export default function Review({ files, sha, pull }) {
   };
   // 설명 저장하기
   const onDesChange = (e) => {
-    console.log(11111111111111);
     setDescription(e.target.value);
     // return e.target.value;
   };
 
   const closeModal = () => {
-    console.log("dddddd");
     setModal(false);
   };
 
   async function saveReview() {
-    console.log(
-      {
-        owner: owner,
-        repo: repo,
-        pull_number: pull,
-        body: description,
-        commit_id: sha,
-        path: file,
-        line: line,
-      }
-    )
     const octokit = new Octokit({
       auth: token,
     });
@@ -84,7 +68,6 @@ export default function Review({ files, sha, pull }) {
     );
     
     
-    console.log(review);
     setDescription("");
     setModal(false);
   }

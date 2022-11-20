@@ -31,7 +31,6 @@ export default function All() {
         state: "all",
       });
 
-      console.log("전체", result.data);
       setAllReq(result.data);
     }
     getAll();
@@ -45,7 +44,6 @@ export default function All() {
   async function showRequest(number) {
     const user = localStorage.getItem("userInfo");
     const location = localStorage.getItem("currentRepo").split("\\");
-    console.log(location);
     const repo = location[location.length - 1];
 
     const octokit = new Octokit({
@@ -69,8 +67,6 @@ export default function All() {
         pull_number: number,
       }
     );
-    console.log(info.data);
-    console.log(commit);
 
     setDetail(info.data);
     setCommits(commit.data);

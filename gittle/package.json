@@ -95,6 +95,7 @@
       "node_modules/**/*"
     ],
     "win": {
+      "icon": "build/apple.png",
       "target": [
         {
           "target": "nsis"
