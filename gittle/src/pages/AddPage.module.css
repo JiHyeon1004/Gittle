@@ -15,5 +15,5 @@
 .cmdDiv {
   position: fixed;
   bottom: 0;
-  width: 100%;
+  width: calc(100vw - 256px);
 }
