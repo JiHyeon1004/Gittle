@@ -40,7 +40,7 @@ export default function Request() {
     try {
       console.log(
         {
-          owner: user,
+          owner: owner,
           repo: repo,
           title: title,
           body: description,
@@ -57,7 +57,7 @@ export default function Request() {
         headers: {
           'Authorization': `token ${token}`
         },
-        owner: user,
+        owner: owner,
         repo: repo,
         title: title,
         body: description,
