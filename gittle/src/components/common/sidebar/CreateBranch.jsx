@@ -65,15 +65,12 @@ function CreateBranch() {
               </div>
 
               <div className={styles.buttonContainer}>
-                <button
-                  className={styles.rulePlusBtn2}
-                  style={{ backgroundColor: "#6BCC78", color: "white" }}
-                >branch 생성</button>
-                <button
-                  className={styles.rulePlusBtn2}
-                  onClick={closeModal}
-                  style={{ border: "1px solid #7B7B7B", backgroundColor:"white" }}
-                >취소</button>
+                <Button content={"branch 생성"} />
+                <Button
+                  action={closeModal}
+                  content={"취소"}
+                  style={{ border: "1px solid #7B7B7B" }}
+                />
               </div>
             </form>
           </>

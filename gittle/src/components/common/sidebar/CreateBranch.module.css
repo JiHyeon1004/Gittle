@@ -5,14 +5,10 @@
   padding: 5px;
 }
 
-.input:focus {
-  outline: none;
-  border: 1px solid #6bcc78;
-}
-
 .buttonContainer {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
+  margin-top: 10px;
 }
 
 .rulePlusBtn2 {

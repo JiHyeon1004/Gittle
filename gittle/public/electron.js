@@ -224,18 +224,8 @@ app.on("window-all-closed", function () {
 // });
 
 ipcMain.on("gitStatus", (event, curRepo) => {
-  currentRepo = curRepo;
-  gitDir = `--git-dir=${currentRepo}\\.git`;
-
-  const a = curRepo === null ? "./" : curRepo;
-  const option =
-    currentRepo !== null || currentRepo !== undefined
-      ? `${gitDir} --work-tree=${currentRepo}`
-      : "";
-
-  const data = runCommand(`cd "${a}" && git status -u -s`);
-
-  // const data = runCommand(`git status -u -s`);
+  const currentRepo = curRepo === null ? "./" : curRepo;
+  const data = runCommand(`cd "${currentRepo}" && git status -u -s`);
   event.returnValue = data;
 });
 
@@ -285,7 +275,7 @@ ipcMain.on("git-Clone", (event, payload) => {
 
 ipcMain.on("git-Init", (event, payload) => {
   runCommand(
-    `cd "${payload.repoRoot}" && mkdir ${payload.repoName}  && cd ${payload.repoName}  && git init`
+    `cd "${payload.repoRoot}" && mkdir ${payload.repoName}  && cd "${payload.repoName}"  && git init`
   );
   runCommand(`cd "${payload.repoRoot}" && git config --global core.quotepath false `);
   event.returnValue = payload.repoName + "\\" + payload.repoRoot;
@@ -317,7 +307,7 @@ ipcMain.on("gitDiff", (event, arg) => {
   arg.map((file) => {
     // const name = file.split("/");
     // const fileName = name[name.length - 1];
-    let diff = runCommand(`git -C ${currentRepo} diff ${file}`);
+    let diff = runCommand(`cd "${currentRepo}" && git diff ${file}`);
     codes.push(diff);
   });
 
@@ -335,11 +325,11 @@ ipcMain.on("gitDiff", (event, arg) => {
   // event.sender.send('return-2',arr)
 });
 ipcMain.on("gitAdd", (event, files) => {
-  let data = runCommand(`cd ${currentRepo} && git add ${files}`);
+  let data = runCommand(`cd "${currentRepo}" && git add ${files}`);
 });
 
 ipcMain.on("gitReset", (event, files) => {
-  let data = runCommand(`git -C ${currentRepo} reset ${files}`);
+  let data = runCommand(`cd "${currentRepo}" && git reset ${files}`);
 });
 
 ipcMain.on("git-Branch", (event, payload) => {
@@ -378,7 +368,7 @@ ipcMain.on("gitBranch", (event, route) => {
 });
 
 ipcMain.on("gitCommit", (event, commitMessage) => {
-  let data = runCommand(`git -C ${currentRepo} commit -m "${commitMessage}"`);
+  let data = runCommand(`cd "${currentRepo}" && git commit -m "${commitMessage}"`);
   //console.log(data);
   event.returnValue = data;
 });
@@ -402,7 +392,7 @@ ipcMain.on("gitPull", (event, route, targetBranch) => {
   try {
     pull = runCommand(
       // `git --git-dir=${route}\\.git pull origin ${targetBranch}`
-      `cd ${route} && git pull origin ${targetBranch}`
+      `cd "${route}" && git pull origin ${targetBranch}`
     );
     event.returnValue = pull;
   } catch (error) {
@@ -428,7 +418,7 @@ ipcMain.on("call-committed-files", (event, root) => {
   let commitIdList;
   try {
     commitIdList = runCommand(
-      `cd ${root} && git log --branches --not --remotes`
+      `cd "${root}" && git log --branches --not --remotes`
     );
     if (commitIdList.trim() === "") {
       event.returnValue = [];
@@ -450,7 +440,7 @@ ipcMain.on("call-committed-files", (event, root) => {
 
 ipcMain.on("openTerminal", (event, currentRepo) => {
   child_process.exec(
-    `cd ${currentRepo} && start "" "%PROGRAMFILES%\\Git\\bin\\sh.exe" --login`
+    `cd "${currentRepo}" && start "" "%PROGRAMFILES%\\Git\\bin\\sh.exe" --login`
   );
 });
 

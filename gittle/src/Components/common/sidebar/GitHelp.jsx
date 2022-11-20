@@ -14,14 +14,18 @@ const gitCommandExample = [
   "git merge : 원격 저장소의 변경 사항을 지역 저장소에 병합합니다.",
   // "git pull : fetch와 merge 기능을 합친 기능입니다.(권장하지않음)",
   "git pull : fetch와 merge 기능을 합친 기능입니다.",
-  ""
-]
+  "",
+];
 function GitHelp() {
   return (
     <Dropdown drop="down" size="sm">
       <Dropdown.Toggle variant="white" size="sm" className={styles.question}>
-        <img style={{ width: "40px", height: "40px" }} src={process.env.PUBLIC_URL + '/icons/question.png'} ></img>
-        <br/><span>도움말</span>
+        <img
+          style={{ width: "40px", height: "40px" }}
+          src={process.env.PUBLIC_URL + "/icons/question.png"}
+        ></img>
+        <br />
+        <span>깃 명렁어</span>
       </Dropdown.Toggle>
       <Dropdown.Menu variant="dark">
         {(() => {

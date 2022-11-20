@@ -16,7 +16,7 @@
   /* max-width: 450px; */
   margin: 0 auto;
   border-radius: 0.3rem;
-  border: 1px solid black;
+  border: 2px solid #d9d9d9;
   background-color: #fff;
   /* 팝업이 열릴때 스르륵 열리는 효과 */
   animation: modal-show 0.3s;
@@ -38,7 +38,6 @@
   position: sticky;
   right: 0;
 }
-
 
 @keyframes modal-show {
   from {

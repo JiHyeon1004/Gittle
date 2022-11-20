@@ -6,14 +6,24 @@
 
 .selectorContainer {
   height: 100px;
+  width: 49%;
 }
 .targetBranch {
-  min-width: 40px;
+  /* font-size: 0.9rem; */
+  font-weight: bold;
+  text-align: center;
+  overflow: scroll;
   cursor: pointer;
 }
+
 .selector {
-  overflow: scroll;
-  max-height: 80px;
+  /* width: 49%; */
+}
+
+.curBranch {
+  font-weight: bold;
+  text-align: center;
+  width: 49%;
 }
 .selector > p {
   margin: 0;
@@ -31,9 +41,24 @@
   cursor: pointer;
 }
 
-.buttonContainer {
+.branch {
   display: flex;
   justify-content: center;
+  align-items: center;
+}
+
+.branch > p {
+  margin: 0;
+}
+
+.icon {
+  margin-right: 0.3rem;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: space-evenly;
+  /* width: 50%; */
 }
 
 .goToCommit {

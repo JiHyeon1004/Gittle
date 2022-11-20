@@ -6,7 +6,7 @@
   top: 0;
   height: 80px;
   padding: 0 1rem;
-  border-bottom: 1px solid #000000;
+  border-bottom: 1.5px solid #d9d9d9;
   background-color: #fff;
   z-index: 20;
 }
@@ -18,14 +18,14 @@ a {
   height: 40px;
 }
 
-.buttonBox{
+.buttonBox {
   display: flex;
   align-items: center;
   width: 50vw;
   height: 10vh;
 }
 
-.localToRemote{
+.localToRemote {
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -35,9 +35,7 @@ a {
   border-radius: 10px;
 }
 
-
-
-.log{
+.log {
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -48,7 +46,7 @@ a {
   border-radius: 10px; */
 }
 
-.arrow{
+.arrow {
   margin-left: 3%;
   margin-right: 3%;
   width: 10%;
