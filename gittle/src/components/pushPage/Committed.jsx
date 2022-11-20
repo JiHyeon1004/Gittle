@@ -5,6 +5,8 @@ import { useNavigate } from "react-router";
 import styles from "./Committed.module.css";
 import { committedFiles, isLoading, pushBtn, cmtList } from "../../atoms";
 import { useRecoilState } from "recoil";
+import { faFile } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function Committed(props) {
   
@@ -48,16 +50,21 @@ function Committed(props) {
     },[])
 
     return (
-      <>
-        <div className={styles.commit}>
+      <div className={styles.box}>
+        <div className={styles.title}>commit 완료된 파일</div>
+        {commitList.length ? (<div className={styles.commit}>
           {commitList.map((item, idx) => (
             <div key={idx} className={styles.commitBox}>
-              {item}
+              <FontAwesomeIcon icon={faFile} className={styles.icon} />
+              <div className={styles.name}>{item}</div>
             </div>
           ))}
-        </div>
+        </div>) : (
+          <div className={styles.commit}>push 할 파일이 없습니다!</div>
+        )}
         
-      </>
+        
+      </div>
     );
   
 }
