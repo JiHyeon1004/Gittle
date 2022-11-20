@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Modal from "../common/Modal";
 import GitCommitPage from "./GitCommitPage";
 import styles from "./GitCommitPage.module.css"
+import Button from 'react-bootstrap/Button';
+
 
 function GitCommitButton(props) {
   const [modalOpen, setModalOpen] = useState(false);
@@ -14,18 +16,21 @@ function GitCommitButton(props) {
   };
   return (
     <div style={{zIndex: 99}}>
-      <button
-        className={styles.toCommitBtn}
+      <Button
+        // className={styles.button}
         onClick={openModal}
-        style={{ width: "150px" }}
-      >commit</button>
+        style={{ 
+          width: "100px", 
+          backgroundColor : "#4D96FF",
+          border : "0px"
+      }}
+      >Commit</Button>
       <Modal
         open={modalOpen}
         content={
           <>
             <div className={styles.closeBtn} onClick={closeModal} style={{
               cursor: "pointer", position: "relative", right: "3px"}}>
-              x
             </div>
             <GitCommitPage style={{ width: "500px" }} modalClose={closeModal}/>
           </>

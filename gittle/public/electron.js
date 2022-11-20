@@ -224,18 +224,8 @@ app.on("window-all-closed", function () {
 // });
 
 ipcMain.on("gitStatus", (event, curRepo) => {
-  currentRepo = curRepo;
-  gitDir = `--git-dir=${currentRepo}\\.git`;
-
-  const a = curRepo === null ? "./" : curRepo;
-  const option =
-    currentRepo !== null || currentRepo !== undefined
-      ? `${gitDir} --work-tree=${currentRepo}`
-      : "";
-
-  const data = runCommand(`cd ${a} && git status -u -s`);
-
-  // const data = runCommand(`git status -u -s`);
+  const currentRepo = curRepo === null ? "./" : curRepo;
+  const data = runCommand(`cd ${currentRepo} && git status -u -s`);
   event.returnValue = data;
 });
 
@@ -317,7 +307,7 @@ ipcMain.on("gitDiff", (event, arg) => {
   arg.map((file) => {
     // const name = file.split("/");
     // const fileName = name[name.length - 1];
-    let diff = runCommand(`git -C ${currentRepo} diff ${file}`);
+    let diff = runCommand(`cd ${currentRepo} && git diff ${file}`);
     codes.push(diff);
   });
 
@@ -339,7 +329,7 @@ ipcMain.on("gitAdd", (event, files) => {
 });
 
 ipcMain.on("gitReset", (event, files) => {
-  let data = runCommand(`git -C ${currentRepo} reset ${files}`);
+  let data = runCommand(`cd ${currentRepo} && git reset ${files}`);
 });
 
 ipcMain.on("git-Branch", (event, payload) => {
@@ -378,7 +368,7 @@ ipcMain.on("gitBranch", (event, route) => {
 });
 
 ipcMain.on("gitCommit", (event, commitMessage) => {
-  let data = runCommand(`git -C ${currentRepo} commit -m "${commitMessage}"`);
+  let data = runCommand(`cd ${currentRepo} && git commit -m "${commitMessage}"`);
   //console.log(data);
   event.returnValue = data;
 });
