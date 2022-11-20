@@ -15,6 +15,7 @@ export default function Review({ files, sha, pull }) {
   const repoArr = location.split("\\");
   const repo = repoArr[repoArr.length - 1];
   const owner = localStorage.getItem("owner")
+  const token = localStorage.getItem("accessToken");
 
   const [file, setFile] = useState("");
   const [line, setLine] = useState(0)
@@ -66,7 +67,7 @@ export default function Review({ files, sha, pull }) {
       }
     )
     const octokit = new Octokit({
-      auth: "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",
+      auth: token,
     });
 
     const review = await octokit.request(

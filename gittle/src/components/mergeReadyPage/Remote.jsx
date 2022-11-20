@@ -18,6 +18,10 @@ export default function Remote() {
   const pushed = useRecoilValue(pushedData);
   const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
+  const location = localStorage.getItem("currentRepo").split("\\");
+  console.log(location);
+  const repo = location[location.length - 1];
+  const owner = localStorage.getItem("owner");
 
   useEffect(() => {
     const user = localStorage.getItem("userInfo");
@@ -25,10 +29,12 @@ export default function Remote() {
     console.log(location);
     const repo = location[location.length - 1];
     const owner = localStorage.getItem("owner");
+    const token = localStorage.getItem("accessToken");
+
 
     async function getBranches() {
       const octokit = new Octokit({
-        auth: "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",
+        auth: token,
       });
 
       const branch = await octokit.request(
@@ -64,7 +70,9 @@ export default function Remote() {
 
   const StartMerge = () => {
     closeModal();
-    navigate("/merge");
+    // navigate("/merge");
+    window.open(`https://github.com/${owner}/${repo}/compare/${merge}...${push}`, '_blank')
+    navigate("/merge/request")
   };
 
   return (

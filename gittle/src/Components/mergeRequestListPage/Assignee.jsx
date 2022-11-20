@@ -18,10 +18,12 @@ export default function Assignee() {
     console.log(location);
     const repo = location[location.length - 1];
     const owner = localStorage.getItem("owner")
+    const token = localStorage.getItem("accessToken");
+
 
     async function getAssigned() {
       const octokit = new Octokit({
-        auth: "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",
+        auth: token,
       });
       const assigned = await octokit.request('GET /repos/{owner}/{repo}/pulls', {
         owner: owner,
@@ -59,9 +61,11 @@ export default function Assignee() {
     console.log(location);
     const repo = location[location.length - 1];
     const owner = localStorage.getItem("owner")
+    const token = localStorage.getItem("accessToken");
+
 
     const octokit = new Octokit({
-      auth: "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",
+      auth: token,
     });
 
     const info = await octokit.request(
