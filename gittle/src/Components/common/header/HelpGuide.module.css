@@ -14,6 +14,10 @@
   font-size: 1.2rem;
 }
 
-/* .container:hover {
+.container:hover {
   background-color: #000;
-} */
+}
+
+.container:hover > .icon {
+  color: #fff;
+}
