@@ -152,14 +152,16 @@ function GitPull() {
         open={errorModalOpen}
         content={
           <>
+          <div>
             <p>변경사항이 있으면 pull 받을 수 없습니다.</p>
             <p>먼저 commit해주세요</p>
+            </div>
             <div className={styles.buttonContainer}>
-              <Button
-                action={goCommit}
-                content={"commit하러 가기"}
-                style={{ backgroundColor: "#6BCC78" }}
-              />
+              <button
+              className={styles.goToCommit}
+                onClick={goCommit}
+                style={{ backgroundColor: "#6BCC78", color: "white" }}
+              >commit하러 가기</button>
             </div>
           </>
         }

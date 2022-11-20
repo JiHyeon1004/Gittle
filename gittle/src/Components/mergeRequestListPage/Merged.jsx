@@ -95,18 +95,21 @@ export default function Merged() {
             />
             <div className={styles.text}>{req.user.login}</div>
             <div className={styles.text}>|</div>
-            <div className={styles.person}>담당자</div>
-            <img
-              className={styles.image}
-              src={req.assignee.avatar_url}
-              alt="avatar"
-            />
-
-            <div className={styles.text}>{req.assignee.login}</div>
-            <div className={styles.text}>|</div>
-            <div className={styles.text}>
+            {req.assignee ? (
+            <div className={styles.assigneebody}>
+              <div className={styles.person}>담당자</div>
+              <img
+                className={styles.image}
+                src={req.assignee.avatar_url}
+                alt="avatar"
+              />
+              <div className={styles.text}>{req.assignee.login}</div>
+              <div className={styles.text}>|</div>
+            </div>) : (null)}
+            {req.merged_at ? (<div className={styles.text}>
               {req.merged_at.replace("T", " ").replace("Z", "")} 에 merge 완료
-            </div>
+            </div>) : (null)}
+            
           </div>
         </div>
       ))}

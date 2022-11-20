@@ -99,7 +99,6 @@ function MultiTableDrag({ getFile, getDiff, cmd, updateCmd }) {
   const [selectedTaskTitles, setSelectedTaskTitles] = useState([]);
   const [selectedCodes, setSelectedCodes] = useState([]);
   const [filenames, setFilename] = useState([]);
-  console.log(entities);
   //이거가 테이블 헤더? 그거
   const tableColumns = [
     {
@@ -118,7 +117,6 @@ function MultiTableDrag({ getFile, getDiff, cmd, updateCmd }) {
           arr.splice(i, 1);
         }
       }
-      console.log(arr);
       // console.log(arr);
       if (arr.length) {
         const gitDiff = ipcRenderer.sendSync("gitDiff", arr);
@@ -296,7 +294,6 @@ function MultiTableDrag({ getFile, getDiff, cmd, updateCmd }) {
     const destination = result.destination;
     const source = result.source;
     let files = "";
-    console.log(result.reason);
     // 같은 테이블 or 테이블 밖이면 초기화
     if (
       !destination ||
@@ -311,16 +308,13 @@ function MultiTableDrag({ getFile, getDiff, cmd, updateCmd }) {
         " " +
         entitiesMock.tasks.find((element) => element.id === i.toString()).title;
     }
-    console.log(files);
     if (destination.droppableId === "staged") {
       ipcRenderer.send("gitAdd", files);
       // let nextCmd=gitStatus.cmd + `\n` + files
-      console.log("add 완료");
       let nextCmd = `${cmdLine} \n git add ${files}`;
       SetCmdLine(nextCmd);
     } else if (destination.droppableId === "unstaged") {
       ipcRenderer.send("gitReset", files);
-      console.log("reset 완료");
       let nextCmd = `${cmdLine} \n git reset ${files}`;
       // let nextCmd=gitStatus.cmd + `\n` + `git add ${files}`
       SetCmdLine(nextCmd);
@@ -331,7 +325,6 @@ function MultiTableDrag({ getFile, getDiff, cmd, updateCmd }) {
       source,
       destination,
     });
-    console.log(processed);
 
     setEntities(processed.entities);
     setDraggingTaskId(null);

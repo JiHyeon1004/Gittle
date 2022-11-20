@@ -12,10 +12,12 @@
     border-radius: 10px;
     cursor: pointer;
     transition: 0.5s;
-
+    
     background-color: #6BCC78;
     color: white;
     /* font-weight: bolder; */
+    font-size: 2vh;
+
     line-height: 1;
 }
 

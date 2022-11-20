@@ -60,3 +60,12 @@
   justify-content: space-evenly;
   /* width: 50%; */
 }
+
+.goToCommit {
+  border-radius: 0.3rem;
+  border: 0;
+  margin: 1%;
+  margin-top: 5%;
+  height: 35px;
+  width: 50%;
+}

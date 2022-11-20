@@ -7,6 +7,8 @@
 jspm_packages/
 release_builds/
 
+dist/
+build/
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
 
