@@ -24,7 +24,7 @@ export default function Remote() {
     const location = localStorage.getItem("currentRepo").split("\\");
     console.log(location);
     const repo = location[location.length - 1];
-    const owner = localStorage.getItem("owner")
+    const owner = localStorage.getItem("owner");
 
     async function getBranches() {
       const octokit = new Octokit({
@@ -55,7 +55,7 @@ export default function Remote() {
     if (merge) {
       setModalOpen(true);
     } else {
-      alert("merge 할 branch를 선택해주세요!")
+      alert("merge 할 branch를 선택해주세요!");
     }
   };
   const closeModal = () => {
@@ -123,10 +123,9 @@ export default function Remote() {
             content={"merge"}
             style={{
               backgroundColor: "#C9A6FF",
+              borderColor: "#C9A6FF",
               height: "2.5rem",
               fontSize: "1.2rem",
-              // color: "white",
-              fontWeight: "bold",
             }}
           />
           <Modal

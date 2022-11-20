@@ -13,6 +13,7 @@ function GitPull() {
   const [listOpen, setListOpen] = useState(false);
   const [targetBranch, setTargetBranch] = useState("");
   const [errorModalOpen, setErrorModalOpen] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
 
   const { ipcRenderer } = window.require("electron");
   const pullRequest = (targetBranch) => {
@@ -67,7 +68,12 @@ function GitPull() {
     setListOpen(false);
     setTargetBranch("");
   };
-
+  const handleMouseEnter = () => {
+    setIsHovering(true);
+  };
+  const handleMouseLeave = () => {
+    setIsHovering(false);
+  };
   return (
     <div>
       <Button
@@ -75,8 +81,10 @@ function GitPull() {
         content={"pull"}
         style={{
           border: "2px solid #ff6b6b",
+          backgroundColor: isHovering ? "rgb(255, 107, 107, 0.8)" : "",
         }}
-        // onMouseEnter={{}}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       />
 
       <Modal

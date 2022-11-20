@@ -1,64 +1,43 @@
-
-
-.btnSet{
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
+.btnSet {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
 }
 
-.rulePlusBtn1{
-    border-radius: 0.3rem;
-    border: 0;
-    margin-left: 2%;
-    height: 36px;
-    width: 15%;
+.rulePlusBtn1 {
+  border-radius: 0.3rem;
+  border: 0;
+  margin-left: 2%;
+  height: 36px;
+  width: 15%;
 }
 
 .rulePlusBtn2 {
-    border-radius: 0.3rem;
-    border: 0;
-    margin: 1%;
-    margin-top: 5%;
-    height: 35px;
-    width: 30%;
+  border-radius: 0.3rem;
+  border: 0;
+  margin: 1%;
+  margin-top: 5%;
+  height: 35px;
+  width: 30%;
 }
 
-.toCommitBtn {
-    background-color: white;
-    border-radius: 0.3rem;
-    border-color: #47B5FF;
-    border-width: 3px;
-    margin: 1%;
-    height: 40px;
-    width: 20%;
-    color: #1C5CB8;
-    font-size: 18px;
-    font-weight: 600;
+.commitBtn {
+  border-radius: 0.3rem;
+  border: 0;
+  margin: 1%;
+  height: 40px;
+  width: 20%;
 }
 
-.commitBtn{
-    border-radius: 0.3rem;
-        border: 0;
-        margin: 1%;
-        height: 40px;
-        width: 20%;
-
+.commitPlusInput {
+  border-radius: 0.3rem;
 }
 
-.commitPlusInput{
-    border-radius: 0.3rem;
+.forMargin {
+  margin-bottom: 2%;
 }
 
-.forMargin{
-    margin-bottom: 2%;
-}
-
-.toRight{
-    display: flex;
-    justify-content: right;
-}
-
-.closeBtn{
-    display: flex;
-    justify-content: flex-end;
+.toRight {
+  display: flex;
+  justify-content: right;
 }
