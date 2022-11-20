@@ -26,6 +26,7 @@ export default function GitDiff({ diffFiles, diff }) {
   console.log(repo);
   // 현재 작업 중인 브랜치 저장
   const [currBranch, setCurrBranch] = useState("");
+  const token = localStorage.getItem("accessToken");
 
   useEffect(() => {
     // 해당 branch 정보 가져오기
@@ -40,7 +41,7 @@ export default function GitDiff({ diffFiles, diff }) {
       const user = localStorage.getItem("userInfo");
       const owner = localStorage.getItem("owner")
       const octokit = new Octokit({
-        auth: "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",
+        auth: token,
       });
 
       const branch = await octokit.request(
@@ -64,7 +65,7 @@ export default function GitDiff({ diffFiles, diff }) {
 
     async function saveOwner() {
       const octokit = new Octokit({
-        auth: "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"
+        auth: token
       })
       
       const myRepos = await octokit.request('GET /user/repos', {})

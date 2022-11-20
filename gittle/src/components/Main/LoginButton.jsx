@@ -74,23 +74,31 @@ function Login(){
 
  //device flow github oauth
 
-  async function loginWithGithub() {
+ async function loginWithGithub() {
+  console.log("1111111111111111111111111111111111111111")
 
-    //user_code 받기
-    await fetch (`${DEVICE_FLOW_START}`, {
-      method: "GET",
+  //user_code 받기
+  await fetch (`${DEVICE_FLOW_START}`, {
+    method: "GET",
+  })
+    .then((response) => {
+      console.log("2222222222222222222222222222222222222")
+      return response.json();
+      console.log("33333333333333333333333333333333333333")
+
     })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        localStorage.removeItem("userCode");
-        localStorage.removeItem("deviceCode");
-        localStorage.setItem("userCode", data.user_code);
-        localStorage.setItem("deviceCode", data.device_code);
-        window.open("https://github.com/login/device", "github", "top=200");
-        setModalOpen(true);
-      });
+    .then((data) => {
+      console.log("4444444444444444444444444444444444444444444444444")
+
+      localStorage.removeItem("userCode");
+      localStorage.removeItem("deviceCode");
+      localStorage.setItem("userCode", data.user_code);
+      localStorage.setItem("deviceCode", data.device_code);
+      console.log("55555555555555555555555555555555555555555555555555555555")
+
+      window.open("https://github.com/login/device", "github", "top=200");
+      setModalOpen(true);
+    });
 
     }
     
