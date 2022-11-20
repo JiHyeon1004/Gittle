@@ -8,6 +8,7 @@ const isDev = require('electron-is-dev');
 let child_process = require("child_process");
 const { check } = require("yargs");
 const { response } = require("express");
+const { event } = require("jquery");
 
 let runCommand = (command) => {
   return child_process.execSync(command).toString();
@@ -280,6 +281,10 @@ ipcMain.on("git-Init", (event, payload) => {
   runCommand(`cd "${payload.repoRoot}" && git config --global core.quotepath false `);
   event.returnValue = payload.repoName + "\\" + payload.repoRoot;
 });
+
+ipcMain.on("create-localStorage",(event, cur)=>{
+  currentRepo = cur
+})
 
 ipcMain.on("check-git-folder", (event, root) => {
   // const arr=runCommand(`cd ${root} && ls`).split('\n')

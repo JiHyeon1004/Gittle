@@ -129,6 +129,7 @@ function Modal(props){
                             return
                         }
                         updateMyRepo('')
+                        ipcRenderer.send("create-localStorage",repoRoot)
                         localStorage.setItem('currentRepo',repoRoot)
                         navigate("/add",{state:{name:repoName,root:repoRoot}})
                     }else{
