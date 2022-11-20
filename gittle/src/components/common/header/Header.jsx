@@ -1,16 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import GitPull from "./GitPull";
 import HelpGuide from "./HelpGuide";
-import Button from "./Button";
-import styles from "./Header.module.css";
+import Button from "../Button";
 import { useRecoilState } from "recoil";
 import { pushBtn } from "../../../atoms";
+import MenuBar from "./MenuBar";
+import styles from "./Header.module.css";
 
 function Header() {
   const location = useLocation();
-
-  // const [selectedPage,SetSelectedPage]= useState("add")
   const [selectedPage, SetSelectedPage] = useRecoilState(pushBtn);
 
   const changeSelectedPage = (arg) => {
@@ -29,7 +28,7 @@ function Header() {
           />
         </Link>
       </h2>
-      <div className={styles.buttonBox}>
+      {/* <div className={styles.buttonBox}>
         <div className={styles.localToRemote}>
           <Button
             page="add"
@@ -61,7 +60,8 @@ function Header() {
             selPage={selectedPage}
           ></Button>
         </div>
-      </div>
+      </div> */}
+      <MenuBar />
       <div className={styles.box}>
         <GitPull />
         <HelpGuide />

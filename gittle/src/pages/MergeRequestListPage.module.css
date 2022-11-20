@@ -1,8 +1,16 @@
 .container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: calc(100vw - 256px);
   min-height: calc(100vh - 80px);
   padding: 1.6rem;
-  border-left: 1px solid #000000;
+  border-left: 1.5px solid #d9d9d9;
+}
+
+.tabContainer {
+  width: calc(95vw - 256px);
 }
 
 .tabs {
@@ -35,7 +43,7 @@
 }
 
 .tabbox {
-  height: 83vh;
+  height: calc(83vh - 80px);
   border: 1px solid #959595;
   border-radius: 0 0.8rem 0.8rem 0.8rem;
   padding: 20px;

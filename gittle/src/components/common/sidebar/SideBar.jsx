@@ -11,13 +11,14 @@ function SideBar() {
   if (location.pathname === "/") return null;
   return (
     <div className={styles.container}>
+      <BranchList />
+
       <div>
-        <BranchList />
         <CreateBranch />
-      </div>
-      <div className={styles.infoContainer}>
-        <TerminalButton />
-        <GitHelp />
+        <div className={styles.infoContainer}>
+          <TerminalButton />
+          <GitHelp />
+        </div>
       </div>
     </div>
   );

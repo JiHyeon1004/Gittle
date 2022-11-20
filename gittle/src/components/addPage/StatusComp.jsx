@@ -1,10 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
-import {commandLine} from "../../atoms"
+import { commandLine } from "../../atoms";
 import { Table, Row, Col, Card, Empty } from "antd";
 import "antd/dist/antd.css";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import Button from "../common/Button";
+import GitCommitButton from "./GitCommitButton";
 import {
   mutliDragAwareReorder,
   multiSelectTo as multiSelect,
@@ -16,12 +17,10 @@ import "./StatusStyle.css";
  * file:///C:/Program%20Files/Git/mingw64/share/doc/git-doc/git-status.html
  */
 
-
 let unstagedIds = [];
 let stagedIds = [];
 let changedFile = [];
 function statusData(gitStatus) {
- 
   //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   //반쪽짜리
   //둘다 있을때 안사람짐 초기화 한번 해야됨
@@ -81,18 +80,18 @@ const COLUMN_ID_DONE = "staged";
 // https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/button
 const PRIMARY_BUTTON_NUMBER = 0;
 
-function MultiTableDrag({ getFile, getDiff,cmd,updateCmd }) {
+function MultiTableDrag({ getFile, getDiff, cmd, updateCmd }) {
   const { ipcRenderer } = window.require("electron");
   const currentRepo = localStorage.getItem("currentRepo");
-  const [cmdLine, SetCmdLine] = useRecoilState(commandLine)
+  const [cmdLine, SetCmdLine] = useRecoilState(commandLine);
   const gitStatus = ipcRenderer
-      .sendSync("gitStatus", currentRepo)
-      .split("\n")
-      .filter((element) => element !== "");
+    .sendSync("gitStatus", currentRepo)
+    .split("\n")
+    .filter((element) => element !== "");
   statusData(gitStatus);
-  entitiesMock.tasks = changedFile
-  entitiesMock.columns.unstaged.taskIds = unstagedIds
-  entitiesMock.columns.staged.taskIds = stagedIds
+  entitiesMock.tasks = changedFile;
+  entitiesMock.columns.unstaged.taskIds = unstagedIds;
+  entitiesMock.columns.staged.taskIds = stagedIds;
 
   const [entities, setEntities] = useState(entitiesMock);
   const [selectedTaskIds, setSelectedTaskIds] = useState([]);
@@ -111,11 +110,11 @@ function MultiTableDrag({ getFile, getDiff,cmd,updateCmd }) {
   useEffect(() => {
     const showDiff = (arr) => {
       //임시로 deleted 된거 선택하면 alert 주고 배열에서 삭제함
-      let test = entities.tasks.filter((t)=>arr.find((e)=>e===t.title))
-      for (let i in test){
-        if(test[i].type==='D'){
-          alert(`${test[i].title} is deleted!!!!!!!!!!!!!`)
-          arr.splice(i,1)
+      let test = entities.tasks.filter((t) => arr.find((e) => e === t.title));
+      for (let i in test) {
+        if (test[i].type === "D") {
+          alert(`${test[i].title} is deleted!!!!!!!!!!!!!`);
+          arr.splice(i, 1);
         }
       }
       // console.log(arr);
@@ -134,19 +133,19 @@ function MultiTableDrag({ getFile, getDiff,cmd,updateCmd }) {
     // console.log("sc", selectedCodes);
     // getDiff(selectedCodes);
   }, [selectedTaskTitles]);
-  
+
   useEffect(() => {
     const gitStatus = ipcRenderer
       .sendSync("gitStatus", currentRepo)
       .split("\n")
       .filter((element) => element !== "");
     statusData(gitStatus);
-    entitiesMock.tasks = changedFile
-    entitiesMock.columns.unstaged.taskIds = unstagedIds
-    entitiesMock.columns.staged.taskIds = stagedIds
+    entitiesMock.tasks = changedFile;
+    entitiesMock.columns.unstaged.taskIds = unstagedIds;
+    entitiesMock.columns.staged.taskIds = stagedIds;
 
-    setEntities(entitiesMock)
-  },[entities, setEntities]);
+    setEntities(entitiesMock);
+  }, [entities, setEntities]);
 
   /**
    * On window click
@@ -312,13 +311,13 @@ function MultiTableDrag({ getFile, getDiff,cmd,updateCmd }) {
     if (destination.droppableId === "staged") {
       ipcRenderer.send("gitAdd", files);
       // let nextCmd=gitStatus.cmd + `\n` + files
-      let nextCmd = `${cmdLine} \n git add ${files}`
-      SetCmdLine(nextCmd)
+      let nextCmd = `${cmdLine} \n git add ${files}`;
+      SetCmdLine(nextCmd);
     } else if (destination.droppableId === "unstaged") {
       ipcRenderer.send("gitReset", files);
-      let nextCmd = `${cmdLine} \n git reset ${files}`
+      let nextCmd = `${cmdLine} \n git reset ${files}`;
       // let nextCmd=gitStatus.cmd + `\n` + `git add ${files}`
-      SetCmdLine(nextCmd)
+      SetCmdLine(nextCmd);
     }
     const processed = mutliDragAwareReorder({
       entities,
@@ -476,10 +475,32 @@ function MultiTableDrag({ getFile, getDiff,cmd,updateCmd }) {
     toggleSelection(record);
   };
 
+  useEffect(() => {
+    // SetCmd(`cd "${localStorage.getItem("currentRepo")}"`);
+    commitButton();
+  }, []);
+
+  const commitButton = () => {
+    const statusValue = ["M", "T", "A", "R", "C", "U", "D"];
+    const gitStatus = ipcRenderer
+      .sendSync("gitStatus", localStorage.getItem("currentRepo"))
+      .split("\n")
+      .filter((element) => element !== "");
+    let c = true;
+    for (let status of gitStatus) {
+      if (statusValue.findIndex((e) => e === status[0]) !== -1) {
+        c = false;
+        console.log("asdfasfdsafdsfdafsdasfdsadfsadf");
+      }
+    }
+    if (c) return;
+    else return <GitCommitButton />;
+  };
+
   return (
     <>
       <Card className={`c-multi-drag-table`}>
-        <br/>
+        <br />
         <DragDropContext
           onBeforeCapture={onBeforeCapture}
           onDragEnd={onDragEnd}
@@ -488,7 +509,7 @@ function MultiTableDrag({ getFile, getDiff,cmd,updateCmd }) {
             <Col key="unstaged" span={12}>
               <div className="inner-col-unstaged">
                 <Row>
-                  <h5>Unstaged</h5>
+                  <p className="stageStatus">Unstaged</p>
                 </Row>
                 <Table
                   dataSource={getTasks(entities, "unstaged")}
@@ -525,7 +546,7 @@ function MultiTableDrag({ getFile, getDiff,cmd,updateCmd }) {
             <Col key="Staged" span={12}>
               <div className="inner-col-staged">
                 <Row justify="space-between" align="middle">
-                  <h5>Staged</h5>
+                  <p className="stageStatus">Staged</p>
                 </Row>
                 <Table
                   dataSource={getTasks(entities, "staged")}
@@ -563,14 +584,16 @@ function MultiTableDrag({ getFile, getDiff,cmd,updateCmd }) {
         </DragDropContext>
       </Card>
 
-      <Button 
-        style={{ border: "1px solid #7B7B7B", textAlign: "center"  }}
-        content={"전체 add"}
-        action={() => {
-          ipcRenderer.send("gitAdd", ".")
-          SetCmdLine(`${cmd} \n git add .`)
-        }}
-        ></Button>
+      <div className="buttonContainer">
+        <Button
+          content={"전체 add"}
+          action={() => {
+            ipcRenderer.send("gitAdd", ".");
+            SetCmdLine(`${cmd} \n git add .`);
+          }}
+        />
+        <div>{commitButton()}</div>
+      </div>
     </>
   );
 }
