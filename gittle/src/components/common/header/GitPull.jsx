@@ -4,11 +4,7 @@ import Modal from "../Modal";
 import { useRecoilState } from "recoil";
 import { currentBranch } from "../../../atoms";
 import { useNavigate } from "react-router-dom";
-import {
-  faCodeBranch,
-  faCaretDown,
-  faCaretUp,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "./GitPull.module.css";
 
@@ -114,17 +110,11 @@ function GitPull() {
                         : `${styles.list}`
                     }
                   >
-                    <div className={styles.branch}>
-                      <FontAwesomeIcon
-                        icon={faCodeBranch}
-                        className={styles.icon}
-                      />
-                      {remoteBranchList.map((branch, idx) => (
-                        <p onClick={getTargetBranch} key={idx}>
-                          {branch}
-                        </p>
-                      ))}
-                    </div>
+                    {remoteBranchList.map((branch, idx) => (
+                      <div onClick={getTargetBranch} key={idx}>
+                        <div className={styles.branch}>{branch}</div>
+                      </div>
+                    ))}
                   </div>
                 </p>
               </div>
@@ -134,11 +124,7 @@ function GitPull() {
               </div>
             </div>
             <div className={styles.buttonContainer}>
-              <Button
-                action={pullData}
-                content={"pull 받기"}
-                style={{ backgroundColor: "#6BCC78" }}
-              />
+              <Button action={pullData} content={"pull 받기"} />
               <Button
                 action={closeModal}
                 content={"취소"}
@@ -152,16 +138,18 @@ function GitPull() {
         open={errorModalOpen}
         content={
           <>
-          <div>
-            <p>변경사항이 있으면 pull 받을 수 없습니다.</p>
-            <p>먼저 commit해주세요</p>
+            <div>
+              <p>변경사항이 있으면 pull 받을 수 없습니다.</p>
+              <p>먼저 commit해주세요</p>
             </div>
             <div className={styles.buttonContainer}>
               <button
-              className={styles.goToCommit}
+                className={styles.goToCommit}
                 onClick={goCommit}
                 style={{ backgroundColor: "#6BCC78", color: "white" }}
-              >commit하러 가기</button>
+              >
+                commit하러 가기
+              </button>
             </div>
           </>
         }
