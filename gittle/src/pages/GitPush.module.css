@@ -65,6 +65,17 @@
   margin-right: 5vw;
 }
 
+.disabled {
+  display: flex;
+  justify-content: center;
+  width: 140px;
+  padding: 3px;
+  border-radius: 0.3rem;
+  border: 2px solid #959595;
+  background-color: #fff;
+  font-weight: bold;
+}
+
 .button {
   position: relative;
   top: 45%;
@@ -78,9 +89,9 @@
   font-weight: bolder;
 }
 
-.button:disabled {
+/* .button:disabled {
   cursor: auto;
-}
+} */
 
 .cmdBox {
   background-color: black;
