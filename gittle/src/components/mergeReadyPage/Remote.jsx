@@ -128,31 +128,31 @@ export default function Remote() {
               fontSize: "1.2rem",
             }}
           />
-          <Modal
-            open={modalOpen}
-            content={
-              <div className={styles.modal}>
-                <div className={styles.pushtext}>{push}</div>
-                <div>branch를</div>
-                <div className={styles.mergetext}>{merge}</div>
-                <div>branch로 merge 하시겠습니까?</div>
-              </div>
-            }
-          >
-            <div className={styles.buttons}>
-              <Button
-                action={StartMerge}
-                content={"예"}
-                style={{ backgroundColor: "#6BCC78" }}
-              />
-              <Button
-                action={closeModal}
-                content={"아니오"}
-                style={{ border: "1px solid #7B7B7B" }}
-              />
-            </div>
-          </Modal>
         </div>
+        <Modal
+          open={modalOpen}
+          content={
+            <div className={styles.modal}>
+              <div className={styles.pushtext}>{push}</div>
+              <div>branch를</div>
+              <div className={styles.mergetext}>{merge}</div>
+              <div>branch로 merge 하시겠습니까?</div>
+            </div>
+          }
+        >
+          <div className={styles.buttons}>
+            <Button
+              action={StartMerge}
+              content={"예"}
+              style={{ backgroundColor: "#6BCC78" }}
+            />
+            <Button
+              action={closeModal}
+              content={"아니오"}
+              style={{ border: "1px solid #7B7B7B" }}
+            />
+          </div>
+        </Modal>
       </div>
     </div>
   );

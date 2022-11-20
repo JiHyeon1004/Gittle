@@ -52,7 +52,11 @@ function DeleteBranch(props) {
 
   return (
     <>
-      <FontAwesomeIcon icon={faTrash} onClick={openModal} />
+      <FontAwesomeIcon
+        icon={faTrash}
+        className={styles.icon}
+        onClick={openModal}
+      />
 
       <Modal
         open={modalOpen}

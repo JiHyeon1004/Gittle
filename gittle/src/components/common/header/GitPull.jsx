@@ -4,6 +4,12 @@ import Modal from "../Modal";
 import { useRecoilState } from "recoil";
 import { currentBranch } from "../../../atoms";
 import { useNavigate } from "react-router-dom";
+import {
+  faCodeBranch,
+  faCaretDown,
+  faCaretUp,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "./GitPull.module.css";
 
 function GitPull() {
@@ -95,7 +101,12 @@ function GitPull() {
             <div className={styles.container}>
               <div className={styles.selectorContainer}>
                 <p className={styles.targetBranch} onClick={showBranches}>
-                  {targetBranch ? targetBranch : "pull 받을 branch"}
+                  {targetBranch ? `${targetBranch} 에서 ` : "pull해 올 branch "}
+                  {listOpen ? (
+                    <FontAwesomeIcon icon={faCaretUp} />
+                  ) : (
+                    <FontAwesomeIcon icon={faCaretDown} />
+                  )}
                   <div
                     className={
                       listOpen
@@ -103,16 +114,24 @@ function GitPull() {
                         : `${styles.list}`
                     }
                   >
-                    {remoteBranchList.map((branch, idx) => (
-                      <p onClick={getTargetBranch} key={idx}>
-                        {branch}
-                      </p>
-                    ))}
+                    <div className={styles.branch}>
+                      <FontAwesomeIcon
+                        icon={faCodeBranch}
+                        className={styles.icon}
+                      />
+                      {remoteBranchList.map((branch, idx) => (
+                        <p onClick={getTargetBranch} key={idx}>
+                          {branch}
+                        </p>
+                      ))}
+                    </div>
                   </div>
                 </p>
               </div>
-              <p>➡️</p>
-              <div className={styles.selector}>{curBranch}</div>
+
+              <div className={styles.curBranch}>
+                {curBranch} <span>{targetBranch ? "(으)로" : ""}</span>
+              </div>
             </div>
             <div className={styles.buttonContainer}>
               <Button

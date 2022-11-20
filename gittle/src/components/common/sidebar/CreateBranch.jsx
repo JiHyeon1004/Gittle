@@ -65,10 +65,7 @@ function CreateBranch() {
               </div>
 
               <div className={styles.buttonContainer}>
-                <Button
-                  content={"branch 생성"}
-                  style={{ backgroundColor: "#6BCC78" }}
-                />
+                <Button content={"branch 생성"} />
                 <Button
                   action={closeModal}
                   content={"취소"}

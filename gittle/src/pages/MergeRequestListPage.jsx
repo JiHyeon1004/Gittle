@@ -30,46 +30,48 @@ export default function MergeRequestListPage() {
   };
   return (
     <div className={styles.container}>
-      <div className={styles.tabs}>
-        {assignee && !merged && !all ? (
-          <div className={styles.actiontab} onClick={showAssignee}>
-            merge 대기
-          </div>
-        ) : (
-          <div className={styles.tab} onClick={showAssignee}>
-            merge 대기
-          </div>
-        )}
-        {!assignee && merged && !all ? (
-          <div className={styles.actiontab} onClick={showMerged}>
-            merge 완료
-          </div>
-        ) : (
-          <div className={styles.tab} onClick={showMerged}>
-            merge 완료
-          </div>
-        )}
-        {!assignee && !merged && all ? (
-          <div className={styles.actiontab} onClick={showAll}>
-            전체
-          </div>
-        ) : (
-          <div className={styles.tab} onClick={showAll}>
-            전체
-          </div>
-        )}
-      </div>
-      <div className={styles.tabbox}>
-        {assignee ? (
-          <>
-            <Assignee />
-            <Reviewer />
-          </>
-        ) : merged ? (
-          <Merged />
-        ) : (
-          <All />
-        )}
+      <div className={styles.tabContainer}>
+        <div className={styles.tabs}>
+          {assignee && !merged && !all ? (
+            <div className={styles.actiontab} onClick={showAssignee}>
+              merge 대기
+            </div>
+          ) : (
+            <div className={styles.tab} onClick={showAssignee}>
+              merge 대기
+            </div>
+          )}
+          {!assignee && merged && !all ? (
+            <div className={styles.actiontab} onClick={showMerged}>
+              merge 완료
+            </div>
+          ) : (
+            <div className={styles.tab} onClick={showMerged}>
+              merge 완료
+            </div>
+          )}
+          {!assignee && !merged && all ? (
+            <div className={styles.actiontab} onClick={showAll}>
+              전체
+            </div>
+          ) : (
+            <div className={styles.tab} onClick={showAll}>
+              전체
+            </div>
+          )}
+        </div>
+        <div className={styles.tabbox}>
+          {assignee ? (
+            <>
+              <Assignee />
+              <Reviewer />
+            </>
+          ) : merged ? (
+            <Merged />
+          ) : (
+            <All />
+          )}
+        </div>
       </div>
     </div>
   );
