@@ -50,13 +50,10 @@ export default function Request() {
       )
   
       const octokit = new Octokit({
-        auth: "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",
+        auth: token,
       });
   
       const merge = await octokit.request("POST /repos/{owner}/{repo}/pulls", {
-        headers: {
-          'Authorization': `token ${token}`
-        },
         owner: owner,
         repo: repo,
         title: title,
@@ -77,15 +74,12 @@ export default function Request() {
   async function reviewRequest(pullNum) {
     console.log("들어오라고고고", pullNum);
     const octokit = new Octokit({
-      auth: "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",
+      auth: token,
     });
 
     const assignee = await octokit.request(
       "POST /repos/{owner}/{repo}/issues/{issue_number}/assignees",
       {
-        headers: {
-          'Authorization': `token ${token}`
-        },
         owner: owner,
         repo: repo,
         issue_number: pullNum,
@@ -112,7 +106,7 @@ export default function Request() {
   useEffect(() => {
     async function getCollab() {
       const octokit = new Octokit({
-        auth: "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",
+        auth: token,
       });
 
       const collaborator = await octokit.request(

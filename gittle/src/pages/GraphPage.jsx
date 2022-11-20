@@ -13,10 +13,12 @@ export default function GraphPage() {
   const [commits, setCommits] = useState([]);
   const [logs, setLogs] = useRecoilState(logsList);
   const logArr = useRecoilValue(logsList);
+  const token = localStorage.getItem("accessToken");
+
 
   async function getBranches() {
     const octokit = new Octokit({
-      auth: "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",
+      auth: token,
     });
 
     const branches = await octokit.request(
@@ -37,7 +39,7 @@ export default function GraphPage() {
 
     await branchList.map(async (branch) => {
       const octokit = new Octokit({
-        auth: "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",
+        auth: token,
       });
       const commitResults = await octokit.request(
         "GET /repos/{owner}/{repo}/commits",

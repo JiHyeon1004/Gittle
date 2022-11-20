@@ -17,11 +17,12 @@ export default function All() {
   const repoArr = location.split("\\");
   const repo = repoArr[repoArr.length - 1];
   const owner = localStorage.getItem("owner")
+  const token = localStorage.getItem("accessToken");
 
   useEffect(() => {
     async function getAll() {
       const octokit = new Octokit({
-        auth: "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",
+        auth: token,
       });
 
       const result = await octokit.request("GET /repos/{owner}/{repo}/pulls", {
@@ -48,7 +49,7 @@ export default function All() {
     const repo = location[location.length - 1];
 
     const octokit = new Octokit({
-      auth: "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",
+      auth: token,
     });
 
     const info = await octokit.request(

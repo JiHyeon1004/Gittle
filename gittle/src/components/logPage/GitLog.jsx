@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Octokit } from "octokit";
 import styles from "./GitLog.module.css";
 import { useRecoilValue } from "recoil";
-import { selectedBranch } from "../../atoms";
+import { currentBranch } from "../../atoms";
 
 export default function GitLog() {
   const [logs, setLogs] = useState([]);
@@ -15,7 +15,7 @@ export default function GitLog() {
   const [codeAfter, setCodeAfter] = useState([]);
   const [commitIdx, setCommitIdx] = useState(0);
   const [fileIdx, setFileIdx] = useState(0);
-  const branch = useRecoilValue(selectedBranch);
+  const branch = useRecoilValue(currentBranch);
 
   console.log("1111", branch);
 
@@ -26,9 +26,11 @@ export default function GitLog() {
       console.log(location);
       const repo = location[location.length - 1];
       const owner = localStorage.getItem("owner")
+      const token = localStorage.getItem("accessToken");
+
 
       const octokit = new Octokit({
-        auth: "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",
+        auth: token,
       });
 
       console.log(branch);
@@ -56,9 +58,11 @@ export default function GitLog() {
       console.log(location);
       const repo = location[location.length - 1];
       const owner = localStorage.getItem("owner")
+      const token = localStorage.getItem("accessToken");
+
 
       const octokit = new Octokit({
-        auth: "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",
+        auth: token,
       });
 
       const commitInfo = await octokit.request(
