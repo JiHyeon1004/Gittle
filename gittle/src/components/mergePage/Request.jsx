@@ -43,7 +43,7 @@ export default function Request() {
           repo: repo,
           title: title,
           body: description,
-          head: `${user}:${pushed}`,
+          head: pushed,
           base: merging,
         }
       )
@@ -57,7 +57,7 @@ export default function Request() {
         repo: repo,
         title: title,
         body: description,
-        head: `${user}:${pushed}`,
+        head: pushed,
         base: merging,
       });
   

@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { pushedData, commandLine, isLoading, pushBtn,cmtList } from "../atoms";
+import Button from "../components/common/Button"
+
 
 function PushPage() {
   const [selBranch, setSelBranch] = useState("");
@@ -47,7 +49,13 @@ function PushPage() {
 
     setIsMerge(true);
     SetIsLoad(false)
+    SetCommitList([])
   };
+
+  const moveToMerge = () => {
+    navigate("/merge/ready");
+    SetSelButton("merge/ready")
+  }
 
   return (
     <>
@@ -80,8 +88,16 @@ function PushPage() {
             />
           </div>
           <div className={styles.buttonArea}>
-              
-             <button
+            {commitList.length ? (
+            <Button
+              action={pushStart}
+              content={"Push"}
+              style={{ width: "200px" }}
+            />) : (
+              <div className={styles.disabled}>Push</div>
+            )}
+            
+             {/* <button
               className={styles.button}
               onClick={() => {
                 pushStart();
@@ -93,8 +109,13 @@ function PushPage() {
               
             >
               Push
-            </button>
-            <button
+            </button> */}
+            <Button
+              action={moveToMerge}
+              content={"Merge"}
+              style={{ width: "200px" }}
+            />
+            {/* <button
               className={styles.mergeButton}
               onClick={() => {
                 navigate("/merge/ready");
@@ -104,7 +125,7 @@ function PushPage() {
               // disabled={isPush ? false : true}
             >
               Merge
-            </button>
+            </button> */}
 
           </div>
         </div>
