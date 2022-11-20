@@ -2,18 +2,18 @@
   width: calc(100vw - 256px);
   min-height: calc(100vh - 80px);
   padding: 1.6rem;
-  border-left: 1px solid #000000;
+  border-left: 1.5px solid #d9d9d9;
 }
 
-.commitButton{
-        position: fixed;
-          top: 90px;
-          right: 3%;
-          z-index: 15;
+.commitButton {
+  position: fixed;
+  top: 90px;
+  right: 3%;
+  z-index: 15;
 }
 
-.cmdDiv{
-  position:fixed;
+.cmdDiv {
+  position: fixed;
   bottom: 0;
-  width: 100%;
+  width: calc(100vw - 256px);
 }

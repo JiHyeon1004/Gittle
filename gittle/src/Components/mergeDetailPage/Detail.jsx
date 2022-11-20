@@ -13,7 +13,6 @@ import { Octokit } from "octokit";
 import { useNavigate } from "react-router-dom";
 import Review from "../mergeDetailPage/Review";
 
-
 export default function Detail() {
   const mergeReqInfo = useRecoilValue(mergeRequest);
   const mergeCommitInfo = useRecoilValue(mergeCommit);
@@ -43,7 +42,7 @@ export default function Detail() {
   const location = localStorage.getItem("currentRepo");
   const repoArr = location.split("\\");
   const repo = repoArr[repoArr.length - 1];
-  const owner = localStorage.getItem("owner")
+  const owner = localStorage.getItem("owner");
 
   useEffect(() => {
     console.log("!!!!", mergeReqInfo);
@@ -55,7 +54,7 @@ export default function Detail() {
     const location = localStorage.getItem("currentRepo").split("\\");
     console.log(location);
     const repo = location[location.length - 1];
-    const owner = localStorage.getItem("owner")
+    const owner = localStorage.getItem("owner");
 
     async function getCommit() {
       const octokit = new Octokit({
@@ -189,7 +188,7 @@ export default function Detail() {
   };
 
   return (
-    <>
+    <div className={styles.container}>
       <div className={styles.reqtitle}>{mergeReqInfo.title}</div>
       {mergeReqInfo.merged ? (
         <div className={styles.merged}>merge 완료</div>
@@ -208,16 +207,18 @@ export default function Detail() {
           />
           <div>{mergeReqInfo.user.login} |</div>
         </div>
-        <div className={styles.profile}>
-          <div className={styles.bold}>요청 일자</div>
-          <div>
-            {mergeReqInfo.created_at.replace("T", " ").replace("Z", "")} |
+        <div className={styles.date}>
+          <div className={styles.profile}>
+            <div className={styles.bold}>요청 일자</div>
+            <div>
+              {mergeReqInfo.created_at.replace("T", " ").replace("Z", "")} |
+            </div>
           </div>
-        </div>
-        <div className={styles.profile}>
-          <div className={styles.bold}>수정 일자</div>
-          <div>
-            {mergeReqInfo.updated_at.replace("T", " ").replace("Z", "")}
+          <div className={styles.profile}>
+            <div className={styles.bold}>수정 일자</div>
+            <div>
+              {mergeReqInfo.updated_at.replace("T", " ").replace("Z", "")}
+            </div>
           </div>
         </div>
       </div>
@@ -550,15 +551,15 @@ export default function Detail() {
           mergeReqInfo.mergeable ? (
             mergeReqInfo.assignee.login === user ? (
               <Button
-              action={mergeAccept}
-              content={"merge"}
-              style={{
-                backgroundColor: "#6BCC78",
-                border: "2px solid #6BCC78",
-                fontWeight: "600",
-              }}
-            />
-            ) : (null)
+                action={mergeAccept}
+                content={"merge"}
+                style={{
+                  backgroundColor: "#6BCC78",
+                  border: "2px solid #6BCC78",
+                  fontWeight: "600",
+                }}
+              />
+            ) : null
           ) : (
             <Button
               content={"conflict를 해결해주세요"}
@@ -577,6 +578,6 @@ export default function Detail() {
           style={{ border: "2px solid #6BCC78", fontWeight: "600" }}
         />
       </div>
-    </>
+    </div>
   );
 }

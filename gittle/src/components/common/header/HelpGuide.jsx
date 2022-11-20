@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { faCircleInfo, faQuestion } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Modal from "../Modal";
+import styles from "./HelpGuide.module.css";
 
 function HelpGuide(props) {
   const location = useLocation();
@@ -18,8 +19,13 @@ function HelpGuide(props) {
   const closeModal = () => setModalOpen(false);
 
   return (
-    <div>
-      <FontAwesomeIcon icon={faQuestion} onClick={showInfo} />
+    <div className={styles.container}>
+      <FontAwesomeIcon
+        icon={faQuestion}
+        onClick={showInfo}
+        className={styles.icon}
+      />
+
       <Modal
         open={modalOpen}
         content={

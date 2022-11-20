@@ -7,9 +7,8 @@ import Command from "../components/common/underbar/Command";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { pushedData, commandLine, isLoading, pushBtn,cmtList } from "../atoms";
-import Button from "../components/common/Button"
-
+import { pushedData, commandLine, isLoading, pushBtn, cmtList } from "../atoms";
+import Button from "../components/common/Button";
 
 function PushPage() {
   const [selBranch, setSelBranch] = useState("");
@@ -18,15 +17,15 @@ function PushPage() {
   const [committedList, setCommittedList] = useState([]);
   const [pushData, setPushData] = useRecoilState(pushedData);
   const [isMerge, setIsMerge] = useState(false);
-  const [cmd, SetCmd] = useRecoilState(commandLine)
-  const [isLoad , SetIsLoad] = useRecoilState(isLoading)
-  const [selButton, SetSelButton] = useRecoilState(pushBtn)
-  const [commitList, SetCommitList]= useRecoilState(cmtList)
-  
+  const [cmd, SetCmd] = useRecoilState(commandLine);
+  const [isLoad, SetIsLoad] = useRecoilState(isLoading);
+  const [selButton, SetSelButton] = useRecoilState(pushBtn);
+  const [commitList, SetCommitList] = useRecoilState(cmtList);
+
   const pushStart = () => {
-    SetIsLoad(true)
+    SetIsLoad(true);
     if (selBranch === "") {
-      SetIsLoad(false)
+      SetIsLoad(false);
       alert("브랜치를 선택해주세요!");
       return;
     }
@@ -35,9 +34,11 @@ function PushPage() {
       branch: selBranch,
     });
 
-    if(value==='error'){
-      SetIsLoad(false)
-      alert("해당 브랜치에 푸시할 수 없습니다. 먼저 풀을 당겨서 원격 브랜치와 로컬 브린치의 버전을 맞춰주세요")
+    if (value === "error") {
+      SetIsLoad(false);
+      alert(
+        "해당 브랜치에 푸시할 수 없습니다. 먼저 풀을 당겨서 원격 브랜치와 로컬 브린치의 버전을 맞춰주세요"
+      );
       return;
     }
 
@@ -48,18 +49,17 @@ function PushPage() {
     SetCmd(text);
 
     setIsMerge(true);
-    SetIsLoad(false)
-    SetCommitList([])
+    SetIsLoad(false);
+    SetCommitList([]);
   };
 
   const moveToMerge = () => {
     navigate("/merge/ready");
-    SetSelButton("merge/ready")
-  }
+    SetSelButton("merge/ready");
+  };
 
   return (
     <>
-    <div>
       <div className={styles.container}>
         <div className={styles.divide}>
           <div className={styles.committed}>
@@ -70,14 +70,14 @@ function PushPage() {
               }}
             />
           </div>
-          <div className={styles.arrow}>
+          {/* <div className={styles.arrow}>
             <img
               src={process.env.PUBLIC_URL + "/right-arrow.png"}
               alt="arrow"
               className={styles.arrowImg}
             />
             Push
-          </div>
+          </div> */}
 
           <div className={styles.push}>
             <CommentBox location="remote"></CommentBox>
@@ -89,15 +89,16 @@ function PushPage() {
           </div>
           <div className={styles.buttonArea}>
             {commitList.length ? (
-            <Button
-              action={pushStart}
-              content={"Push"}
-              style={{ width: "200px" }}
-            />) : (
+              <Button
+                action={pushStart}
+                content={"Push"}
+                // style={{ width: "200px" }}
+              />
+            ) : (
               <div className={styles.disabled}>Push</div>
             )}
-            
-             {/* <button
+
+            {/* <button
               className={styles.button}
               onClick={() => {
                 pushStart();
@@ -113,7 +114,7 @@ function PushPage() {
             <Button
               action={moveToMerge}
               content={"Merge"}
-              style={{ width: "200px" }}
+              // style={{ width: "200px" }}
             />
             {/* <button
               className={styles.mergeButton}
@@ -126,15 +127,12 @@ function PushPage() {
             >
               Merge
             </button> */}
-
           </div>
         </div>
-        
       </div>
       <footer className={styles.cmdDiv}>
         <Command></Command>
       </footer>
-    </div>
     </>
   );
 }

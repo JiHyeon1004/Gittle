@@ -1,5 +1,9 @@
+.container {
+  width: calc(95vw - 256px);
+}
+
 .reqtitle {
-  font-size: 2rem;
+  font-size: 1.6rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
 }
@@ -29,16 +33,18 @@
 }
 
 .info {
-  display: flex;
   margin-top: 0.5rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.5rem;
   margin-left: 0.2rem;
 }
-
+.date {
+  display: flex;
+}
 .profile {
   display: flex;
   align-items: center;
   margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .bold {
@@ -129,9 +135,11 @@
 }
 
 .tabbox {
+  height: calc(58vh - 80px);
   border: 1px solid #959595;
   border-radius: 0 0.8rem 0.8rem 0.8rem;
   padding: 20px;
+  overflow: scroll;
 }
 
 .request {
