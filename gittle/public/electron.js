@@ -224,18 +224,8 @@ app.on("window-all-closed", function () {
 // });
 
 ipcMain.on("gitStatus", (event, curRepo) => {
-  currentRepo = curRepo;
-  gitDir = `--git-dir=${currentRepo}\\.git`;
-
-  const a = curRepo === null ? "./" : curRepo;
-  const option =
-    currentRepo !== null || currentRepo !== undefined
-      ? `${gitDir} --work-tree=${currentRepo}`
-      : "";
-
-  const data = runCommand(`cd ${a} && git status -u -s`);
-
-  // const data = runCommand(`git status -u -s`);
+  const currentRepo = curRepo === null ? "./" : curRepo;
+  const data = runCommand(`cd ${currentRepo} && git status -u -s`);
   event.returnValue = data;
 });
 
