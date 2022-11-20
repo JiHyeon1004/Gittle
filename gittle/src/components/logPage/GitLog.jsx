@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Octokit } from "octokit";
 import styles from "./GitLog.module.css";
-import { useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { currentBranch } from "../../atoms";
 
 export default function GitLog() {
@@ -15,9 +15,10 @@ export default function GitLog() {
   const [codeAfter, setCodeAfter] = useState([]);
   const [commitIdx, setCommitIdx] = useState(0);
   const [fileIdx, setFileIdx] = useState(0);
-  const branch = useRecoilValue(currentBranch);
+  const [curBranch, setCurBranch] = useRecoilState(currentBranch);
+  const branch = curBranch.replace("\n", "")
 
-  console.log("1111", branch);
+  // console.log("1111", branch);
 
   useEffect(() => {
     async function getLog() {
@@ -28,15 +29,14 @@ export default function GitLog() {
       const owner = localStorage.getItem("owner")
       const token = localStorage.getItem("accessToken");
 
-
       const octokit = new Octokit({
         auth: token,
       });
 
-      console.log(branch);
+      // console.log(branch);
 
       const result = await octokit.request(
-        "GET /repos/{owner}/{repo}/commits",
+        "GET /repos/{owner}/{repo}/commits{?sha}",
         {
           owner: owner,
           repo: repo,
@@ -113,7 +113,6 @@ export default function GitLog() {
   };
   return (
     <div className={styles.container}>
-      {branch}
       {logs.map((log, index) => (
         <div
           className={styles.logbox}
