@@ -19,14 +19,12 @@ export default function Remote() {
   const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
   const location = localStorage.getItem("currentRepo").split("\\");
-  console.log(location);
   const repo = location[location.length - 1];
   const owner = localStorage.getItem("owner");
 
   useEffect(() => {
     const user = localStorage.getItem("userInfo");
     const location = localStorage.getItem("currentRepo").split("\\");
-    console.log(location);
     const repo = location[location.length - 1];
     const owner = localStorage.getItem("owner");
     const token = localStorage.getItem("accessToken");
@@ -44,7 +42,6 @@ export default function Remote() {
           repo: repo,
         }
       );
-      console.log("1", branch);
       setBranches(branch.data);
     }
     getBranches();

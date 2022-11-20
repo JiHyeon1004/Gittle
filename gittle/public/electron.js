@@ -116,7 +116,6 @@ ipcMain.on("localBranchList", (event, route) => {
 
   const codes = [];
   let localBranchList = runCommand(`git --git-dir=${route}\\.git branch -l`);
-  console.log("localBranchList : ", localBranchList);
   codes.push(localBranchList);
   event.returnValue = codes;
 });
@@ -363,18 +362,14 @@ ipcMain.on("git-Branch", (event, payload) => {
 });
 
 ipcMain.on("gitBranch", (event, route) => {
-  // console.log("현재 작업 중인 브랜치를 보여줘");
-  //console.log(route);
   let branch = runCommand(
     `git --git-dir=${route}\\.git branch --show-current `
   );
-  //console.log("브랜치이이이", branch);
   event.returnValue = branch;
 });
 
 ipcMain.on("gitCommit", (event, commitMessage) => {
   let data = runCommand(`cd "${currentRepo}" && git commit -m "${commitMessage}"`);
-  //console.log(data);
   event.returnValue = data;
 });
 

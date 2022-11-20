@@ -13,10 +13,6 @@ const DEVICE_FLOW_TOKEN = `${process.env.REACT_APP_SERVER_BASE_URL}/getDeviceAcc
 
 
 function Login(){
-  const { ipcRenderer } = window.require("electron");
-  ipcRenderer.on("asdf", (event, data) => {
-    console.log(data);
-  });
 
   const [rerender, setRerender] = useState(false);
   const [isHover, setIsHover] = useState(false);
@@ -75,26 +71,20 @@ function Login(){
  //device flow github oauth
 
  async function loginWithGithub() {
-  console.log("1111111111111111111111111111111111111111")
 
   //user_code 받기
   await fetch (`${DEVICE_FLOW_START}`, {
     method: "GET",
   })
     .then((response) => {
-      console.log("2222222222222222222222222222222222222")
       return response.json();
-      console.log("33333333333333333333333333333333333333")
 
     })
     .then((data) => {
-      console.log("4444444444444444444444444444444444444444444444444")
 
       localStorage.removeItem("userCode");
       localStorage.removeItem("deviceCode");
       localStorage.setItem("userCode", data.user_code);
-      localStorage.setItem("deviceCode", data.device_code);
-      console.log("55555555555555555555555555555555555555555555555555555555")
 
       window.open("https://github.com/login/device", "github", "top=200");
       setModalOpen(true);

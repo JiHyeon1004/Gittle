@@ -47,14 +47,11 @@ export default function Detail() {
 
 
   useEffect(() => {
-    console.log("!!!!", mergeReqInfo);
-    console.log("~~~~~~~~~~", mergeCommitInfo);
   }, []);
 
   useEffect(() => {
     const user = localStorage.getItem("userInfo");
     const location = localStorage.getItem("currentRepo").split("\\");
-    console.log(location);
     const repo = location[location.length - 1];
     const owner = localStorage.getItem("owner");
     const token = localStorage.getItem("accessToken");
@@ -73,7 +70,6 @@ export default function Detail() {
         }
       );
 
-      console.log("lalalal", commitInfo);
       setFiles(commitInfo.data.files);
       setCommitId(commitInfo.data.sha);
       let fileBefore = [];
@@ -120,7 +116,6 @@ export default function Detail() {
           reviewArr.push(review);
         }
       });
-      console.log("리뷰", reviewArr);
       // console.log("커밋", commit);
       setCommitReview(reviewArr);
     }

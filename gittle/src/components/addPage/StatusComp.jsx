@@ -117,10 +117,8 @@ function MultiTableDrag({ getFile, getDiff, cmd, updateCmd }) {
           arr.splice(i, 1);
         }
       }
-      // console.log(arr);
       if (arr.length) {
         const gitDiff = ipcRenderer.sendSync("gitDiff", arr);
-        // console.log("gitDiff", gitDiff);
         // return gitDiff;
         setSelectedCodes(gitDiff);
         // 부모 요소에 unstaged 목록에서 선택한 파일 목록 보내기
@@ -130,7 +128,6 @@ function MultiTableDrag({ getFile, getDiff, cmd, updateCmd }) {
       }
     };
     showDiff(selectedTaskTitles);
-    // console.log("sc", selectedCodes);
     // getDiff(selectedCodes);
   }, [selectedTaskTitles]);
 
@@ -490,7 +487,6 @@ function MultiTableDrag({ getFile, getDiff, cmd, updateCmd }) {
     for (let status of gitStatus) {
       if (statusValue.findIndex((e) => e === status[0]) !== -1) {
         c = false;
-        console.log("asdfasfdsafdsfdafsdasfdsadfsadf");
       }
     }
     if (c) return;

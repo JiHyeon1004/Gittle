@@ -31,7 +31,6 @@ export default function Merged() {
         state: "closed",
       });
 
-      console.log("닫힘", result.data);
       setMergedReq(result.data);
     }
     getRequest();
@@ -45,7 +44,6 @@ export default function Merged() {
   async function showRequest(number) {
     const user = localStorage.getItem("userInfo");
     const location = localStorage.getItem("currentRepo").split("\\");
-    console.log(location);
     const repo = location[location.length - 1];
     const token = localStorage.getItem("accessToken");
 
@@ -70,8 +68,6 @@ export default function Merged() {
         pull_number: number,
       }
     );
-    console.log(info.data);
-    console.log(commit);
 
     setDetail(info.data);
     setCommits(commit.data);
