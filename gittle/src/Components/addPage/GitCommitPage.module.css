@@ -1,3 +1,7 @@
+.typeContainer {
+  display: flex;
+  align-items: center;
+}
 .btnSet {
   display: flex;
   justify-content: center;

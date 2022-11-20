@@ -475,6 +475,28 @@ function MultiTableDrag({ getFile, getDiff, cmd, updateCmd }) {
     toggleSelection(record);
   };
 
+  useEffect(() => {
+    // SetCmd(`cd "${localStorage.getItem("currentRepo")}"`);
+    commitButton();
+  }, []);
+
+  const commitButton = () => {
+    const statusValue = ["M", "T", "A", "R", "C", "U", "D"];
+    const gitStatus = ipcRenderer
+      .sendSync("gitStatus", localStorage.getItem("currentRepo"))
+      .split("\n")
+      .filter((element) => element !== "");
+    let c = true;
+    for (let status of gitStatus) {
+      if (statusValue.findIndex((e) => e === status[0]) !== -1) {
+        c = false;
+        console.log("asdfasfdsafdsfdafsdasfdsadfsadf");
+      }
+    }
+    if (c) return;
+    else return <GitCommitButton />;
+  };
+
   return (
     <>
       <Card className={`c-multi-drag-table`}>
@@ -570,7 +592,7 @@ function MultiTableDrag({ getFile, getDiff, cmd, updateCmd }) {
             SetCmdLine(`${cmd} \n git add .`);
           }}
         />
-        <GitCommitButton />
+        <div>{commitButton()}</div>
       </div>
     </>
   );

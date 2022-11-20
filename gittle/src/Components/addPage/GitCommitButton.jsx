@@ -23,14 +23,14 @@ function GitCommitButton() {
   };
 
   return (
-    <div>
+    <div style={{ zIndex: 99 }}>
       <Button
         style={{
           borderColor: "#47b5ff",
           backgroundColor: isHovering ? "rgba(71, 181, 255, 0.8)" : "",
         }}
         content={"commit"}
-        onClick={openModal}
+        action={openModal}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       />

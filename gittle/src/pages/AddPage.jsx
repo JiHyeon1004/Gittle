@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { commandLine } from "../atoms";
 import GitDiff from "../components/addPage/GitDiff";
+import GitCommitButton from "../components/addPage/GitCommitButton";
 import StatusComp from "../components/addPage/StatusComp";
 import Command from "../components/common/underbar/Command";
 import styles from "./AddPage.module.css";
@@ -14,7 +15,7 @@ function AddPage() {
 
   useEffect(() => {
     SetCmd(`cd "${localStorage.getItem("currentRepo")}"`);
-    commitButton();
+    // commitButton();
   }, []);
 
   const getFile = (file) => {
@@ -26,40 +27,29 @@ function AddPage() {
   const updateCmd = (arg) => {
     SetCmd(arg);
   };
-  const commitButton = () => {
-    const statusValue = ["M", "T", "A", "R", "C", "U", "D"];
-    const gitStatus = ipcRenderer
-      .sendSync("gitStatus", localStorage.getItem("currentRepo"))
-      .split("\n")
-      .filter((element) => element !== "");
-    let c = true;
-    for (let status of gitStatus) {
-      if (statusValue.findIndex((e) => e === status[0]) !== -1) {
-        c = false;
-        console.log("asdfasfdsafdsfdafsdasfdsadfsadf");
-      }
-    }
-    if (c) return;
-    else return <GitCommitButton />;
-  };
+  // const commitButton = () => {
+  //   const statusValue = ["M", "T", "A", "R", "C", "U", "D"];
+  //   const gitStatus = ipcRenderer
+  //     .sendSync("gitStatus", localStorage.getItem("currentRepo"))
+  //     .split("\n")
+  //     .filter((element) => element !== "");
+  //   let c = true;
+  //   for (let status of gitStatus) {
+  //     if (statusValue.findIndex((e) => e === status[0]) !== -1) {
+  //       c = false;
+  //       console.log("asdfasfdsafdsfdafsdasfdsadfsadf");
+  //     }
+  //   }
+  //   if (c) return;
+  //   else return <GitCommitButton />;
+  // };
   return (
     <div>
       <div className={styles.container}>
         {/* 깃커밋버튼 */}
-        <div className={styles.commitButton}>{commitButton()}</div>
+        {/* <div className={styles.commitButton}>{commitButton()}</div> */}
 
         <GitDiff diffFiles={files} diff={codes} />
-        {/* <div>{codes}</div> */}
-        <StatusComp
-          getFile={getFile}
-          getDiff={getDiff}
-          cmd={cmd}
-          updateCmd={updateCmd}
-        />
-        <br />
-        <br />
-        <br />
-        <br />
 
         <StatusComp
           getFile={getFile}
