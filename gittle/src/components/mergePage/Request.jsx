@@ -39,7 +39,7 @@ export default function Request() {
     try {
       console.log(
         {
-          owner: owner,
+          owner: user,
           repo: repo,
           title: title,
           body: description,
@@ -53,7 +53,7 @@ export default function Request() {
       });
   
       const merge = await octokit.request("POST /repos/{owner}/{repo}/pulls", {
-        owner: owner,
+        owner: user,
         repo: repo,
         title: title,
         body: description,
