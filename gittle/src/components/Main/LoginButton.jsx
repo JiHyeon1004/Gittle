@@ -77,15 +77,11 @@ function Login(){
     method: "GET",
   })
     .then((response) => {
-      console.log("111111111111111111111")
       return response.json();
 
 
     })
     .then((data) => {
-      console.log("22222222222222222222222")
-
-
       localStorage.removeItem("userCode");
       localStorage.removeItem("deviceCode");
       localStorage.setItem("userCode", data.user_code);
@@ -98,26 +94,20 @@ function Login(){
     }
     
   async function toNextStep() {
-      console.log("33333333333333333333333333")
       
       //accessToken 요청
       await fetch (`${DEVICE_FLOW_TOKEN}` + localStorage.getItem("deviceCode"), {
         method: "GET",
       })
         .then((response) => {
-      console.log("444444444444444444444")
         
         return response.json();
       })
       .then((data) => {
         localStorage.setItem("accessToken", data.access_token);
-        console.log("dataaaaaa")
-        console.log(data)
         setRerender(!rerender);
       });
   
-      console.log("555555555555555555555")
-    
     
       //user data 요청
       await fetch(`${USER_DATA_API_URL}`, {
@@ -127,7 +117,6 @@ function Login(){
         },
       })
         .then((response) => {
-      console.log("666666666666666666666")
 
           return response.json();
         })
